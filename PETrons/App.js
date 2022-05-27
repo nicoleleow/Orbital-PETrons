@@ -10,6 +10,7 @@ import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 
 import { Mainpage } from "./src/features/mainpage/mainpage";
 import { theme } from "./src/infrastructure/theme";
+import { AppNavigator } from "./src/infrastructure/navigation/app.navigation";
 
 export default function App() {
   const [oswaldLoaded] = useOswald({
@@ -27,7 +28,9 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Mainpage />
+        <AppNavigator>
+          <Mainpage />
+        </AppNavigator>
       </ThemeProvider>
       <ExpoStatusBar style="auto" />
     </>
