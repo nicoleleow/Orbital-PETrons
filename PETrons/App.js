@@ -7,10 +7,12 @@ import {
   Oswald_400Regular,
 } from "@expo-google-fonts/oswald";
 import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
+import { NavigationContainer } from "@react-navigation/native";
 
 import { Mainpage } from "./src/features/mainpage/mainpage";
 import { theme } from "./src/infrastructure/theme";
 import { AppNavigator } from "./src/infrastructure/navigation/app.navigation";
+import { AccountNavigator } from "./src/infrastructure/navigation/account.navigation";
 
 export default function App() {
   const [oswaldLoaded] = useOswald({
@@ -28,9 +30,12 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <AppNavigator>
+        {/* <AppNavigator>
           <Mainpage />
-        </AppNavigator>
+        </AppNavigator> */}
+        <NavigationContainer>
+          <AccountNavigator />
+        </NavigationContainer>
       </ThemeProvider>
       <ExpoStatusBar style="auto" />
     </>
