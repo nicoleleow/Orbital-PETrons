@@ -23,6 +23,7 @@ export const RegisterScreen = ({ navigation }) => {
       .then((re) => {
         console.log(re);
         setIsSignedIn(true);
+        navigation.navigate("Home");
       })
       .catch((re) => {
         console.log(re);

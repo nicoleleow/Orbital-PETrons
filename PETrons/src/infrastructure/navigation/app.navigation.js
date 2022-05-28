@@ -22,15 +22,11 @@ const Tab = createBottomTabNavigator();
 function MyTabs() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
+      <Tab.Screen name="Homepage" component={Mainpage} />
       <Tab.Screen name="Activity" component={Activity} />
-      <Tab.Screen name="Home" component={Mainpage} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
 }
 
-export const AppNavigator = () => (
-  <NavigationContainer>
-    <MyTabs />
-  </NavigationContainer>
-);
+export const AppNavigator = () => <MyTabs />;
