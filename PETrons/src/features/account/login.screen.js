@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Text } from "react-native-paper";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 import {
   AccountBackground,
@@ -8,14 +9,16 @@ import {
   AuthInput,
 } from "./account.style";
 import { Spacer } from "../../components/spacer/spacer.component";
+import { authentication } from "../../../firebase/firebase-config";
 
 export const LoginScreen = ({ navigation }) => {
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   return (
     <AccountBackground>
-      <Text>Log In</Text>
+      <Text>Welcome Back!</Text>
       <AccountContainer>
         <AuthInput
           label="E-mail"
@@ -23,7 +26,7 @@ export const LoginScreen = ({ navigation }) => {
           textContentType="emailAddress"
           keyboardType="email-address"
           autoCapitalize="none"
-          onChangeText={(u) => setEmail(u)}
+          onChangeText={(text) => setEmail(text)}
         />
         <Spacer size="large">
           <AuthInput
@@ -33,7 +36,7 @@ export const LoginScreen = ({ navigation }) => {
             secureTextEntry
             autoCapitalize="none"
             secure
-            onChangeText={(p) => setPassword(p)}
+            onChangeText={(text) => setPassword(text)}
           />
         </Spacer>
         <Spacer size="large">

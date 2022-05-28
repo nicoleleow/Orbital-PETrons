@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Text } from "react-native-paper";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import {
   AccountBackground,
@@ -8,14 +9,29 @@ import {
   AuthInput,
 } from "./account.style";
 import { Spacer } from "../../components/spacer/spacer.component";
+import { authentication } from "../../../firebase/firebase-config";
 
 export const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [repeatedPassword, setRepeatedPasswor] = useState("");
+  const [repeatedPassword, setRepeatedPassword] = useState("");
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  const registerUser = () => {
+    createUserWithEmailAndPassword(authentication, email, password)
+      .then((re) => {
+        console.log(re);
+        setIsSignedIn(true);
+        navigation.navigate("Login");
+      })
+      .catch((re) => {
+        console.log(re);
+      });
+  };
+
   return (
     <AccountBackground>
-      <Text>Register</Text>
+      <Text>Create An Account</Text>
       <AccountContainer>
         <AuthInput
           label="E-mail"
@@ -23,7 +39,7 @@ export const RegisterScreen = ({ navigation }) => {
           textContentType="emailAddress"
           keyboardType="email-address"
           autoCapitalize="none"
-          onChangeText={(u) => setEmail(u)}
+          onChangeText={(text) => setEmail(text)}
         />
         <Spacer size="large">
           <AuthInput
@@ -33,7 +49,7 @@ export const RegisterScreen = ({ navigation }) => {
             secureTextEntry
             autoCapitalize="none"
             secure
-            onChangeText={(p) => setPassword(p)}
+            onChangeText={(text) => setPassword(text)}
           />
         </Spacer>
         <Spacer size="large">
@@ -44,15 +60,11 @@ export const RegisterScreen = ({ navigation }) => {
             secureTextEntry
             autoCapitalize="none"
             secure
-            onChangeText={(p) => setRepeatedPassword(p)}
+            onChangeText={(text) => setRepeatedPassword(text)}
           />
         </Spacer>
         <Spacer size="large">
-          <AuthButton
-            icon="email"
-            mode="contained"
-            onPress={() => navigation.navigate("Login")}
-          >
+          <AuthButton icon="email" mode="contained" onPress={registerUser}>
             Register
           </AuthButton>
         </Spacer>
