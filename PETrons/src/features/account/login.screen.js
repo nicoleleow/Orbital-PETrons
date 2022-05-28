@@ -16,6 +16,26 @@ export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const SignInUser = () => {
+    signInWithEmailAndPassword(authentication, email, password)
+      .then((re) => {
+        setIsSignedIn(true);
+      })
+      .catch((re) => {
+        console.log(re);
+      });
+  };
+
+  const SignOutUser = () => {
+    signOut(authentication)
+      .then((re) => {
+        setIsSignedIn(false);
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  };
+
   return (
     <AccountBackground>
       <Text>Welcome Back!</Text>
@@ -39,15 +59,27 @@ export const LoginScreen = ({ navigation }) => {
             onChangeText={(text) => setPassword(text)}
           />
         </Spacer>
-        <Spacer size="large">
-          <AuthButton
-            icon="lock-open-outline"
-            mode="contained"
-            onPress={() => navigation.navigate("Register")}
-          >
-            Login
-          </AuthButton>
-        </Spacer>
+        {isSignedIn === true ? (
+          <Spacer size="large">
+            <AuthButton
+              icon="lock-open-outline"
+              mode="contained"
+              onPress={SignOutUser}
+            >
+              Logout
+            </AuthButton>
+          </Spacer>
+        ) : (
+          <Spacer size="large">
+            <AuthButton
+              icon="lock-open-outline"
+              mode="contained"
+              onPress={SignInUser}
+            >
+              Login
+            </AuthButton>
+          </Spacer>
+        )}
       </AccountContainer>
       <Spacer size="large">
         <AuthButton mode="contained" onPress={() => navigation.goBack()}>

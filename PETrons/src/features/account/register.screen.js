@@ -8,6 +8,7 @@ import {
   AuthButton,
   AuthInput,
 } from "./account.style";
+
 import { Spacer } from "../../components/spacer/spacer.component";
 import { authentication } from "../../../firebase/firebase-config";
 
@@ -22,7 +23,6 @@ export const RegisterScreen = ({ navigation }) => {
       .then((re) => {
         console.log(re);
         setIsSignedIn(true);
-        navigation.navigate("Login");
       })
       .catch((re) => {
         console.log(re);
