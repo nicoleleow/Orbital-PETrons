@@ -7,6 +7,7 @@ import {
   AccountContainer,
   AuthButton,
   AuthInput,
+  SubTitle,
 } from "./account.style";
 import { Spacer } from "../../components/spacer/spacer.component";
 import { authentication } from "../../../firebase/firebase-config";
@@ -39,7 +40,7 @@ export const LoginScreen = ({ navigation }) => {
 
   return (
     <AccountBackground>
-      <Text>Welcome Back!</Text>
+      <SubTitle>Welcome Back!</SubTitle>
       <AccountContainer>
         <AuthInput
           label="E-mail"

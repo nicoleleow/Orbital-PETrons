@@ -7,6 +7,7 @@ import {
   AccountContainer,
   AuthButton,
   AuthInput,
+  SubTitle,
 } from "./account.style";
 
 import { Spacer } from "../../components/spacer/spacer.component";
@@ -32,7 +33,7 @@ export const RegisterScreen = ({ navigation }) => {
 
   return (
     <AccountBackground>
-      <Text>Create An Account</Text>
+      <SubTitle>Create An Account</SubTitle>
       <AccountContainer>
         <AuthInput
           label="E-mail"

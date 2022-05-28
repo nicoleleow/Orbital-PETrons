@@ -8,12 +8,14 @@ import {
   AccountContainer,
   AuthButton,
   Title,
+  SubTitle,
 } from "./account.style";
 
 export const AccountScreen = ({ navigation }) => {
   return (
     <AccountBackground>
       <Title>PETrons</Title>
+      <SubTitle>No Better Option Than Adoption</SubTitle>
       <AccountContainer>
         <AuthButton
           icon="lock-open-outline"

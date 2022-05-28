@@ -28,5 +28,14 @@ export const AuthInput = styled(TextInput)`
 `;
 
 export const Title = styled(Text)`
-  font-size: 30px;
+  color: black;
+  font-size: ${(props) => props.theme.fontSizes.h3};
+  font-family: ${(props) => props.theme.fonts.body};
+`;
+
+export const SubTitle = styled(Text)`
+  color: black;
+  padding-bottom: ${(props) => props.theme.space[3]};
+  font-size: ${(props) => props.theme.fontSizes.title};
+  font-family: ${(props) => props.theme.fonts.monospace};
 `;
