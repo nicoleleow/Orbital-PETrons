@@ -17,6 +17,7 @@ export const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatedPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   const registerUser = () => {
@@ -43,6 +44,17 @@ export const RegisterScreen = ({ navigation }) => {
           autoCapitalize="none"
           onChangeText={(text) => setEmail(text)}
         />
+        <Spacer size="large">
+          <AuthInput
+            label="Username"
+            value={username}
+            textContentType="username"
+            secureTextEntry
+            autoCapitalize="none"
+            secure
+            onChangeText={(text) => setUsername(text)}
+          />
+        </Spacer>
         <Spacer size="large">
           <AuthInput
             label="Password"
