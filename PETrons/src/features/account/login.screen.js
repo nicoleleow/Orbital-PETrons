@@ -16,8 +16,12 @@ export const LoginScreen = ({ navigation }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorDisplay, setErrorDisplay] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const SignInUser = () => {
+    const inputs = [email, password];
+
     signInWithEmailAndPassword(authentication, email, password)
       .then((re) => {
         setIsSignedIn(true);
@@ -25,16 +29,21 @@ export const LoginScreen = ({ navigation }) => {
       })
       .catch((re) => {
         console.log(re);
+        setErrorDisplay(true);
+        if (inputs.includes("") || inputs.includes(undefined)) {
+          setErrorMessage("Please fill in all fields");
+        } else {
+          setErrorMessage(re.message.slice(22, -2));
+        }
       });
   };
-
   const SignOutUser = () => {
     signOut(authentication)
       .then((re) => {
         setIsSignedIn(false);
       })
-      .catch((er) => {
-        console.log(er);
+      .catch((re) => {
+        console.log(re);
       });
   };
 
@@ -80,6 +89,11 @@ export const LoginScreen = ({ navigation }) => {
             >
               Login
             </AuthButton>
+          </Spacer>
+        )}
+        {errorDisplay && (
+          <Spacer size="large">
+            <Text style={{ color: "red" }}>Error: {errorMessage}</Text>
           </Spacer>
         )}
       </AccountContainer>

@@ -19,8 +19,17 @@ export const RegisterScreen = ({ navigation }) => {
   const [repeatedPassword, setRepeatedPassword] = useState("");
   const [username, setUsername] = useState("");
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [errorDisplay, setErrorDisplay] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const registerUser = () => {
+    const inputs = [email, password, repeatedPassword, username];
+
+    if (password !== repeatedPassword) {
+      setErrorMessage("Error: Passwords do not match!");
+      setErrorDisplay(true);
+      return;
+    }
     createUserWithEmailAndPassword(authentication, email, password)
       .then((re) => {
         console.log(re);
@@ -29,6 +38,10 @@ export const RegisterScreen = ({ navigation }) => {
       })
       .catch((re) => {
         console.log(re);
+        setErrorDisplay(true);
+        if (inputs.includes("") || inputs.includes(undefined)) {
+          setErrorMessage("Error: Please fill in all fields");
+        }
       });
   };
 
@@ -80,6 +93,11 @@ export const RegisterScreen = ({ navigation }) => {
             Register
           </AuthButton>
         </Spacer>
+        {errorDisplay && (
+          <Spacer size="large">
+            <Text style={{ color: "red" }}>{errorMessage}</Text>
+          </Spacer>
+        )}
       </AccountContainer>
       <Spacer size="large">
         <AuthButton mode="contained" onPress={() => navigation.goBack()}>
