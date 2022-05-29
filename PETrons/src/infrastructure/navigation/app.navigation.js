@@ -5,12 +5,8 @@ import { StyleSheet, SafeAreaView, Text, View, Platform } from "react-native";
 
 import { Mainpage } from "../../features/mainpage/mainpage";
 import { SafeArea } from "../../components/utility/safe-area.component";
+import { Profile } from "../../features/profile/profile";
 
-const Profile = () => (
-  <SafeArea>
-    <Text>Profile</Text>
-  </SafeArea>
-);
 const Activity = () => (
   <SafeArea>
     <Text>Activity</Text>
@@ -22,11 +18,10 @@ const Tab = createBottomTabNavigator();
 function MyTabs() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Homepage" component={Mainpage} />
+      <Tab.Screen name="Home" component={Mainpage} />
       <Tab.Screen name="Activity" component={Activity} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
 }
-
 export const AppNavigator = () => <MyTabs />;

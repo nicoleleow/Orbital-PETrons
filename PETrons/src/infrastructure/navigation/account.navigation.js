@@ -15,6 +15,6 @@ export const AccountNavigator = () => (
     <Stack.Screen name="Main" component={AccountScreen} />
     <Stack.Screen name="Login" component={LoginScreen} />
     <Stack.Screen name="Register" component={RegisterScreen} />
-    <Stack.Screen name="Home" component={AppNavigator} />
+    <Stack.Screen name="Homepage" component={AppNavigator} />
   </Stack.Navigator>
 );

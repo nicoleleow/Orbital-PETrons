@@ -25,7 +25,7 @@ export const RegisterScreen = ({ navigation }) => {
       .then((re) => {
         console.log(re);
         setIsSignedIn(true);
-        navigation.navigate("Home");
+        navigation.navigate("Homepage");
       })
       .catch((re) => {
         console.log(re);
@@ -49,9 +49,7 @@ export const RegisterScreen = ({ navigation }) => {
             label="Username"
             value={username}
             textContentType="username"
-            secureTextEntry
             autoCapitalize="none"
-            secure
             onChangeText={(text) => setUsername(text)}
           />
         </Spacer>

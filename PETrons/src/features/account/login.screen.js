@@ -21,7 +21,7 @@ export const LoginScreen = ({ navigation }) => {
     signInWithEmailAndPassword(authentication, email, password)
       .then((re) => {
         setIsSignedIn(true);
-        navigation.navigate("Home");
+        navigation.navigate("Homepage");
       })
       .catch((re) => {
         console.log(re);
