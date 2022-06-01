@@ -7,8 +7,9 @@ import { AntDesign } from "@expo/vector-icons";
 
 import { Mainpage } from "../../features/mainpage/mainpage";
 import { SafeArea } from "../../components/utility/safe-area.component";
-import { Profile } from "../../features/profile/profile";
 import { ActivityPage } from "../../features/activity/activity";
+import { ProfileNavigator } from "./profile.navigation";
+import { MainPageNavigator } from "./mainpage.navigation";
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +38,7 @@ function MyTabs() {
       <Tab.Screen
         options={{ headerShown: false }}
         name="Home"
-        component={Mainpage}
+        component={MainPageNavigator}
       />
       <Tab.Screen
         options={{ headerShown: false }}
@@ -47,7 +48,7 @@ function MyTabs() {
       <Tab.Screen
         options={{ headerShown: false }}
         name="Profile"
-        component={Profile}
+        component={ProfileNavigator}
       />
     </Tab.Navigator>
   );

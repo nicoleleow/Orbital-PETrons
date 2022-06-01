@@ -9,6 +9,7 @@ import { RegisterScreen } from "../../features/account/register.screen";
 import { Mainpage } from "../../features/mainpage/mainpage";
 import { AppNavigator } from "./app.navigation";
 import { Profile } from "../../features/profile/profile";
+import { FavouritesPage } from "../../features/profile/favourites";
 
 export const Navigation = () => {
   const Stack = createStackNavigator();
@@ -23,7 +24,6 @@ export const Navigation = () => {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Homepage" component={AppNavigator} />
-        {/* <Stack.Screen name="Profile" component={Profile} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

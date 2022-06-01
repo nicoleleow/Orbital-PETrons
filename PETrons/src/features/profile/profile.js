@@ -26,7 +26,7 @@ export const ProfileContainer = styled.View`
   margin-top: ${(props) => props.theme.space[2]};
 `;
 
-export const Profile = ({ navigation }) => {
+export const ProfilePage = ({ navigation }) => {
   const Logout = () => {
     signOut(authentication)
       .then(() => {
@@ -36,6 +36,11 @@ export const Profile = ({ navigation }) => {
         console.log(error);
       });
   };
+
+  const FavouritesPage = () => {
+    navigation.navigate("Favourites");
+  };
+
   return (
     <SafeArea>
       <View>
@@ -45,7 +50,11 @@ export const Profile = ({ navigation }) => {
             Edit Profile
           </AuthButton>
           <Spacer size="large">
-            <AuthButton mode="contained" icon="tag-heart">
+            <AuthButton
+              mode="contained"
+              icon="tag-heart"
+              onPress={FavouritesPage}
+            >
               Favourites
             </AuthButton>
           </Spacer>

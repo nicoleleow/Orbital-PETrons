@@ -17,6 +17,5 @@
 //     <Stack.Screen name="Login" component={LoginScreen} />
 //     <Stack.Screen name="Register" component={RegisterScreen} />
 //     <Stack.Screen name="Homepage" component={AppNavigator} />
-//     <Stack.Screen name="Profile" component={Profile} />
 //   </Stack.Navigator>
 // );

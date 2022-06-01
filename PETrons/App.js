@@ -35,6 +35,9 @@ export default function App() {
           <Mainpage />
         </AppNavigator> */}
         <Navigation />
+        {/* <NavigationContainer>
+          <AppNavigator />
+        </NavigationContainer> */}
       </ThemeProvider>
       <ExpoStatusBar style="auto" />
     </>
