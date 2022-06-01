@@ -12,16 +12,15 @@ const SafeArea = styled(SafeAreaView)`
   background-color: orange;
 `;
 
-const MainPageHeader = styled(Text)`
+const ProfilePageHeader = styled(Text)`
   color: black;
   padding-top: ${(props) => props.theme.space[5]};
-  padding-left: ${(props) => props.theme.space[6]};
+  padding-left: 145px;
   font-size: ${(props) => props.theme.fontSizes.h4};
   font-family: ${(props) => props.theme.fonts.body};
 `;
 
 export const ProfileContainer = styled.View`
-  // background-color: rgba(255, 255, 255, 0.7);
   background-color: orange
   padding: ${(props) => props.theme.space[4]};
   margin-top: ${(props) => props.theme.space[2]};
@@ -40,7 +39,7 @@ export const Profile = ({ navigation }) => {
   return (
     <SafeArea>
       <View>
-        <MainPageHeader>PROFILE</MainPageHeader>
+        <ProfilePageHeader>PROFILE</ProfilePageHeader>
         <ProfileContainer>
           <AuthButton mode="contained" icon="account-check">
             Edit Profile

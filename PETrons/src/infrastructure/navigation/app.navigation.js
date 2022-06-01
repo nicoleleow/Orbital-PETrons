@@ -8,12 +8,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Mainpage } from "../../features/mainpage/mainpage";
 import { SafeArea } from "../../components/utility/safe-area.component";
 import { Profile } from "../../features/profile/profile";
-
-const Activity = () => (
-  <SafeArea>
-    <Text>Activity</Text>
-  </SafeArea>
-);
+import { ActivityPage } from "../../features/activity/activity";
 
 const Tab = createBottomTabNavigator();
 
@@ -47,7 +42,7 @@ function MyTabs() {
       <Tab.Screen
         options={{ headerShown: false }}
         name="Activity"
-        component={Activity}
+        component={ActivityPage}
       />
       <Tab.Screen
         options={{ headerShown: false }}
