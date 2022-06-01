@@ -1,10 +1,16 @@
 import React from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import {
+  SafeAreaView,
+  Text,
+  View,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import styled from "styled-components/native";
 
-import { AuthButton } from "../account/account.style";
-import { authentication } from "../../../firebase/firebase-config";
-import { Spacer } from "../../components/spacer/spacer.component";
+const { width } = Dimensions.get("screen");
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -14,50 +20,11 @@ const SafeArea = styled(SafeAreaView)`
 const MainPageHeader = styled(Text)`
   color: black;
   padding-top: ${(props) => props.theme.space[5]};
+  padding-bottom: ${(props) => props.theme.space[4]};
   padding-left: ${(props) => props.theme.space[6]};
   font-size: ${(props) => props.theme.fontSizes.h4};
   font-family: ${(props) => props.theme.fonts.body};
 `;
-
-export const MainPageContainer = styled.View`
-  background-color: orange
-  padding: ${(props) => props.theme.space[4]};
-  margin-top: ${(props) => props.theme.space[2]};
-`;
-
-// export const Mainpage = () => (
-//   <SafeArea>
-//     <View>
-//       <MainPageHeader>HOME</MainPageHeader>
-//     </View>
-//   </SafeArea>
-//   //  return (
-//   //   <SafeArea>
-//   //     <View>
-//   //       <ProfilePageHeader>PROFILE</ProfilePageHeader>
-//   //       <ProfileContainer>
-//   //         <AuthButton mode="contained" icon="account-check">
-//   //           Edit Profile
-//   //         </AuthButton>
-//   //         <Spacer size="large">
-//   //           <AuthButton
-//   //             mode="contained"
-//   //             icon="tag-heart"
-//   //             onPress={FavouritesPage}
-//   //           >
-//   //             Favourites
-//   //           </AuthButton>
-//   //         </Spacer>
-//   //         <Spacer size="large">
-//   //           <AuthButton mode="contained" icon="logout" onPress={Logout}>
-//   //             Log Out
-//   //           </AuthButton>
-//   //         </Spacer>
-//   //       </ProfileContainer>
-//   //     </View>
-//   //   </SafeArea>
-//   // );
-// );
 
 export const Mainpage = ({ navigation }) => {
   const AdoptPage = () => {
@@ -71,31 +38,79 @@ export const Mainpage = ({ navigation }) => {
     <SafeArea>
       <View>
         <MainPageHeader>HOME</MainPageHeader>
-        <MainPageContainer>
-          <AuthButton
-            mode="contained"
-            icon="account-check"
-            onPress={PutUpAdoptionPage}
-          >
-            Put Up Pet for Adoption
-          </AuthButton>
-          <Spacer size="large">
-            <AuthButton mode="contained" icon="tag-heart" onPress={AdoptPage}>
+      </View>
+      <View style={style.optionListsContainer}>
+        <TouchableOpacity onPress={PutUpAdoptionPage}>
+          <View style={style.optionsCard}>
+            <Image
+              source={require("../../../assets/put_up.png")}
+              style={style.optionsCardImage}
+            />
+            <Text style={{ marginTop: 10, fontSize: 18, fontWeight: "bold" }}>
+              Put Up Pet for Adoption
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={AdoptPage}>
+          <View style={style.optionsCard}>
+            <Image
+              source={require("../../../assets/adopt.png")}
+              style={style.optionsCardImage}
+            />
+            <Text style={{ marginTop: 10, fontSize: 18, fontWeight: "bold" }}>
               Adopt
-            </AuthButton>
-          </Spacer>
-          <Spacer size="large">
-            <AuthButton mode="contained" icon="logout">
-              Share Stoies
-            </AuthButton>
-          </Spacer>
-          <Spacer size="large">
-            <AuthButton mode="contained" icon="logout">
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View style={style.optionListsContainer}>
+        <TouchableOpacity>
+          <View style={style.optionsCard}>
+            <Image
+              source={require("../../../assets/share_stories.png")}
+              style={style.optionsCardImage}
+            />
+            <Text style={{ marginTop: 10, fontSize: 18, fontWeight: "bold" }}>
+              Share Stories
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <View style={style.optionsCard}>
+            <Image
+              source={require("../../../assets/faq.png")}
+              style={style.optionsCardImage}
+            />
+            <Text style={{ marginTop: 10, fontSize: 18, fontWeight: "bold" }}>
               FAQ
-            </AuthButton>
-          </Spacer>
-        </MainPageContainer>
+            </Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </SafeArea>
   );
 };
+
+const style = StyleSheet.create({
+  optionsCard: {
+    height: 210,
+    width: width / 2 - 30,
+    elevation: 15,
+    alignItems: "center",
+    backgroundColor: "white",
+    borderRadius: 20,
+    paddingTop: 10,
+    paddingHorizontal: 10,
+  },
+  optionListsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 20,
+    paddingHorizontal: 20,
+  },
+  optionsCardImage: {
+    height: 140,
+    borderRadius: 10,
+    width: "100%",
+  },
+});
