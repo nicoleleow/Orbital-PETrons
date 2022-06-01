@@ -7,18 +7,18 @@ const SafeArea = styled(SafeAreaView)`
   background-color: orange;
 `;
 
-const FavouritesPageHeader = styled(Text)`
+const FAQPageHeader = styled(Text)`
   color: black;
   padding-top: ${(props) => props.theme.space[5]};
-  padding-left: 120px;
+  padding-left: 170px;
   font-size: ${(props) => props.theme.fontSizes.h4};
   font-family: ${(props) => props.theme.fonts.body};
 `;
 
-export const FavouritesPage = () => (
+export const FAQPage = () => (
   <SafeArea>
     <View>
-      <FavouritesPageHeader>FAVOURITES</FavouritesPageHeader>
+      <FAQPageHeader>FAQ</FAQPageHeader>
     </View>
   </SafeArea>
 );

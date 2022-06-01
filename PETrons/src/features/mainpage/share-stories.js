@@ -7,7 +7,7 @@ const SafeArea = styled(SafeAreaView)`
   background-color: orange;
 `;
 
-const FavouritesPageHeader = styled(Text)`
+const StoriesPageHeader = styled(Text)`
   color: black;
   padding-top: ${(props) => props.theme.space[5]};
   padding-left: 120px;
@@ -15,10 +15,10 @@ const FavouritesPageHeader = styled(Text)`
   font-family: ${(props) => props.theme.fonts.body};
 `;
 
-export const FavouritesPage = () => (
+export const StoriesPage = () => (
   <SafeArea>
     <View>
-      <FavouritesPageHeader>FAVOURITES</FavouritesPageHeader>
+      <StoriesPageHeader>Share Stories</StoriesPageHeader>
     </View>
   </SafeArea>
 );

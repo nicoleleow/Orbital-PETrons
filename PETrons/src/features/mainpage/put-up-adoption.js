@@ -1,7 +1,6 @@
 import React from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import styled from "styled-components/native";
-import { AppNavigator } from "../../infrastructure/navigation/app.navigation";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;

@@ -9,7 +9,6 @@ import {
   AuthInput,
   SubTitle,
 } from "./account.style";
-
 import { Spacer } from "../../components/spacer/spacer.component";
 import { authentication } from "../../../firebase/firebase-config";
 
@@ -24,7 +23,6 @@ export const RegisterScreen = ({ navigation }) => {
 
   const registerUser = () => {
     const inputs = [email, password, repeatedPassword, username];
-
     if (password !== repeatedPassword) {
       setErrorMessage("Error: Passwords do not match!");
       setErrorDisplay(true);

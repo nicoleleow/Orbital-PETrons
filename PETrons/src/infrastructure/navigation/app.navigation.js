@@ -1,11 +1,9 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet, SafeAreaView, Text, View, Platform } from "react-native";
+import { StyleSheet, SafeAreaView, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
 
-import { Mainpage } from "../../features/mainpage/mainpage";
 import { SafeArea } from "../../components/utility/safe-area.component";
 import { ActivityPage } from "../../features/activity/activity";
 import { ProfileNavigator } from "./profile.navigation";

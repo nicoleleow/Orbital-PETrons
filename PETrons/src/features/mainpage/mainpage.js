@@ -33,6 +33,12 @@ export const Mainpage = ({ navigation }) => {
   const PutUpAdoptionPage = () => {
     navigation.navigate("PutUpAdoption");
   };
+  const StoriesPage = () => {
+    navigation.navigate("ShareStories");
+  };
+  const FAQPage = () => {
+    navigation.navigate("FAQ");
+  };
 
   return (
     <SafeArea>
@@ -46,7 +52,13 @@ export const Mainpage = ({ navigation }) => {
               source={require("../../../assets/put_up.png")}
               style={style.optionsCardImage}
             />
-            <Text style={{ marginTop: 10, fontSize: 18, fontWeight: "bold" }}>
+            <Text
+              style={{
+                marginTop: 10,
+                fontSize: 18,
+                fontWeight: "bold",
+              }}
+            >
               Put Up Pet for Adoption
             </Text>
           </View>
@@ -64,7 +76,7 @@ export const Mainpage = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View style={style.optionListsContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={StoriesPage}>
           <View style={style.optionsCard}>
             <Image
               source={require("../../../assets/share_stories.png")}
@@ -75,7 +87,7 @@ export const Mainpage = ({ navigation }) => {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={FAQPage}>
           <View style={style.optionsCard}>
             <Image
               source={require("../../../assets/faq.png")}

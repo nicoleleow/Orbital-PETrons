@@ -21,7 +21,6 @@ export const LoginScreen = ({ navigation }) => {
 
   const SignInUser = () => {
     const inputs = [email, password];
-
     signInWithEmailAndPassword(authentication, email, password)
       .then((re) => {
         setIsSignedIn(true);
@@ -37,6 +36,7 @@ export const LoginScreen = ({ navigation }) => {
         }
       });
   };
+
   const SignOutUser = () => {
     signOut(authentication)
       .then((re) => {
