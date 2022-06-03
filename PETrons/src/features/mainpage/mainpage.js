@@ -19,11 +19,27 @@ const SafeArea = styled(SafeAreaView)`
 
 const MainPageHeader = styled(Text)`
   color: black;
-  padding-top: ${(props) => props.theme.space[5]};
-  padding-bottom: ${(props) => props.theme.space[4]};
-  padding-left: ${(props) => props.theme.space[6]};
+  padding-top: ${(props) => props.theme.space[6]};
+  padding-bottom: ${(props) => props.theme.space[6]};
+  padding-left: ${(props) => props.theme.space[7]};
   font-size: ${(props) => props.theme.fontSizes.h4};
   font-family: ${(props) => props.theme.fonts.body};
+`;
+
+const Header = styled(Text)`
+  font-family: ${(props) => props.theme.fonts.heading};
+  padding-top: ${(props) => props.theme.space[4]};
+  font-size: ${(props) => props.theme.fontSizes.body};
+  font-weight: bold;
+  text-align: center;
+`;
+
+const HeaderTwo = styled(Text)`
+  font-family: ${(props) => props.theme.fonts.heading};
+  padding-top: ${(props) => props.theme.space[1]};
+  font-size: ${(props) => props.theme.fontSizes.body};
+  font-weight: bold;
+  text-align: center;
 `;
 
 export const Mainpage = ({ navigation }) => {
@@ -52,15 +68,7 @@ export const Mainpage = ({ navigation }) => {
               source={require("../../../assets/put_up.png")}
               style={style.optionsCardImage}
             />
-            <Text
-              style={{
-                marginTop: 10,
-                fontSize: 18,
-                fontWeight: "bold",
-              }}
-            >
-              Put Up Pet for Adoption
-            </Text>
+            <HeaderTwo>Put Up Pet For Adoption</HeaderTwo>
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={AdoptPage}>
@@ -69,9 +77,7 @@ export const Mainpage = ({ navigation }) => {
               source={require("../../../assets/adopt.png")}
               style={style.optionsCardImage}
             />
-            <Text style={{ marginTop: 10, fontSize: 18, fontWeight: "bold" }}>
-              Adopt
-            </Text>
+            <Header>Adopt</Header>
           </View>
         </TouchableOpacity>
       </View>
@@ -82,9 +88,7 @@ export const Mainpage = ({ navigation }) => {
               source={require("../../../assets/share_stories.png")}
               style={style.optionsCardImage}
             />
-            <Text style={{ marginTop: 10, fontSize: 18, fontWeight: "bold" }}>
-              Share Stories
-            </Text>
+            <Header>Share Stories</Header>
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={FAQPage}>
@@ -93,9 +97,7 @@ export const Mainpage = ({ navigation }) => {
               source={require("../../../assets/faq.png")}
               style={style.optionsCardImage}
             />
-            <Text style={{ marginTop: 10, fontSize: 18, fontWeight: "bold" }}>
-              FAQ
-            </Text>
+            <Header>FAQ</Header>
           </View>
         </TouchableOpacity>
       </View>
@@ -105,7 +107,7 @@ export const Mainpage = ({ navigation }) => {
 
 const style = StyleSheet.create({
   optionsCard: {
-    height: 210,
+    height: 190,
     width: width / 2 - 30,
     elevation: 15,
     alignItems: "center",
@@ -113,6 +115,7 @@ const style = StyleSheet.create({
     borderRadius: 20,
     paddingTop: 10,
     paddingHorizontal: 10,
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
   },
   optionListsContainer: {
     flexDirection: "row",
@@ -121,7 +124,7 @@ const style = StyleSheet.create({
     paddingHorizontal: 20,
   },
   optionsCardImage: {
-    height: 140,
+    height: 130,
     borderRadius: 10,
     width: "100%",
   },

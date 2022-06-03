@@ -14,7 +14,7 @@ const SafeArea = styled(SafeAreaView)`
 
 const ProfilePageHeader = styled(Text)`
   color: black;
-  padding-top: ${(props) => props.theme.space[5]};
+  padding-top: ${(props) => props.theme.space[6]};
   padding-left: 145px;
   font-size: ${(props) => props.theme.fontSizes.h4};
   font-family: ${(props) => props.theme.fonts.body};
@@ -22,7 +22,7 @@ const ProfilePageHeader = styled(Text)`
 
 export const ProfileContainer = styled.View`
   background-color: orange
-  padding: ${(props) => props.theme.space[4]};
+  padding: ${(props) => props.theme.space[5]};
   margin-top: ${(props) => props.theme.space[2]};
 `;
 

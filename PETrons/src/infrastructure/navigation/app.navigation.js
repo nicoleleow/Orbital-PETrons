@@ -29,7 +29,7 @@ function MyTabs() {
         },
       })}
       tabBarOptions={{
-        activeTintColor: "tomato",
+        activeTintColor: "black",
         inactiveTintColor: "gray",
       }}
     >

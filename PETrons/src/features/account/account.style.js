@@ -35,7 +35,7 @@ export const Title = styled(Text)`
 
 export const SubTitle = styled(Text)`
   color: black;
-  padding-bottom: ${(props) => props.theme.space[3]};
+  padding-bottom: ${(props) => props.theme.space[4]};
   font-size: ${(props) => props.theme.fontSizes.title};
   font-family: ${(props) => props.theme.fonts.monospace};
 `;

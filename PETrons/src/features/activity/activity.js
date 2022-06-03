@@ -9,7 +9,7 @@ const SafeArea = styled(SafeAreaView)`
 
 const ActivityPageHeader = styled(Text)`
   color: black;
-  padding-top: ${(props) => props.theme.space[5]};
+  padding-top: ${(props) => props.theme.space[6]};
   padding-left: 140px;
   font-size: ${(props) => props.theme.fontSizes.h4};
   font-family: ${(props) => props.theme.fonts.body};
