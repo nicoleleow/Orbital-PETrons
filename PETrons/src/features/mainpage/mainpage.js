@@ -3,11 +3,11 @@ import {
   SafeAreaView,
   Text,
   View,
-  StyleSheet,
   Dimensions,
   TouchableOpacity,
   Image,
 } from "react-native";
+import { Menu } from "react-native-paper";
 import styled from "styled-components/native";
 
 const { width } = Dimensions.get("screen");
@@ -42,6 +42,31 @@ const HeaderTwo = styled(Text)`
   text-align: center;
 `;
 
+const MenuCard = styled(View)`
+  height: 190px;
+  width: 165px;
+  elevation: 15;
+  align-items: center;
+  background-color: white;
+  border-radius: 20px;
+  padding-top: ${(props) => props.theme.space[3]};
+  padding-horizontal: ${(props) => props.theme.space[3]};
+  background-color: rgba(255, 255, 255, 0.7);
+`;
+
+const MenuCardContainer = styled(View)`
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-horizontal: 20px;
+`;
+
+const ImageCard = styled(Image)`
+  height: 130px;
+  border-radius: ${(props) => props.theme.space[3]};
+  width: 100%;
+`;
+
 export const Mainpage = ({ navigation }) => {
   const AdoptPage = () => {
     navigation.navigate("Adopt");
@@ -61,71 +86,34 @@ export const Mainpage = ({ navigation }) => {
       <View>
         <MainPageHeader>HOME</MainPageHeader>
       </View>
-      <View style={style.optionListsContainer}>
+      <MenuCardContainer>
         <TouchableOpacity onPress={PutUpAdoptionPage}>
-          <View style={style.optionsCard}>
-            <Image
-              source={require("../../../assets/put_up.png")}
-              style={style.optionsCardImage}
-            />
+          <MenuCard>
+            <ImageCard source={require("../../../assets/put_up.png")} />
             <HeaderTwo>Put Up Pet For Adoption</HeaderTwo>
-          </View>
+          </MenuCard>
         </TouchableOpacity>
         <TouchableOpacity onPress={AdoptPage}>
-          <View style={style.optionsCard}>
-            <Image
-              source={require("../../../assets/adopt.png")}
-              style={style.optionsCardImage}
-            />
+          <MenuCard>
+            <ImageCard source={require("../../../assets/adopt.png")} />
             <Header>Adopt</Header>
-          </View>
+          </MenuCard>
         </TouchableOpacity>
-      </View>
-      <View style={style.optionListsContainer}>
+      </MenuCardContainer>
+      <MenuCardContainer>
         <TouchableOpacity onPress={StoriesPage}>
-          <View style={style.optionsCard}>
-            <Image
-              source={require("../../../assets/share_stories.png")}
-              style={style.optionsCardImage}
-            />
+          <MenuCard>
+            <ImageCard source={require("../../../assets/share_stories.png")} />
             <Header>Share Stories</Header>
-          </View>
+          </MenuCard>
         </TouchableOpacity>
         <TouchableOpacity onPress={FAQPage}>
-          <View style={style.optionsCard}>
-            <Image
-              source={require("../../../assets/faq.png")}
-              style={style.optionsCardImage}
-            />
+          <MenuCard>
+            <ImageCard source={require("../../../assets/faq.png")} />
             <Header>FAQ</Header>
-          </View>
+          </MenuCard>
         </TouchableOpacity>
-      </View>
+      </MenuCardContainer>
     </SafeArea>
   );
 };
-
-const style = StyleSheet.create({
-  optionsCard: {
-    height: 190,
-    width: width / 2 - 30,
-    elevation: 15,
-    alignItems: "center",
-    backgroundColor: "white",
-    borderRadius: 20,
-    paddingTop: 10,
-    paddingHorizontal: 10,
-    backgroundColor: "rgba(255, 255, 255, 0.7)",
-  },
-  optionListsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 20,
-    paddingHorizontal: 20,
-  },
-  optionsCardImage: {
-    height: 130,
-    borderRadius: 10,
-    width: "100%",
-  },
-});

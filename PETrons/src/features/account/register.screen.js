@@ -24,7 +24,7 @@ export const RegisterScreen = ({ navigation }) => {
   const registerUser = () => {
     const inputs = [email, password, repeatedPassword, username];
     if (password !== repeatedPassword) {
-      setErrorMessage("Error: Passwords do not match!");
+      setErrorMessage("Passwords do not match!");
       setErrorDisplay(true);
       return;
     }
@@ -38,7 +38,11 @@ export const RegisterScreen = ({ navigation }) => {
         console.log(re);
         setErrorDisplay(true);
         if (inputs.includes("") || inputs.includes(undefined)) {
-          setErrorMessage("Error: Please fill in all fields");
+          setErrorMessage("Please fill in all fields");
+        } else if (password.length < 6) {
+          setErrorMessage("Password should be at least 6 characters!");
+        } else {
+          setErrorMessage(re.message.slice(22, -2));
         }
       });
   };
@@ -93,7 +97,7 @@ export const RegisterScreen = ({ navigation }) => {
         </Spacer>
         {errorDisplay && (
           <Spacer size="large">
-            <Text style={{ color: "red" }}>{errorMessage}</Text>
+            <Text style={{ color: "red" }}>Error: {errorMessage}</Text>
           </Spacer>
         )}
       </AccountContainer>
