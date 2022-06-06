@@ -1,7 +1,6 @@
 import React from "react";
-import { SafeAreaView, Text, View, StyleSheet } from "react-native";
+import { SafeAreaView, Text, View, ScrollView } from "react-native";
 import styled from "styled-components/native";
-import { Searchbar } from 'react-native-paper';
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -17,14 +16,6 @@ const StoriesPageHeader = styled(Text)`
 `;
 
 export const StoriesPage = () => {
-  const [searchQuery, setSearchQuery] = React.useState('');
-
-  const onChangeSearch = query => setSearchQuery(query);
-
-  // need to create availablePets.js to get list of available pets and their details (ie database of pets)
-  const filteredPets = availablePets.filter(pet => {
-    return pet.name.toLowerCase().includes(searchQuery.toLowerCase());
-  })
 
   return (
     <SafeArea>
@@ -33,14 +24,11 @@ export const StoriesPage = () => {
         <StoriesPageHeader>Share Stories</StoriesPageHeader>
       </View>
 
-      <View>
-        <Searchbar
-        placeholder="Search"
-        onChangeText={onChangeSearch}
-        value={searchQuery}
-        style={styles.search}
-        />
-      </View>
+      <ScrollView>
+        {/* add stories here */}
+        <Text>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias aut, repellat ipsum facere voluptate dicta obcaecati deserunt nobis suscipit eaque?
+        </Text>
+      </ScrollView>
       
       
     </SafeArea>
@@ -48,9 +36,3 @@ export const StoriesPage = () => {
 };
 
 
-const styles = StyleSheet.create({
-  search: {
-    margin:40,
-    backgroundColor: '#D3D3D3',
-  }
-})
