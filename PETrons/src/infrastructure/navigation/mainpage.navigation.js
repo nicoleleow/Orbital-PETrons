@@ -3,10 +3,10 @@ import { Text, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { Mainpage } from "../../features/mainpage/mainpage";
-import { AdoptPage } from "../../features/mainpage/adopt";
-import { PutuPAdoptionPage } from "../../features/mainpage/put-up-adoption";
-import { StoriesPage } from "../../features/mainpage/share-stories";
-import { FAQPage } from "../../features/mainpage/faq";
+import { AdoptPage } from "../../features/mainpage/adopt/adopt";
+import { PutuPAdoptionPage } from "../../features/mainpage/put-up-for-adoption/put-up-adoption";
+import { StoriesPage } from "../../features/mainpage/share-stories/share-stories";
+import { FAQPage } from "../../features/mainpage/faq/faq";
 
 const Stack = createStackNavigator();
 
