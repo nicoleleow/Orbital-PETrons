@@ -1,4 +1,9 @@
 export const colors = {
+  button: {
+    primary: "#2182BD",
+    secondary: "#5282BD",
+    muted: "#C6DAF7"
+  },
   brand: {
     primary: "#ff9600",
     secondary: "#e36414",

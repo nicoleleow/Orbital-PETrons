@@ -1,7 +1,9 @@
 import React from "react";
-import { SafeAreaView, Text, View, StyleSheet, ScrollView } from "react-native";
+import { SafeAreaView, Text, View, ScrollView } from "react-native";
 import styled from "styled-components/native";
 import { Searchbar } from 'react-native-paper';
+
+import { PetInfoCard } from "./components/pet-info-card.component";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -15,6 +17,19 @@ const AdoptPageHeader = styled(Text)`
   font-size: ${(props) => props.theme.fontSizes.h4};
   font-family: ${(props) => props.theme.fonts.body};
 `;
+
+const SearchContainer = styled(Searchbar)`
+  margin: 10px;
+  margin-horizontal: 20px;
+  background-color: white;
+`
+
+const PetListContainer = styled(ScrollView)`
+  // flex-direction: row;  
+  flex: 1;
+  padding: 5px;
+  margin-bottom: 10px;
+`
 
 export const AdoptPage = () => {
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -31,30 +46,19 @@ export const AdoptPage = () => {
     <SafeArea>
       <View>
         <AdoptPageHeader>ADOPT A PET</AdoptPageHeader>
-        <Searchbar
-          placeholder="Search"
-          onChangeText={onChangeSearch}
-          value={searchQuery}
-          style={styles.search}
+        <SearchContainer
+        placeholder="Search"
+        onChangeText={onChangeSearch}
+        value={searchQuery}
         />
+        
       </View>
-      <ScrollView>
-        <Text style={styles.container}>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias aut, repellat ipsum facere voluptate dicta obcaecati deserunt nobis suscipit eaque?
-        </Text>
-      </ScrollView>
+      <PetListContainer>
+        <PetInfoCard />
+        <PetInfoCard />
+        <PetInfoCard />
+      </PetListContainer>
+  
     </SafeArea>
   )
 };
-
-const styles = StyleSheet.create({
-  search: {
-    margin: 10,
-    marginHorizontal: 20,
-    backgroundColor: '#D3D3D3',
-  },
-  container: {
-    fontSize: 50,
-    backgroundColor: 'yellow'
-  }
-})
