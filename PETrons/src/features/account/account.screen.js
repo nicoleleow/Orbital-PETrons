@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Spacer } from "../../components/spacer/spacer.component";
 import {
   AccountBackground,

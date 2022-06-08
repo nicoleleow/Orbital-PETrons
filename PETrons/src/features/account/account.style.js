@@ -30,7 +30,7 @@ export const AuthInput = styled(TextInput)`
 export const Title = styled(Text)`
   color: black;
   font-size: ${(props) => props.theme.fontSizes.h3};
-  font-family: ${(props) => props.theme.fonts.body};
+  font-family: ${(props) => props.theme.fonts.heading};
 `;
 
 export const SubTitle = styled(Text)`
