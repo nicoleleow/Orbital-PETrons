@@ -24,11 +24,16 @@ const SearchContainer = styled(Searchbar)`
   background-color: white;
 `
 
-const PetListContainer = styled(ScrollView)`
-  // flex-direction: row;  
+const PetListContainer = styled(ScrollView)` 
   flex: 1;
   padding: 5px;
   margin-bottom: 10px;
+`
+
+
+const container = styled(View)`
+  flex-direction: row;
+  justify-content: space-between;
 `
 
 export const AdoptPage = () => {

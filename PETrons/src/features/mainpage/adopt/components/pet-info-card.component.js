@@ -7,7 +7,8 @@ const PetCard = styled(Card)`
     width: 175px;
     height: auto;
     margin: 5px 15px;
-    // flex-direction: row;
+    //   flex-direction: row;
+    //   justify-content: space-between;
 `
 
 const PetCardDetails = styled(Card.Content)`
