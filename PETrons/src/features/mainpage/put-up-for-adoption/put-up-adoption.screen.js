@@ -19,7 +19,7 @@ const PutUpAdoptionPageHeader = styled(Text)`
 `;
 
 const FormButton = styled(Button).attrs({
-  color: colors.brand.primary,
+  color: colors.brand.button.primary,
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
