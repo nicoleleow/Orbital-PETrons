@@ -1,7 +1,6 @@
 import React from "react";
 import {
   SafeAreaView,
-  Text,
   View,
   Dimensions,
   TouchableOpacity,
@@ -9,37 +8,13 @@ import {
 } from "react-native";
 import { Menu } from "react-native-paper";
 import styled from "styled-components/native";
+import { Text } from "../../components/typography/text.component"
 
 const { width } = Dimensions.get("screen");
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
   background-color: orange;
-`;
-
-const MainPageHeader = styled(Text)`
-  color: black;
-  padding-top: ${(props) => props.theme.space[6]};
-  padding-bottom: ${(props) => props.theme.space[6]};
-  padding-left: ${(props) => props.theme.space[7]};
-  font-size: ${(props) => props.theme.fontSizes.h4};
-  font-family: ${(props) => props.theme.fonts.body};
-`;
-
-const Header = styled(Text)`
-  font-family: ${(props) => props.theme.fonts.heading};
-  padding-top: ${(props) => props.theme.space[4]};
-  font-size: ${(props) => props.theme.fontSizes.body};
-  font-weight: bold;
-  text-align: center;
-`;
-
-const HeaderTwo = styled(Text)`
-  font-family: ${(props) => props.theme.fonts.heading};
-  padding-top: ${(props) => props.theme.space[1]};
-  font-size: ${(props) => props.theme.fontSizes.body};
-  font-weight: bold;
-  text-align: center;
 `;
 
 const MenuCard = styled(View)`
@@ -84,19 +59,19 @@ export const Mainpage = ({ navigation }) => {
   return (
     <SafeArea>
       <View>
-        <MainPageHeader>HOME</MainPageHeader>
+        <Text variant='home'>HOME</Text>
       </View>
       <MenuCardContainer>
         <TouchableOpacity onPress={PutUpAdoptionPage}>
           <MenuCard>
             <ImageCard source={require("../../../assets/put_up.png")} />
-            <HeaderTwo>Put Up Pet For Adoption</HeaderTwo>
+            <Text variant='title'>Put Up Pet {'\n'} For Adoption</Text>
           </MenuCard>
         </TouchableOpacity>
         <TouchableOpacity onPress={AdoptPage}>
           <MenuCard>
             <ImageCard source={require("../../../assets/adopt.png")} />
-            <Header>Adopt</Header>
+            <Text variant='title'>Adopt</Text>
           </MenuCard>
         </TouchableOpacity>
       </MenuCardContainer>
@@ -104,13 +79,13 @@ export const Mainpage = ({ navigation }) => {
         <TouchableOpacity onPress={StoriesPage}>
           <MenuCard>
             <ImageCard source={require("../../../assets/share_stories.png")} />
-            <Header>Share Stories</Header>
+            <Text variant='title'>Share Stories</Text>
           </MenuCard>
         </TouchableOpacity>
         <TouchableOpacity onPress={FAQPage}>
           <MenuCard>
             <ImageCard source={require("../../../assets/faq.png")} />
-            <Header>FAQ</Header>
+            <Text variant='title'>FAQ</Text>
           </MenuCard>
         </TouchableOpacity>
       </MenuCardContainer>
