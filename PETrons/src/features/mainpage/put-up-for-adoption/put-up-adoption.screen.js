@@ -155,3 +155,10 @@ export const PutuPAdoptionPage = ({ navigation }) => {
     </Background>
   );
 };
+export const PutUpAdoptionPage = () => (
+  <SafeArea>
+    <View>
+      <PutUpAdoptionPageHeader>Put Up A Pet</PutUpAdoptionPageHeader>
+    </View>
+  </SafeArea>
+);
