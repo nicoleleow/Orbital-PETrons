@@ -19,7 +19,7 @@ const PutUpAdoptionPageHeader = styled(Text)`
 `;
 
 const FormButton = styled(Button).attrs({
-  color: colors.brand.button.primary,
+  color: colors.button.primary,
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
@@ -44,7 +44,7 @@ const DescriptionInput = styled(TextInput)`
   textalignvertical: "top";
 `;
 
-export const PutuPAdoptionPage = ({ navigation }) => {
+export const PutUpAdoptionPage = ({ navigation }) => {
   const [organisationType, setOrganisationType] = useState("");
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
@@ -155,10 +155,3 @@ export const PutuPAdoptionPage = ({ navigation }) => {
     </Background>
   );
 };
-export const PutUpAdoptionPage = () => (
-  <SafeArea>
-    <View>
-      <PutUpAdoptionPageHeader>Put Up A Pet</PutUpAdoptionPageHeader>
-    </View>
-  </SafeArea>
-);

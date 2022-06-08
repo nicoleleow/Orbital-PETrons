@@ -1,6 +1,9 @@
 import React from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import styled from "styled-components/native";
+import { Text } from "../../components/typography/text.component"
+
+
 import { signOut } from "firebase/auth";
 
 import { AuthButton } from "../account/account.style";
@@ -10,14 +13,6 @@ import { Spacer } from "../../components/spacer/spacer.component";
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
   background-color: orange;
-`;
-
-const ProfilePageHeader = styled(Text)`
-  color: black;
-  padding-top: ${(props) => props.theme.space[6]};
-  padding-left: 145px;
-  font-size: ${(props) => props.theme.fontSizes.h4};
-  font-family: ${(props) => props.theme.fonts.body};
 `;
 
 export const ProfileContainer = styled.View`
@@ -44,7 +39,7 @@ export const ProfilePage = ({ navigation }) => {
   return (
     <SafeArea>
       <View>
-        <ProfilePageHeader>PROFILE</ProfilePageHeader>
+        <Text variant='header'>PROFILE</Text>
         <ProfileContainer>
           <AuthButton mode="contained" icon="account-check">
             Edit Profile
