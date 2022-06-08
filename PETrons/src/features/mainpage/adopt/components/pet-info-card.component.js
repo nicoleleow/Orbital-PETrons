@@ -1,48 +1,29 @@
 import React from 'react';
-import styled from 'styled-components/native';
-import { Text} from 'react-native';
-import { Card, Title} from 'react-native-paper';
+import { Spacer } from '../../../../components/spacer/spacer.component';
 
-const PetCard = styled(Card)`
-    width: 175px;
-    height: auto;
-    margin: 5px 15px;
-    //   flex-direction: row;
-    //   justify-content: space-between;
-`
-
-const PetCardDetails = styled(Card.Content)`
-    padding-horizontal: 15px;
-    padding-bottom: 5px;
-`
-
-const Name = styled(Title)` 
-    font-size: ${(props) => props.theme.fontSizes.title};
-    font-family: ${(props) => props.theme.fonts.heading};
-    color: ${(props) => props.theme.colors.brand.secondary};
-`
-
-const Breed = styled(Text)`
-    font-size: ${(props) => props.theme.fontSizes.body};
-    font-family: ${(props) => props.theme.fonts.heading};
-    color: ${(props) => props.theme.colors.brand.secondary};
-`
-
-const PetInfoCardCover = styled(Card.Cover)`
-    padding: ${(props) => props.theme.space[3]};
-`
+import {
+    PetCard,
+    PetCardDetails,
+    PetInfoCardCover,
+    SectionStart,
+    SectionEnd,
+    Name,
+    Breed,
+    ShelterIcon
+    } from './pet-info-card.styles';
 
 export const PetInfoCard = ({ pet = {} }) => {
+    const icon = 'https://cdn-icons-png.flaticon.com/512/3769/3769065.png';
     const {
         name = 'Bella',
-        icon,
         photos = [
             'https://www.thesprucepets.com/thmb/cr0IUzzdcuqOYdGMBbRbbi6NfkY=/1568x1176/smart/filters:no_upscale()/GettyImages-145577979-d97e955b5d8043fd96747447451f78b7.jpg'
         ],
-        animalType = 'cat',
+        animalType = 'Cat',
         animalBreed = 'Ragdoll',
         age = 9,
         price = 23, 
+        isShelter= true,
         shortDescription
     } = pet;
     
@@ -50,12 +31,18 @@ export const PetInfoCard = ({ pet = {} }) => {
         <PetCard elevation={5}>
             <PetInfoCardCover key={name} source={{ uri: photos[0] }} />
             <PetCardDetails>
-                <Name>{name}</Name>
-                <Breed>{animalBreed}</Breed>
+                <SectionStart>
+                    <Name>{name}</Name>
+                    <Breed>{animalBreed}</Breed>
+                </SectionStart>
+                <SectionEnd>
+                    {isShelter && (
+                        <ShelterIcon source={{ uri: icon }} />
+                    )}
+                    <Spacer size='small' position='right' />
+                </SectionEnd>
             </PetCardDetails> 
         </PetCard>
-
-        
     )
 }
     

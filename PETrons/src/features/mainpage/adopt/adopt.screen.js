@@ -1,7 +1,8 @@
 import React from "react";
-import { SafeAreaView, Text, View, ScrollView } from "react-native";
+import { SafeAreaView, Text, View, FlatList} from "react-native";
 import styled from "styled-components/native";
 import { Searchbar } from 'react-native-paper';
+import { Spacer } from '../../../components/spacer/spacer.component';
 
 import { PetInfoCard } from "./components/pet-info-card.component";
 
@@ -19,22 +20,22 @@ const AdoptPageHeader = styled(Text)`
 `;
 
 const SearchContainer = styled(Searchbar)`
-  margin: 10px;
-  margin-horizontal: 20px;
+  margin: 0px 20px;
+  margin-top: 10px;
   background-color: white;
 `
 
-const PetListContainer = styled(ScrollView)` 
-  flex: 1;
-  padding: 5px;
-  margin-bottom: 10px;
-`
+// const PetListContainer = styled(View)` 
+//   flex: 1;
+//   padding: 5px;
+//   margin-bottom: 10px;
+// `
 
-
-const container = styled(View)`
-  flex-direction: row;
-  justify-content: space-between;
-`
+const PetList = styled(FlatList).attrs({
+  contentContainerStyle: {
+    padding: 16
+  }
+})``
 
 export const AdoptPage = () => {
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -51,18 +52,23 @@ export const AdoptPage = () => {
     <SafeArea>
       <View>
         <AdoptPageHeader>ADOPT A PET</AdoptPageHeader>
+        <Spacer size='small' />
         <SearchContainer
         placeholder="Search"
         onChangeText={onChangeSearch}
         value={searchQuery}
         />
-        
       </View>
-      <PetListContainer>
+      <Spacer size='medium' />
+      <PetList
+        data={[{name: 1}, {name: 2}]}
+        renderItem={() => <PetInfoCard />}
+        keyExtractor={(item) => item.name}
+      />
+
+      {/* <PetListContainer>
         <PetInfoCard />
-        <PetInfoCard />
-        <PetInfoCard />
-      </PetListContainer>
+      </PetListContainer> */}
   
     </SafeArea>
   )
