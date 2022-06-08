@@ -9,7 +9,7 @@ import {
 import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 import { NavigationContainer } from "@react-navigation/native";
 
-import { Mainpage } from "./src/features/mainpage/mainpage";
+import { Mainpage } from "./src/features/mainpage/mainpage.screen";
 import { theme } from "./src/infrastructure/theme";
 import { AppNavigator } from "./src/infrastructure/navigation/app.navigation";
 import { AccountNavigator } from "./src/infrastructure/navigation/account.navigation";

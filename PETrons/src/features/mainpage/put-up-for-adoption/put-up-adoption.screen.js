@@ -15,7 +15,7 @@ const PutUpAdoptionPageHeader = styled(Text)`
   font-family: ${(props) => props.theme.fonts.body};
 `;
 
-export const PutuPAdoptionPage = () => (
+export const PutUpAdoptionPage = () => (
   <SafeArea>
     <View>
       <PutUpAdoptionPageHeader>Put Up A Pet</PutUpAdoptionPageHeader>
