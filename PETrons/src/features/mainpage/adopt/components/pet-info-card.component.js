@@ -8,7 +8,8 @@ import {
     SectionStart,
     SectionEnd,
     Name,
-    Breed,
+    Caption,
+    Container,
     ShelterIcon
     } from './pet-info-card.styles';
 
@@ -22,7 +23,8 @@ export const PetInfoCard = ({ pet = {} }) => {
         animalType = 'Cat',
         animalBreed = 'Ragdoll',
         age = 9,
-        price = 23, 
+        gender = 'F',
+        fee = 23, 
         isShelter= true,
         shortDescription
     } = pet;
@@ -33,7 +35,13 @@ export const PetInfoCard = ({ pet = {} }) => {
             <PetCardDetails>
                 <SectionStart>
                     <Name>{name}</Name>
-                    <Breed>{animalBreed}</Breed>
+                    <Spacer size='small' />
+                    <Caption>Breed: {animalBreed}</Caption>
+                    <Container>
+                        <Caption>Age: {age}</Caption>
+                        <Spacer size='large' position='right'/>
+                        <Caption>Gender: {gender}</Caption>
+                    </Container>
                 </SectionStart>
                 <SectionEnd>
                     {isShelter && (

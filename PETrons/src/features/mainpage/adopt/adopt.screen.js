@@ -26,15 +26,9 @@ const SearchContainer = styled(Searchbar)`
   background-color: white;
 `
 
-// const PetListContainer = styled(View)` 
-//   flex: 1;
-//   padding: 5px;
-//   margin-bottom: 10px;
-// `
-
 const PetList = styled(FlatList).attrs({
   contentContainerStyle: {
-    padding: 16
+    alignItems:'center'
   }
 })``
 
@@ -61,9 +55,22 @@ export const AdoptPage = () => {
       </View>
       <Spacer size='medium' />
       <PetList
-        data={[{name: 1}, {name: 2}]}
+        data={
+          [{ name: 1 },
+            { name: 2 },
+            { name: 3 },
+            { name: 4 },
+            { name: 5 },
+            { name: 6 },
+            { name: 7 },
+            { name: 8},
+            { name: 9 },
+            { name: 10 },
+            { name: 11 }
+          ]}
         renderItem={() => <PetInfoCard />}
         keyExtractor={(item) => item.name}
+        numColumns={2}
       />
 
       {/* <PetListContainer>
