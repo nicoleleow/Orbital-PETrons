@@ -6,6 +6,9 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Dimensions,
 } from "react-native";
 import styled from "styled-components/native";
 import { Button, TextInput } from "react-native-paper";
@@ -100,6 +103,12 @@ const RenderContentButtonTitle = styled(Text)`
   color: white;
 `;
 
+const DismissKeyboard = ({ children }) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+);
+
 export const PutUpAdoptionPage = ({ navigation }) => {
   const [organisationType, setOrganisationType] = useState("");
   const [name, setName] = useState("");
@@ -168,118 +177,123 @@ export const PutUpAdoptionPage = ({ navigation }) => {
   };
 
   return (
-    <Background>
-      <PutUpAdoptionPageHeader>
-        Fill in your pet details:
-      </PutUpAdoptionPageHeader>
-      <BottomSheet
-        initialSnap={2}
-        ref={sheetRef}
-        snapPoints={[450, 300, 0]}
-        borderRadius={10}
-        renderContent={renderContent}
-      />
-      <ScrollView>
-        <Container>
-          {image && (
-            <Image
-              source={{ uri: image }}
-              style={{ width: 200, height: 200 }}
-            />
-          )}
-          <FormButton
-            icon="image"
+    <DismissKeyboard>
+      <Background>
+        <PutUpAdoptionPageHeader>
+          Fill in your pet details:
+        </PutUpAdoptionPageHeader>
+        <BottomSheet
+          initialSnap={2}
+          ref={sheetRef}
+          snapPoints={[450, 300, 0]}
+          borderRadius={10}
+          renderContent={renderContent}
+        />
+        <ScrollView>
+          <Container>
+            {image && (
+              <Image
+                source={{ uri: image }}
+                style={{ width: 200, height: 200 }}
+              />
+            )}
+            <FormButton
+              icon="image"
+              mode="contained"
+              onPress={() => sheetRef.current.snapTo(0)}
+            >
+              Upload Image
+            </FormButton>
+            <Spacer size="large">
+              <Inputs
+                label="Organisation"
+                value={organisationType}
+                textContentType="none"
+                keyboardType="default"
+                autoCapitalize="none"
+                onChangeText={(text) => setOrganisationType(text)}
+              />
+            </Spacer>
+            <Spacer size="large">
+              <Inputs
+                label="Pet Name"
+                value={name}
+                textContentType="name"
+                keyboardType="default"
+                autoCapitalize="none"
+                onChangeText={(text) => setName(text)}
+              />
+            </Spacer>
+            <Spacer size="large">
+              <Inputs
+                label="Animal Type"
+                value={type}
+                textContentType="none"
+                keyboardType="default"
+                autoCapitalize="none"
+                onChangeText={(text) => setType(text)}
+              />
+            </Spacer>
+            <Spacer size="large">
+              <Inputs
+                label="Animal Breed"
+                value={breed}
+                textContentType="none"
+                keyboardType="default"
+                autoCapitalize="none"
+                onChangeText={(text) => setBreed(text)}
+              />
+            </Spacer>
+            <Spacer size="large">
+              <Inputs
+                label="Pet Gender"
+                value={gender}
+                textContentType="none"
+                keyboardType="default"
+                autoCapitalize="none"
+                onChangeText={(text) => setGender(text)}
+              />
+            </Spacer>
+            <Spacer size="large">
+              <Inputs
+                label="Age"
+                value={age}
+                textContentType="none"
+                keyboardType="number-pad"
+                onChangeText={(text) => setAge(text)}
+              />
+            </Spacer>
+            <Spacer size="large">
+              <Inputs
+                label="Price"
+                value={price}
+                textContentType="none"
+                keyboardType="number-pad"
+                onChangeText={(text) => setPrice(text)}
+              />
+            </Spacer>
+            <Spacer size="large">
+              <DescriptionInput
+                label="Short Description..."
+                value={description}
+                textContentType="none"
+                autoCapitalize="none"
+                keyboardType="default"
+                multiline={true}
+                onChangeText={(text) => setDescription(text)}
+              />
+            </Spacer>
+          </Container>
+        </ScrollView>
+        <Spacer size="large">
+          <SubmitFormButton
             mode="contained"
-            onPress={() => sheetRef.current.snapTo(0)}
+            onPress={() => navigation.goBack()}
           >
-            Upload Image
-          </FormButton>
-          <Spacer size="large">
-            <Inputs
-              label="Organisation"
-              value={organisationType}
-              textContentType="none"
-              keyboardType="default"
-              autoCapitalize="none"
-              onChangeText={(text) => setOrganisationType(text)}
-            />
-          </Spacer>
-          <Spacer size="large">
-            <Inputs
-              label="Pet Name"
-              value={name}
-              textContentType="name"
-              keyboardType="default"
-              autoCapitalize="none"
-              onChangeText={(text) => setName(text)}
-            />
-          </Spacer>
-          <Spacer size="large">
-            <Inputs
-              label="Animal Type"
-              value={type}
-              textContentType="none"
-              keyboardType="default"
-              autoCapitalize="none"
-              onChangeText={(text) => setType(text)}
-            />
-          </Spacer>
-          <Spacer size="large">
-            <Inputs
-              label="Animal Breed"
-              value={breed}
-              textContentType="none"
-              keyboardType="default"
-              autoCapitalize="none"
-              onChangeText={(text) => setBreed(text)}
-            />
-          </Spacer>
-          <Spacer size="large">
-            <Inputs
-              label="Pet Gender"
-              value={gender}
-              textContentType="none"
-              keyboardType="default"
-              autoCapitalize="none"
-              onChangeText={(text) => setGender(text)}
-            />
-          </Spacer>
-          <Spacer size="large">
-            <Inputs
-              label="Age"
-              value={age}
-              textContentType="none"
-              keyboardType="number-pad"
-              onChangeText={(text) => setAge(text)}
-            />
-          </Spacer>
-          <Spacer size="large">
-            <Inputs
-              label="Price"
-              value={price}
-              textContentType="none"
-              keyboardType="number-pad"
-              onChangeText={(text) => setPrice(text)}
-            />
-          </Spacer>
-          <Spacer size="large">
-            <DescriptionInput
-              label="Short Description..."
-              value={description}
-              textContentType="none"
-              autoCapitalize="none"
-              keyboardType="default"
-              multiline={true}
-              onChangeText={(text) => setDescription(text)}
-            />
-          </Spacer>
-        </Container>
-      </ScrollView>
-      <Spacer size="large">
-        <SubmitFormButton mode="contained" onPress={() => navigation.goBack()}>
-          Confirm
-        </SubmitFormButton>
-      </Spacer>
-    </Background>
+            Confirm
+          </SubmitFormButton>
+        </Spacer>
+      </Background>
+    </DismissKeyboard>
   );
 };
