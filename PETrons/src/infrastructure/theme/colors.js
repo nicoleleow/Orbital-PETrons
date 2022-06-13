@@ -3,6 +3,10 @@ export const colors = {
     primary: "#ff9600",
     secondary: "#e36414",
     muted: "#C6DAF7",
+    yellow1: "#fddd5c",
+    yellow2: "#fdfd97",
+    blue1: "#789fcc",
+    blue2: "#afc9cf"
   },
   button: {
     primary: "#2182BD",

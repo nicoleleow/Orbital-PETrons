@@ -7,6 +7,8 @@ import { Spacer } from '../../../components/spacer/spacer.component';
 
 import { PetInfoCard } from "./components/pet-info-card.component";
 
+import { PetInfoScreen } from "./screens/pet-info.screen";
+
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
   background-color: orange;
@@ -20,10 +22,14 @@ const AdoptPageHeader = styled(Text)`
   font-family: ${(props) => props.theme.fonts.body};
 `;
 
-const SearchContainer = styled(Searchbar)`
-  margin: 0px 20px;
-  margin-top: 10px;
-  background-color: white;
+const MainContainer = styled(View)`
+  background-color: ${(props) => props.theme.colors.brand.yellow1};
+  border-radius: 5px;
+  margin: 0 10px;
+`
+
+const SearchContainer = styled.View`
+  padding: ${(props) => props.theme.space[3]};
 `
 
 const PetList = styled(FlatList).attrs({
@@ -43,16 +49,18 @@ export const AdoptPage = () => {
   // })
   
   return (
-
     <SafeArea>
-      <View>
-        <Text variant='header'>ADOPT A PET</Text>
-        <SearchContainer
+      <Text variant='header'>ADOPT A PET</Text>
+      <MainContainer>
+        <SearchContainer>
+          <Searchbar />
+        </SearchContainer>
+        {/* <SearchContainer
           placeholder="Search"
           onChangeText={onChangeSearch}
           value={searchQuery}
-        />
-      </View>
+        /> */}
+      </MainContainer>
       <Spacer size='medium' />
       <PetList
         data={
