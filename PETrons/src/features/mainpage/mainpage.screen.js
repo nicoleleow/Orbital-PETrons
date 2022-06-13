@@ -1,52 +1,3 @@
-// import React from "react";
-// import {
-//   SafeAreaView,
-//   View,
-//   Dimensions,
-//   TouchableOpacity,
-//   Image,
-// } from "react-native";
-// import { Menu } from "react-native-paper";
-// import styled from "styled-components/native";
-
-
-
-// const { width } = Dimensions.get("screen");
-
-// const SafeArea = styled(SafeAreaView)`
-//   flex: 1;
-//   background-color: orange;
-// `;
-
-
-
-// const MenuCardContainer = styled(View)`
-//   flex-direction: row;
-//   justify-content: space-between;
-//   margin-top: 20px;
-//   padding-horizontal: 20px;
-// `;
-
-// const ImageCard = styled(Image)`
-//   height: 130px;
-//   border-radius: ${(props) => props.theme.space[3]};
-//   width: 100%;
-// `;
-
-// export const Mainpage = ({ navigation }) => {
-//   const AdoptPage = () => {
-//     navigation.navigate("Adopt");
-//   };
-//   const PutUpAdoptionPage = () => {
-//     navigation.navigate("PutUpAdoption");
-//   };
-//   const StoriesPage = () => {
-//     navigation.navigate("ShareStories");
-//   };
-//   const FAQPage = () => {
-//     navigation.navigate("FAQ");
-//   };
-
 import React from "react";
 import {
   SafeAreaView,
@@ -55,11 +6,12 @@ import {
   Dimensions,
   TouchableOpacity,
   Image,
+  StyleSheet,
 } from "react-native";
 import { Menu } from "react-native-paper";
 import styled from "styled-components/native";
 
-const width = Dimensions.get("screen");
+const widthMenuCard = Dimensions.get("screen").width / 2 - 30;
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -92,8 +44,8 @@ const HeaderTwo = styled(Text)`
 `;
 
 const MenuCard = styled(View)`
-  height: 190px;
-  width: 165px;
+  height: 200px;
+  width: ${widthMenuCard}px;
   elevation: 15;
   align-items: center;
   background-color: white;
@@ -111,7 +63,7 @@ const MenuCardContainer = styled(View)`
 `;
 
 const ImageCard = styled(Image)`
-  height: 130px;
+  height: 140px;
   border-radius: ${(props) => props.theme.space[3]};
   width: 100%;
 `;
