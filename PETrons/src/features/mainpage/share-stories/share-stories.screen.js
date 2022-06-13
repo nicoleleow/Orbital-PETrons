@@ -27,5 +27,3 @@ export const StoriesPage = () => {
     </SafeArea>
   )
 };
-
-
