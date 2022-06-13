@@ -57,6 +57,7 @@ export const DescriptionInput = styled(TextInput)`
   textalignvertical: "top";
   background-color: whitesmoke;
   padding-bottom: 200px;
+  margin-bottom: 50px;
 `;
 
 export const RenderContentContainer = styled.View`
