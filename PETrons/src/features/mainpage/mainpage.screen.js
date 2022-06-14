@@ -102,13 +102,13 @@ export const Mainpage = ({ navigation }) => {
       <MenuCardContainer>
         <TouchableOpacity onPress={PutUpAdoptionPage}>
           <MenuCard>
-            <ImageCard source={require("../../../assets/put-ups.png")} />
+            <ImageCard source={require("../../../assets/put_up.png")} />
             <HeaderTwo>Put Up Pet For Adoption</HeaderTwo>
           </MenuCard>
         </TouchableOpacity>
         <TouchableOpacity onPress={AdoptPage}>
           <MenuCard>
-            <ImageCard source={require("../../../assets/put_ups.png")} />
+            <ImageCard source={require("../../../assets/adopt_new.png")} />
             <Header>Adopt</Header>
           </MenuCard>
         </TouchableOpacity>
