@@ -1,95 +1,22 @@
 import React, {useState} from 'react';
-import { SafeAreaView, View, Text, Image, ScrollView, TouchableOpacity} from "react-native";
+import { Image, ScrollView} from "react-native";
 import { Spacer } from '../../../../components/spacer/spacer.component';
-import styled from "styled-components/native";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const SafeArea = styled(SafeAreaView)`
-    flex: 1;
-    background-color: orange;
-`
-
-const Name = styled(Text)`
-    text-align: center;
-    font-size: ${(props) => props.theme.fontSizes.h4};
-    font-family: ${(props) => props.theme.fonts.body};
-    padding:  ${(props) => props.theme.space[1]};
-    font-weight: ${(props) => props.theme.fontWeights.bold};
-`
-
-const PetPhotoContainer = styled(View)`
-    justify-content: center;
-    align-items: center;
-`
-
-const DetailsContainer = styled(View)`
-flex: 1;
-    flex-direction: row;
-    justify-content: center;
-    padding-top: 10px;
-    margin-horizontal: 10px;
-`
-
-const DetailsRectangle = styled(View)`
-    background-color: #fddd5c;
-    border-radius: ${(props) => props.theme.space[3]};
-    padding: ${(props) => props.theme.space[3]};
-    margin: ${(props) => props.theme.space[3]};
-`
-    
-const Details = styled(Text)`
-    font-family: ${(props) => props.theme.fonts.body};
-    border-radius: ${(props) => props.theme.space[3]};
-    text-align: center;
-`
-
-const FeeContainer = styled(View)`
-    flex: 1;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    border-radius: ${(props) => props.theme.space[3]};
-    margin-horizontal: 110px;
-    background-color: #bee6b0;
-`
-
-const Fee = styled(Text)`
-    font-family: ${(props) => props.theme.fonts.body};
-    padding: ${(props) => props.theme.space[3]};
-    margin: 10px 0px;
-    text-align: center;
-`
-
-const AboutPetContainer = styled(View)`
-    justify-content: center;
-    margin:  0 ${(props) => props.theme.space[5]};
-    border-radius: ${(props) => props.theme.space[3]};
-    background-color: #fde297;
-    padding: ${(props) => props.theme.space[2]};
-`
-
-const AboutPet = styled(Text)`
-    font-size: ${(props) => props.theme.fontSizes.body};
-    font-family: ${(props) => props.theme.fonts.body};
-    padding: ${(props) => props.theme.space[1]};
-    line-height: 20px;
-`
-
-const ContactOwnerButton = styled.TouchableOpacity`
-    border-radius: ${(props) => props.theme.space[3]};
-    text-align: center;
-    background-color: #789fcc;
-    margin: 10px 30px;
-    padding: 10px;
-`
-
-const ContactOwnerText = styled(Text)`
-    color: white;
-    font-family: ${(props) => props.theme.fonts.body};
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-`
+import {
+    SafeArea,
+    Name,
+    PetPhotoContainer,
+    DetailsContainer,
+    DetailsRectangle,
+    Details,
+    FeeContainer,
+    Fee,
+    AboutPetContainer,
+    AboutPet,
+    ContactOwnerButton,
+    ContactOwnerText
+} from "./pet-info.screen.styles"
 
 export const PetInfoScreen = ({ pet = {} }) => {
     const icon = 'https://cdn-icons-png.flaticon.com/512/3769/3769065.png';
