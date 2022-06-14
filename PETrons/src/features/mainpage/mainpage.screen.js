@@ -20,9 +20,9 @@ const SafeArea = styled(SafeAreaView)`
 
 const MainPageHeader = styled(Text)`
   color: black;
-  padding-top: ${(props) => props.theme.space[6]};
-  padding-bottom: ${(props) => props.theme.space[6]};
-  font-size: ${(props) => props.theme.fontSizes.h4};
+  padding-top: ${(props) => props.theme.space[5]};
+  padding-bottom: ${(props) => props.theme.space[4]};
+  font-size: ${(props) => props.theme.fontSizes.h3};
   font-family: ${(props) => props.theme.fonts.heading};
   text-align: center;
 `;
@@ -58,6 +58,12 @@ const MenuCard = styled(View)`
 const MenuCardContainer = styled(View)`
   flex-direction: row;
   justify-content: space-between;
+  padding-horizontal: 20px;
+`;
+
+const MenuCardContainerBottom = styled(View)`
+  flex-direction: row;
+  justify-content: space-between;
   margin-top: 20px;
   padding-horizontal: 20px;
 `;
@@ -66,6 +72,11 @@ const ImageCard = styled(Image)`
   height: 140px;
   border-radius: ${(props) => props.theme.space[3]};
   width: 100%;
+`;
+
+const ImagePet = styled(Image)`
+  height: 140px;
+  width: 95%;
 `;
 
 export const Mainpage = ({ navigation }) => {
@@ -86,23 +97,23 @@ export const Mainpage = ({ navigation }) => {
     <SafeArea>
       <View>
         <MainPageHeader>HOME</MainPageHeader>
-        {/* <Text variant="home">HOME</Text> */}
       </View>
+      <ImagePet source={require("../../../assets/cat-and-dog.png")} />
       <MenuCardContainer>
         <TouchableOpacity onPress={PutUpAdoptionPage}>
           <MenuCard>
-            <ImageCard source={require("../../../assets/put_up.png")} />
+            <ImageCard source={require("../../../assets/put-ups.png")} />
             <HeaderTwo>Put Up Pet For Adoption</HeaderTwo>
           </MenuCard>
         </TouchableOpacity>
         <TouchableOpacity onPress={AdoptPage}>
           <MenuCard>
-            <ImageCard source={require("../../../assets/adopt.png")} />
+            <ImageCard source={require("../../../assets/put_ups.png")} />
             <Header>Adopt</Header>
           </MenuCard>
         </TouchableOpacity>
       </MenuCardContainer>
-      <MenuCardContainer>
+      <MenuCardContainerBottom>
         <TouchableOpacity onPress={StoriesPage}>
           <MenuCard>
             <ImageCard source={require("../../../assets/share_stories.png")} />
@@ -115,7 +126,7 @@ export const Mainpage = ({ navigation }) => {
             <Header>FAQ</Header>
           </MenuCard>
         </TouchableOpacity>
-      </MenuCardContainer>
+      </MenuCardContainerBottom>
     </SafeArea>
   );
 };

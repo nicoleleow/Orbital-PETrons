@@ -18,6 +18,8 @@ import BottomSheet from "reanimated-bottom-sheet";
 import Render from "react-native-web/dist/cjs/exports/render";
 import * as ImagePicker from "expo-image-picker";
 import DropDownPicker from "react-native-dropdown-picker";
+import { authentication, db } from "../../../../firebase/firebase-config";
+import { collection, getDocs, doc, setDoc } from "firebase/firestore/lite";
 
 import { colors } from "../../../infrastructure/theme/colors";
 import { Spacer } from "../../../components/spacer/spacer.component";
@@ -66,6 +68,8 @@ export const PutUpAdoptionPage = ({ navigation }) => {
     { label: "Rabbit", value: "rabbit" },
     { label: "Hamster", value: "hamster" },
     { label: "Guinea Pig", value: "guinea pig" },
+    { label: "Bird", value: "bird" },
+    { label: "Fish", value: "fish" },
   ]);
 
   const [openHDB, setOpenHDB] = useState(false);
@@ -146,20 +150,35 @@ export const PutUpAdoptionPage = ({ navigation }) => {
     }
   };
 
+  const SetData = async () => {
+    await setDoc(doc(db, "put-up-for-adoption", "Test1_doc"), {
+      name: name,
+      gender: valueGender,
+      age: age,
+      type: valueType,
+      breed: breed,
+      organisation: valueOrganisation,
+      HDB_approved: valueHDB,
+      fee: price,
+      short_description: description,
+    });
+    navigation.navigate("mainpage");
+  };
+
   const confirmAlert = () =>
-    Alert.alert("Submission Confirmation", "Submit Form?", [
+    Alert.alert("Submit Form?", "Are you sure you want to submit this form?", [
       {
         text: "Cancel",
         onPress: () => navigation.navigate("PutUpAdoption"),
       },
-      { text: "OK", onPress: () => navigation.goBack() },
+      { text: "Yes", onPress: SetData },
     ]);
 
   return (
     <DismissKeyboard>
       <Background>
         <PutUpAdoptionPageHeader>
-          Fill in your pet details:
+          Provide your pet's details:
         </PutUpAdoptionPageHeader>
         <BottomSheet
           initialSnap={2}
@@ -185,7 +204,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
             </FormButton>
             <Spacer size="large">
               <Inputs
-                label="Pet Name"
+                label="Pet's Name"
                 value={name}
                 textContentType="name"
                 keyboardType="default"
@@ -195,7 +214,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
             </Spacer>
             <>
               <DropDown
-                placeholder="Select Pet's gender"
+                placeholder="Select Pet's Gender"
                 open={openGender}
                 value={valueGender}
                 items={petGender}
@@ -207,16 +226,16 @@ export const PutUpAdoptionPage = ({ navigation }) => {
             </>
             <Spacer size="large">
               <Inputs
-                label="Age"
+                label="Pet's Age (eg. _ years _ months)"
                 value={age}
                 textContentType="none"
-                keyboardType="number-pad"
+                keyboardType="default"
                 onChangeText={(text) => setAge(text)}
               />
             </Spacer>
             <>
               <DropDown
-                placeholder="Select Pet's type"
+                placeholder="Select Type of Pet"
                 open={openType}
                 value={valueType}
                 items={petType}
@@ -229,7 +248,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
             </>
             <Spacer size="large">
               <Inputs
-                label="Animal Breed"
+                label="Pet's Breed"
                 value={breed}
                 textContentType="none"
                 keyboardType="default"

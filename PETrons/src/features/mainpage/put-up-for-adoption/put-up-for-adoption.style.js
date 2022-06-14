@@ -6,7 +6,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { colors } from "../../../infrastructure/theme/colors";
 
 export const Container = styled.View`
-  background-color: rgba(255, 255, 255, 0.7);
+  //background-color: rgba(255, 255, 255, 0.7);
   width: 380px;
   padding: ${(props) => props.theme.space[4]};
   margin-top: ${(props) => props.theme.space[1]};
@@ -23,7 +23,8 @@ export const PutUpAdoptionPageHeader = styled(Text)`
 `;
 
 export const FormButton = styled(Button).attrs({
-  color: colors.button.primary,
+  // color: colors.button.primary,
+  color: "peru",
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
@@ -31,7 +32,8 @@ export const FormButton = styled(Button).attrs({
 `;
 
 export const SubmitFormButton = styled(Button).attrs({
-  color: colors.button.primary,
+  // color: colors.button.primary,
+  color: "peru",
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
