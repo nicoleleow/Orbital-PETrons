@@ -17,6 +17,7 @@ import { Navigation } from "./src/infrastructure/navigation";
 
 import { PetInfoScreen } from "./src/features/mainpage/adopt/screens/pet-info.screen";
 import { AdoptPage } from "./src/features/mainpage/adopt/adopt.screen";
+import { StoriesPage } from "./src/features/mainpage/share-stories/share-stories.screen";
 
 export default function App() {
   const [oswaldLoaded] = useOswald({
@@ -38,8 +39,11 @@ export default function App() {
           <Mainpage />
         </AppNavigator> */}
 
+        {/* <AdoptPage /> */}
         {/* <PetInfoScreen /> */}
         <Navigation />
+        {/* <Mainpage /> */}
+        {/* <StoriesPage /> */}
       
       
         {/* <NavigationContainer>

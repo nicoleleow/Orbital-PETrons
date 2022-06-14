@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { View, Text, SafeAreaView} from 'react-native';
+import { View, Text, SafeAreaView, Dimensions} from 'react-native';
 
 export const SafeArea = styled(SafeAreaView)`
     flex: 1;
@@ -9,6 +9,13 @@ export const SafeArea = styled(SafeAreaView)`
 export const Name = styled(Text)`
     text-align: center;
     font-size: ${(props) => props.theme.fontSizes.h4};
+    font-family: ${(props) => props.theme.fonts.body};
+    font-weight: ${(props) => props.theme.fontWeights.bold};
+`
+
+export const Breed = styled(Text)`
+    text-align: center;
+    font-size: ${(props) => props.theme.fontSizes.title};
     font-family: ${(props) => props.theme.fonts.body};
     padding:  ${(props) => props.theme.space[1]};
     font-weight: ${(props) => props.theme.fontWeights.bold};
@@ -23,7 +30,6 @@ export const DetailsContainer = styled(View)`
     flex: 1;
     flex-direction: row;
     justify-content: center;
-    padding-top: 10px;
     margin-horizontal: 10px;
 `
 
@@ -32,6 +38,8 @@ export const DetailsRectangle = styled(View)`
     border-radius: ${(props) => props.theme.space[3]};
     padding: ${(props) => props.theme.space[3]};
     margin: ${(props) => props.theme.space[3]};
+    justify-content: center;
+
 `
     
 export const Details = styled(Text)`
@@ -52,7 +60,7 @@ export const FeeContainer = styled(View)`
 
 export const Fee = styled(Text)`
     font-family: ${(props) => props.theme.fonts.body};
-    padding: ${(props) => props.theme.space[3]};
+    padding: ${(props) => props.theme.space[1]};
     margin: 10px 0px;
     text-align: center;
 `
@@ -76,7 +84,7 @@ export const ContactOwnerButton = styled.TouchableOpacity`
     border-radius: ${(props) => props.theme.space[3]};
     text-align: center;
     background-color: #789fcc;
-    margin: 10px 30px;
+    margin: 0 30px;
     padding: 10px;
 `
 

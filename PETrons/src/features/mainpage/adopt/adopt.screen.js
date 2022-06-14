@@ -1,10 +1,11 @@
 import React from "react";
-import { SafeAreaView, View, FlatList, StyleSheet, TextInput } from "react-native";
+import { SafeAreaView, View, FlatList, StyleSheet, TextInput, TouchableOpacity, Dimensions } from "react-native";
 import styled from "styled-components/native";
 import { Text } from "../../../components/typography/text.component"
 import { Spacer } from '../../../components/spacer/spacer.component';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Pets } from "./pets";
 
 const PetCategories = [
   {name: 'CATS', icon: 'cat'},
@@ -41,63 +42,64 @@ const SearchContainer = styled.View`
 
 const PetList = styled(FlatList).attrs({
   contentContainerStyle: {
-    alignItems:'center'
+  marginHorizontal: ((Dimensions.get('window').width - 382) / 2)
   }
 })``
 
-export const AdoptPage = () => {
-  const [searchQuery, setSearchQuery] = React.useState('');
+export const AdoptPage = ({ navigation }) => {
+  // const [searchQuery, setSearchQuery] = React.useState('');
 
-  const onChangeSearch = query => setSearchQuery(query);
+  // const onChangeSearch = query => setSearchQuery(query);
 
   // need to create availablePets.js to get list of available pets and their details (ie database of pets)
   // const filteredPets = availablePets.filter(pet => {
   //   return pet.name.toLowerCase().includes(searchQuery.toLowerCase());
   // })
   
+  const [pets, setPets] = React.useState(Pets)
+
+  // const PetInfo = (item) => {
+  //   navigation.navigate('PetInfo', { pet: item  });
+  // };
+
   return (
     <SafeArea>
       <Text variant='header'>Adopt A Pet</Text>
-
       <MainContainer>
         <View style={styles.searchInputContainer}>
-            <Icon name="magnify" size={24} color={'#777'} />
-            <TextInput
+          <Icon name="magnify" size={24} color={'#777'} />
+          <Spacer size='medium' position='right' />
+      
+          <TextInput
               placeholderTextColor={'#777'}
-              placeholder="Search pet to adopt"
+              placeholder="Search"
               style={{flex: 1}}
-            />
-            <Icon name="sort-ascending" size={24} color={'#777'} />
-          </View>
-        {/* <SearchContainer>
-          <Searchbar />
-        </SearchContainer> */}
-        {/* <SearchContainer
-          placeholder="Search"
-          onChangeText={onChangeSearch}
-          value={searchQuery}
-        /> */}
+          />
+          <Icon name="sort-ascending" size={24} color={'#777'} />
+        </View>
+        
       </MainContainer>
       <Spacer size='medium' />
       <PetList
-        data={
-          [{ name: 1 },
-            { name: 2 },
-            { name: 3 },
-            { name: 4 },
-            { name: 5 },
-            { name: 6 },
-            { name: 7 },
-            { name: 8},
-            { name: 9 },
-            { name: 10 },
-            { name: 11 }
-          ]}
-        renderItem={() => <PetInfoCard />}
+        data={pets}
+        renderItem={(item) => (
+          <TouchableOpacity onPress={() => navigation.navigate('PetInfo', {item})}>
+            {/* <Text>{item.item.name}</Text> */}
+            <PetInfoCard pet={item} />
+          </TouchableOpacity>
+        )}
+          
         keyExtractor={(item) => item.name}
         numColumns={2}
       />
 
+      
+    {/* navigation.navigate('PetInfo', {pet: pets[0]} */}
+
+      {/* <TouchableOpacity onPress={PetInfo}>
+        <Text>testing</Text>
+      </TouchableOpacity> */}
+    
       {/* <PetListContainer>
         <PetInfoCard />
       </PetListContainer> */}

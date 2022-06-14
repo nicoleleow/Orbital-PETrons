@@ -52,6 +52,6 @@ export const Container = styled(View)`
 
 export const ShelterIcon = styled.Image`
     margin-top: ${(props) => props.theme.space[2]};
-    width: ${(props) => props.theme.space[5]};
-    height: ${(props) => props.theme.space[5]};
+    width: 30px;
+    height: 30px;
 `
