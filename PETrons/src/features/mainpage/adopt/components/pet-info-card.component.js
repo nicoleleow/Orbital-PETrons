@@ -31,7 +31,7 @@ export const PetInfoCard = ({ pet = {} }) => {
     } = pet;
     
     return (
-        <PetCard elevation={5}>
+        <PetCard elevation={5} onPress={() => console.log('pressed')}>
             <PetInfoCardCover key={name} source={{ uri: photos[0] }} />
             <PetCardDetails>
                 <SectionStart>

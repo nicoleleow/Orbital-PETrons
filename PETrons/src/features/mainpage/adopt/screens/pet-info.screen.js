@@ -5,27 +5,25 @@ import styled from "styled-components/native";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: orange;
-`;
+    flex: 1;
+    background-color: orange;
+`
 
+const Name = styled(Text)`
+    text-align: center;
+    font-size: ${(props) => props.theme.fontSizes.h4};
+    font-family: ${(props) => props.theme.fonts.body};
+    padding:  ${(props) => props.theme.space[1]};
+    font-weight: ${(props) => props.theme.fontWeights.bold};
+`
 
 const PetPhotoContainer = styled(View)`
     justify-content: center;
     align-items: center;
 `
 
-const Name = styled(Text)`
-margin-top: ${(props) => props.theme.space[6]};
-text-align: center;
-font-size: ${(props) => props.theme.fontSizes.h4};
-font-family: ${(props) => props.theme.fonts.body};
-padding:  ${(props) => props.theme.space[1]};
-font-weight: ${(props) => props.theme.fontWeights.bold};
-`
-
 const DetailsContainer = styled(View)`
-    flex: 1;
+flex: 1;
     flex-direction: row;
     justify-content: center;
     padding-top: 10px;
@@ -52,7 +50,7 @@ const FeeContainer = styled(View)`
     align-items: center;
     border-radius: ${(props) => props.theme.space[3]};
     margin-horizontal: 110px;
-    background-color: #f77331;
+    background-color: #bee6b0;
 `
 
 const Fee = styled(Text)`
@@ -71,9 +69,10 @@ const AboutPetContainer = styled(View)`
 `
 
 const AboutPet = styled(Text)`
-    font-size: ${(props) => props.theme.fontSizes.title};
+    font-size: ${(props) => props.theme.fontSizes.body};
     font-family: ${(props) => props.theme.fonts.body};
     padding: ${(props) => props.theme.space[1]};
+    line-height: 20px;
 `
 
 const ContactOwnerButton = styled.TouchableOpacity`
@@ -119,12 +118,13 @@ export const PetInfoScreen = ({ pet = {} }) => {
     return (
         <SafeArea>
             <ScrollView>
+                <Spacer size='xxLarge' />
                 <Name>{name}: {animalBreed}</Name>
                 <Spacer size='large' />
                 <PetPhotoContainer>
                     <Image
-                        source={{ uri: photos[3] }}
-                        style={{ resizeMode: "contain", width: 360, height: 200 }} />
+                        source={{ uri: photos[2] }}
+                        style={{ resizeMode: "contain", width: 360, height: 220 }} />
                 </PetPhotoContainer>
                 
                 <DetailsContainer>

@@ -1,13 +1,20 @@
 import React from "react";
-import { SafeAreaView, View, FlatList } from "react-native";
+import { SafeAreaView, View, FlatList, StyleSheet, TextInput } from "react-native";
 import styled from "styled-components/native";
-import { Searchbar } from 'react-native-paper';
 import { Text } from "../../../components/typography/text.component"
 import { Spacer } from '../../../components/spacer/spacer.component';
 
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+const PetCategories = [
+  {name: 'CATS', icon: 'cat'},
+  {name: 'DOGS', icon: 'dog'},
+  {name: 'BIRDS', icon: 'ladybug'},
+  {name: 'BUNNIES', icon: 'rabbit'},
+];
+
 import { PetInfoCard } from "./components/pet-info-card.component";
 
-import { PetInfoScreen } from "./screens/pet-info.screen";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -50,11 +57,21 @@ export const AdoptPage = () => {
   
   return (
     <SafeArea>
-      <Text variant='header'>ADOPT A PET</Text>
+      <Text variant='header'>Adopt A Pet</Text>
+
       <MainContainer>
-        <SearchContainer>
+        <View style={styles.searchInputContainer}>
+            <Icon name="magnify" size={24} color={'#777'} />
+            <TextInput
+              placeholderTextColor={'#777'}
+              placeholder="Search pet to adopt"
+              style={{flex: 1}}
+            />
+            <Icon name="sort-ascending" size={24} color={'#777'} />
+          </View>
+        {/* <SearchContainer>
           <Searchbar />
-        </SearchContainer>
+        </SearchContainer> */}
         {/* <SearchContainer
           placeholder="Search"
           onChangeText={onChangeSearch}
@@ -88,3 +105,16 @@ export const AdoptPage = () => {
     </SafeArea>
   )
 };
+
+
+const styles = StyleSheet.create({
+  searchInputContainer: {
+    height: 50,
+    backgroundColor: 'white',
+    borderRadius: 7,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  }
+})
