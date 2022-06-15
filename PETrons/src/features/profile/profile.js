@@ -1,13 +1,12 @@
 import React from "react";
 import { SafeAreaView, View } from "react-native";
 import styled from "styled-components/native";
-import { Text } from "../../components/typography/text.component"
-
-
+import { Text } from "../../components/typography/text.component";
+import { collection, getDocs, doc, setDoc } from "firebase/firestore/lite";
 import { signOut } from "firebase/auth";
 
 import { AuthButton } from "../account/account.style";
-import { authentication } from "../../../firebase/firebase-config";
+import { authentication, db } from "../../../firebase/firebase-config";
 import { Spacer } from "../../components/spacer/spacer.component";
 
 const SafeArea = styled(SafeAreaView)`
@@ -20,6 +19,8 @@ export const ProfileContainer = styled.View`
   padding: ${(props) => props.theme.space[5]};
   margin-top: ${(props) => props.theme.space[2]};
 `;
+
+export let filteredList = [];
 
 export const ProfilePage = ({ navigation }) => {
   const Logout = () => {
@@ -36,10 +37,25 @@ export const ProfilePage = ({ navigation }) => {
     navigation.navigate("Favourites");
   };
 
+  const PutUpAdoptionPage = async () => {
+    navigation.navigate("PutUpAdoptionList");
+    const adoptionListCol = collection(db, "put-up-for-adoption");
+    const adoptionListSnapshot = await getDocs(adoptionListCol);
+    const adoptionList = adoptionListSnapshot.docs.map((doc) => doc.data());
+    filteredList = adoptionList.filter((obj) => {
+      return obj.email === authentication.currentUser?.email;
+    });
+    //console.log(filteredList);
+  };
+
+  // const PutUpAdoptionPage = () => {
+  //   navigation.navigate("PutUpAdoptionList");
+  // };
+
   return (
     <SafeArea>
       <View>
-        <Text variant='header'>PROFILE</Text>
+        <Text variant="header">PROFILE</Text>
         <ProfileContainer>
           <AuthButton mode="contained" icon="account-check">
             Edit Profile
@@ -48,8 +64,13 @@ export const ProfilePage = ({ navigation }) => {
             <AuthButton
               mode="contained"
               icon="tag-heart"
-              onPress={FavouritesPage}
+              onPress={PutUpAdoptionPage}
             >
+              Your Listed Adoptions
+            </AuthButton>
+          </Spacer>
+          <Spacer size="large">
+            <AuthButton mode="contained" icon="heart" onPress={FavouritesPage}>
               Favourites
             </AuthButton>
           </Spacer>
