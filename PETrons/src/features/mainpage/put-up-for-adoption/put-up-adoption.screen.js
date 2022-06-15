@@ -18,11 +18,17 @@ import BottomSheet from "reanimated-bottom-sheet";
 import Render from "react-native-web/dist/cjs/exports/render";
 import * as ImagePicker from "expo-image-picker";
 import DropDownPicker from "react-native-dropdown-picker";
-import { authentication, db } from "../../../../firebase/firebase-config";
-import { collection, getDocs, doc, setDoc } from "firebase/firestore/lite";
+import {
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+  addDoc,
+} from "firebase/firestore/lite";
 
 import { colors } from "../../../infrastructure/theme/colors";
 import { Spacer } from "../../../components/spacer/spacer.component";
+import { authentication, db } from "../../../../firebase/firebase-config";
 import {
   Container,
   PutUpAdoptionPageHeader,
@@ -56,51 +62,66 @@ export const PutUpAdoptionPage = ({ navigation }) => {
   const [openGender, setOpenGender] = useState(false);
   const [valueGender, setValueGender] = useState("");
   const [petGender, setPetGender] = useState([
-    { label: "Male", value: "male" },
-    { label: "Female", value: "female" },
+    { label: "Male", value: "Male" },
+    { label: "Female", value: "Female" },
   ]);
 
   const [openType, setOpenType] = useState(false);
   const [valueType, setValueType] = useState("");
   const [petType, setPetType] = useState([
-    { label: "Dog", value: "dog" },
-    { label: "Cat", value: "cat" },
-    { label: "Rabbit", value: "rabbit" },
-    { label: "Hamster", value: "hamster" },
-    { label: "Guinea Pig", value: "guinea pig" },
-    { label: "Bird", value: "bird" },
-    { label: "Fish", value: "fish" },
+    { label: "Dog", value: "Dog" },
+    { label: "Cat", value: "Cat" },
+    { label: "Rabbit", value: "Rabbit" },
+    { label: "Hamster", value: "Hamster" },
+    { label: "Guinea Pig", value: "Guinea pig" },
+    { label: "Bird", value: "Bird" },
+    { label: "Fish", value: "Fish" },
   ]);
 
   const [openHDB, setOpenHDB] = useState(false);
   const [valueHDB, setValueHDB] = useState("");
   const [petHDB, setPetHDB] = useState([
-    { label: "Yes", value: "yes" },
-    { label: "No", value: "no" },
+    { label: "Yes", value: "Yes" },
+    { label: "No", value: "No" },
   ]);
 
   const [openOrganisation, setOpenOrganisation] = useState(false);
   const [valueOrganisation, setValueOrganisation] = useState("");
   const [petOrganisation, setPetOrganisation] = useState([
-    { label: "Individual", value: "individual" },
-    { label: "Action for Singapore Dogs", value: "AFSD" },
-    { label: "Animals Lovers League", value: "ALL" },
-    { label: "Bunny Wonderland Singapore", value: "BWS" },
-    { label: "Cat Welfare Society", value: "CWS" },
-    { label: "Causes for Animals (Singapore)", value: "CFA" },
-    { label: "Exclusively Mongrels", value: "EM" },
-    { label: "Hamster Society Singapore", value: "HSS" },
-    { label: "House Rabbit Society Singapore", value: "HRSS" },
-    { label: "Mercylight Animal Rescue and Sanctuary", value: "MARS" },
-    { label: "Noah's Ark CARES", value: "noah" },
-    { label: "Oasis Second Chance Animal Shelter", value: "OSCAS" },
-    { label: "Purely Adoptions", value: "PA" },
+    { label: "Individual", value: "Individual" },
+    { label: "Action for Singapore Dogs", value: "Action for Singapore Dogs" },
+    { label: "Animals Lovers League", value: "Animals Lovers League" },
+    {
+      label: "Bunny Wonderland Singapore",
+      value: "Bunny Wonderland Singapore",
+    },
+    { label: "Cat Welfare Society", value: "Cat Welfare Society" },
+    {
+      label: "Causes for Animals (Singapore)",
+      value: "Causes for Animals (Singapore)",
+    },
+    { label: "Exclusively Mongrels", value: "Exclusively Mongrels" },
+    { label: "Hamster Society Singapore", value: "Hamster Society Singapore" },
+    {
+      label: "House Rabbit Society Singapore",
+      value: "House Rabbit Society Singapore",
+    },
+    {
+      label: "Mercylight Animal Rescue and Sanctuary",
+      value: "Mercylight Animal Rescue and Sanctuary",
+    },
+    { label: "Noah's Ark CARES", value: "Noah's Ark CARES" },
+    {
+      label: "Oasis Second Chance Animal Shelter",
+      value: "Oasis Second Chance Animal Shelter",
+    },
+    { label: "Purely Adoptions", value: "Purely Adoptions" },
     { label: "SOSD", value: "SOSD" },
     {
       label: "Society for the Prevention of Cruelty to Animals",
       value: "SPCA",
     },
-    { label: "Voices for Animals", value: "VA" },
+    { label: "Voices for Animals", value: "Voices for Animals" },
   ]);
 
   const renderContent = () => (
@@ -151,7 +172,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
   };
 
   const SetData = async () => {
-    await setDoc(doc(db, "put-up-for-adoption", "Test1_doc"), {
+    await addDoc(collection(db, "put-up-for-adoption"), {
       name: name,
       gender: valueGender,
       age: age,
@@ -161,6 +182,8 @@ export const PutUpAdoptionPage = ({ navigation }) => {
       HDB_approved: valueHDB,
       fee: price,
       short_description: description,
+      image: image,
+      email: authentication.currentUser?.email,
     });
     navigation.navigate("mainpage");
   };
