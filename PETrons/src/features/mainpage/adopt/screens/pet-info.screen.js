@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Image, ScrollView, Text} from "react-native";
+import { Image, ScrollView, Text, View} from "react-native";
 import { Spacer } from '../../../../components/spacer/spacer.component';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -13,51 +13,65 @@ import {
     Details,
     FeeContainer,
     Fee,
+    HDBContainer,
+    HDB,
     AboutPetContainer,
     AboutPet,
     ContactOwnerButton,
     ContactOwnerText
 } from "./pet-info.screen.styles"
+import { fontWeights } from '../../../../infrastructure/theme/fonts';
+
 
 export const PetInfoScreen = ({ route, navigation }) => {
     const pet = route.params.item
-
-    const icon = 'https://cdn-icons-png.flaticon.com/512/3769/3769065.png';
-    const { item } = pet;
-    const { age, animalBreed, animalType, fee, gender, isShelter, name, photos, shortDescription } = item ;
     
-    const ownership = { isShelter } ? 'Organisation' : 'Pet Owner';
+    const { index, item } = pet;
+    const { age, breed, type, fee, gender, HDB_approved,
+        name, image, short_description, organisation } = item;
+
+    const contactOwner = organisation === 'Individual' ? 'Owner' : 'Organisation';
+    
+    const isHDBApproved = HDB_approved === 'Yes' ? true : false;
+    const hdbIcon = 'https://www.logolynx.com/images/logolynx/e5/e5d49abdb2ad1ac2dff8fb33e138d785.jpeg';
 
     const [count, setCount] = useState(0);
     const onPress = () => setCount(prevCount => prevCount + 1);
 
     return (
-    <SafeArea>
+        <SafeArea>
             <ScrollView>
                 <Spacer size='xxLarge' />
                 <Name>{name}</Name>
-                <Breed>{animalBreed}</Breed>
+                <Breed>{breed}</Breed>
                 <Spacer size='large' />
                 <PetPhotoContainer>
                     <Image
-                        source={{ uri: photos[0] }}
+                        source={{ uri: image }}
                         style={{ resizeMode: "contain", width: 360, height: 220 }} />
                 </PetPhotoContainer>
                 
                 <Spacer size='large' />
                 <DetailsContainer>
                     <DetailsRectangle>
-                        <Details>Age{`\n`}{age}</Details>
+                        <Details>Age{`\n`}{age} old</Details>
                     </DetailsRectangle>
                      <DetailsRectangle>
                         <Details>Gender{`\n`}{gender}</Details>
                     </DetailsRectangle>
-                     <DetailsRectangle>
-                        <Details>Ownership{`\n`}{ownership}</Details>
-                    </DetailsRectangle>
                 </DetailsContainer>
 
                 <DetailsContainer>
+                     {isHDBApproved && (
+                        <HDBContainer>
+                            <HDB>HDB{`\n`}Approved</HDB>
+                        </HDBContainer>
+                    )}
+                    {!isHDBApproved && (
+                        <HDBContainer>
+                            <HDB>Not{`\n`}HDB Approved</HDB>
+                        </HDBContainer>
+                    )}
                     <FeeContainer>
                         <Fee>
                             <Icon name='tag' size={15} />
@@ -67,11 +81,14 @@ export const PetInfoScreen = ({ route, navigation }) => {
                     </FeeContainer>
                 </DetailsContainer>
 
-                <Spacer size='xLarge'></Spacer>
+                <Spacer size='xxLarge'></Spacer>
                 
-                <AboutPetContainer>    
-                    <AboutPet>About {name}:</AboutPet>
-                    <AboutPet>{shortDescription}</AboutPet>
+                <AboutPetContainer>
+                    <AboutPet style={{fontWeight:'bold'}}>Owner:</AboutPet>
+                    <AboutPet>{organisation}</AboutPet>
+                    <Spacer size='medium' />
+                    <AboutPet style={{ fontWeight: 'bold' }}>About {name}:</AboutPet>
+                    <AboutPet>{short_description}</AboutPet>
                 </AboutPetContainer>
                 
                 <Spacer size='xLarge'></Spacer>
@@ -81,7 +98,7 @@ export const PetInfoScreen = ({ route, navigation }) => {
                         {count}
                         <Icon name='chat' size={15} />
                         <Spacer size='large' position='right'/>
-                        contact {ownership}
+                        contact {contactOwner}
                     </ContactOwnerText>
                 </ContactOwnerButton>
                 <Spacer size='xLarge'></Spacer>

@@ -39,7 +39,6 @@ export const DetailsRectangle = styled(View)`
     padding: ${(props) => props.theme.space[3]};
     margin: ${(props) => props.theme.space[3]};
     justify-content: center;
-
 `
     
 export const Details = styled(Text)`
@@ -49,19 +48,32 @@ export const Details = styled(Text)`
 `
 
 export const FeeContainer = styled(View)`
-    flex: 1;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
     border-radius: ${(props) => props.theme.space[3]};
-    margin-horizontal: 110px;
+    padding: ${(props) => props.theme.space[3]};
+    margin: 0 ${(props) => props.theme.space[3]};
+    justify-content: center;
     background-color: #bee6b0;
 `
 
 export const Fee = styled(Text)`
     font-family: ${(props) => props.theme.fonts.body};
-    padding: ${(props) => props.theme.space[1]};
-    margin: 10px 0px;
+    padding: 0 30px;
+    margin: 0;
+    text-align: center;
+`
+
+export const HDBContainer = styled(View)`
+    border-radius: ${(props) => props.theme.space[3]};
+    padding: ${(props) => props.theme.space[3]};
+    margin: 0 ${(props) => props.theme.space[3]};
+    justify-content: center;
+    background-color: #FF7F7F;
+`
+
+export const HDB = styled(Text)`
+    font-family: ${(props) => props.theme.fonts.body};
+    padding: 0 10px;
+    margin: 0;
     text-align: center;
 `
 
@@ -86,6 +98,7 @@ export const ContactOwnerButton = styled.TouchableOpacity`
     background-color: #789fcc;
     margin: 0 30px;
     padding: 10px;
+    elevation: 5;
 `
 
 export const ContactOwnerText = styled(Text)`

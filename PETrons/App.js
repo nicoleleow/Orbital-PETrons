@@ -19,6 +19,9 @@ import { PetInfoScreen } from "./src/features/mainpage/adopt/screens/pet-info.sc
 import { AdoptPage } from "./src/features/mainpage/adopt/adopt.screen";
 import { StoriesPage } from "./src/features/mainpage/share-stories/share-stories.screen";
 
+// import { collection, getDocs } from "firebase/firestore/lite";
+// import { db } from "../PETrons/firebase/firebase-config";
+
 export default function App() {
   const [oswaldLoaded] = useOswald({
     Oswald_400Regular,
@@ -32,6 +35,12 @@ export default function App() {
     return null;
   }
 
+  // const GetData = async () => {
+  //   const petsCol = collection(db, 'put-up-for-adoption');
+  //   const petsOverview = await getDocs(petsCol);
+  //   const petsList = petsOverview.docs.map(doc => doc.data());
+  //   console.log(petsList)
+  // }
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -44,7 +53,7 @@ export default function App() {
         <Navigation />
         {/* <Mainpage /> */}
         {/* <StoriesPage /> */}
-      
+      {/* <Draft /> */}
       
         {/* <NavigationContainer>
           <AppNavigator />

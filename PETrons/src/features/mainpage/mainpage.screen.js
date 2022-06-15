@@ -11,6 +11,9 @@ import {
 import { Menu } from "react-native-paper";
 import styled from "styled-components/native";
 
+import { collection, getDocs } from "firebase/firestore/lite";
+import { db } from "../../../firebase/firebase-config"
+
 const widthMenuCard = Dimensions.get("screen").width / 2 - 30;
 
 const SafeArea = styled(SafeAreaView)`
@@ -79,9 +82,14 @@ const ImagePet = styled(Image)`
   width: 95%;
 `;
 
+export let petsList = []
+ 
 export const Mainpage = ({ navigation }) => {
-  const AdoptPage = () => {
+  const AdoptPage = async () => {
     navigation.navigate("Adopt");
+    const petsCol = collection(db, 'put-up-for-adoption');
+    const petsOverview = await getDocs(petsCol);
+    petsList = petsOverview.docs.map(doc => doc.data());
   };
   const PutUpAdoptionPage = () => {
     navigation.navigate("PutUpAdoption");

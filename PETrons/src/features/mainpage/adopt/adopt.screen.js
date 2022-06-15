@@ -16,6 +16,7 @@ const PetCategories = [
 
 import { PetInfoCard } from "./components/pet-info-card.component";
 
+import { petsList } from "../mainpage.screen";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -55,13 +56,11 @@ export const AdoptPage = ({ navigation }) => {
   // const filteredPets = availablePets.filter(pet => {
   //   return pet.name.toLowerCase().includes(searchQuery.toLowerCase());
   // })
-  
+
+
   const [pets, setPets] = React.useState(Pets)
 
-  // const PetInfo = (item) => {
-  //   navigation.navigate('PetInfo', { pet: item  });
-  // };
-
+  
   return (
     <SafeArea>
       <Text variant='header'>Adopt A Pet</Text>
@@ -81,10 +80,9 @@ export const AdoptPage = ({ navigation }) => {
       </MainContainer>
       <Spacer size='medium' />
       <PetList
-        data={pets}
+        data={petsList}
         renderItem={(item) => (
           <TouchableOpacity onPress={() => navigation.navigate('PetInfo', {item})}>
-            {/* <Text>{item.item.name}</Text> */}
             <PetInfoCard pet={item} />
           </TouchableOpacity>
         )}
@@ -92,18 +90,11 @@ export const AdoptPage = ({ navigation }) => {
         keyExtractor={(item) => item.name}
         numColumns={2}
       />
-
-      
-    {/* navigation.navigate('PetInfo', {pet: pets[0]} */}
-
-      {/* <TouchableOpacity onPress={PetInfo}>
-        <Text>testing</Text>
-      </TouchableOpacity> */}
-    
-      {/* <PetListContainer>
-        <PetInfoCard />
-      </PetListContainer> */}
   
+      {/* <TouchableOpacity onPress={() => console.log('hello', petsList)}>
+          <Text>print data by pressing here</Text>
+      </TouchableOpacity> */}
+
     </SafeArea>
   )
 };

@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import { View, Text, Image } from 'react-native';
 import { Card, Title } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/Foundation';
 
 export const PetCard = styled(Card)`
     width: 175px;
@@ -22,7 +23,7 @@ export const PetInfoCardCover = styled(Card.Cover)`
 `
 
 export const SectionStart = styled.View`
-    flex: 20;
+    flex: 10;
     flex-direction: column;
     justify-content: flex-start;
 `;
@@ -50,8 +51,12 @@ export const Container = styled(View)`
     flex-direction: row;
 `
 
-export const ShelterIcon = styled.Image`
+export const HDBIcon = styled.Image`
     margin-top: ${(props) => props.theme.space[2]};
-    width: 30px;
-    height: 30px;
+    width: 18px;
+    height: 18px;
+`
+
+export const GenderIcon = styled(Icon)`
+    margin-top: 6px;
 `
