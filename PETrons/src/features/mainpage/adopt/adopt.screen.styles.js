@@ -24,18 +24,19 @@ export const SearchInputContainer = styled(View)`
 
 export const PetCategoriesContainer = styled(View)`
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   margin-top: ${(props) => props.theme.space[3]};
   margin-horizontal: ${(props) => props.theme.space[3]};
   padding-horizontal: ${(props) => props.theme.space[3]};
 `
 
 export const PetCategoriesButton = styled(TouchableOpacity)`
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   align-items: center;
   justify-content: center;
   border-radius: ${(props) => props.theme.space[3]};
+  margin: 0 ${(props) => props.theme.space[4]};
 `
 
 export const PetCategoriesNames = styled(Text)`
@@ -44,6 +45,7 @@ export const PetCategoriesNames = styled(Text)`
   font-weight: bold;
   margin-top: 2px;
   padding-horizontal: 5px;
+  text-align: center;
 `
 
 export const PetList = styled(FlatList).attrs({
