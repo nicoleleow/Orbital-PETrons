@@ -13,6 +13,12 @@ import {
 import { Spacer } from "../../components/spacer/spacer.component";
 import { authentication } from "../../../firebase/firebase-config";
 
+const DismissKeyboard = ({ children }) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+);
+
 export const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -47,12 +53,6 @@ export const RegisterScreen = ({ navigation }) => {
         }
       });
   };
-
-  const DismissKeyboard = ({ children }) => (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      {children}
-    </TouchableWithoutFeedback>
-  );
 
   return (
     <DismissKeyboard>
