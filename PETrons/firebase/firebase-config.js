@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore/lite";
-import { collection, getDocs, doc, setDoc } from "firebase/firestore/lite";
+import { collection, getDocs } from "firebase/firestore/lite";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBN-1QrWO7woeGf7irPB_wnHt587R5HBXQ",
@@ -17,9 +18,8 @@ export const authentication = getAuth(app);
 export const db = getFirestore(app);
 
 export let petsList = [];
-
 export const GetPetsData = async () => {
-  const petsCol = collection(db, "put-up-for-adoption");
+  const petsCol = collection(db, 'put-up-for-adoption');
   const petsOverview = await getDocs(petsCol);
-  petsList = petsOverview.docs.map((doc) => doc.data());
+  petsList = petsOverview.docs.map(doc => doc.data());
 };

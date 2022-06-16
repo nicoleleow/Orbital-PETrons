@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Text } from "react-native-paper";
+import { Keyboard, TouchableWithoutFeedback } from "react-native";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { collection, getDocs, doc, setDoc } from "firebase/firestore/lite";
 
@@ -14,6 +15,12 @@ import { Spacer } from "../../components/spacer/spacer.component";
 import { authentication, db } from "../../../firebase/firebase-config";
 
 export let adoptionList = [];
+
+const DismissKeyboard = ({ children }) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+);
 
 export const LoginScreen = ({ navigation }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -54,60 +61,62 @@ export const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <AccountBackground>
-      <SubTitle>Welcome Back!</SubTitle>
-      <AccountContainer>
-        <AuthInput
-          label="E-mail"
-          value={email}
-          textContentType="emailAddress"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          onChangeText={(text) => setEmail(text)}
-        />
-        <Spacer size="large">
+    <DismissKeyboard>
+      <AccountBackground>
+        <SubTitle>Welcome Back!</SubTitle>
+        <AccountContainer>
           <AuthInput
-            label="Password"
-            value={password}
-            textContentType="password"
-            secureTextEntry
+            label="E-mail"
+            value={email}
+            textContentType="emailAddress"
+            keyboardType="email-address"
             autoCapitalize="none"
-            secure
-            onChangeText={(text) => setPassword(text)}
+            onChangeText={(text) => setEmail(text)}
           />
+          <Spacer size="large">
+            <AuthInput
+              label="Password"
+              value={password}
+              textContentType="password"
+              secureTextEntry
+              autoCapitalize="none"
+              secure
+              onChangeText={(text) => setPassword(text)}
+            />
+          </Spacer>
+          {isSignedIn === true ? (
+            <Spacer size="large">
+              <AuthButton
+                icon="lock-open-outline"
+                mode="contained"
+                onPress={SignOutUser}
+              >
+                Logout
+              </AuthButton>
+            </Spacer>
+          ) : (
+            <Spacer size="large">
+              <AuthButton
+                icon="lock-open-outline"
+                mode="contained"
+                onPress={SignInUser}
+              >
+                Login
+              </AuthButton>
+            </Spacer>
+          )}
+          {errorDisplay && (
+            <Spacer size="large">
+              <Text style={{ color: "red" }}>Error: {errorMessage}</Text>
+            </Spacer>
+          )}
+        </AccountContainer>
+        <Spacer size="large">
+          <AuthButton mode="contained" onPress={() => navigation.goBack()}>
+            Back
+          </AuthButton>
         </Spacer>
-        {isSignedIn === true ? (
-          <Spacer size="large">
-            <AuthButton
-              icon="lock-open-outline"
-              mode="contained"
-              onPress={SignOutUser}
-            >
-              Logout
-            </AuthButton>
-          </Spacer>
-        ) : (
-          <Spacer size="large">
-            <AuthButton
-              icon="lock-open-outline"
-              mode="contained"
-              onPress={SignInUser}
-            >
-              Login
-            </AuthButton>
-          </Spacer>
-        )}
-        {errorDisplay && (
-          <Spacer size="large">
-            <Text style={{ color: "red" }}>Error: {errorMessage}</Text>
-          </Spacer>
-        )}
-      </AccountContainer>
-      <Spacer size="large">
-        <AuthButton mode="contained" onPress={() => navigation.goBack()}>
-          Back
-        </AuthButton>
-      </Spacer>
-    </AccountBackground>
+      </AccountBackground>
+    </DismissKeyboard>
   );
 };
