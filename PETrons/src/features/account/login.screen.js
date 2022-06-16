@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Text } from "react-native-paper";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { collection, getDocs, doc, setDoc } from "firebase/firestore/lite";
 
 import {
   AccountBackground,
@@ -10,7 +11,9 @@ import {
   SubTitle,
 } from "./account.style";
 import { Spacer } from "../../components/spacer/spacer.component";
-import { authentication } from "../../../firebase/firebase-config";
+import { authentication, db } from "../../../firebase/firebase-config";
+
+export let adoptionList = [];
 
 export const LoginScreen = ({ navigation }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -19,7 +22,7 @@ export const LoginScreen = ({ navigation }) => {
   const [errorDisplay, setErrorDisplay] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const SignInUser = () => {
+  const SignInUser = async () => {
     const inputs = [email, password];
     signInWithEmailAndPassword(authentication, email, password)
       .then((re) => {
@@ -35,6 +38,9 @@ export const LoginScreen = ({ navigation }) => {
           setErrorMessage(re.message.slice(22, -2));
         }
       });
+    const adoptionListCol = collection(db, "put-up-for-adoption");
+    const adoptionListSnapshot = await getDocs(adoptionListCol);
+    adoptionList = adoptionListSnapshot.docs.map((doc) => doc.data());
   };
 
   const SignOutUser = () => {
