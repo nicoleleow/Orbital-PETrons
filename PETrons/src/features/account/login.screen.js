@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
-// import { Text } from "react-native-paper";
-import { Text, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { Text } from "react-native-paper";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { collection, getDocs, doc, setDoc } from "firebase/firestore/lite";
 
 import {
   AccountBackground,
@@ -11,13 +11,9 @@ import {
   SubTitle,
 } from "./account.style";
 import { Spacer } from "../../components/spacer/spacer.component";
-import { authentication } from "../../../firebase/firebase-config";
+import { authentication, db } from "../../../firebase/firebase-config";
 
-const DismissKeyboard = ({ children }) => (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    {children}
-  </TouchableWithoutFeedback>
-);
+export let adoptionList = [];
 
 export const LoginScreen = ({ navigation }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -26,7 +22,7 @@ export const LoginScreen = ({ navigation }) => {
   const [errorDisplay, setErrorDisplay] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const SignInUser = () => {
+  const SignInUser = async () => {
     const inputs = [email, password];
     signInWithEmailAndPassword(authentication, email, password)
       .then((re) => {
@@ -42,6 +38,9 @@ export const LoginScreen = ({ navigation }) => {
           setErrorMessage(re.message.slice(22, -2));
         }
       });
+    const adoptionListCol = collection(db, "put-up-for-adoption");
+    const adoptionListSnapshot = await getDocs(adoptionListCol);
+    adoptionList = adoptionListSnapshot.docs.map((doc) => doc.data());
   };
 
   const SignOutUser = () => {
@@ -55,62 +54,60 @@ export const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <DismissKeyboard>
-      <AccountBackground>
-        <SubTitle>Welcome Back!</SubTitle>
-        <AccountContainer>
-          <AuthInput
-            label="E-mail"
-            value={email}
-            textContentType="emailAddress"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            onChangeText={(text) => setEmail(text)}
-          />
-          <Spacer size="large">
-            <AuthInput
-              label="Password"
-              value={password}
-              textContentType="password"
-              secureTextEntry
-              autoCapitalize="none"
-              secure
-              onChangeText={(text) => setPassword(text)}
-            />
-          </Spacer>
-          {isSignedIn === true ? (
-            <Spacer size="large">
-              <AuthButton
-                icon="lock-open-outline"
-                mode="contained"
-                onPress={SignOutUser}
-              >
-                Logout
-              </AuthButton>
-            </Spacer>
-          ) : (
-            <Spacer size="large">
-              <AuthButton
-                icon="lock-open-outline"
-                mode="contained"
-                onPress={SignInUser}
-              >
-                Login
-              </AuthButton>
-            </Spacer>
-          )}
-          {errorDisplay && (
-            <Spacer size="large">
-              <Text style={{ color: "red" }}>Error: {errorMessage}</Text>
-            </Spacer>
-          )}
-        </AccountContainer>
+    <AccountBackground>
+      <SubTitle>Welcome Back!</SubTitle>
+      <AccountContainer>
+        <AuthInput
+          label="E-mail"
+          value={email}
+          textContentType="emailAddress"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          onChangeText={(text) => setEmail(text)}
+        />
         <Spacer size="large">
-          <AuthButton mode="contained" onPress={() => navigation.goBack()}>
-            Back
-          </AuthButton>
+          <AuthInput
+            label="Password"
+            value={password}
+            textContentType="password"
+            secureTextEntry
+            autoCapitalize="none"
+            secure
+            onChangeText={(text) => setPassword(text)}
+          />
         </Spacer>
-      </AccountBackground>
-    </DismissKeyboard>
+        {isSignedIn === true ? (
+          <Spacer size="large">
+            <AuthButton
+              icon="lock-open-outline"
+              mode="contained"
+              onPress={SignOutUser}
+            >
+              Logout
+            </AuthButton>
+          </Spacer>
+        ) : (
+          <Spacer size="large">
+            <AuthButton
+              icon="lock-open-outline"
+              mode="contained"
+              onPress={SignInUser}
+            >
+              Login
+            </AuthButton>
+          </Spacer>
+        )}
+        {errorDisplay && (
+          <Spacer size="large">
+            <Text style={{ color: "red" }}>Error: {errorMessage}</Text>
+          </Spacer>
+        )}
+      </AccountContainer>
+      <Spacer size="large">
+        <AuthButton mode="contained" onPress={() => navigation.goBack()}>
+          Back
+        </AuthButton>
+      </Spacer>
+    </AccountBackground>
   );
 };
