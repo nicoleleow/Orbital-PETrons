@@ -52,7 +52,7 @@ export const FeeContainer = styled(View)`
     padding: ${(props) => props.theme.space[3]};
     margin: 0 ${(props) => props.theme.space[3]};
     justify-content: center;
-    background-color: ${(props) => props.theme.colors.brand.lightgreen};
+    background-color: ${(props) => props.theme.colors.brand.cream};;
 `
 
 export const Fee = styled(Text)`
@@ -67,7 +67,7 @@ export const HDBContainer = styled(View)`
     padding: ${(props) => props.theme.space[3]};
     margin: 0 ${(props) => props.theme.space[3]};
     justify-content: center;
-    background-color: ${(props) => props.theme.colors.brand.red};
+    background-color: ${(props) => props.theme.colors.brand.cream};;
 `
 
 export const HDB = styled(Text)`

@@ -81,15 +81,10 @@ const ImagePet = styled(Image)`
   height: 140px;
   width: 95%;
 `;
-
-export let petsList = []
  
 export const Mainpage = ({ navigation }) => {
-  const AdoptPage = async () => {
+  const AdoptPage = () => {
     navigation.navigate("Adopt");
-    const petsCol = collection(db, 'put-up-for-adoption');
-    const petsOverview = await getDocs(petsCol);
-    petsList = petsOverview.docs.map(doc => doc.data());
   };
   const PutUpAdoptionPage = () => {
     navigation.navigate("PutUpAdoption");

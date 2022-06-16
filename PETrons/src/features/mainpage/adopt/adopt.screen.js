@@ -1,15 +1,14 @@
 import React from "react";
-import { SafeAreaView, View, FlatList, TextInput, TouchableOpacity, Dimensions } from "react-native";
+import { View, TextInput, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { Text } from "../../../components/typography/text.component"
 import { Spacer } from '../../../components/spacer/spacer.component';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Pets } from "./pets";
 
 import { PetInfoCard } from "./components/pet-info-card.component";
 
-import { petsList } from "../mainpage.screen";
+import { GetPetsData, petsList } from "../../../../firebase/firebase-config"
 
 import {
   SafeArea,
@@ -39,8 +38,10 @@ export const AdoptPage = ({ navigation }) => {
   //   return pet.name.toLowerCase().includes(searchQuery.toLowerCase());
   // })
 
+  GetPetsData();
+
   const [selectedCategoryIndex, setSeletedCategoryIndex] = React.useState(0);
-  const [pets, setPets] = React.useState(Pets);
+  const [pets, setPets] = React.useState(petsList);
   const [filteredPets, setFilteredPets] = React.useState([]);
 
   const PetCategories = [
@@ -67,7 +68,7 @@ export const AdoptPage = ({ navigation }) => {
           <Spacer size='medium' position='right' />
           <TextInput
               placeholderTextColor={'#777'}
-              placeholder="Search"
+              placeholder="Search for pet name"
               style={{flex: 1}}
           />
           <Icon name="sort-ascending" size={24} color={'#777'} />
@@ -105,7 +106,7 @@ export const AdoptPage = ({ navigation }) => {
       </MainContainer>
       <Spacer size='small' />
       <PetList
-        data={Pets}
+        data={petsList}
         renderItem={(item) => (
           <TouchableOpacity onPress={() => navigation.navigate('PetInfo', {item})}>
             <PetInfoCard pet={item} />
@@ -115,10 +116,6 @@ export const AdoptPage = ({ navigation }) => {
         keyExtractor={(item) => item.name}
         numColumns={2}
       />
-  
-      {/* <TouchableOpacity onPress={() => console.log('hello', petsList)}>
-          <Text>print data by pressing here</Text>
-      </TouchableOpacity> */}
 
     </SafeArea>
   )

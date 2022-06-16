@@ -9,7 +9,7 @@ export const Pets = [
         age: '9 years old',
         gender: 'Female',
         fee: 23, 
-        isShelter: true,
+        HDB_approved: "Yes",
         short_description: 'Bella is a well-trained, gentle and affectionate cat. She likes being around people and loves belly rubs.'
     }, 
     {
@@ -22,7 +22,7 @@ export const Pets = [
         age: '6 years old',
         gender: 'Male',
         fee: 80, 
-        isShelter: true,
+        HDB_approved: "Yes",
         short_description: 'Kiwi is rather shy and quiet, usually remaining at his favourite part of his cage at most times. He was picked up on the streets by one of us and had injured his wings and hence could not fly. We have since nursed him back to health and he is currently in good condition.'
     }, 
     {
@@ -35,7 +35,7 @@ export const Pets = [
         age: '3 years old',
         gender: 'Female',
         fee: 120, 
-        isShelter: false,
+        HDB_approved: "No",
         short_description: 'Snow is a passionate, active girl who enjoys being outside for walks and runs. She knows her way into people\'s hearts, constantly giving you her paw to ask for affection.'
     },
     {
@@ -48,7 +48,7 @@ export const Pets = [
         age: '4 years old',
         gender: 'Female',
         fee: 64, 
-        isShelter: false,
+        HDB_approved: "No",
         short_description: 'Miffy, although shy at first, is gentle, sweet, and loves naps.'
     },
     {
@@ -61,7 +61,7 @@ export const Pets = [
         age: '7 years old',
         gender: 'Male',
         fee: 80, 
-        isShelter: false,
+        HDB_approved: "No",
         short_description: 'Ginger is playful and active. He loves roaming around outside around the estate and comes back home by the end of the day.'
     }, 
     {
@@ -74,7 +74,7 @@ export const Pets = [
         age: '9 years old',
         gender: 'Female',
         fee: 150, 
-        isShelter: true,
+        HDB_approved: "No",
         short_description: 'Cassie is loyal, intelligent and friendly but nervous in front of strangers.'
     },
     {
@@ -87,7 +87,7 @@ export const Pets = [
         age: '5 years old',
         gender: 'Male',
         fee: 80, 
-        isShelter: true,
+        HDB_approved: "No",
         short_description: 'Bob is playful, enthusiastic and energetic.'
     }
 ]
