@@ -48,7 +48,7 @@ export const PutUpAdoptionListPage = () => {
         <AdoptionList
           data={filteredList}
           renderItem={(item) => (
-            <TouchableOpacity onPress={() => console.log("hi")}>
+            <TouchableOpacity>
               <AdoptionInfoCard pet={item} />
             </TouchableOpacity>
           )}
