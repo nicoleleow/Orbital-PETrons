@@ -11,8 +11,9 @@ import styled from "styled-components/native";
 import { Searchbar } from "react-native-paper";
 
 import { Text } from "../../components/typography/text.component";
-import { filteredList } from "./profile";
 import { AdoptionInfoCard } from "./adoption-info-card";
+import { petsList, GetPetsData } from "../../../firebase/firebase-config";
+import { authentication } from "../../../firebase/firebase-config";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -36,6 +37,12 @@ const AdoptionList = styled(FlatList).attrs({
 })``;
 
 export const PutUpAdoptionListPage = () => {
+  GetPetsData();
+
+  const filteredList = petsList.filter((obj) => {
+    return obj.email === authentication.currentUser?.email;
+  });
+
   return (
     <DismissKeyboard>
       <SafeArea>
