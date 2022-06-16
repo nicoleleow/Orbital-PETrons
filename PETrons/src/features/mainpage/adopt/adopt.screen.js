@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, View, FlatList, StyleSheet, TextInput, TouchableOpacity, Dimensions } from "react-native";
+import { SafeAreaView, View, FlatList, TextInput, TouchableOpacity, Dimensions } from "react-native";
 import styled from "styled-components/native";
 import { Text } from "../../../components/typography/text.component"
 import { Spacer } from '../../../components/spacer/spacer.component';
@@ -7,21 +7,19 @@ import { Spacer } from '../../../components/spacer/spacer.component';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Pets } from "./pets";
 
-const PetCategories = [
-  {name: 'CATS', icon: 'cat'},
-  {name: 'DOGS', icon: 'dog'},
-  {name: 'BIRDS', icon: 'ladybug'},
-  {name: 'BUNNIES', icon: 'rabbit'},
-];
-
 import { PetInfoCard } from "./components/pet-info-card.component";
 
 import { petsList } from "../mainpage.screen";
 
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: orange;
-`;
+import {
+  SafeArea,
+  MainContainer,
+  SearchInputContainer,
+  PetCategoriesContainer,
+  PetCategoriesButton,
+  PetCategoriesNames,
+  PetList
+} from "./adopt.screen.styles";
 
 const AdoptPageHeader = styled(Text)`
   color: black;
@@ -30,22 +28,6 @@ const AdoptPageHeader = styled(Text)`
   font-size: ${(props) => props.theme.fontSizes.h4};
   font-family: ${(props) => props.theme.fonts.body};
 `;
-
-const MainContainer = styled(View)`
-  background-color: ${(props) => props.theme.colors.brand.yellow1};
-  border-radius: 5px;
-  margin: 0 10px;
-`
-
-const SearchContainer = styled.View`
-  padding: ${(props) => props.theme.space[3]};
-`
-
-const PetList = styled(FlatList).attrs({
-  contentContainerStyle: {
-  marginHorizontal: ((Dimensions.get('window').width - 382) / 2)
-  }
-})``
 
 export const AdoptPage = ({ navigation }) => {
   // const [searchQuery, setSearchQuery] = React.useState('');
@@ -57,30 +39,73 @@ export const AdoptPage = ({ navigation }) => {
   //   return pet.name.toLowerCase().includes(searchQuery.toLowerCase());
   // })
 
+  const [selectedCategoryIndex, setSeletedCategoryIndex] = React.useState(0);
+  const [pets, setPets] = React.useState(Pets);
+  const [filteredPets, setFilteredPets] = React.useState([]);
 
-  const [pets, setPets] = React.useState(Pets)
-
+  const PetCategories = [
+  {name: '   ALL', icon: 'gamepad-circle'},
+  {name: '  CATS', icon: 'cat'},
+  {name: '  DOGS', icon: 'dog'},
+  {name: ' BIRDS', icon: 'bird'},
+  {name: 'RABBITS', icon: 'rabbit'},
+];
+  
+  const filterPet = index => {
+    const currentPets = pets.filter(
+      item => item?.pet?.toUpperCase() == PetCategories[index].name,
+      )[0]?.pets;
+    setFilteredPets(currentPets);
+  };
   
   return (
     <SafeArea>
       <Text variant='header'>Adopt A Pet</Text>
       <MainContainer>
-        <View style={styles.searchInputContainer}>
+        <SearchInputContainer>
           <Icon name="magnify" size={24} color={'#777'} />
           <Spacer size='medium' position='right' />
-      
           <TextInput
               placeholderTextColor={'#777'}
               placeholder="Search"
               style={{flex: 1}}
           />
           <Icon name="sort-ascending" size={24} color={'#777'} />
-        </View>
-        
+        </SearchInputContainer>
+
+        <PetCategoriesContainer>
+          {PetCategories.map((item, index) => (
+            <View key={"pet" + index}>
+              <PetCategoriesButton
+                  onPress={() => {
+                    setSeletedCategoryIndex(index);
+                    filterPet(index);
+                  }}
+                  style={
+                      {backgroundColor:
+                        selectedCategoryIndex == index
+                          ? '#e36414'
+                      : 'white'
+                  }}
+              >
+                  <Icon
+                    name={item.icon}
+                    size={30}
+                    color={
+                      selectedCategoryIndex == index
+                        ? 'white'
+                        : '#e36414'
+                    }
+                  />
+              </PetCategoriesButton>
+              <PetCategoriesNames>{item.name}</PetCategoriesNames>
+            </View>
+          ))}
+        </PetCategoriesContainer>
       </MainContainer>
-      <Spacer size='medium' />
+      <Spacer size='small' />
       <PetList
-        data={petsList}
+        data={Pets}
         renderItem={(item) => (
           <TouchableOpacity onPress={() => navigation.navigate('PetInfo', {item})}>
             <PetInfoCard pet={item} />
@@ -97,17 +122,4 @@ export const AdoptPage = ({ navigation }) => {
 
     </SafeArea>
   )
-};
-
-
-const styles = StyleSheet.create({
-  searchInputContainer: {
-    height: 50,
-    backgroundColor: 'white',
-    borderRadius: 7,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  }
-})
+}

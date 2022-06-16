@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Image, ScrollView, Text, View} from "react-native";
+import { Image, ScrollView, Text, View, TouchableOpacity} from "react-native";
 import { Spacer } from '../../../../components/spacer/spacer.component';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -20,8 +20,6 @@ import {
     ContactOwnerButton,
     ContactOwnerText
 } from "./pet-info.screen.styles"
-import { fontWeights } from '../../../../infrastructure/theme/fonts';
-
 
 export const PetInfoScreen = ({ route, navigation }) => {
     const pet = route.params.item
@@ -47,8 +45,10 @@ export const PetInfoScreen = ({ route, navigation }) => {
                 <Spacer size='large' />
                 <PetPhotoContainer>
                     <Image
+                        // source={{uri: 'https://cat-world.com/wp-content/uploads/2022/06/Black-Cats-Mean-Bad-Luck-400x300.jpg'}}
                         source={{ uri: image }}
-                        style={{ resizeMode: "contain", width: 360, height: 220 }} />
+                    style={{ resizeMode: "contain", width: 360, height: 220 }} 
+                    />
                 </PetPhotoContainer>
                 
                 <Spacer size='large' />

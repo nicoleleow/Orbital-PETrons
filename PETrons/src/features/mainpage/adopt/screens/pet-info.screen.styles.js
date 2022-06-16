@@ -34,7 +34,7 @@ export const DetailsContainer = styled(View)`
 `
 
 export const DetailsRectangle = styled(View)`
-    background-color: #fddd5c;
+    background-color: ${(props) => props.theme.colors.brand.yellow1};
     border-radius: ${(props) => props.theme.space[3]};
     padding: ${(props) => props.theme.space[3]};
     margin: ${(props) => props.theme.space[3]};
@@ -52,7 +52,7 @@ export const FeeContainer = styled(View)`
     padding: ${(props) => props.theme.space[3]};
     margin: 0 ${(props) => props.theme.space[3]};
     justify-content: center;
-    background-color: #bee6b0;
+    background-color: ${(props) => props.theme.colors.brand.lightgreen};
 `
 
 export const Fee = styled(Text)`
@@ -67,7 +67,7 @@ export const HDBContainer = styled(View)`
     padding: ${(props) => props.theme.space[3]};
     margin: 0 ${(props) => props.theme.space[3]};
     justify-content: center;
-    background-color: #FF7F7F;
+    background-color: ${(props) => props.theme.colors.brand.red};
 `
 
 export const HDB = styled(Text)`
@@ -81,7 +81,7 @@ export const AboutPetContainer = styled(View)`
     justify-content: center;
     margin:  0 ${(props) => props.theme.space[5]};
     border-radius: ${(props) => props.theme.space[3]};
-    background-color: #fde297;
+    background-color: ${(props) => props.theme.colors.brand.yellow3};
     padding: ${(props) => props.theme.space[2]};
 `
 
@@ -95,7 +95,7 @@ export const AboutPet = styled(Text)`
 export const ContactOwnerButton = styled.TouchableOpacity`
     border-radius: ${(props) => props.theme.space[3]};
     text-align: center;
-    background-color: #789fcc;
+    background-color: ${(props) => props.theme.colors.brand.blue1};
     margin: 0 30px;
     padding: 10px;
     elevation: 5;
