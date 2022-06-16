@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import { Button, Card, Title } from "react-native-paper";
 import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
@@ -12,6 +12,7 @@ import {
   query,
   deleteDoc,
 } from "firebase/firestore/lite";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 import { Spacer } from "../../components/spacer/spacer.component";
 import { colors } from "../../infrastructure/theme/colors";
@@ -93,9 +94,6 @@ export const AdoptionInfoCard = ({ pet = {} }) => {
 
   const DeleteData = async () => {
     const querySnapshot = await getDocs(collection(db, "put-up-for-adoption"));
-    // const adoptionList = querySnapshot.docs.map((doc) => doc.id);
-    // console.log(adoptionList);
-    // console.log(email);
     let documentID;
     querySnapshot.forEach((doc) => {
       if (
@@ -110,9 +108,26 @@ export const AdoptionInfoCard = ({ pet = {} }) => {
     await deleteDoc(doc(db, "put-up-for-adoption", documentID));
   };
 
+  const [url, setUrl] = useState();
+  useEffect(() => {
+    const func = async () => {
+      const uploadUri = image;
+      const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+      const storage = getStorage();
+      const reference = ref(storage, filename);
+      await getDownloadURL(reference).then((x) => {
+        setUrl(x);
+      });
+    };
+
+    if (url == undefined) {
+      func();
+    }
+  }, []);
+
   return (
     <AdoptionCard elevation={5}>
-      <AdoptionPetInfoCardCover key={name} source={{ uri: image }} />
+      <AdoptionPetInfoCardCover key={name} source={{ uri: url }} />
       <AdoptionCardDetails>
         <SectionStart>
           <Name>Name: {name}</Name>

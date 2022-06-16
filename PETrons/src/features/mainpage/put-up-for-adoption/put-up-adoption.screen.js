@@ -25,6 +25,7 @@ import {
   setDoc,
   addDoc,
 } from "firebase/firestore/lite";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 import { colors } from "../../../infrastructure/theme/colors";
 import { Spacer } from "../../../components/spacer/spacer.component";
@@ -76,6 +77,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
     { label: "Guinea Pig", value: "Guinea pig" },
     { label: "Bird", value: "Bird" },
     { label: "Fish", value: "Fish" },
+    { label: "Others", value: "Others" },
   ]);
 
   const [openHDB, setOpenHDB] = useState(false);
@@ -122,6 +124,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
       value: "SPCA",
     },
     { label: "Voices for Animals", value: "Voices for Animals" },
+    { label: "Others", value: "Others" },
   ]);
 
   const renderContent = () => (
@@ -186,6 +189,13 @@ export const PutUpAdoptionPage = ({ navigation }) => {
       email: authentication.currentUser?.email,
     });
     navigation.navigate("mainpage");
+    const uploadUri = image;
+    const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+    const storage = getStorage();
+    const reference = ref(storage, filename);
+    const img = await fetch(image);
+    const bytes = await img.blob();
+    await uploadBytes(reference, bytes);
   };
 
   const confirmAlert = () =>
@@ -281,7 +291,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
             </Spacer>
             <>
               <DropDown
-                placeholder="Select Organisation type"
+                placeholder="Select Ownership type"
                 open={openOrganisation}
                 value={valueOrganisation}
                 items={petOrganisation}

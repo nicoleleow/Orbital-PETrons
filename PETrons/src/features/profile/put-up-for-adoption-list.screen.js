@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   FlatList,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native";
 import styled from "styled-components/native";
 import { Searchbar } from "react-native-paper";
@@ -38,10 +39,18 @@ const AdoptionList = styled(FlatList).attrs({
 
 export const PutUpAdoptionListPage = () => {
   GetPetsData();
-
   const filteredList = petsList.filter((obj) => {
     return obj.email === authentication.currentUser?.email;
   });
+
+  const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
+  const [refreshing, setRefreshing] = React.useState(false);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
   return (
     <DismissKeyboard>
@@ -60,6 +69,9 @@ export const PutUpAdoptionListPage = () => {
             </TouchableOpacity>
           )}
           keyExtractor={(item) => item.name}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         />
       </SafeArea>
     </DismissKeyboard>
