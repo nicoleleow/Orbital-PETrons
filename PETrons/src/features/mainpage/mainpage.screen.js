@@ -11,9 +11,6 @@ import {
 import { Menu } from "react-native-paper";
 import styled from "styled-components/native";
 
-import { collection, getDocs } from "firebase/firestore/lite";
-import { db } from "../../../firebase/firebase-config"
-
 const widthMenuCard = Dimensions.get("screen").width / 2 - 30;
 
 const SafeArea = styled(SafeAreaView)`
@@ -81,7 +78,7 @@ const ImagePet = styled(Image)`
   height: 140px;
   width: 95%;
 `;
- 
+
 export const Mainpage = ({ navigation }) => {
   const AdoptPage = () => {
     navigation.navigate("Adopt");

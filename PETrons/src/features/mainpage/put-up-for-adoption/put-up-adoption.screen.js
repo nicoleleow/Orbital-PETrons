@@ -9,6 +9,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Dimensions,
+  Alert,
 } from "react-native";
 import styled from "styled-components/native";
 import { Button, TextInput } from "react-native-paper";
@@ -16,92 +17,33 @@ import Animated from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 import Render from "react-native-web/dist/cjs/exports/render";
 import * as ImagePicker from "expo-image-picker";
+import DropDownPicker from "react-native-dropdown-picker";
+import {
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+  addDoc,
+} from "firebase/firestore/lite";
 
 import { colors } from "../../../infrastructure/theme/colors";
 import { Spacer } from "../../../components/spacer/spacer.component";
-
-const Container = styled.View`
-  background-color: rgba(255, 255, 255, 0.7);
-  padding: ${(props) => props.theme.space[4]};
-  margin-top: ${(props) => props.theme.space[1]};
-  padding-top: 10px;
-  align-items: center;
-  justify-content: center;
-`;
-
-const PutUpAdoptionPageHeader = styled(Text)`
-  color: black;
-  font-size: ${(props) => props.theme.fontSizes.h5};
-  font-family: ${(props) => props.theme.fonts.monospace};
-  padding-top: 40px;
-`;
-
-const FormButton = styled(Button).attrs({
-  color: colors.button.primary,
-})`
-  padding: ${(props) => props.theme.space[2]};
-  width: 300px;
-  margin-top: 10px;
-`;
-
-const SubmitFormButton = styled(Button).attrs({
-  color: colors.button.primary,
-})`
-  padding: ${(props) => props.theme.space[2]};
-  width: 300px;
-  margin-bottom: 20px;
-`;
-
-const Background = styled.View`
-  background-color: orange;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  padding-top: 30px;
-`;
-
-const Inputs = styled(TextInput)`
-  width: 300px;
-  height: 45px;
-`;
-
-const DescriptionInput = styled(TextInput)`
-  width: 300px;
-  height: 90px;
-  textalignvertical: "top";
-`;
-
-const RenderContentContainer = styled(View)`
-  background-color: white;
-  height: 350px;
-  padding: 20px;
-`;
-
-const RenderContentTitle = styled(Text)`
-  font-size: 27px;
-  height: 35px;
-`;
-
-const RenderContentSubtitle = styled(Text)`
-  font-size: 14px;
-  color: gray;
-  height: 30px;
-  margin-bottom: 10px;
-`;
-
-const RenderContentButton = styled(TouchableOpacity)`
-  padding: 13px;
-  border-radius: 10px;
-  background-color: #ff6347;
-  align-items: center;
-  margin-vertical: 7px;
-`;
-
-const RenderContentButtonTitle = styled(Text)`
-  font-size: 17px;
-  font-weight: bold;
-  color: white;
-`;
+import { authentication, db } from "../../../../firebase/firebase-config";
+import {
+  Container,
+  PutUpAdoptionPageHeader,
+  FormButton,
+  SubmitFormButton,
+  Background,
+  Inputs,
+  DescriptionInput,
+  RenderContentContainer,
+  RenderContentTitle,
+  RenderContentSubtitle,
+  RenderContentButtonTitle,
+  RenderContentButton,
+  DropDown,
+} from "./put-up-for-adoption.style";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -110,15 +52,77 @@ const DismissKeyboard = ({ children }) => (
 );
 
 export const PutUpAdoptionPage = ({ navigation }) => {
-  const [organisationType, setOrganisationType] = useState("");
   const [name, setName] = useState("");
-  const [gender, setGender] = useState("");
-  const [type, setType] = useState("");
   const [breed, setBreed] = useState("");
   const [age, setAge] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
+
+  const [openGender, setOpenGender] = useState(false);
+  const [valueGender, setValueGender] = useState("");
+  const [petGender, setPetGender] = useState([
+    { label: "Male", value: "Male" },
+    { label: "Female", value: "Female" },
+  ]);
+
+  const [openType, setOpenType] = useState(false);
+  const [valueType, setValueType] = useState("");
+  const [petType, setPetType] = useState([
+    { label: "Dog", value: "Dog" },
+    { label: "Cat", value: "Cat" },
+    { label: "Rabbit", value: "Rabbit" },
+    { label: "Hamster", value: "Hamster" },
+    { label: "Guinea Pig", value: "Guinea pig" },
+    { label: "Bird", value: "Bird" },
+    { label: "Fish", value: "Fish" },
+  ]);
+
+  const [openHDB, setOpenHDB] = useState(false);
+  const [valueHDB, setValueHDB] = useState("");
+  const [petHDB, setPetHDB] = useState([
+    { label: "Yes", value: "Yes" },
+    { label: "No", value: "No" },
+  ]);
+
+  const [openOrganisation, setOpenOrganisation] = useState(false);
+  const [valueOrganisation, setValueOrganisation] = useState("");
+  const [petOrganisation, setPetOrganisation] = useState([
+    { label: "Individual", value: "Individual" },
+    { label: "Action for Singapore Dogs", value: "Action for Singapore Dogs" },
+    { label: "Animals Lovers League", value: "Animals Lovers League" },
+    {
+      label: "Bunny Wonderland Singapore",
+      value: "Bunny Wonderland Singapore",
+    },
+    { label: "Cat Welfare Society", value: "Cat Welfare Society" },
+    {
+      label: "Causes for Animals (Singapore)",
+      value: "Causes for Animals (Singapore)",
+    },
+    { label: "Exclusively Mongrels", value: "Exclusively Mongrels" },
+    { label: "Hamster Society Singapore", value: "Hamster Society Singapore" },
+    {
+      label: "House Rabbit Society Singapore",
+      value: "House Rabbit Society Singapore",
+    },
+    {
+      label: "Mercylight Animal Rescue and Sanctuary",
+      value: "Mercylight Animal Rescue and Sanctuary",
+    },
+    { label: "Noah's Ark CARES", value: "Noah's Ark CARES" },
+    {
+      label: "Oasis Second Chance Animal Shelter",
+      value: "Oasis Second Chance Animal Shelter",
+    },
+    { label: "Purely Adoptions", value: "Purely Adoptions" },
+    { label: "SOSD", value: "SOSD" },
+    {
+      label: "Society for the Prevention of Cruelty to Animals",
+      value: "SPCA",
+    },
+    { label: "Voices for Animals", value: "Voices for Animals" },
+  ]);
 
   const renderContent = () => (
     <RenderContentContainer>
@@ -147,9 +151,6 @@ export const PutUpAdoptionPage = ({ navigation }) => {
       aspect: [4, 3],
       quality: 1,
     });
-
-    console.log(result);
-
     if (!result.cancelled) {
       setImage(result.uri);
       sheetRef.current.snapTo(2);
@@ -159,28 +160,48 @@ export const PutUpAdoptionPage = ({ navigation }) => {
   const takePhotoFromCamera = async () => {
     // Ask the user for the permission to access the camera
     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-
     if (permissionResult.granted === false) {
       alert("You've refused to allow this appp to access your camera!");
       return;
     }
-
     const result = await ImagePicker.launchCameraAsync();
-
-    // Explore the result
-    console.log(result);
-
     if (!result.cancelled) {
       setImage(result.uri);
       sheetRef.current.snapTo(2);
     }
   };
 
+  const SetData = async () => {
+    await addDoc(collection(db, "put-up-for-adoption"), {
+      name: name,
+      gender: valueGender,
+      age: age,
+      type: valueType,
+      breed: breed,
+      organisation: valueOrganisation,
+      HDB_approved: valueHDB,
+      fee: price,
+      short_description: description,
+      image: image,
+      email: authentication.currentUser?.email,
+    });
+    navigation.navigate("mainpage");
+  };
+
+  const confirmAlert = () =>
+    Alert.alert("Submit Form?", "Are you sure you want to submit this form?", [
+      {
+        text: "Cancel",
+        onPress: () => navigation.navigate("PutUpAdoption"),
+      },
+      { text: "Yes", onPress: SetData },
+    ]);
+
   return (
     <DismissKeyboard>
       <Background>
         <PutUpAdoptionPageHeader>
-          Fill in your pet details:
+          Provide your pet's details:
         </PutUpAdoptionPageHeader>
         <BottomSheet
           initialSnap={2}
@@ -194,7 +215,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
             {image && (
               <Image
                 source={{ uri: image }}
-                style={{ width: 200, height: 200 }}
+                style={{ width: 300, height: 200 }}
               />
             )}
             <FormButton
@@ -206,17 +227,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
             </FormButton>
             <Spacer size="large">
               <Inputs
-                label="Organisation"
-                value={organisationType}
-                textContentType="none"
-                keyboardType="default"
-                autoCapitalize="none"
-                onChangeText={(text) => setOrganisationType(text)}
-              />
-            </Spacer>
-            <Spacer size="large">
-              <Inputs
-                label="Pet Name"
+                label="Pet's Name"
                 value={name}
                 textContentType="name"
                 keyboardType="default"
@@ -224,19 +235,43 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 onChangeText={(text) => setName(text)}
               />
             </Spacer>
+            <>
+              <DropDown
+                placeholder="Select Pet's Gender"
+                open={openGender}
+                value={valueGender}
+                items={petGender}
+                setOpen={setOpenGender}
+                setValue={setValueGender}
+                setItems={setPetGender}
+                listMode="SCROLLVIEW"
+              />
+            </>
             <Spacer size="large">
               <Inputs
-                label="Animal Type"
-                value={type}
+                label="Pet's Age (eg. _ years _ months)"
+                value={age}
                 textContentType="none"
                 keyboardType="default"
-                autoCapitalize="none"
-                onChangeText={(text) => setType(text)}
+                onChangeText={(text) => setAge(text)}
               />
             </Spacer>
+            <>
+              <DropDown
+                placeholder="Select Type of Pet"
+                open={openType}
+                value={valueType}
+                items={petType}
+                setOpen={setOpenType}
+                setValue={setValueType}
+                setItems={setPetType}
+                listMode="SCROLLVIEW"
+                dropDownDirection="TOP"
+              />
+            </>
             <Spacer size="large">
               <Inputs
-                label="Animal Breed"
+                label="Pet's Breed"
                 value={breed}
                 textContentType="none"
                 keyboardType="default"
@@ -244,28 +279,34 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 onChangeText={(text) => setBreed(text)}
               />
             </Spacer>
-            <Spacer size="large">
-              <Inputs
-                label="Pet Gender"
-                value={gender}
-                textContentType="none"
-                keyboardType="default"
-                autoCapitalize="none"
-                onChangeText={(text) => setGender(text)}
+            <>
+              <DropDown
+                placeholder="Select Organisation type"
+                open={openOrganisation}
+                value={valueOrganisation}
+                items={petOrganisation}
+                setOpen={setOpenOrganisation}
+                setValue={setValueOrganisation}
+                setItems={setPetOrganisation}
+                listMode="SCROLLVIEW"
+                dropDownDirection="TOP"
               />
-            </Spacer>
-            <Spacer size="large">
-              <Inputs
-                label="Age"
-                value={age}
-                textContentType="none"
-                keyboardType="number-pad"
-                onChangeText={(text) => setAge(text)}
+            </>
+            <>
+              <DropDown
+                placeholder="Is your pet HDB approved?"
+                open={openHDB}
+                value={valueHDB}
+                items={petHDB}
+                setOpen={setOpenHDB}
+                setValue={setValueHDB}
+                setItems={setPetHDB}
+                listMode="SCROLLVIEW"
               />
-            </Spacer>
+            </>
             <Spacer size="large">
               <Inputs
-                label="Price"
+                label="Fee($)"
                 value={price}
                 textContentType="none"
                 keyboardType="number-pad"
@@ -286,10 +327,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
           </Container>
         </ScrollView>
         <Spacer size="large">
-          <SubmitFormButton
-            mode="contained"
-            onPress={() => navigation.goBack()}
-          >
+          <SubmitFormButton mode="contained" onPress={confirmAlert}>
             Confirm
           </SubmitFormButton>
         </Spacer>
