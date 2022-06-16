@@ -8,7 +8,6 @@ import { signOut } from "firebase/auth";
 import { AuthButton } from "../account/account.style";
 import { authentication, db } from "../../../firebase/firebase-config";
 import { Spacer } from "../../components/spacer/spacer.component";
-import { adoptionList } from "../account/login.screen";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -40,6 +39,9 @@ export const ProfilePage = ({ navigation }) => {
 
   const PutUpAdoptionListPage = async () => {
     navigation.navigate("PutUpAdoptionList");
+    const adoptionListCol = collection(db, "put-up-for-adoption");
+    const adoptionListSnapshot = await getDocs(adoptionListCol);
+    const adoptionList = adoptionListSnapshot.docs.map((doc) => doc.data());
     filteredList = adoptionList.filter((obj) => {
       return obj.email === authentication.currentUser?.email;
     });
