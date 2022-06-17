@@ -1,4 +1,4 @@
-import { SafeAreaView, View, FlatList, TouchableOpacity, Dimensions, Text } from "react-native";
+import { SafeAreaView, View, FlatList, TouchableOpacity, Dimensions, Text, Platform } from "react-native";
 import styled from "styled-components/native";
 
 export const SafeArea = styled(SafeAreaView)`
@@ -52,4 +52,20 @@ export const PetList = styled(FlatList).attrs({
   contentContainerStyle: {
   marginHorizontal: ((Dimensions.get('window').width - 382) / 2)
   }
+})``
+
+export const ModalContent = styled(View).attrs({
+  elevation: 10,
+  marginHorizontal: 50,
+  borderRadius: 32,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: 'white',
+  padding: 32,
+  paddingBottom: 16,
+  marginTop: Platform.OS === 'ios'
+    ? ((Dimensions.get('window').height - 500) / 2)
+    : ((Dimensions.get('window').height - 550) / 2),
+  borderWidth: 1.5,
+  borderColor: '#ebe6e6'
 })``

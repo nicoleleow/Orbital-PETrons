@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
-import { Image, ScrollView, Text, View, TouchableOpacity} from "react-native";
+import React, {useState, useEffect} from 'react';
+import { Image, ScrollView} from "react-native";
 import { Spacer } from '../../../../components/spacer/spacer.component';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 import {
     SafeArea,
@@ -36,6 +38,23 @@ export const PetInfoScreen = ({ route, navigation }) => {
     const [count, setCount] = useState(0);
     const onPress = () => setCount(prevCount => prevCount + 1);
 
+    const [url, setUrl] = useState();
+    useEffect(() => {
+        const func = async () => {
+        const uploadUri = image;
+        const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+        const storage = getStorage();
+        const reference = ref(storage, filename);
+        await getDownloadURL(reference).then((x) => {
+            setUrl(x);
+        });
+        };
+
+        if (url == undefined) {
+        func();
+        }
+    }, []);
+
     return (
         <SafeArea>
             <ScrollView>
@@ -45,8 +64,7 @@ export const PetInfoScreen = ({ route, navigation }) => {
                 <Spacer size='large' />
                 <PetPhotoContainer>
                     <Image
-                        // source={{uri: 'https://cat-world.com/wp-content/uploads/2022/06/Black-Cats-Mean-Bad-Luck-400x300.jpg'}}
-                        source={{ uri: image }}
+                        source={{ uri: url }}
                     style={{ resizeMode: "contain", width: 360, height: 220 }} 
                     />
                 </PetPhotoContainer>
@@ -87,7 +105,7 @@ export const PetInfoScreen = ({ route, navigation }) => {
                     <AboutPet style={{fontWeight:'bold'}}>Owner:</AboutPet>
                     <AboutPet>{organisation}</AboutPet>
                     <Spacer size='medium' />
-                    <AboutPet style={{ fontWeight: 'bold' }}>About {name}:</AboutPet>
+                    <AboutPet style={{ fontWeight: 'bold', textTransform: 'capitalize'}}>About {name}:</AboutPet>
                     <AboutPet>{short_description}</AboutPet>
                 </AboutPetContainer>
                 

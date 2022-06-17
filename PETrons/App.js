@@ -21,6 +21,7 @@ import { StoriesPage } from "./src/features/mainpage/share-stories/share-stories
 
 // import { collection, getDocs } from "firebase/firestore/lite";
 // import { db } from "../PETrons/firebase/firebase-config";
+import { FilterPetsModalDetails } from "./src/features/mainpage/adopt/components/pet-filter-modal.component";
 
 export default function App() {
   const [oswaldLoaded] = useOswald({
@@ -51,6 +52,7 @@ export default function App() {
         {/* <AdoptPage /> */}
         {/* <PetInfoScreen /> */}
         <Navigation />
+        {/* <FilterPetsModalDetails /> */}
         {/* <Mainpage /> */}
         {/* <StoriesPage /> */}
       {/* <Draft /> */}
