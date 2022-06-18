@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from "react";
-import { View, TextInput, TouchableOpacity, RefreshControl, Modal, StyleSheet, Pressable } from "react-native";
+import { View, TextInput, TouchableOpacity, RefreshControl, Modal } from "react-native";
 import styled from "styled-components/native";
 import { Text } from "../../../components/typography/text.component"
 import { Spacer } from '../../../components/spacer/spacer.component';
@@ -17,7 +17,9 @@ import {
   PetCategoriesButton,
   PetCategoriesNames,
   PetList,
-  ModalContent
+  ModalContent,
+  ModalConfirmButton,
+  ModalConfirmText
 } from "./adopt.screen.styles";
 
 const AdoptPageHeader = styled(Text)`
@@ -35,16 +37,17 @@ const wait = (timeout) => {
 export const AdoptPage = ({ navigation }) => {
   GetPetsData();
 
-  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
-  const [pets, setPets] = useState(petsList);
-  const [filteredPets, setFilteredPets] = useState(petsList);
-  const [search, setSearch] = useState('');
-  
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     wait(1000).then(() => setRefreshing(false));
   }, []);
+
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
+  const [pets, setPets] = useState(petsList);
+  const [filteredPets, setFilteredPets] = useState(petsList);
+  const [categoryIndexFiltered, setCategoryIndexFiltered] = useState(0);
+  const [search, setSearch] = useState('');
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -56,25 +59,17 @@ export const AdoptPage = ({ navigation }) => {
     {name: 'RABBITS', animalType: 'rabbit', icon: 'rabbit'},
   ];
   
-  const filterPetCategory = index => {
-    const newPets = filteredPets.filter(
+  const filterPets = (index, text) => {
+    // filter by category
+    var newList = pets.filter(
       item =>
         PetCategories[index].animalType.toUpperCase() === 'ALL' ? pets
           : item?.type?.toUpperCase() == PetCategories[index].animalType.toUpperCase());
-    setFilteredPets(newPets);
-  };
-  
-  const filterPetName = text => {
-    console.log('under filterPetName, text is', text)
-    if (text) {
-      const newPets = filteredPets.filter(
-        item => item?.name?.toUpperCase().includes(text.toUpperCase()));
-      setFilteredPets(newPets);
-      setSearch(text);
-    } else {
-      setFilteredPets(filteredPets);
-      setSearch(text);
-    }
+    //filter by text
+    newList = newList.filter(item => item?.name?.toUpperCase().includes(text.toUpperCase()));
+    setFilteredPets(newList);
+    setSearch(text);
+    setCategoryIndexFiltered(index);
   }
 
   return (
@@ -89,7 +84,7 @@ export const AdoptPage = ({ navigation }) => {
             placeholder="Search for pet name"
             style={{ flex: 1 }}
             value={search}
-            onChangeText={(text) => filterPetName(text)}
+            onChangeText={(text) => filterPets(categoryIndexFiltered, text)}
           />
           <Modal
             animationType="slide"
@@ -107,19 +102,17 @@ export const AdoptPage = ({ navigation }) => {
               <Spacer size='xLarge' />
               <Spacer size='small' />
               <View style={{flexDirection: 'row'}} zIndex={1}>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
+                <ModalConfirmButton
                   onPress={() => setModalVisible(!modalVisible)}
                 >
-                  <Text style={styles.textStyle}>Cancel</Text>
-                </Pressable>
+                  <ModalConfirmText>Cancel</ModalConfirmText>
+                </ModalConfirmButton>
                 <Spacer size='large' position='right' />
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
+                <ModalConfirmButton
                   onPress={() => setModalVisible(false)}
                 >
-                  <Text style={styles.textStyle}>Apply Filters</Text>
-                </Pressable>
+                  <ModalConfirmText>Apply Filters</ModalConfirmText>
+                </ModalConfirmButton>
               </View>
             </ModalContent>
           </Modal>
@@ -137,7 +130,7 @@ export const AdoptPage = ({ navigation }) => {
               <PetCategoriesButton
                   onPress={() => {
                     setSelectedCategoryIndex(index);
-                    filterPetCategory(index);
+                    filterPets(index, search);
                   }}
                   style={
                       {backgroundColor:
@@ -176,48 +169,3 @@ export const AdoptPage = ({ navigation }) => {
     </SafeArea>
   )
 }
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    width: 120
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  }
-});

@@ -1,4 +1,4 @@
-import { SafeAreaView, View, FlatList, TouchableOpacity, Dimensions, Text, Platform } from "react-native";
+import { SafeAreaView, View, FlatList, TouchableOpacity, Dimensions, Text, Platform, Pressable } from "react-native";
 import styled from "styled-components/native";
 
 export const SafeArea = styled(SafeAreaView)`
@@ -69,3 +69,17 @@ export const ModalContent = styled(View).attrs({
   borderWidth: 1.5,
   borderColor: '#ebe6e6'
 })``
+
+export const ModalConfirmButton = styled(Pressable)`
+  border-radius: 20;
+  padding: 10px;
+  elevation: 2;
+  width: 120px;
+  background-color: #2196f3
+`
+
+export const ModalConfirmText = styled(Text)`
+  color: white;
+  font-weight: bold;
+  text-align: center;
+`
