@@ -9,6 +9,7 @@ import { FAQPage } from "../../features/mainpage/faq/faq.screen";
 
 import { PetInfoCard } from "../../features/mainpage/adopt/components/pet-info-card.component";
 import { PetInfoScreen } from "../../features/mainpage/adopt/screens/pet-info.screen";
+import { EditPetList } from "../../features/profile/edit-pet-list.screen";
 
 const Stack = createStackNavigator();
 
