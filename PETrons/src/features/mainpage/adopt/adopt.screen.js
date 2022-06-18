@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from "react";
-import { View, TextInput, TouchableOpacity, RefreshControl, Modal } from "react-native";
+import { View, TextInput, TouchableOpacity, RefreshControl, Modal, FlatList, Dimensions } from "react-native";
 import styled from "styled-components/native";
 import { Text } from "../../../components/typography/text.component"
 import { Spacer } from '../../../components/spacer/spacer.component';
@@ -16,7 +16,6 @@ import {
   PetCategoriesContainer,
   PetCategoriesButton,
   PetCategoriesNames,
-  PetList,
   ModalContent,
   ModalConfirmButton,
   ModalConfirmText
@@ -151,13 +150,14 @@ export const AdoptPage = ({ navigation }) => {
         </PetCategoriesContainer>
       </MainContainer>
       <Spacer size='small' />
-      <PetList
+      <FlatList
         data={filteredPets}
         renderItem={(item) => (
           <TouchableOpacity onPress={() => navigation.navigate('PetInfo', {item})}>
             <PetInfoCard pet={item} />
           </TouchableOpacity>
         )}
+        contentContainerStyle={{ marginHorizontal: ((Dimensions.get('window').width - 382) / 2) }}
         keyExtractor={(item) => item.name}
         numColumns={2}
         refreshControl={

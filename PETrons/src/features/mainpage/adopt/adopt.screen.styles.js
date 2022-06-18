@@ -1,4 +1,4 @@
-import { SafeAreaView, View, FlatList, TouchableOpacity, Dimensions, Text, Platform, Pressable } from "react-native";
+import { SafeAreaView, View, TouchableOpacity, Dimensions, Text, Platform, Pressable } from "react-native";
 import styled from "styled-components/native";
 
 export const SafeArea = styled(SafeAreaView)`
@@ -47,12 +47,6 @@ export const PetCategoriesNames = styled(Text)`
   padding-horizontal: 5px;
   text-align: center;
 `
-
-export const PetList = styled(FlatList).attrs({
-  contentContainerStyle: {
-  marginHorizontal: ((Dimensions.get('window').width - 382) / 2)
-  }
-})``
 
 export const ModalContent = styled(View).attrs({
   elevation: 10,
