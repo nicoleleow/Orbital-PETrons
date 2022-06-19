@@ -35,16 +35,19 @@ export const SectionEnd = styled.View`
 `;
 
 export const Name = styled(Title)` 
-    font-size: ${(props) => props.theme.fontSizes.title};
+    font-size: 19px;
     font-family: ${(props) => props.theme.fonts.heading};
     color: ${(props) => props.theme.colors.text.error};
     margin: 0;
+    text-transform: capitalize;
+    width: 100px;
 `
 
 export const Caption = styled(Text)`
     font-size: ${(props) => props.theme.fontSizes.button};
     font-family: ${(props) => props.theme.fonts.body};
     color: ${(props) => props.theme.colors.brand.secondary};
+    text-transform: capitalize;
 `
 
 export const Container = styled(View)`
