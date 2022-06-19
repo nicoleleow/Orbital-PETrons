@@ -1,14 +1,12 @@
-export const PetTypes = [
-  { label: "Animal Type", value: "Animal Type" },
-  { label: "Dog", value: "Dog" },
-  { label: "Cat", value: "Cat" },
-  { label: "Rabbit", value: "Rabbit" },
-  { label: "Hamster", value: "Hamster" },
-  { label: "Guinea Pig", value: "Guinea pig" },
-  { label: "Bird", value: "Bird" },
-  { label: "Fish", value: "Fish" },
-  { label: "Others", value: "Others" }
-]
+export const PetCategories = [
+  { name: 'ALL', animalType: 'all', icon: 'gamepad-circle'},
+  { name: 'CATS', animalType: 'cat', icon: 'cat' },
+  { name: 'DOGS', animalType: 'dog', icon: 'dog' },
+  { name: 'BIRDS', animalType: 'bird', icon: 'bird' },
+  { name: 'RABBITS', animalType: 'rabbit', icon: 'rabbit' },
+  { name: 'FISH', animalType: 'fish', icon: 'fish' },
+  { name: 'OTHERS', animalType: 'others', icon: 'grain' } 
+];
 
 export const Ages = [
   { label: "Age", value: "Age" },
@@ -73,7 +71,11 @@ export const HDBApprovedStatus = [
 ]
     
 export const Fees = [
-  { label: "Fees", value: "Fees" },
-  { label: "Yes", value: "Yes" },
-  { label: "No", value: "No" },
+  { label: "Fees", value: 0 },
+  { label: "$0 - $20", value: 20 },
+  { label: "$21 - $50", value: 50 },
+  { label: "$51 - $100", value: 100 },
+  { label: "$101 - $150", value: 150 },
+  { label: "$151 - $200", value: 200 },
+  { label: "above $200", value: 201 },
 ]

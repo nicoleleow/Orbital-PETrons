@@ -22,7 +22,7 @@ import {
 } from "./adopt.screen.styles";
 
 import {
-  PetTypes,
+  PetCategories,
   Ages,
   Genders,
   Organisations,
@@ -47,7 +47,7 @@ export const AdoptPage = ({ navigation }) => {
 
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = useCallback(() => {
-    filterPets(categoryIndexFiltered, search);
+    // filterPets(categoryIndexFiltered, search);
     console.log('refreshed')
     setRefreshing(true);
     wait(1000).then(() => setRefreshing(false));
@@ -60,23 +60,8 @@ export const AdoptPage = ({ navigation }) => {
   const [search, setSearch] = useState('');
 
   const [modalVisible, setModalVisible] = useState(false);
-
-  // FOR FILTERING BY ANIMAL TYPE BUTTONS
-  const PetCategories = [
-    { name: 'ALL', animalType: 'all', icon: 'gamepad-circle'},
-    { name: 'CATS', animalType: 'cat', icon: 'cat' },
-    { name: 'DOGS', animalType: 'dog', icon: 'dog' },
-    { name: 'BIRDS', animalType: 'bird', icon: 'bird' },
-    { name: 'RABBITS', animalType: 'rabbit', icon: 'rabbit' },
-    { name: 'FISH', animalType: 'fish', icon: 'fish' },
-    { name: 'OTHERS', animalType: 'others', icon: 'grain' } 
-  ];
   
   // FOR FILTERING THROUGH MODAL
-  const [openType, setOpenType] = useState(false);
-  const [valueType, setValueType] = useState("Animal Type");
-  const [petType, setPetType] = useState(PetTypes);
-
   const [openAge, setOpenAge] = useState("");
   const [valueAge, setValueAge] = useState("Age");
   const [petAge, setPetAge] = useState(Ages);
@@ -89,16 +74,16 @@ export const AdoptPage = ({ navigation }) => {
   const [valueOrganisation, setValueOrganisation] = useState("Ownership Type");
   const [petOrganisation, setPetOrganisation] = useState(Organisations);
   
-    const [openHDB, setOpenHDB] = useState(false);
-    const [valueHDB, setValueHDB] = useState("HDB Approved Status");
-    const [petHDB, setPetHDB] = useState(HDBApprovedStatus);
+  const [openHDB, setOpenHDB] = useState(false);
+  const [valueHDB, setValueHDB] = useState("HDB Approved Status");
+  const [petHDB, setPetHDB] = useState(HDBApprovedStatus);
 
   const [openFee, setOpenFee] = useState(false);
   const [valueFee, setValueFee] = useState(0);
   const [petFee, setPetFee] = useState(Fees);
 
   const filterPets = (index, text) => {
-    console.log('here', valueType, valueAge, valueGender, valueOrganisation, valueHDB, valueFee)
+    // console.log('here', valueType, valueAge, valueGender, valueOrganisation, valueHDB, valueFee)
     setSearch(text);
     setCategoryIndexFiltered(index);
     // filter by category
@@ -109,12 +94,6 @@ export const AdoptPage = ({ navigation }) => {
     
     //filter by text (pet's name)
     newList = newList.filter(item => item?.name?.toUpperCase().includes(text.toUpperCase()));
-    
-    // filter by animal type
-    newList = newList.filter(
-      item =>
-        valueType === 'Animal Type' ? newList
-          : item?.type?.toUpperCase() == valueType.toUpperCase());
     
     // filter by age
 
@@ -138,18 +117,35 @@ export const AdoptPage = ({ navigation }) => {
           : item?.HDB_approved?.toUpperCase() == valueHDB.toUpperCase());
     
     // filter by fees
-    
+    newList = newList.filter(
+      item => {
+        if (valueFee === 0) {
+          return newList;
+        } else if (valueFee === 20) {
+          return item?.fee <= 20;
+        } else if (valueFee === 50) {
+          return (item?.fee >= 21 && item?.fee <= 50);
+        } else if (valueFee === 100) {
+          return (item?.fee >= 51 && item?.fee <= 100);
+        } else if (valueFee === 150) {
+          return (item?.fee >= 101 && item?.fee <= 150);
+        } else if (valueFee === 200) {
+          return (item?.fee >= 151 && item?.fee <= 200);
+        } else {
+          return item?.fee > 200;
+        }
+      }
+    );
+
     setFilteredPets(newList);
   }
 
-  const cancelFilters = async () => {
-    setModalVisible(false)
-    setValueType("Animal Type");
+  const removeAllFilters = async () => {
     setValueAge("Age");
     setValueGender("Gender");
     setValueOrganisation("Ownership Type");
     setValueHDB("HDB Approved Status");
-    setValueFee("Fees");
+    setValueFee(0);
   }
 
   return (
@@ -183,18 +179,6 @@ export const AdoptPage = ({ navigation }) => {
                 </View>
                 <Spacer size='large' />
                 <>
-                  <DropDownPicker
-                    zIndex={500}
-                    placeholder="Animal Type"
-                    open={openType}
-                    value={valueType}
-                    items={petType}
-                    setOpen={setOpenType}
-                    setValue={setValueType}
-                    setItems={setPetType}
-                    listMode="SCROLLVIEW"
-                  />
-                  <Spacer size='large' />
                   <DropDownPicker
                     zIndex={400}
                     placeholder="Age"
@@ -260,20 +244,20 @@ export const AdoptPage = ({ navigation }) => {
               <Spacer size='small' />
               <View style={{flexDirection: 'row'}} zIndex={1}>
                 <ModalConfirmButton
-                  onPress={() => setModalVisible(!modalVisible)}
+                  onPress={removeAllFilters}
                 >
                   <ModalConfirmText>Remove Filters</ModalConfirmText>
                 </ModalConfirmButton>
                 <Spacer size='large' position='right' />
                 <ModalConfirmButton
-                  onPress={() => setModalVisible(false)}
+                  onPress={() => setModalVisible(!modalVisible)}
                 >
-                  <ModalConfirmText>Apply Filters</ModalConfirmText>
+                  <ModalConfirmText>Apply</ModalConfirmText>
                 </ModalConfirmButton>
               </View>
               <Spacer size='large' />
               <ModalConfirmButton
-                  onPress={cancelFilters}
+                  onPress={() => setModalVisible(false)}
                 >
                 <ModalConfirmText>Cancel</ModalConfirmText>
               </ModalConfirmButton>

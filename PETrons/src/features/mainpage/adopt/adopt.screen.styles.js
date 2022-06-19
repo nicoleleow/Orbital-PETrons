@@ -57,8 +57,8 @@ export const ModalContent = styled(View).attrs({
   padding: 30,
   paddingBottom: 16,
   marginTop: Platform.OS === 'ios'
-    ? ((Dimensions.get('window').height - 550) / 2)
-    : ((Dimensions.get('window').height - 600) / 2),
+    ? ((Dimensions.get('window').height - 500) / 2)
+    : ((Dimensions.get('window').height - 550) / 2),
   borderWidth: 1.5,
   borderColor: '#ebe6e6'
 })``
