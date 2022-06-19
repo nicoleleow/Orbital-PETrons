@@ -271,7 +271,7 @@ export const AdoptPage = ({ navigation }) => {
           />
         </SearchInputContainer>
 
-        <PetCategoriesContainer horizontal={true}>
+        <PetCategoriesContainer horizontal={true} showsHorizontalScrollIndicator={false}>
           {PetCategories.map((item, index) => (
             <View key={"pet" + index}>
               <PetCategoriesButton
