@@ -4,10 +4,10 @@ import styled from "styled-components/native";
 import { Text } from "../../../components/typography/text.component"
 import { Spacer } from '../../../components/spacer/spacer.component';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import DropDownPicker from "react-native-dropdown-picker";
 
 import { PetInfoCard } from "./components/pet-info-card.component";
 import { GetPetsData, petsList } from "../../../../firebase/firebase-config"
-import { FilterPetsModalDetails } from "./components/pet-filter-modal.component";
 
 import {
   SafeArea,
@@ -20,6 +20,15 @@ import {
   ModalConfirmButton,
   ModalConfirmText
 } from "./adopt.screen.styles";
+
+import {
+  PetTypes,
+  Ages,
+  Genders,
+  Organisations,
+  HDBApprovedStatus,
+  Fees
+} from "./components/pet-filter-categories";
 
 const AdoptPageHeader = styled(Text)`
   color: black;
@@ -38,6 +47,8 @@ export const AdoptPage = ({ navigation }) => {
 
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = useCallback(() => {
+    filterPets(categoryIndexFiltered, search);
+    console.log('refreshed')
     setRefreshing(true);
     wait(1000).then(() => setRefreshing(false));
   }, []);
@@ -50,25 +61,95 @@ export const AdoptPage = ({ navigation }) => {
 
   const [modalVisible, setModalVisible] = useState(false);
 
+  // FOR FILTERING BY ANIMAL TYPE BUTTONS
   const PetCategories = [
-    {name: 'ALL', animalType: 'all', icon: 'gamepad-circle'},
-    {name: 'CATS', animalType: 'cat', icon: 'cat'},
-    {name: 'DOGS', animalType: 'dog', icon: 'dog'},
-    {name: 'BIRDS', animalType: 'bird', icon: 'bird'},
-    {name: 'RABBITS', animalType: 'rabbit', icon: 'rabbit'},
+    { name: 'ALL', animalType: 'all', icon: 'gamepad-circle'},
+    { name: 'CATS', animalType: 'cat', icon: 'cat' },
+    { name: 'DOGS', animalType: 'dog', icon: 'dog' },
+    { name: 'BIRDS', animalType: 'bird', icon: 'bird' },
+    { name: 'RABBITS', animalType: 'rabbit', icon: 'rabbit' },
+    { name: 'FISH', animalType: 'fish', icon: 'fish' },
+    { name: 'OTHERS', animalType: 'others', icon: 'grain' } 
   ];
   
+  // FOR FILTERING THROUGH MODAL
+  const [openType, setOpenType] = useState(false);
+  const [valueType, setValueType] = useState("Animal Type");
+  const [petType, setPetType] = useState(PetTypes);
+
+  const [openAge, setOpenAge] = useState("");
+  const [valueAge, setValueAge] = useState("Age");
+  const [petAge, setPetAge] = useState(Ages);
+  
+  const [openGender, setOpenGender] = useState(false);
+  const [valueGender, setValueGender] = useState("Gender");
+  const [petGender, setPetGender] = useState(Genders);
+  
+  const [openOrganisation, setOpenOrganisation] = useState(false);
+  const [valueOrganisation, setValueOrganisation] = useState("Ownership Type");
+  const [petOrganisation, setPetOrganisation] = useState(Organisations);
+  
+    const [openHDB, setOpenHDB] = useState(false);
+    const [valueHDB, setValueHDB] = useState("HDB Approved Status");
+    const [petHDB, setPetHDB] = useState(HDBApprovedStatus);
+
+  const [openFee, setOpenFee] = useState(false);
+  const [valueFee, setValueFee] = useState(0);
+  const [petFee, setPetFee] = useState(Fees);
+
   const filterPets = (index, text) => {
+    console.log('here', valueType, valueAge, valueGender, valueOrganisation, valueHDB, valueFee)
+    setSearch(text);
+    setCategoryIndexFiltered(index);
     // filter by category
     var newList = pets.filter(
       item =>
         PetCategories[index].animalType.toUpperCase() === 'ALL' ? pets
           : item?.type?.toUpperCase() == PetCategories[index].animalType.toUpperCase());
-    //filter by text
+    
+    //filter by text (pet's name)
     newList = newList.filter(item => item?.name?.toUpperCase().includes(text.toUpperCase()));
+    
+    // filter by animal type
+    newList = newList.filter(
+      item =>
+        valueType === 'Animal Type' ? newList
+          : item?.type?.toUpperCase() == valueType.toUpperCase());
+    
+    // filter by age
+
+    
+    // filter by gender
+    newList = newList.filter(
+      item =>
+        (valueGender === 'Gender') ? newList
+          : item?.gender?.toUpperCase() == valueGender.toUpperCase());
+
+    // filter by ownership type
+    newList = newList.filter(
+      item =>
+        (valueOrganisation === 'Ownership Type') ? newList
+          : item?.organisation?.toUpperCase() == valueOrganisation.toUpperCase());
+    
+    // filter by hdb approved status
+    newList = newList.filter(
+      item =>
+        (valueHDB === 'HDB Approved Status') ? newList
+          : item?.HDB_approved?.toUpperCase() == valueHDB.toUpperCase());
+    
+    // filter by fees
+    
     setFilteredPets(newList);
-    setSearch(text);
-    setCategoryIndexFiltered(index);
+  }
+
+  const cancelFilters = async () => {
+    setModalVisible(false)
+    setValueType("Animal Type");
+    setValueAge("Age");
+    setValueGender("Gender");
+    setValueOrganisation("Ownership Type");
+    setValueHDB("HDB Approved Status");
+    setValueFee("Fees");
   }
 
   return (
@@ -96,7 +177,84 @@ export const AdoptPage = ({ navigation }) => {
           >
             <ModalContent>
               <View zIndex={100}>
-                <FilterPetsModalDetails />
+                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems:'center'}}>
+                  <Text style={{ textAlign: "center", fontSize: 30 }}>Filter</Text>
+                  <Icon name='filter' size={30} />
+                </View>
+                <Spacer size='large' />
+                <>
+                  <DropDownPicker
+                    zIndex={500}
+                    placeholder="Animal Type"
+                    open={openType}
+                    value={valueType}
+                    items={petType}
+                    setOpen={setOpenType}
+                    setValue={setValueType}
+                    setItems={setPetType}
+                    listMode="SCROLLVIEW"
+                  />
+                  <Spacer size='large' />
+                  <DropDownPicker
+                    zIndex={400}
+                    placeholder="Age"
+                    open={openAge}
+                    value={valueAge}
+                    items={petAge}
+                    setOpen={setOpenAge}
+                    setValue={setValueAge}
+                    setItems={setPetAge}
+                    listMode="SCROLLVIEW"
+                  />
+                  <Spacer size='large' />
+                  <DropDownPicker
+                    zIndex={300}
+                    placeholder="Gender"
+                    open={openGender}
+                    value={valueGender}
+                    items={petGender}
+                    setOpen={setOpenGender}
+                    setValue={setValueGender}
+                    setItems={setPetGender}
+                    listMode="SCROLLVIEW"
+                  />
+                  <Spacer size='large' />
+                  <DropDownPicker
+                    zIndex={200}
+                    placeholder="Ownership Type"
+                    open={openOrganisation}
+                    value={valueOrganisation}
+                    items={petOrganisation}
+                    setOpen={setOpenOrganisation}
+                    setValue={setValueOrganisation}
+                    setItems={setPetOrganisation}
+                    listMode="SCROLLVIEW"
+                  />
+                  <Spacer size='large' />
+                  <DropDownPicker
+                    zIndex={100}
+                    placeholder="HDB Approved Status"
+                    open={openHDB}
+                    value={valueHDB}
+                    items={petHDB}
+                    setOpen={setOpenHDB}
+                    setValue={setValueHDB}
+                    setItems={setPetHDB}
+                    listMode="SCROLLVIEW"
+                  />
+                  <Spacer size='large' />
+                  <DropDownPicker
+                    zIndex={10}
+                    placeholder="Fees"
+                    open={openFee}
+                    value={valueFee}
+                    items={petFee}
+                    setOpen={setOpenFee}
+                    setValue={setValueFee}
+                    setItems={setPetFee}
+                    listMode="SCROLLVIEW"
+                  />
+                </>
               </View>
               <Spacer size='xLarge' />
               <Spacer size='small' />
@@ -104,7 +262,7 @@ export const AdoptPage = ({ navigation }) => {
                 <ModalConfirmButton
                   onPress={() => setModalVisible(!modalVisible)}
                 >
-                  <ModalConfirmText>Cancel</ModalConfirmText>
+                  <ModalConfirmText>Remove Filters</ModalConfirmText>
                 </ModalConfirmButton>
                 <Spacer size='large' position='right' />
                 <ModalConfirmButton
@@ -113,6 +271,12 @@ export const AdoptPage = ({ navigation }) => {
                   <ModalConfirmText>Apply Filters</ModalConfirmText>
                 </ModalConfirmButton>
               </View>
+              <Spacer size='large' />
+              <ModalConfirmButton
+                  onPress={cancelFilters}
+                >
+                <ModalConfirmText>Cancel</ModalConfirmText>
+              </ModalConfirmButton>
             </ModalContent>
           </Modal>
           <Icon
@@ -123,7 +287,7 @@ export const AdoptPage = ({ navigation }) => {
           />
         </SearchInputContainer>
 
-        <PetCategoriesContainer>
+        <PetCategoriesContainer horizontal={true}>
           {PetCategories.map((item, index) => (
             <View key={"pet" + index}>
               <PetCategoriesButton

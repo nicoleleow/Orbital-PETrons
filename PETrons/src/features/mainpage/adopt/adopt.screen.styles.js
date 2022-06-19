@@ -1,4 +1,4 @@
-import { SafeAreaView, View, TouchableOpacity, Dimensions, Text, Platform, Pressable } from "react-native";
+import { SafeAreaView, View, TouchableOpacity, Dimensions, Text, Platform, Pressable, ScrollView } from "react-native";
 import styled from "styled-components/native";
 
 export const SafeArea = styled(SafeAreaView)`
@@ -22,12 +22,10 @@ export const SearchInputContainer = styled(View)`
   margin-horizontal: ${(props) => props.theme.space[3]};
 `
 
-export const PetCategoriesContainer = styled(View)`
+export const PetCategoriesContainer = styled(ScrollView)`
   flex-direction: row;
-  justify-content: center;
   margin-top: ${(props) => props.theme.space[3]};
-  margin-horizontal: ${(props) => props.theme.space[3]};
-  padding-horizontal: ${(props) => props.theme.space[3]};
+  margin-horizontal: ${(props) => props.theme.space[2]};
 `
 
 export const PetCategoriesButton = styled(TouchableOpacity)`
@@ -36,7 +34,8 @@ export const PetCategoriesButton = styled(TouchableOpacity)`
   align-items: center;
   justify-content: center;
   border-radius: ${(props) => props.theme.space[3]};
-  margin: 0 ${(props) => props.theme.space[4]};
+  margin-right: ${(props) => props.theme.space[4]};
+  margin-left: ${(props) => props.theme.space[1]}
 `
 
 export const PetCategoriesNames = styled(Text)`
@@ -50,16 +49,16 @@ export const PetCategoriesNames = styled(Text)`
 
 export const ModalContent = styled(View).attrs({
   elevation: 10,
-  marginHorizontal: 50,
+  marginHorizontal: 40,
   borderRadius: 32,
   justifyContent: 'center',
   alignItems: 'center',
   backgroundColor: 'white',
-  padding: 32,
+  padding: 30,
   paddingBottom: 16,
   marginTop: Platform.OS === 'ios'
-    ? ((Dimensions.get('window').height - 500) / 2)
-    : ((Dimensions.get('window').height - 550) / 2),
+    ? ((Dimensions.get('window').height - 550) / 2)
+    : ((Dimensions.get('window').height - 600) / 2),
   borderWidth: 1.5,
   borderColor: '#ebe6e6'
 })``
@@ -67,8 +66,8 @@ export const ModalContent = styled(View).attrs({
 export const ModalConfirmButton = styled(Pressable)`
   border-radius: 20;
   padding: 10px;
-  elevation: 2;
-  width: 120px;
+  elevation: 5;
+  width: 130px;
   background-color: #2196f3
 `
 

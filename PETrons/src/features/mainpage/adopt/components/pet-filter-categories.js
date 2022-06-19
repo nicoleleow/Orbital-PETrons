@@ -1,5 +1,5 @@
 export const PetTypes = [
-  { label: "Search All Animal Types", value: "Search All Animal Types" },
+  { label: "Animal Type", value: "Animal Type" },
   { label: "Dog", value: "Dog" },
   { label: "Cat", value: "Cat" },
   { label: "Rabbit", value: "Rabbit" },
@@ -11,7 +11,7 @@ export const PetTypes = [
 ]
 
 export const Ages = [
-  { label: "Search All Genders", value: "Search All Genders" },
+  { label: "Age", value: "Age" },
   { label: "1 - 6 Months", value: "1 - 6 Months" },
   { label: "7 - 12 Months", value: "7 - 12 Months" },
   { label: "1 - 3 Years", value: "1 - 3 Years" },
@@ -21,13 +21,13 @@ export const Ages = [
 ]
   
 export const Genders = [
-  { label: "Search All Genders", value: "Search All Genders" },
+  { label: "Gender", value: "Gender" },
   { label: "Male", value: "Male" },
   { label: "Female", value: "Female" }
 ]
 
 export const Organisations = [
-  { label: "Search All Ownership Types", value: "Search All Ownership Types" },
+  { label: "Ownership Type", value: "Ownership Type" },
 
   { label: "Individual", value: "Individual" },
   { label: "Action for Singapore Dogs", value: "Action for Singapore Dogs" },
@@ -67,13 +67,13 @@ export const Organisations = [
 ]
   
 export const HDBApprovedStatus = [
-  { label: "Search All HDB Status", value: "Search All HDB Status" },
+  { label: "HDB Approved Status", value: "HDB Approved Status" },
   { label: "Yes", value: "Yes" },
   { label: "No", value: "No" }
 ]
     
 export const Fees = [
-  { label: "Search All Fees", value: "Search All Fees" },
+  { label: "Fees", value: "Fees" },
   { label: "Yes", value: "Yes" },
   { label: "No", value: "No" },
 ]
