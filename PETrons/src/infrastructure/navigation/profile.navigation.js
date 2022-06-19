@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { ProfilePage } from "../../features/profile/profile";
 import { FavouritesPage } from "../../features/profile/favourites";
 import { PutUpAdoptionListPage } from "../../features/profile/put-up-for-adoption-list.screen";
-import { EditPetList } from "../../features/profile/edit-pet-list.screen";
+import { EditPetList } from "../../features/profile/edit-adoption-list/edit-pet-list.screen";
 
 const Stack = createStackNavigator();
 

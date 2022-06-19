@@ -6,13 +6,16 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
   Image,
-  TouchableOpacity,
   Alert,
 } from "react-native";
-import { Button, TextInput } from "react-native-paper";
 import styled from "styled-components/native";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import DropDownPicker from "react-native-dropdown-picker";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  deleteObject,
+  uploadBytes,
+} from "firebase/storage";
 import Animated from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 import Render from "react-native-web/dist/cjs/exports/render";
@@ -26,118 +29,29 @@ import {
   updateDoc,
 } from "firebase/firestore/lite";
 
-import { Text } from "../../components/typography/text.component";
-import { Spacer } from "../../components/spacer/spacer.component";
-import { db, authentication } from "../../../firebase/firebase-config";
+import { Spacer } from "../../../components/spacer/spacer.component";
+import { db, authentication } from "../../../../firebase/firebase-config";
+import {
+  Background,
+  AdoptionInfoPageHeader,
+  FormButton,
+  Container,
+  ImageContainer,
+  Inputs,
+  DescriptionInput,
+  EditFormButton,
+  DropDown,
+  AdoptionInfoSubtitle,
+  RenderContentContainer,
+  RenderContentButton,
+  RenderContentButtonTitle,
+  RenderContentSubtitle,
+  RenderContentTitle,
+} from "./edit-pet-list.style";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
   background-color: orange;
-`;
-
-const Background = styled.View`
-  background-color: orange;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  padding-top: 30px;
-`;
-
-const AdoptionInfoPageHeader = styled(Text)`
-  color: black;
-  font-size: ${(props) => props.theme.fontSizes.h5};
-  font-family: ${(props) => props.theme.fonts.monospace};
-  padding-top: 40px;
-`;
-
-const FormButton = styled(Button).attrs({
-  // color: colors.button.primary,
-  color: "peru",
-})`
-  padding: ${(props) => props.theme.space[2]};
-  width: 300px;
-  margin-top: 10px;
-`;
-
-const Container = styled.View`
-  width: 380px;
-  padding: ${(props) => props.theme.space[4]};
-  margin-top: ${(props) => props.theme.space[1]};
-  padding-top: 10px;
-`;
-
-const ImageContainer = styled.View`
-  width: 380px;
-  margin-top: ${(props) => props.theme.space[1]};
-  align-items: center;
-  justify-content: center;
-`;
-
-const Inputs = styled(TextInput)`
-  width: 350px;
-  background-color: whitesmoke;
-`;
-
-const DescriptionInput = styled(TextInput)`
-  width: 350px;
-  height: 90px;
-  textalignvertical: "top";
-  background-color: whitesmoke;
-  padding-bottom: 200px;
-  margin-bottom: 50px;
-`;
-
-const EditFormButton = styled(Button).attrs({
-  // color: colors.button.primary,
-  color: "peru",
-})`
-  padding: ${(props) => props.theme.space[2]};
-  width: 300px;
-  margin-bottom: 20px;
-`;
-
-const DropDown = styled(DropDownPicker)`
-  width: 350px;
-  background-color: whitesmoke;
-  margin-top: 10px;
-`;
-
-const AdoptionInfoSubtitle = styled(Text)`
-  color: black;
-  font-size: 20px;
-  font-family: ${(props) => props.theme.fonts.monospace};
-`;
-
-const RenderContentContainer = styled.View`
-  background-color: white;
-  height: 350px;
-  padding: 20px;
-`;
-
-const RenderContentTitle = styled(Text)`
-  font-size: 27px;
-  height: 35px;
-`;
-
-const RenderContentSubtitle = styled(Text)`
-  font-size: 14px;
-  color: gray;
-  height: 30px;
-  margin-bottom: 10px;
-`;
-
-const RenderContentButtonTitle = styled(Text)`
-  font-size: 17px;
-  font-weight: bold;
-  color: white;
-`;
-
-const RenderContentButton = styled(TouchableOpacity)`
-  padding: 13px;
-  border-radius: 10px;
-  background-color: #ff6347;
-  align-items: center;
-  margin-vertical: 7px;
 `;
 
 const DismissKeyboard = ({ children }) => (
@@ -167,7 +81,7 @@ export const EditPetList = ({ route, navigation }) => {
   const [petAge, setPetAge] = useState(age);
   const [petPrice, setPetPrice] = useState(fee);
   const [petDescription, setPetDescription] = useState(short_description);
-  const [petImage, setImage] = useState(null);
+  const [petImage, setImage] = useState(image);
 
   const [openGender, setOpenGender] = useState(false);
   const [valueGender, setValueGender] = useState(gender);
@@ -282,6 +196,13 @@ export const EditPetList = ({ route, navigation }) => {
   };
 
   const updateData = async () => {
+    const uploadUri = image;
+    const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+    const storage = getStorage();
+    const reference = ref(storage, filename);
+    deleteObject(reference)
+      .then(() => {})
+      .catch((error) => {});
     const querySnapshot = await getDocs(collection(db, "put-up-for-adoption"));
     let documentID;
     querySnapshot.forEach((doc) => {
@@ -308,6 +229,14 @@ export const EditPetList = ({ route, navigation }) => {
       image: petImage,
       email: authentication.currentUser?.email,
     });
+    const newUploadUri = petImage;
+    const newFilename = newUploadUri.substring(
+      newUploadUri.lastIndexOf("/") + 1
+    );
+    const newReference = ref(storage, newFilename);
+    const img = await fetch(petImage);
+    const bytes = await img.blob();
+    await uploadBytes(newReference, bytes);
     navigation.navigate("PutUpAdoptionList");
   };
 
@@ -322,23 +251,6 @@ export const EditPetList = ({ route, navigation }) => {
         { text: "Yes", onPress: updateData },
       ]
     );
-
-  // const [url, setUrl] = useState();
-  // useEffect(() => {
-  //   const func = async () => {
-  //     const uploadUri = petImage;
-  //     const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
-  //     const storage = getStorage();
-  //     const reference = ref(storage, filename);
-  //     await getDownloadURL(reference).then((x) => {
-  //       setUrl(x);
-  //     });
-  //   };
-
-  //   if (url == undefined) {
-  //     func();
-  //   }
-  // }, []);
 
   return (
     <DismissKeyboard>
@@ -355,7 +267,10 @@ export const EditPetList = ({ route, navigation }) => {
         />
         <ScrollView>
           <ImageContainer>
-            {/* <Image source={{ uri: url }} style={{ width: 300, height: 200 }} /> */}
+            <Image
+              source={{ uri: petImage }}
+              style={{ width: 300, height: 200 }}
+            />
             <FormButton
               icon="image"
               mode="contained"
