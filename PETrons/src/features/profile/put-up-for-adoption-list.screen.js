@@ -7,14 +7,17 @@ import {
   FlatList,
   TouchableOpacity,
   RefreshControl,
+  TextInput,
 } from "react-native";
 import styled from "styled-components/native";
 import { Searchbar } from "react-native-paper";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { Text } from "../../components/typography/text.component";
 import { AdoptionInfoCard } from "./adoption-info-card";
 import { petsList, GetPetsData } from "../../../firebase/firebase-config";
 import { authentication } from "../../../firebase/firebase-config";
+import { Spacer } from "../../components/spacer/spacer.component";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -37,7 +40,18 @@ const AdoptionList = styled(FlatList).attrs({
   },
 })``;
 
-export const PutUpAdoptionListPage = () => {
+const SearchInputContainer = styled(View)`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  background-color: white;
+  border-radius: 7px;
+  padding-horizontal: 20px;
+  margin-horizontal: ${(props) => props.theme.space[3]};
+`;
+
+export const PutUpAdoptionListPage = ({ navigation }) => {
   GetPetsData();
   const filteredList = petsList.filter((obj) => {
     return obj.email === authentication.currentUser?.email;
@@ -52,6 +66,16 @@ export const PutUpAdoptionListPage = () => {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
+  const [filteredPets, setFilteredPets] = React.useState(filteredList);
+  const [search, setSearch] = React.useState("");
+  const filterPetName = (text) => {
+    const newPets = filteredList.filter((item) =>
+      item?.name?.toUpperCase().includes(text.toUpperCase())
+    );
+    setFilteredPets(newPets);
+    setSearch(text);
+  };
+
   return (
     <DismissKeyboard>
       <SafeArea>
@@ -59,13 +83,24 @@ export const PutUpAdoptionListPage = () => {
           <Text variant="header">YOUR LIST</Text>
         </View>
         <SearchContainer>
-          <Searchbar />
+          {/* <Searchbar /> */}
+          <SearchInputContainer>
+            <Icon name="magnify" size={24} color={"#777"} />
+            <Spacer size="medium" position="right" />
+            <TextInput
+              placeholderTextColor={"#777"}
+              placeholder="Search for pet name"
+              style={{ flex: 1 }}
+              value={search}
+              onChangeText={(text) => filterPetName(text)}
+            />
+          </SearchInputContainer>
         </SearchContainer>
         <AdoptionList
-          data={filteredList}
+          data={filteredPets}
           renderItem={(item) => (
             <TouchableOpacity>
-              <AdoptionInfoCard pet={item} />
+              <AdoptionInfoCard pet={item} navigation={navigation} />
             </TouchableOpacity>
           )}
           keyExtractor={(item) => item.name}

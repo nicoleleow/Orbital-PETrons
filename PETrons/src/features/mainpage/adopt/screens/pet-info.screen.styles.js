@@ -11,6 +11,7 @@ export const Name = styled(Text)`
     font-size: ${(props) => props.theme.fontSizes.h4};
     font-family: ${(props) => props.theme.fonts.body};
     font-weight: ${(props) => props.theme.fontWeights.bold};
+    text-transform: capitalize;
 `
 
 export const Breed = styled(Text)`
@@ -19,6 +20,7 @@ export const Breed = styled(Text)`
     font-family: ${(props) => props.theme.fonts.body};
     padding:  ${(props) => props.theme.space[1]};
     font-weight: ${(props) => props.theme.fontWeights.bold};
+    text-transform: capitalize;
 `
 
 export const PetPhotoContainer = styled(View)`

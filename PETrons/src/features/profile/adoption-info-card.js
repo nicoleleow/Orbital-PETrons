@@ -12,7 +12,13 @@ import {
   query,
   deleteDoc,
 } from "firebase/firestore/lite";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
+
 
 import { Spacer } from "../../components/spacer/spacer.component";
 import { colors } from "../../infrastructure/theme/colors";
@@ -67,7 +73,7 @@ const EditButton = styled(Button).attrs({
   width: 100px;
 `;
 
-export const AdoptionInfoCard = ({ pet = {} }) => {
+export const AdoptionInfoCard = ({ pet, navigation }) => {
   const { index, item } = pet;
   const {
     age,
@@ -85,7 +91,10 @@ export const AdoptionInfoCard = ({ pet = {} }) => {
 
   const EditAlert = () =>
     Alert.alert("Edit?", "Are you sure you want make changes to this form?", [
-      { text: "Edit", onPress: () => console.log(name) },
+      {
+        text: "Edit",
+        onPress: () => navigation.navigate("EditingPetList", { item }),
+      },
       { text: "Delete", onPress: DeleteData },
       {
         text: "Cancel",
@@ -106,6 +115,13 @@ export const AdoptionInfoCard = ({ pet = {} }) => {
       }
     });
     await deleteDoc(doc(db, "put-up-for-adoption", documentID));
+    const uploadUri = image;
+    const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+    const storage = getStorage();
+    const reference = ref(storage, filename);
+    deleteObject(reference)
+      .then(() => {})
+      .catch((error) => {});
   };
 
   const [url, setUrl] = useState();
