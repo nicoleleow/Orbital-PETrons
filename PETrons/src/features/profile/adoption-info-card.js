@@ -19,6 +19,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 
+
 import { Spacer } from "../../components/spacer/spacer.component";
 import { colors } from "../../infrastructure/theme/colors";
 import { db, authentication } from "../../../firebase/firebase-config";
