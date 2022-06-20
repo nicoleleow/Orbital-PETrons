@@ -1,50 +1,58 @@
-import React, { useState, useCallback, useMemo, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
-  Text,
   View,
-  TouchableOpacity,
-  Image,
-  ScrollView,
   Keyboard,
   TouchableWithoutFeedback,
-  Dimensions,
+  ScrollView,
+  Image,
   Alert,
 } from "react-native";
 import styled from "styled-components/native";
-import { Button, TextInput } from "react-native-paper";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  deleteObject,
+  uploadBytes,
+} from "firebase/storage";
 import Animated from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 import Render from "react-native-web/dist/cjs/exports/render";
 import * as ImagePicker from "expo-image-picker";
-import DropDownPicker from "react-native-dropdown-picker";
 import {
   collection,
   getDocs,
   doc,
   setDoc,
-  addDoc,
+  query,
+  updateDoc,
 } from "firebase/firestore/lite";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
 
-import { colors } from "../../../infrastructure/theme/colors";
 import { Spacer } from "../../../components/spacer/spacer.component";
-import { authentication, db } from "../../../../firebase/firebase-config";
+import { db, authentication } from "../../../../firebase/firebase-config";
 import {
-  Container,
-  PutUpAdoptionPageHeader,
-  FormButton,
-  SubmitFormButton,
   Background,
+  AdoptionInfoPageHeader,
+  FormButton,
+  Container,
+  ImageContainer,
   Inputs,
   DescriptionInput,
-  RenderContentContainer,
-  RenderContentTitle,
-  RenderContentSubtitle,
-  RenderContentButtonTitle,
-  RenderContentButton,
+  EditFormButton,
   DropDown,
-} from "./put-up-for-adoption.style";
+  AdoptionInfoSubtitle,
+  RenderContentContainer,
+  RenderContentButton,
+  RenderContentButtonTitle,
+  RenderContentSubtitle,
+  RenderContentTitle,
+} from "./edit-pet-list.style";
+
+const SafeArea = styled(SafeAreaView)`
+  flex: 1;
+  background-color: orange;
+`;
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -52,23 +60,38 @@ const DismissKeyboard = ({ children }) => (
   </TouchableWithoutFeedback>
 );
 
-export const PutUpAdoptionPage = ({ navigation }) => {
-  const [name, setName] = useState("");
-  const [breed, setBreed] = useState("");
-  const [age, setAge] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
+export const EditPetList = ({ route, navigation }) => {
+  const pet = route.params.item;
+  const {
+    age,
+    breed,
+    type,
+    fee,
+    gender,
+    organisation,
+    name,
+    image,
+    short_description,
+    HDB_approved,
+    email,
+  } = pet;
+
+  const [petName, setPetName] = useState(name);
+  const [petBreed, setPetBreed] = useState(breed);
+  const [petAge, setPetAge] = useState(age);
+  const [petPrice, setPetPrice] = useState(fee);
+  const [petDescription, setPetDescription] = useState(short_description);
+  const [petImage, setImage] = useState(image);
 
   const [openGender, setOpenGender] = useState(false);
-  const [valueGender, setValueGender] = useState("");
+  const [valueGender, setValueGender] = useState(gender);
   const [petGender, setPetGender] = useState([
     { label: "Male", value: "Male" },
     { label: "Female", value: "Female" },
   ]);
 
   const [openType, setOpenType] = useState(false);
-  const [valueType, setValueType] = useState("");
+  const [valueType, setValueType] = useState(type);
   const [petType, setPetType] = useState([
     { label: "Dog", value: "Dog" },
     { label: "Cat", value: "Cat" },
@@ -81,14 +104,14 @@ export const PutUpAdoptionPage = ({ navigation }) => {
   ]);
 
   const [openHDB, setOpenHDB] = useState(false);
-  const [valueHDB, setValueHDB] = useState("");
+  const [valueHDB, setValueHDB] = useState(HDB_approved);
   const [petHDB, setPetHDB] = useState([
     { label: "Yes", value: "Yes" },
     { label: "No", value: "No" },
   ]);
 
   const [openOrganisation, setOpenOrganisation] = useState(false);
-  const [valueOrganisation, setValueOrganisation] = useState("");
+  const [valueOrganisation, setValueOrganisation] = useState(organisation);
   const [petOrganisation, setPetOrganisation] = useState([
     { label: "Individual", value: "Individual" },
     { label: "Action for Singapore Dogs", value: "Action for Singapore Dogs" },
@@ -144,9 +167,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
       </RenderContentButton>
     </RenderContentContainer>
   );
-
   const sheetRef = React.useRef(null);
-
   const chooseFromLibrary = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -174,67 +195,69 @@ export const PutUpAdoptionPage = ({ navigation }) => {
     }
   };
 
-  const SetData = async () => {
-    await addDoc(collection(db, "put-up-for-adoption"), {
-      name: name,
-      gender: valueGender,
-      age: age,
-      type: valueType,
-      breed: breed,
-      organisation: valueOrganisation,
-      HDB_approved: valueHDB,
-      fee: price,
-      short_description: description,
-      image: image,
-      email: authentication.currentUser?.email,
-    });
-    navigation.navigate("mainpage");
+  const updateData = async () => {
     const uploadUri = image;
     const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
     const storage = getStorage();
     const reference = ref(storage, filename);
-    const img = await fetch(image);
+    deleteObject(reference)
+      .then(() => {})
+      .catch((error) => {});
+    const querySnapshot = await getDocs(collection(db, "put-up-for-adoption"));
+    let documentID;
+    querySnapshot.forEach((doc) => {
+      if (
+        (doc.data().email === email) &
+        (doc.data().name === name) &
+        (doc.data().short_description === short_description) &
+        (doc.data().organisation === organisation)
+      ) {
+        documentID = doc.id;
+      }
+    });
+    const editedDoc = doc(db, "put-up-for-adoption", documentID);
+    await setDoc(editedDoc, {
+      name: petName,
+      gender: valueGender,
+      age: petAge,
+      type: valueType,
+      breed: petBreed,
+      organisation: valueOrganisation,
+      HDB_approved: valueHDB,
+      fee: petPrice,
+      short_description: petDescription,
+      image: petImage,
+      email: authentication.currentUser?.email,
+    });
+    const newUploadUri = petImage;
+    const newFilename = newUploadUri.substring(
+      newUploadUri.lastIndexOf("/") + 1
+    );
+    const newReference = ref(storage, newFilename);
+    const img = await fetch(petImage);
     const bytes = await img.blob();
-    await uploadBytes(reference, bytes);
+    await uploadBytes(newReference, bytes);
+    navigation.navigate("PutUpAdoptionList");
   };
 
-  const confirmAlert = () => {
-    const inputs = [
-      name,
-      breed,
-      age,
-      price,
-      description,
-      valueGender,
-      valueType,
-      valueHDB,
-      valueOrganisation,
-    ];
-    if (inputs.includes("") || inputs.includes(undefined)) {
-      Alert.alert("Please fill in all fields");
-    } else if (image === null) {
-      Alert.alert("Please provide an image of your pet");
-    } else {
-      Alert.alert(
-        "Submit Form?",
-        "Are you sure you want to submit this form?",
-        [
-          {
-            text: "Cancel",
-            onPress: () => navigation.navigate("PutUpAdoption"),
-          },
-          { text: "Yes", onPress: SetData },
-        ]
-      );
-    }
-  };
+  const confirmEdit = () =>
+    Alert.alert(
+      "Submit Changes?",
+      "Are you sure you want to submit this changes?",
+      [
+        {
+          text: "Cancel",
+        },
+        { text: "Yes", onPress: updateData },
+      ]
+    );
 
   return (
     <DismissKeyboard>
       <Background>
-        <PutUpAdoptionPageHeader>
-          Provide your pet's details:
-        </PutUpAdoptionPageHeader>
+        <AdoptionInfoPageHeader>
+          Change your pet's details:
+        </AdoptionInfoPageHeader>
         <BottomSheet
           initialSnap={2}
           ref={sheetRef}
@@ -243,33 +266,33 @@ export const PutUpAdoptionPage = ({ navigation }) => {
           renderContent={renderContent}
         />
         <ScrollView>
-          <Container>
-            {image && (
-              <Image
-                source={{ uri: image }}
-                style={{ width: 300, height: 200 }}
-              />
-            )}
+          <ImageContainer>
+            <Image
+              source={{ uri: petImage }}
+              style={{ width: 300, height: 200 }}
+            />
             <FormButton
               icon="image"
               mode="contained"
               onPress={() => sheetRef.current.snapTo(0)}
             >
-              Upload Image
+              Upload New Image
             </FormButton>
+          </ImageContainer>
+          <Container>
             <Spacer size="large">
               <Inputs
                 label="Pet's Name"
-                value={name}
+                value={petName}
                 textContentType="name"
                 keyboardType="default"
-                autoCapitalize="words"
-                onChangeText={(text) => setName(text)}
+                autoCapitalize="none"
+                onChangeText={(text) => setPetName(text)}
               />
             </Spacer>
+            <AdoptionInfoSubtitle>Select Pet's Gender</AdoptionInfoSubtitle>
             <>
               <DropDown
-                placeholder="Select Pet's Gender"
                 open={openGender}
                 value={valueGender}
                 items={petGender}
@@ -282,15 +305,15 @@ export const PutUpAdoptionPage = ({ navigation }) => {
             <Spacer size="large">
               <Inputs
                 label="Pet's Age (eg. _ years _ months)"
-                value={age}
+                value={petAge}
                 textContentType="none"
                 keyboardType="default"
-                onChangeText={(text) => setAge(text)}
+                onChangeText={(text) => setPetAge(text)}
               />
             </Spacer>
+            <AdoptionInfoSubtitle>Select Type of Pet</AdoptionInfoSubtitle>
             <>
               <DropDown
-                placeholder="Select Type of Pet"
                 open={openType}
                 value={valueType}
                 items={petType}
@@ -304,16 +327,16 @@ export const PutUpAdoptionPage = ({ navigation }) => {
             <Spacer size="large">
               <Inputs
                 label="Pet's Breed"
-                value={breed}
+                value={petBreed}
                 textContentType="none"
                 keyboardType="default"
                 autoCapitalize="none"
-                onChangeText={(text) => setBreed(text)}
+                onChangeText={(text) => setPetBreed(text)}
               />
             </Spacer>
+            <AdoptionInfoSubtitle>Select Ownership type</AdoptionInfoSubtitle>
             <>
               <DropDown
-                placeholder="Select Ownership type"
                 open={openOrganisation}
                 value={valueOrganisation}
                 items={petOrganisation}
@@ -324,9 +347,11 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 dropDownDirection="TOP"
               />
             </>
+            <AdoptionInfoSubtitle>
+              Is your pet HDB approved?
+            </AdoptionInfoSubtitle>
             <>
               <DropDown
-                placeholder="Is your pet HDB approved?"
                 open={openHDB}
                 value={valueHDB}
                 items={petHDB}
@@ -339,29 +364,29 @@ export const PutUpAdoptionPage = ({ navigation }) => {
             <Spacer size="large">
               <Inputs
                 label="Fee($)"
-                value={price}
+                value={petPrice}
                 textContentType="none"
                 keyboardType="number-pad"
-                onChangeText={(text) => setPrice(text)}
+                onChangeText={(text) => setPetPrice(text)}
               />
             </Spacer>
             <Spacer size="large">
               <DescriptionInput
                 label="Short Description..."
-                value={description}
+                value={petDescription}
                 textContentType="none"
                 autoCapitalize="none"
                 keyboardType="default"
                 multiline={true}
-                onChangeText={(text) => setDescription(text)}
+                onChangeText={(text) => setPetDescription(text)}
               />
             </Spacer>
           </Container>
         </ScrollView>
         <Spacer size="large">
-          <SubmitFormButton mode="contained" onPress={confirmAlert}>
-            Confirm
-          </SubmitFormButton>
+          <EditFormButton mode="contained" onPress={confirmEdit}>
+            Confirm Change
+          </EditFormButton>
         </Spacer>
       </Background>
     </DismissKeyboard>

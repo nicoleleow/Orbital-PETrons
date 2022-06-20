@@ -47,7 +47,6 @@ const Container = styled(View).attrs({
   height: Platform.OS === 'ios'
     ? (Dimensions.get('window').height - 280)
     : (Dimensions.get('window').height - 190),
-  // backgroundColor: 'green',
   justifyContent: 'center'
 })``
 
