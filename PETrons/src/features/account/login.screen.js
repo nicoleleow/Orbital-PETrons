@@ -25,8 +25,7 @@ const DismissKeyboard = ({ children }) => (
 
 const ImagePet = styled(Image)`
   height: 130px;
-  width: 95%;
-  margin-right: 30px;
+  width: 150px;
 `;
 
 export const LoginScreen = ({ navigation }) => {
@@ -71,7 +70,7 @@ export const LoginScreen = ({ navigation }) => {
     <DismissKeyboard>
       <AccountBackground>
         <SubTitle>Welcome Back!</SubTitle>
-        <ImagePet source={require("../../../assets/cat-and-dog.png")} />
+        <ImagePet source={require("../../../assets/dog.png")} />
         <AccountContainer>
           <AuthInput
             label="E-mail"
