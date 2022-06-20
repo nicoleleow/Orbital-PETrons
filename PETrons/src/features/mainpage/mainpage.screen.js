@@ -11,6 +11,9 @@ import {
 import { Menu } from "react-native-paper";
 import styled from "styled-components/native";
 
+const height = Math.ceil((Dimensions.get("screen").height * 0.61 - 130) / 2);
+const heightImage = (Dimensions.get("screen").height * 4) / 25;
+// const heightPet = Dimensions.get("screen").height / 7;
 const widthMenuCard = Dimensions.get("screen").width / 2 - 30;
 
 const SafeArea = styled(SafeAreaView)`
@@ -20,11 +23,12 @@ const SafeArea = styled(SafeAreaView)`
 
 const MainPageHeader = styled(Text)`
   color: black;
-  padding-top: ${(props) => props.theme.space[5]};
+  padding-top: ${(props) => props.theme.space[6]};
   padding-bottom: ${(props) => props.theme.space[4]};
   font-size: ${(props) => props.theme.fontSizes.h3};
   font-family: ${(props) => props.theme.fonts.heading};
   text-align: center;
+  margin-bottom: 70px;
 `;
 
 const Header = styled(Text)`
@@ -44,7 +48,7 @@ const HeaderTwo = styled(Text)`
 `;
 
 const MenuCard = styled(View)`
-  height: 200px;
+  height: ${height}px;
   width: ${widthMenuCard}px;
   elevation: 15;
   align-items: center;
@@ -69,15 +73,16 @@ const MenuCardContainerBottom = styled(View)`
 `;
 
 const ImageCard = styled(Image)`
-  height: 140px;
+  height: ${heightImage}px;
   border-radius: ${(props) => props.theme.space[3]};
   width: 100%;
 `;
 
-const ImagePet = styled(Image)`
-  height: 140px;
-  width: 95%;
-`;
+// const ImagePet = styled(Image)`
+//   height: ${heightPet}px;
+//   width: 95%;
+//   margin-bottom: 10px;
+// `;
 
 export const Mainpage = ({ navigation }) => {
   const AdoptPage = () => {
@@ -98,7 +103,7 @@ export const Mainpage = ({ navigation }) => {
       <View>
         <MainPageHeader>HOME</MainPageHeader>
       </View>
-      <ImagePet source={require("../../../assets/cat-and-dog.png")} />
+      {/* <ImagePet source={require("../../../assets/cat-and-dog.png")} /> */}
       <MenuCardContainer>
         <TouchableOpacity onPress={PutUpAdoptionPage}>
           <MenuCard>
