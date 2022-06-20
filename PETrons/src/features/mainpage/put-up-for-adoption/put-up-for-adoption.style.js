@@ -51,6 +51,7 @@ export const Background = styled.View`
 export const Inputs = styled(TextInput)`
   width: 350px;
   background-color: whitesmoke;
+  border-radius: 10px;
 `;
 
 export const DescriptionInput = styled(TextInput)`
