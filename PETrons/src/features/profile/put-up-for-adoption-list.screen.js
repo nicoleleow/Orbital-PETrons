@@ -31,7 +31,7 @@ const DismissKeyboard = ({ children }) => (
 );
 
 const SearchContainer = styled.View`
-  padding: ${(props) => props.theme.space[3]};
+  padding-top: ${(props) => props.theme.space[2]};
 `;
 
 const AdoptionList = styled(FlatList).attrs({
@@ -83,7 +83,6 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
           <Text variant="header">YOUR LIST</Text>
         </View>
         <SearchContainer>
-          {/* <Searchbar /> */}
           <SearchInputContainer>
             <Icon name="magnify" size={24} color={"#777"} />
             <Spacer size="medium" position="right" />

@@ -198,14 +198,36 @@ export const PutUpAdoptionPage = ({ navigation }) => {
     await uploadBytes(reference, bytes);
   };
 
-  const confirmAlert = () =>
-    Alert.alert("Submit Form?", "Are you sure you want to submit this form?", [
-      {
-        text: "Cancel",
-        onPress: () => navigation.navigate("PutUpAdoption"),
-      },
-      { text: "Yes", onPress: SetData },
-    ]);
+  const confirmAlert = () => {
+    const inputs = [
+      name,
+      breed,
+      age,
+      price,
+      description,
+      valueGender,
+      valueType,
+      valueHDB,
+      valueOrganisation,
+    ];
+    if (inputs.includes("") || inputs.includes(undefined)) {
+      Alert.alert("Please fill in all fields");
+    } else if (image === null) {
+      Alert.alert("Please provide an image of your pet");
+    } else {
+      Alert.alert(
+        "Submit Form?",
+        "Are you sure you want to submit this form?",
+        [
+          {
+            text: "Cancel",
+            onPress: () => navigation.navigate("PutUpAdoption"),
+          },
+          { text: "Yes", onPress: SetData },
+        ]
+      );
+    }
+  };
 
   return (
     <DismissKeyboard>
@@ -241,7 +263,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 value={name}
                 textContentType="name"
                 keyboardType="default"
-                autoCapitalize="none"
+                autoCapitalize="words"
                 onChangeText={(text) => setName(text)}
               />
             </Spacer>
