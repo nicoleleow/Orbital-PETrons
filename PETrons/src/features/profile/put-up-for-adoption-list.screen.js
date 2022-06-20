@@ -62,6 +62,11 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
   };
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
+    GetPetsData();
+    const newFilteredList = petsList.filter((obj) => {
+      return obj.email === authentication.currentUser?.email;
+    });
+    setFilteredPets(newFilteredList);
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
   }, []);
