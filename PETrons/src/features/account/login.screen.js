@@ -1,7 +1,9 @@
 import React, { useState, useContext } from "react";
 import { Text } from "react-native-paper";
-import { Keyboard, TouchableWithoutFeedback } from "react-native";
+import { Keyboard, TouchableWithoutFeedback, Image } from "react-native";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { collection, getDocs, doc, setDoc } from "firebase/firestore/lite";
+import styled from "styled-components/native";
 
 import {
   AccountBackground,
@@ -11,13 +13,21 @@ import {
   SubTitle,
 } from "./account.style";
 import { Spacer } from "../../components/spacer/spacer.component";
-import { authentication } from "../../../firebase/firebase-config";
+import { authentication, db } from "../../../firebase/firebase-config";
+
+export let adoptionList = [];
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     {children}
   </TouchableWithoutFeedback>
 );
+
+const ImagePet = styled(Image)`
+  height: 130px;
+  width: 95%;
+  margin-right: 30px;
+`;
 
 export const LoginScreen = ({ navigation }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -42,6 +52,9 @@ export const LoginScreen = ({ navigation }) => {
           setErrorMessage(re.message.slice(22, -2));
         }
       });
+    const adoptionListCol = collection(db, "put-up-for-adoption");
+    const adoptionListSnapshot = await getDocs(adoptionListCol);
+    adoptionList = adoptionListSnapshot.docs.map((doc) => doc.data());
   };
 
   const SignOutUser = () => {
@@ -58,6 +71,7 @@ export const LoginScreen = ({ navigation }) => {
     <DismissKeyboard>
       <AccountBackground>
         <SubTitle>Welcome Back!</SubTitle>
+        <ImagePet source={require("../../../assets/cat-and-dog.png")} />
         <AccountContainer>
           <AuthInput
             label="E-mail"
