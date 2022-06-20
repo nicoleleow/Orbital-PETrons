@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Spacer } from '../../../../components/spacer/spacer.component';
+
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 import {
     PetCard,
@@ -9,44 +11,60 @@ import {
     SectionEnd,
     Name,
     Caption,
-    Container,
-    ShelterIcon
-    } from './pet-info-card.styles';
+    HDBIcon,
+    GenderIcon
+} from './pet-info-card.styles';
 
-export const PetInfoCard = ({ pet = {} }) => {
-    const icon = 'https://cdn-icons-png.flaticon.com/512/3769/3769065.png';
-    const {
-        name = 'Bella',
-        photos = [
-            'https://www.thesprucepets.com/thmb/cr0IUzzdcuqOYdGMBbRbbi6NfkY=/1568x1176/smart/filters:no_upscale()/GettyImages-145577979-d97e955b5d8043fd96747447451f78b7.jpg'
-        ],
-        animalType = 'Cat',
-        animalBreed = 'Ragdoll',
-        age = 9,
-        gender = 'F',
-        fee = 23, 
-        isShelter= true,
-        shortDescription
-    } = pet;
+export const PetInfoCard = ({ pet }) => {
+    // extract pet details 
+    const { index, item } = pet;
+    const { age, breed, type, fee, gender, HDB_approved,
+        name, image, short_description, organisation } = item;
+
+    const genderIconType = gender === 'Male' ? 'male-symbol' : 'female-symbol';
+    const genderIconColor = gender === 'Male' ? '#1260CC' : '#FE046A';
     
+    const isHDBApproved = HDB_approved === 'Yes' ? true : false;
+    const hdbIcon = 'https://www.logolynx.com/images/logolynx/e5/e5d49abdb2ad1ac2dff8fb33e138d785.jpeg';
+
+    const [url, setUrl] = useState();
+    useEffect(() => {
+        const func = async () => {
+        const uploadUri = image;
+        const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+        const storage = getStorage();
+        const reference = ref(storage, filename);
+        await getDownloadURL(reference).then((x) => {
+            setUrl(x);
+        });
+        };
+
+        if (url == undefined) {
+        func();
+        }
+    }, []);
+
     return (
         <PetCard elevation={5}>
-            <PetInfoCardCover key={name} source={{ uri: photos[0] }} />
+            <PetInfoCardCover key={name} source={{ uri: url }} />
             <PetCardDetails>
                 <SectionStart>
                     <Name>{name}</Name>
                     <Spacer size='small' />
-                    <Caption>Breed: {animalBreed}</Caption>
-                    <Container>
-                        <Caption>Age: {age}</Caption>
-                        <Spacer size='large' position='right'/>
-                        <Caption>Gender: {gender}</Caption>
-                    </Container>
+                    <Caption>{breed}</Caption>
+                    <Spacer size='small'/>
+                    <Caption>{age} old</Caption>
                 </SectionStart>
                 <SectionEnd>
-                    {isShelter && (
-                        <ShelterIcon source={{ uri: icon }} />
+                    {isHDBApproved && (
+                        <HDBIcon source={{ uri:hdbIcon }} />
                     )}
+                    <Spacer size='medium' position='right' />
+                    <GenderIcon
+                        name={genderIconType}
+                        color={genderIconColor}
+                        size={20} />
+                    
                     <Spacer size='small' position='right' />
                 </SectionEnd>
             </PetCardDetails> 

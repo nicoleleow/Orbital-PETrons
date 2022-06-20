@@ -7,6 +7,10 @@ import { PutUpAdoptionPage } from "../../features/mainpage/put-up-for-adoption/p
 import { StoriesPage } from "../../features/mainpage/share-stories/share-stories.screen";
 import { FAQPage } from "../../features/mainpage/faq/faq.screen";
 
+import { PetInfoCard } from "../../features/mainpage/adopt/components/pet-info-card.component";
+import { PetInfoScreen } from "../../features/mainpage/adopt/screens/pet-info.screen";
+import { EditPetList } from "../../features/profile/edit-adoption-list/edit-pet-list.screen";
+
 const Stack = createStackNavigator();
 
 export const MainPageNavigator = () => (
@@ -16,5 +20,8 @@ export const MainPageNavigator = () => (
     <Stack.Screen name="PutUpAdoption" component={PutUpAdoptionPage} />
     <Stack.Screen name="ShareStories" component={StoriesPage} />
     <Stack.Screen name="FAQ" component={FAQPage} />
+
+    <Stack.Screen name="PetInfoCard" component={PetInfoCard} />
+    <Stack.Screen name="PetInfo" component={PetInfoScreen} />
   </Stack.Navigator>
 );
