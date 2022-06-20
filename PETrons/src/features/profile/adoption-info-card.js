@@ -19,7 +19,6 @@ import {
   deleteObject,
 } from "firebase/storage";
 
-
 import { Spacer } from "../../components/spacer/spacer.component";
 import { colors } from "../../infrastructure/theme/colors";
 import { db, authentication } from "../../../firebase/firebase-config";
@@ -28,12 +27,23 @@ const AdoptionCard = styled(Card)`
   margin: ${(props) => props.theme.space[2]};
   border-radius: ${(props) => props.theme.space[3]};
 `;
+
 const AdoptionCardDetails = styled(Card.Content)`
   padding-horizontal: 15px;
   padding-bottom: ${(props) => props.theme.space[3]};
   padding-top: ${(props) => props.theme.space[1]};
   display: flex;
   flex-direction: row;
+`;
+
+const AdoptionCardImage = styled(Card.Content)`
+  padding-horizontal: 15px;
+  padding-bottom: ${(props) => props.theme.space[3]};
+  padding-top: ${(props) => props.theme.space[1]};
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
 `;
 
 const AdoptionPetInfoCardCover = styled(Card.Cover)`
@@ -143,7 +153,13 @@ export const AdoptionInfoCard = ({ pet, navigation }) => {
 
   return (
     <AdoptionCard elevation={5}>
-      <AdoptionPetInfoCardCover key={name} source={{ uri: url }} />
+      <AdoptionCardImage>
+        <AdoptionPetInfoCardCover
+          key={name}
+          style={{ width: 300, height: 200 }}
+          source={{ uri: url }}
+        />
+      </AdoptionCardImage>
       <AdoptionCardDetails>
         <SectionStart>
           <Name>Name: {name}</Name>
