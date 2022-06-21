@@ -21,6 +21,7 @@ const home = (theme) => `
 const title = (theme) => `
     color: black;
     font-size: ${theme.fontSizes.body};
+    font-family: ${theme.fonts.body};
     font-weight: bold;
     flex: 1;
     text-align-vertical: center;
