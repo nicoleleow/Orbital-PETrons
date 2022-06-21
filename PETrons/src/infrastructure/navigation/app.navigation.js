@@ -5,9 +5,10 @@ import { StyleSheet, SafeAreaView, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { SafeArea } from "../../components/utility/safe-area.component";
-import { ActivityPage } from "../../features/activity/activity";
+import { ActivityPage } from "../../features/activity/message.screen";
 import { ProfileNavigator } from "./profile.navigation";
 import { MainPageNavigator } from "./mainpage.navigation";
+import { MessageNavigator } from "./message.navigation";
 
 const Tab = createBottomTabNavigator();
 
@@ -20,8 +21,8 @@ function MyTabs() {
 
           if (route.name === "Home") {
             iconName = "md-home";
-          } else if (route.name === "Activity") {
-            iconName = "md-notifications";
+          } else if (route.name === "Messages") {
+            iconName = "md-chatbox-ellipses";
           } else if (route.name === "Profile") {
             iconName = "md-people";
           }
@@ -39,9 +40,9 @@ function MyTabs() {
         component={MainPageNavigator}
       />
       <Tab.Screen
+        name="Messages"
         options={{ headerShown: false }}
-        name="Activity"
-        component={ActivityPage}
+        component={MessageNavigator}
       />
       <Tab.Screen
         options={{ headerShown: false }}

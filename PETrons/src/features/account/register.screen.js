@@ -2,6 +2,13 @@ import React, { useState } from "react";
 import { Text } from "react-native-paper";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
+import {
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+  addDoc,
+} from "firebase/firestore/lite";
 
 import {
   AccountBackground,
@@ -11,7 +18,7 @@ import {
   SubTitle,
 } from "./account.style";
 import { Spacer } from "../../components/spacer/spacer.component";
-import { authentication } from "../../../firebase/firebase-config";
+import { authentication, db } from "../../../firebase/firebase-config";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -28,30 +35,44 @@ export const RegisterScreen = ({ navigation }) => {
   const [errorDisplay, setErrorDisplay] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const registerUser = () => {
+  const registerUser = async () => {
     const inputs = [email, password, repeatedPassword, username];
-    if (password !== repeatedPassword) {
+    const querySnapshot = await getDocs(collection(db, "userinfo"));
+    let repeatedUsername;
+    querySnapshot.forEach((doc) => {
+      if (doc.data().username === username) {
+        repeatedUsername = true;
+      }
+    });
+    if (inputs.includes("") || inputs.includes(undefined)) {
+      setErrorMessage("Please fill in all fields");
+      setErrorDisplay(true);
+    } else if (password.length < 6) {
+      setErrorMessage("Password should be at least 6 characters!");
+      setErrorDisplay(true);
+    } else if (password !== repeatedPassword) {
       setErrorMessage("Passwords do not match!");
       setErrorDisplay(true);
-      return;
-    }
-    createUserWithEmailAndPassword(authentication, email, password)
-      .then((re) => {
-        console.log(re);
-        setIsSignedIn(true);
-        navigation.navigate("Login");
-      })
-      .catch((re) => {
-        console.log(re);
-        setErrorDisplay(true);
-        if (inputs.includes("") || inputs.includes(undefined)) {
-          setErrorMessage("Please fill in all fields");
-        } else if (password.length < 6) {
-          setErrorMessage("Password should be at least 6 characters!");
-        } else {
+    } else if (repeatedUsername) {
+      setErrorMessage("Username already taken");
+      setErrorDisplay(true);
+    } else {
+      createUserWithEmailAndPassword(authentication, email, password)
+        .then((re) => {
+          // console.log(re);
+          setIsSignedIn(true);
+          navigation.navigate("Login");
+          addDoc(collection(db, "userinfo"), {
+            username: username,
+            email: email,
+          });
+        })
+        .catch((re) => {
+          // console.log(re);
+          setErrorDisplay(true);
           setErrorMessage(re.message.slice(22, -2));
-        }
-      });
+        });
+    }
   };
 
   return (
