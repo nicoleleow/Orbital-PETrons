@@ -19,9 +19,7 @@ import { PetInfoScreen } from "./src/features/mainpage/adopt/screens/pet-info.sc
 import { AdoptPage } from "./src/features/mainpage/adopt/adopt.screen";
 import { StoriesPage } from "./src/features/mainpage/share-stories/share-stories.screen";
 
-// import { collection, getDocs } from "firebase/firestore/lite";
-// import { db } from "../PETrons/firebase/firebase-config";
-import { FilterPetsModalDetails } from "./src/features/mainpage/adopt/components/pet-filter-modal.component";
+import { PetAdoptionProcedureScreen } from "./src/features/mainpage/faq/screens/pet-adoption-procedure.screen";
 
 export default function App() {
   const [oswaldLoaded] = useOswald({
@@ -52,6 +50,7 @@ export default function App() {
         {/* <AdoptPage /> */}
         {/* <PetInfoScreen /> */}
         <Navigation />
+        {/* <PetAdoptionProcedureScreen /> */}
         {/* <FilterPetsModalDetails /> */}
         {/* <Mainpage /> */}
         {/* <StoriesPage /> */}
