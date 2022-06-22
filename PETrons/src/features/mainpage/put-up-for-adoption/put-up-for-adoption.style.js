@@ -52,6 +52,7 @@ export const Inputs = styled(TextInput)`
   width: 350px;
   background-color: whitesmoke;
   border-radius: 10px;
+  border-width: 1px;
 `;
 
 export const DescriptionInput = styled(TextInput)`
@@ -61,6 +62,10 @@ export const DescriptionInput = styled(TextInput)`
   background-color: whitesmoke;
   padding-bottom: 200px;
   margin-bottom: 50px;
+  border-radius: 10px;
+  border-width: 1px;
+  font-size: ${(props) => props.theme.fontSizes.body};
+  font-family: ${(props) => props.theme.fonts.body};
 `;
 
 export const RenderContentContainer = styled.View`
@@ -97,6 +102,7 @@ export const RenderContentButton = styled(TouchableOpacity)`
 
 export const DropDown = styled(DropDownPicker)`
   width: 350px;
+  height: 70px;
   background-color: whitesmoke;
   margin-top: 10px;
 `;

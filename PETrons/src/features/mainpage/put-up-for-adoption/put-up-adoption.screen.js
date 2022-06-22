@@ -30,6 +30,14 @@ import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { colors } from "../../../infrastructure/theme/colors";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { authentication, db } from "../../../../firebase/firebase-config";
+
+import {
+  AnimalTypes,
+  GenderTypes,
+  Groups,
+  HDBApproved
+} from "./put-up-adoption-categories"
+
 import {
   Container,
   PutUpAdoptionPageHeader,
@@ -62,70 +70,19 @@ export const PutUpAdoptionPage = ({ navigation }) => {
 
   const [openGender, setOpenGender] = useState(false);
   const [valueGender, setValueGender] = useState("");
-  const [petGender, setPetGender] = useState([
-    { label: "Male", value: "Male" },
-    { label: "Female", value: "Female" },
-  ]);
+  const [petGender, setPetGender] = useState(GenderTypes);
 
   const [openType, setOpenType] = useState(false);
   const [valueType, setValueType] = useState("");
-  const [petType, setPetType] = useState([
-    { label: "Dog", value: "Dog" },
-    { label: "Cat", value: "Cat" },
-    { label: "Rabbit", value: "Rabbit" },
-    { label: "Hamster", value: "Hamster" },
-    { label: "Guinea Pig", value: "Guinea pig" },
-    { label: "Bird", value: "Bird" },
-    { label: "Fish", value: "Fish" },
-    { label: "Others", value: "Others" },
-  ]);
+  const [petType, setPetType] = useState(AnimalTypes);
 
   const [openHDB, setOpenHDB] = useState(false);
   const [valueHDB, setValueHDB] = useState("");
-  const [petHDB, setPetHDB] = useState([
-    { label: "Yes", value: "Yes" },
-    { label: "No", value: "No" },
-  ]);
+  const [petHDB, setPetHDB] = useState(HDBApproved);
 
   const [openOrganisation, setOpenOrganisation] = useState(false);
   const [valueOrganisation, setValueOrganisation] = useState("");
-  const [petOrganisation, setPetOrganisation] = useState([
-    { label: "Individual", value: "Individual" },
-    { label: "Action for Singapore Dogs", value: "Action for Singapore Dogs" },
-    { label: "Animals Lovers League", value: "Animals Lovers League" },
-    {
-      label: "Bunny Wonderland Singapore",
-      value: "Bunny Wonderland Singapore",
-    },
-    { label: "Cat Welfare Society", value: "Cat Welfare Society" },
-    {
-      label: "Causes for Animals (Singapore)",
-      value: "Causes for Animals (Singapore)",
-    },
-    { label: "Exclusively Mongrels", value: "Exclusively Mongrels" },
-    { label: "Hamster Society Singapore", value: "Hamster Society Singapore" },
-    {
-      label: "House Rabbit Society Singapore",
-      value: "House Rabbit Society Singapore",
-    },
-    {
-      label: "Mercylight Animal Rescue and Sanctuary",
-      value: "Mercylight Animal Rescue and Sanctuary",
-    },
-    { label: "Noah's Ark CARES", value: "Noah's Ark CARES" },
-    {
-      label: "Oasis Second Chance Animal Shelter",
-      value: "Oasis Second Chance Animal Shelter",
-    },
-    { label: "Purely Adoptions", value: "Purely Adoptions" },
-    { label: "SOSD", value: "SOSD" },
-    {
-      label: "Society for the Prevention of Cruelty to Animals",
-      value: "SPCA",
-    },
-    { label: "Voices for Animals", value: "Voices for Animals" },
-    { label: "Others", value: "Others" },
-  ]);
+  const [petOrganisation, setPetOrganisation] = useState(Groups);
 
   const renderContent = () => (
     <RenderContentContainer>
@@ -276,28 +233,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 onChangeText={(text) => setName(text)}
               />
             </Spacer>
-            <>
-              <DropDown
-                placeholder="Select Pet's Gender"
-                open={openGender}
-                value={valueGender}
-                items={petGender}
-                setOpen={setOpenGender}
-                setValue={setValueGender}
-                setItems={setPetGender}
-                listMode="SCROLLVIEW"
-              />
-            </>
-            <Spacer size="large">
-              <Inputs
-                label="Pet's Age (eg. _ years _ months)"
-                value={age}
-                textContentType="none"
-                keyboardType="default"
-                onChangeText={(text) => setAge(text)}
-              />
-            </Spacer>
-            <>
+                        <>
               <DropDown
                 placeholder="Select Type of Pet"
                 open={openType}
@@ -307,7 +243,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 setValue={setValueType}
                 setItems={setPetType}
                 listMode="SCROLLVIEW"
-                dropDownDirection="TOP"
+                zIndex={300}
               />
             </>
             <Spacer size="large">
@@ -322,6 +258,28 @@ export const PutUpAdoptionPage = ({ navigation }) => {
             </Spacer>
             <>
               <DropDown
+                placeholder="Select Pet's Gender"
+                open={openGender}
+                value={valueGender}
+                items={petGender}
+                setOpen={setOpenGender}
+                setValue={setValueGender}
+                setItems={setPetGender}
+                listMode="SCROLLVIEW"
+                zIndex={400}
+              />
+            </>
+            <Spacer size="large">
+              <Inputs
+                label="Pet's Age (eg. _ years _ months)"
+                value={age}
+                textContentType="none"
+                keyboardType="default"
+                onChangeText={(text) => setAge(text)}
+              />
+            </Spacer>
+            <>
+              <DropDown
                 placeholder="Select Ownership type"
                 open={openOrganisation}
                 value={valueOrganisation}
@@ -330,7 +288,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 setValue={setValueOrganisation}
                 setItems={setPetOrganisation}
                 listMode="SCROLLVIEW"
-                dropDownDirection="TOP"
+                zIndex={200}
               />
             </>
             <>
@@ -343,11 +301,12 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 setValue={setValueHDB}
                 setItems={setPetHDB}
                 listMode="SCROLLVIEW"
+                zIndex={100}
               />
             </>
             <Spacer size="large">
               <Inputs
-                label="Fee($)"
+                label="Fee ($)"
                 value={price}
                 textContentType="none"
                 keyboardType="number-pad"
