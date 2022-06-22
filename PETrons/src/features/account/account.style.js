@@ -14,7 +14,6 @@ export const AccountBackground = styled.ImageBackground.attrs({
 export const AccountContainer = styled.View`
   background-color: rgba(255, 255, 255, 0.7);
   padding: ${(props) => props.theme.space[4]};
-  margin-top: ${(props) => props.theme.space[2]};
 `;
 
 export const AuthButton = styled(Button).attrs({
@@ -36,6 +35,6 @@ export const Title = styled(Text)`
 export const SubTitle = styled(Text)`
   color: black;
   padding-bottom: ${(props) => props.theme.space[4]};
-  font-size: ${(props) => props.theme.fontSizes.title};
+  font-size: ${(props) => props.theme.fontSizes.h5};
   font-family: ${(props) => props.theme.fonts.monospace};
 `;

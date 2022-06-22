@@ -46,12 +46,13 @@ export const AdoptPage = ({ navigation }) => {
   GetPetsData();
 
   const [refreshing, setRefreshing] = useState(false);
-  const onRefresh = useCallback(() => {
-    // filterPets(categoryIndexFiltered, search);
-    console.log('refreshed')
+  const onRefresh = () => {
+    GetPetsData();
+    setFilteredPets(petsList);
+    filterPets(categoryIndexFiltered, search);
     setRefreshing(true);
-    wait(1000).then(() => setRefreshing(false));
-  }, []);
+    wait(2000).then(() => setRefreshing(false));
+  };
 
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
   const [pets, setPets] = useState(petsList);
@@ -82,12 +83,12 @@ export const AdoptPage = ({ navigation }) => {
   const [valueFee, setValueFee] = useState(0);
   const [petFee, setPetFee] = useState(Fees);
 
+
   const filterPets = (index, text) => {
-    // console.log('here', valueType, valueAge, valueGender, valueOrganisation, valueHDB, valueFee)
     setSearch(text);
     setCategoryIndexFiltered(index);
     // filter by category
-    var newList = pets.filter(
+    var newList = petsList.filter(
       item =>
         PetCategories[index].animalType.toUpperCase() === 'ALL' ? pets
           : item?.type?.toUpperCase() == PetCategories[index].animalType.toUpperCase());
@@ -138,6 +139,7 @@ export const AdoptPage = ({ navigation }) => {
     );
 
     setFilteredPets(newList);
+    return filteredPets;
   }
 
   const removeAllFilters = async () => {
@@ -256,11 +258,6 @@ export const AdoptPage = ({ navigation }) => {
                 </ModalConfirmButton>
               </View>
               <Spacer size='large' />
-              <ModalConfirmButton
-                  onPress={() => setModalVisible(false)}
-                >
-                <ModalConfirmText>Cancel</ModalConfirmText>
-              </ModalConfirmButton>
             </ModalContent>
           </Modal>
           <Icon
@@ -271,7 +268,7 @@ export const AdoptPage = ({ navigation }) => {
           />
         </SearchInputContainer>
 
-        <PetCategoriesContainer horizontal={true}>
+        <PetCategoriesContainer horizontal={true} showsHorizontalScrollIndicator={false}>
           {PetCategories.map((item, index) => (
             <View key={"pet" + index}>
               <PetCategoriesButton
@@ -301,7 +298,7 @@ export const AdoptPage = ({ navigation }) => {
       <FlatList
         data={filteredPets}
         renderItem={(item) => (
-          <TouchableOpacity onPress={() => navigation.navigate('PetInfo', {item})}>
+          <TouchableOpacity onPress={() => navigation.navigate('PetInfo', { item })}>
             <PetInfoCard pet={item} />
           </TouchableOpacity>
         )}
