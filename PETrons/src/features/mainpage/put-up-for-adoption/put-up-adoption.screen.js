@@ -243,7 +243,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 setValue={setValueType}
                 setItems={setPetType}
                 listMode="SCROLLVIEW"
-                zIndex={300}
+                zIndex={400}
               />
             </>
             <Spacer size="large">
@@ -266,7 +266,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 setValue={setValueGender}
                 setItems={setPetGender}
                 listMode="SCROLLVIEW"
-                zIndex={400}
+                zIndex={300}
               />
             </>
             <Spacer size="large">

@@ -105,4 +105,5 @@ export const DropDown = styled(DropDownPicker)`
   height: 70px;
   background-color: whitesmoke;
   margin-top: 10px;
+  border-radius: 10px;
 `;
