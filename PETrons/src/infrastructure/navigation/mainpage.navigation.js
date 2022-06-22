@@ -52,13 +52,13 @@ export const MainPageNavigator = () => (
       component={PetInfoScreen}
       options={{ headerShown: false }}
     />
-    <Stack.Screen
+    {/* <Stack.Screen
       name="Chat"
       component={ChatPage}
       options={({ route }) => ({
         title: route.params.item.userName,
         headerBackTitleVisible: false,
       })}
-    />
+    /> */}
   </Stack.Navigator>
 );

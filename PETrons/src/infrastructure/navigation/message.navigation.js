@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { MessagePage } from "../../features/activity/message.screen";
 import { ChatPage } from "../../features/activity/chat.screen";
+import { authentication } from "../../../firebase/firebase-config";
 
 const Stack = createStackNavigator();
 
@@ -18,7 +19,10 @@ export const MessageNavigator = () => {
         name="Chat"
         component={ChatPage}
         options={({ route }) => ({
-          title: route.params.item.userName,
+          title:
+            route.params.item.email === authentication.currentUser?.email
+              ? route.params.item.username
+              : route.params.item.userName,
           headerBackTitleVisible: false,
         })}
       />

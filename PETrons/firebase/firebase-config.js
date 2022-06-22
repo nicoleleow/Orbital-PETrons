@@ -29,3 +29,13 @@ export const GetChatData = async () => {
   const chatOverview = await getDocs(chatCol);
   chatList = chatOverview.docs.map((doc) => doc.data());
 };
+
+export let userUsername;
+export const getUserName = async () => {
+  const Snapshot = await getDocs(collection(db, "userinfo"));
+  Snapshot.forEach((doc) => {
+    if (doc.data().email === authentication.currentUser?.email) {
+      userUsername = doc.data().username;
+    }
+  });
+};

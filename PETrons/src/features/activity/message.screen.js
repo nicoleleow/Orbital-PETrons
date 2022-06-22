@@ -22,7 +22,12 @@ import {
 } from "./message.styles";
 import { Text } from "../../components/typography/text.component";
 import { authentication, db } from "../../../firebase/firebase-config";
-import { GetChatData, chatList } from "../../../firebase/firebase-config";
+import {
+  GetChatData,
+  chatList,
+  getUserName,
+  userUsername,
+} from "../../../firebase/firebase-config";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -30,6 +35,7 @@ const SafeArea = styled(SafeAreaView)`
 `;
 
 GetChatData();
+getUserName();
 
 export const MessagePage = ({ navigation }) => {
   // const press = async () => {
@@ -44,9 +50,37 @@ export const MessagePage = ({ navigation }) => {
   // };
 
   const filteredList = chatList.filter((obj) => {
-    return obj.userEmail === authentication.currentUser?.email;
+    return (
+      obj.userEmail === authentication.currentUser?.email ||
+      obj.email === authentication.currentUser?.email
+    );
   });
-  console.log(filteredList);
+  let timeList = [];
+  let nameList = [];
+  let filterList = [];
+  const arrayList = filteredList.forEach((element) => {
+    if (
+      !nameList.includes(element.userName) &
+      (element.userName !== userUsername)
+    ) {
+      nameList.push(element.userName);
+    }
+  });
+  const secondArray = nameList.forEach((i) => {
+    filteredList.forEach((element) => {
+      if (element.userName === i || element.username === i) {
+        timeList.push(element.createdAt);
+        timeList.sort();
+      }
+    });
+    filteredList.forEach((element) => {
+      if (element.createdAt === timeList.at(-1) && timeList.length !== 0) {
+        filterList.push(element);
+      }
+    });
+    timeList = [];
+  });
+  console.log(filterList);
 
   return (
     <SafeArea>
@@ -54,17 +88,21 @@ export const MessagePage = ({ navigation }) => {
       <Text variant="header">Messages</Text>
       <Container>
         <FlatList
-          data={filteredList}
-          keyExtractor={(item) => item.id}
+          data={filterList}
+          keyExtractor={(item) => item._id}
           renderItem={({ item }) => (
             <Card onPress={() => navigation.navigate("Chat", { item })}>
               <UserInfo>
                 <TextSection>
                   <UserInfoText>
-                    <UserName>{item.userName}</UserName>
-                    <PostTime>{item.messageTime}</PostTime>
+                    <UserName>
+                      {item.userEmail === authentication.currentUser?.email
+                        ? item.userName
+                        : item.username}
+                    </UserName>
+                    <PostTime>{item.createdAt}</PostTime>
                   </UserInfoText>
-                  <MessageText>{item.messageText}</MessageText>
+                  <MessageText>{item.text}</MessageText>
                 </TextSection>
               </UserInfo>
             </Card>

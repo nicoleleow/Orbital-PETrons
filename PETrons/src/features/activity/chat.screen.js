@@ -1,4 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useLayoutEffect,
+} from "react";
 import { View, ScrollView, Text, Button, StyleSheet } from "react-native";
 import { Bubble, GiftedChat, Send } from "react-native-gifted-chat";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -12,92 +17,106 @@ import {
   query,
   updateDoc,
   addDoc,
+  orderBy,
+  onSnapshot,
 } from "firebase/firestore/lite";
 
 export const ChatPage = ({ route, navigation }) => {
   const [messages, setMessages] = useState([]);
 
   const chatInfo = route.params.item;
-  const { email, id, messageText, messageTime, userName, userEmail } = chatInfo;
+  const { email, _id, createdAt, text, userName, userEmail, username, user } =
+    chatInfo;
   useEffect(() => {
-    setMessages([
-      {
-        _id: authentication.currentUser?.email,
-        text: "Hello developer",
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "React Native",
-        },
-      },
-      {
-        _id: 2,
-        text: "Hello world",
-        createdAt: new Date(),
-        user: {
-          _id: authentication.currentUser?.email,
-          name: "React Native",
-        },
-      },
-    ]);
+    let chatList = [];
+    let timeList = [];
+    console.log("username" + userName);
+    const func = async () => {
+      let usersEmail;
+      const Snapshot = await getDocs(collection(db, "userinfo"));
+      Snapshot.forEach((doc) => {
+        if (doc.data().username === userName) {
+          usersEmail = doc.data().email;
+        }
+      });
+      console.log(usersEmail);
+      const querySnapshot = await getDocs(collection(db, "chat"));
+      querySnapshot.forEach((doc) => {
+        if (
+          (doc.data().userEmail === authentication.currentUser?.email) &
+          (doc.data().email === email)
+        ) {
+          timeList.push(doc.data().createdAt);
+          console.log("1");
+        } else if (
+          (doc.data().email === authentication.currentUser?.email) &
+          (doc.data().userEmail === usersEmail)
+        ) {
+          timeList.push(doc.data().createdAt);
+          console.log("2");
+        } else if (
+          doc.data().email === usersEmail //&
+          //(doc.data().userEmail === authentication.currentUser?.email)
+        ) {
+          timeList.push(doc.data().createdAt);
+          console.log("3");
+        } else if (
+          (doc.data().userEmail === authentication.currentUser?.email) &
+          (doc.data().email === userEmail)
+        ) {
+          timeList.push(doc.data().createdAt);
+          console.log("4");
+        }
+      });
+      timeList.sort().reverse();
+      console.log(timeList);
+      timeList.forEach((element) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.data().createdAt === element) {
+            chatList.push(doc.data());
+          }
+        });
+      });
+      console.log(chatList);
+      setMessages(chatList);
+    };
+    func();
   }, []);
-
-  // useEffect(() => {
-  //   const unsubscribe = chatsRef.onSnapshot((querySnapshot) => {
-  //     const messagesFirestore = querySnapshot
-  //       .docChanges()
-  //       .filter(({ type }) => type === "added")
-  //       .map(({ doc }) => {
-  //         const message = doc.data();
-  //         return { ...message, createdAt: message.createdAt.toDate() };
-  //       })
-  //       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-  //     appendMessages(messagesFirestore);
-  //   });
-  //   return () => unsubscribe();
-  // }, []);
-
-  // const appendMessages = useCallback(
-  //   (messages) => {
-  //     setMessages((previousMessages) =>
-  //       GiftedChat.append(previousMessages, messages)
-  //     );
-  //   },
-  //   [messages]
-  // );
 
   const onSend = useCallback(async (messages = []) => {
     setMessages((previousMessages) =>
       GiftedChat.append(previousMessages, messages)
     );
-    const querySnapshot = await getDocs(collection(db, "chat"));
-    let addToChatList = true;
-    querySnapshot.forEach((doc) => {
-      //for from pet adoption page
-      if (
-        (doc.data().email === email) &
-        (doc.data().userEmail === authentication.currentUser?.email)
-      ) {
-        addToChatList = false;
+    const Snapshot = await getDocs(collection(db, "userinfo"));
+    let userUsername;
+    Snapshot.forEach((doc) => {
+      if (doc.data().email === authentication.currentUser?.email) {
+        userUsername = doc.data().username;
       }
-      // for from message page
-      // if (
-      //   (doc.data().contactEmail === contactEmail) &
-      //   (doc.data().userEmail === userEmail)
-      // ) {
-      //   addToChatList = false;
-      // }
     });
-    if (addToChatList) {
+    const { _id, createdAt, user, text } = messages[0];
+    if (userName != userUsername) {
       await addDoc(collection(db, "chat"), {
-        //for from pet adoption page
+        _id,
+        createdAt: Date(createdAt),
+        user,
+        text,
         email: email,
         userEmail: authentication.currentUser?.email,
-        // for from message page
-        // contactEmail: contactEmail,
-        // userEmail: userEmail,
+        userName: userName,
+        username: userUsername,
       });
-      // console.log("added");
+    } else {
+      await addDoc(collection(db, "chat"), {
+        _id,
+        createdAt: Date(createdAt),
+        user,
+        text,
+        email: userEmail,
+        userEmail: authentication.currentUser?.email,
+        userName: username,
+        username: userUsername,
+      });
     }
     [];
   });
@@ -125,9 +144,15 @@ export const ChatPage = ({ route, navigation }) => {
           right: {
             backgroundColor: "#2e64e5",
           },
+          left: {
+            backgroundColor: "#2e64e5",
+          },
         }}
         textStyle={{
           right: {
+            color: "#fff",
+          },
+          left: {
             color: "#fff",
           },
         }}
@@ -155,11 +180,3 @@ export const ChatPage = ({ route, navigation }) => {
     />
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
