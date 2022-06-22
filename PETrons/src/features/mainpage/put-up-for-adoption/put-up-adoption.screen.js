@@ -175,6 +175,14 @@ export const PutUpAdoptionPage = ({ navigation }) => {
   };
 
   const SetData = async () => {
+    let userUsername;
+    const Snapshot = await getDocs(collection(db, "userinfo"));
+    Snapshot.forEach((doc) => {
+      if (doc.data().email === authentication.currentUser?.email) {
+        userUsername = doc.data().username;
+      }
+    });
+    console.log(userUsername);
     await addDoc(collection(db, "put-up-for-adoption"), {
       name: name,
       gender: valueGender,
@@ -187,6 +195,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
       short_description: description,
       image: image,
       email: authentication.currentUser?.email,
+      userName: userUsername,
     });
     navigation.navigate("mainpage");
     const uploadUri = image;
