@@ -258,11 +258,6 @@ export const AdoptPage = ({ navigation }) => {
                 </ModalConfirmButton>
               </View>
               <Spacer size='large' />
-              {/* <ModalConfirmButton
-                  onPress={() => setModalVisible(false)}
-                >
-                <ModalConfirmText>Cancel</ModalConfirmText>
-              </ModalConfirmButton> */}
             </ModalContent>
           </Modal>
           <Icon

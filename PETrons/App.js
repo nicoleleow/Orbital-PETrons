@@ -15,12 +15,6 @@ import { AppNavigator } from "./src/infrastructure/navigation/app.navigation";
 import { AccountNavigator } from "./src/infrastructure/navigation/account.navigation";
 import { Navigation } from "./src/infrastructure/navigation";
 
-import { PetInfoScreen } from "./src/features/mainpage/adopt/screens/pet-info.screen";
-import { AdoptPage } from "./src/features/mainpage/adopt/adopt.screen";
-import { StoriesPage } from "./src/features/mainpage/share-stories/share-stories.screen";
-
-import { PetAdoptionProcedureScreen } from "./src/features/mainpage/faq/screens/pet-adoption-procedure.screen";
-
 export default function App() {
   const [oswaldLoaded] = useOswald({
     Oswald_400Regular,
@@ -34,12 +28,6 @@ export default function App() {
     return null;
   }
 
-  // const GetData = async () => {
-  //   const petsCol = collection(db, 'put-up-for-adoption');
-  //   const petsOverview = await getDocs(petsCol);
-  //   const petsList = petsOverview.docs.map(doc => doc.data());
-  //   console.log(petsList)
-  // }
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -47,14 +35,7 @@ export default function App() {
           <Mainpage />
         </AppNavigator> */}
 
-        {/* <AdoptPage /> */}
-        {/* <PetInfoScreen /> */}
         <Navigation />
-        {/* <PetAdoptionProcedureScreen /> */}
-        {/* <FilterPetsModalDetails /> */}
-        {/* <Mainpage /> */}
-        {/* <StoriesPage /> */}
-      {/* <Draft /> */}
       
         {/* <NavigationContainer>
           <AppNavigator />

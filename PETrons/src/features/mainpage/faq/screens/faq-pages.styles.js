@@ -19,6 +19,7 @@ export const Title = styled(Text)`
   text-decoration: underline;
   line-height: 30px;
   margin-horizontal: ${(props) => props.theme.space[5]};
+  font-size: 18px;
 `
 
 export const InfoText = styled(Text)`
