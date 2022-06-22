@@ -45,14 +45,14 @@ export const FAQPage = ({ navigation }) => (
         <ImagePet source={require("../../../../assets/cat.png")} />
       </View>
       <Container>
+        <PageButtons onPress={() => navigation.navigate('FrequentlyAskedQuestions')}>
+              <PageTitles>Frequently Asked Questions</PageTitles>
+        </PageButtons>
         <PageButtons onPress={() => navigation.navigate('PetAdoptionProcedure')}>
               <PageTitles>Pet Adoption Procedure</PageTitles>
         </PageButtons>
         <PageButtons onPress={() => navigation.navigate('LicensingDogs')}>
               <PageTitles>Licensing Of Dogs</PageTitles>
-        </PageButtons>
-        <PageButtons onPress={() => navigation.navigate('PetCare')}>
-              <PageTitles>Pet Care</PageTitles>
         </PageButtons>
       </Container>
     </View>

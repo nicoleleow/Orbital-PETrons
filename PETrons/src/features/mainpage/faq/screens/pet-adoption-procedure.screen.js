@@ -1,63 +1,20 @@
 import React, { useCallback } from "react";
-import { FlatList, SafeAreaView, TouchableOpacity, Alert, Linking, View, ScrollView} from "react-native";
-import styled from "styled-components/native";
+import { Alert, Linking, ScrollView} from "react-native";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { Text } from "../../../../components/typography/text.component";
 
-import { disclaimerText, organisationLinks, individualProcedureText, organisationProcedureText, organisationProcedureSteps } from "./pet-adoption-procedure-info";
+import { organisationLinks, individualProcedureText, organisationProcedureText, organisationProcedureSteps } from "../components/pet-adoption-procedure-info";
 
-
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: orange;
-`;
-
-const Container = styled(View)`
-  // background-color: ${(props) => props.theme.colors.brand.yellow3};
-  padding: 0 ${(props) => props.theme.space[2]};
-  padding-top: ${(props) => props.theme.space[3]};
-  margin-horizontal: ${(props) => props.theme.space[4]};
-  border-radius: ${(props) => props.theme.space[3]};
-`
-
-const Title = styled(Text)`
-  font-weight: bold;
-  text-decoration: underline;
-  line-height: 30px;
-  margin-horizontal: ${(props) => props.theme.space[5]};
-`
-
-const InfoText = styled(Text)`
-  margin-horizontal: ${(props) => props.theme.space[2]};
-  margin-bottom: ${(props) => props.theme.space[2]};
-  line-height: 20px;
-`
-
-const List = styled(View)`
-  margin-horizontal: ${(props) => props.theme.space[5]};
-  width: 260px;
-  flex-direction: row;
-`
-
-const ListItems = styled(Text)`
-  margin-left: ${(props) => props.theme.space[4]};
-  line-height: 20px;
-`
-
-const OrganisationsList = styled(View)`
-  margin-horizontal: ${(props) => props.theme.space[5]};
-  padding: ${(props) => props.theme.space[1]} 0;
-  // background-color: lightblue;
-  border-radius: ${(props) => props.theme.space[3]};
-`
-
-const OrganisationButtons = styled(TouchableOpacity)`
-  elevation: 5;
-  margin: ${(props) => props.theme.space[2]} 0;
-  padding: ${(props) => props.theme.space[2]};
-  border-radius: ${(props) => props.theme.space[3]};
-  background-color: ${(props) => props.theme.colors.brand.yellow3};
-`
+import {
+  SafeArea,
+  Container,
+  Title,
+  InfoText,
+  List,
+  ListItems,
+  LinksList,
+  LinkButtons,
+} from "./faq-pages.styles";
 
 const OpenURLButton = ({ url, children }) => {
   const handlePress = useCallback(async () => {
@@ -74,9 +31,9 @@ const OpenURLButton = ({ url, children }) => {
   }, [url]);
 
   return (
-    <OrganisationButtons onPress={handlePress}>
+    <LinkButtons onPress={handlePress}>
       <Text>{children}</Text>
-    </OrganisationButtons>
+    </LinkButtons>
   )
 };
 
@@ -87,14 +44,6 @@ export const PetAdoptionProcedureScreen = () => (
     <Spacer size='small' />
     <ScrollView>
       <Spacer size='small' />
-      <Title>Becoming a Pet Owner</Title>
-      <Container>
-        {
-          disclaimerText.map(text =>
-            <InfoText key={text}>{text}</InfoText>)
-        }
-      </Container>
-      <Spacer size='xLarge' />
       <Title>Adopting from Individual Pet Owners</Title>
       <Container>
         {
@@ -109,7 +58,7 @@ export const PetAdoptionProcedureScreen = () => (
         <Spacer size='medium' />
         {
           organisationProcedureSteps.map(item =>
-            <List>
+            <List key={item.step}>
               <ListItems>{item.step} </ListItems>
               <ListItems>{item.text}</ListItems>
             </List>
@@ -122,13 +71,13 @@ export const PetAdoptionProcedureScreen = () => (
       </Container>
       <Spacer size='xLarge' />
       <Title>Links to the Animal Welfare Groups</Title>
-      <OrganisationsList>
+      <LinksList>
         {
           organisationLinks.map( item =>
             <OpenURLButton url={item.link} key={item.org}>{item.org}</OpenURLButton>
           )
         }
-      </OrganisationsList>
+      </LinksList>
     </ScrollView>
     <Spacer size='large' />
   </SafeArea>

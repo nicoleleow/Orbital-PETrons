@@ -13,7 +13,7 @@ import { EditPetList } from "../../features/profile/edit-adoption-list/edit-pet-
 
 import { LicensingDogsScreen } from "../../features/mainpage/faq/screens/licensing-dogs.screen";
 import { PetAdoptionProcedureScreen } from "../../features/mainpage/faq/screens/pet-adoption-procedure.screen";
-import { PetCareScreen } from "../../features/mainpage/faq/screens/pet-care.screen";
+import { FrequentlyAskedQuestionsScreen } from "../../features/mainpage/faq/screens/frequently-asked-questions.screen";
 
 const Stack = createStackNavigator();
 
@@ -28,8 +28,8 @@ export const MainPageNavigator = () => (
     <Stack.Screen name="PetInfoCard" component={PetInfoCard} />
     <Stack.Screen name="PetInfo" component={PetInfoScreen} />
 
+    <Stack.Screen name="FrequentlyAskedQuestions" component={FrequentlyAskedQuestionsScreen} />
     <Stack.Screen name="PetAdoptionProcedure" component={PetAdoptionProcedureScreen} />
-  <Stack.Screen name="LicensingDogs" component={LicensingDogsScreen} />
-    <Stack.Screen name="PetCare" component={PetCareScreen} />
+    <Stack.Screen name="LicensingDogs" component={LicensingDogsScreen} />
   </Stack.Navigator>
 );
