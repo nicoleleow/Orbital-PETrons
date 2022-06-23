@@ -1,5 +1,3 @@
-import { HDBApprovedStatus } from "../adopt/components/pet-filter-categories"
-
 export const AnimalTypes = [
     { label: "Dog", value: "Dog" },
     { label: "Cat", value: "Cat" },
