@@ -39,6 +39,7 @@ import {
 } from "./put-up-adoption-categories"
 
 import {
+  SafeArea,
   Container,
   PutUpAdoptionPageHeader,
   FormButton,
@@ -53,6 +54,7 @@ import {
   RenderContentButton,
   DropDown,
 } from "./put-up-for-adoption.style";
+import { Oswald_400Regular } from "@expo-google-fonts/oswald";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -197,16 +199,18 @@ export const PutUpAdoptionPage = ({ navigation }) => {
 
   return (
     <DismissKeyboard>
-      <Background>
+      <SafeArea>
         <PutUpAdoptionPageHeader>
           Provide your pet's details:
         </PutUpAdoptionPageHeader>
+        <Spacer size='small' />
         <BottomSheet
           initialSnap={2}
           ref={sheetRef}
           snapPoints={[450, 300, 0]}
           borderRadius={10}
           renderContent={renderContent}
+          enabledInnerScrolling={true}
         />
         <ScrollView>
           <Container>
@@ -233,7 +237,8 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 onChangeText={(text) => setName(text)}
               />
             </Spacer>
-                        <>
+            <Spacer size="large" />
+            <>
               <DropDown
                 placeholder="Select Type of Pet"
                 open={openType}
@@ -244,6 +249,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 setItems={setPetType}
                 listMode="SCROLLVIEW"
                 zIndex={400}
+                placeholderStyle={{ fontSize: 16 }}
               />
             </>
             <Spacer size="large">
@@ -256,6 +262,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 onChangeText={(text) => setBreed(text)}
               />
             </Spacer>
+            <Spacer size="large" />
             <>
               <DropDown
                 placeholder="Select Pet's Gender"
@@ -267,6 +274,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 setItems={setPetGender}
                 listMode="SCROLLVIEW"
                 zIndex={300}
+                placeholderStyle={{ fontSize: 16}}
               />
             </>
             <Spacer size="large">
@@ -278,6 +286,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 onChangeText={(text) => setAge(text)}
               />
             </Spacer>
+            <Spacer size="large" />
             <>
               <DropDown
                 placeholder="Select Ownership type"
@@ -289,8 +298,10 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 setItems={setPetOrganisation}
                 listMode="SCROLLVIEW"
                 zIndex={200}
+                placeholderStyle={{ fontSize: 16}}
               />
             </>
+            <Spacer size="large" />
             <>
               <DropDown
                 placeholder="Is your pet HDB approved?"
@@ -302,6 +313,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 setItems={setPetHDB}
                 listMode="SCROLLVIEW"
                 zIndex={100}
+                placeholderStyle={{ fontSize: 16}}
               />
             </>
             <Spacer size="large">
@@ -326,12 +338,13 @@ export const PutUpAdoptionPage = ({ navigation }) => {
             </Spacer>
           </Container>
         </ScrollView>
-        <Spacer size="large">
+        <Spacer size="large" />
+        <View style={{alignItems: 'center'}}>
           <SubmitFormButton mode="contained" onPress={confirmAlert}>
             Confirm
           </SubmitFormButton>
-        </Spacer>
-      </Background>
+        </View>
+      </SafeArea>
     </DismissKeyboard>
   );
 };

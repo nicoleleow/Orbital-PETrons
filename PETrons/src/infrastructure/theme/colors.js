@@ -16,7 +16,8 @@ export const colors = {
   button: {
     primary: "#2182BD",
     secondary: "#5282BD",
-    muted: "#C6DAF7"
+    muted: "#C6DAF7",
+    confirmButton: "#2196f3"
   },
   ui: {
     primary: "#262626",
