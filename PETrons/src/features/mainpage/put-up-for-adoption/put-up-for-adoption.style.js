@@ -30,7 +30,6 @@ export const FormButton = styled(Button).attrs({
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
-  margin-horizontal: ${(props) => props.theme.space[3]};
 `;
 
 export const SubmitFormButton = styled(Button).attrs({
@@ -63,16 +62,11 @@ export const DescriptionInput = styled(TextInput)`
 `;
 
 export const RenderContentContainer = styled(View).attrs({
-  marginHorizontal: 15,
   backgroundColor: 'white',
-  padding: 30,
-  paddingBottom: 16,
-  borderWidth: 1.5,
-  borderColor: '#ebe6e6',
-  marginTop: Platform.OS === 'ios'
-    ? ((Dimensions.get('window').height - 400) / 2)
-    : ((Dimensions.get('window').height - 400) / 2)
+  marginTop: Dimensions.get('window').height - 350
 })`
+  border-width: 1.5px;
+  border-color: #e6e6e6;
   border-radius: 10px;
   background-color: white;
   height: 350px;

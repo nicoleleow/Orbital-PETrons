@@ -49,19 +49,20 @@ export const PetCategoriesNames = styled(Text)`
 
 export const ModalContent = styled(View).attrs({
   elevation: 10,
-  marginHorizontal: 40,
-  borderRadius: 32,
   justifyContent: 'center',
   alignItems: 'center',
   backgroundColor: 'white',
-  padding: 30,
-  paddingBottom: 16,
   marginTop: Platform.OS === 'ios'
     ? ((Dimensions.get('window').height - 500) / 2)
     : ((Dimensions.get('window').height - 550) / 2),
-  borderWidth: 1.5,
-  borderColor: '#ebe6e6'
-})``
+})`
+  margin-horizontal: 40px;
+  padding: 30px;
+  padding-bottom: 16px;
+  border-radius: 32px;
+  border-width: 1.5px;
+  border-color: #ebe6e6;
+`
 
 export const ModalConfirmButton = styled(Pressable)`
   border-radius: 20;

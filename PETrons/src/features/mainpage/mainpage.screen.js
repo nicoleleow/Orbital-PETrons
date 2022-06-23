@@ -114,14 +114,14 @@ export const Mainpage = ({ navigation }) => {
         <MenuCardContainer>
           <TouchableOpacity onPress={StoriesPage}>
             <MenuCard>
-              <ImageCard source={require("../../../assets/share_stories.png")} />
+              <ImageCard source={require("../../../assets/postIt_icon.png")} />
               <Header>Share Stories</Header>
             </MenuCard>
           </TouchableOpacity>
           <Spacer size='xLarge' position='right'/>
           <TouchableOpacity onPress={FAQPage}>
             <MenuCard>
-              <ImageCard source={require("../../../assets/faq.png")} />
+              <ImageCard source={require("../../../assets/qna_icon.png")} />
               <Header>FAQ</Header>
             </MenuCard>
           </TouchableOpacity>
