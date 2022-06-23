@@ -82,6 +82,7 @@ export const EditPetList = ({ route, navigation }) => {
   const [petPrice, setPetPrice] = useState(fee);
   const [petDescription, setPetDescription] = useState(short_description);
   const [petImage, setImage] = useState(image);
+  const [changeImage, setChangeImage] = useState(false);
 
   const [openGender, setOpenGender] = useState(false);
   const [valueGender, setValueGender] = useState(gender);
@@ -150,6 +151,23 @@ export const EditPetList = ({ route, navigation }) => {
     { label: "Others", value: "Others" },
   ]);
 
+  const [url, setUrl] = useState();
+  useEffect(() => {
+    const func = async () => {
+      const uploadUri = petImage;
+      const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+      const storage = getStorage();
+      const reference = ref(storage, filename);
+      await getDownloadURL(reference).then((x) => {
+        setUrl(x);
+      });
+    };
+
+    if (url == undefined) {
+      func();
+    }
+  }, []);
+
   const renderContent = () => (
     <RenderContentContainer>
       <View style={{ alignItems: "center" }}>
@@ -177,6 +195,7 @@ export const EditPetList = ({ route, navigation }) => {
     });
     if (!result.cancelled) {
       setImage(result.uri);
+      setChangeImage(true);
       sheetRef.current.snapTo(2);
     }
   };
@@ -191,6 +210,7 @@ export const EditPetList = ({ route, navigation }) => {
     const result = await ImagePicker.launchCameraAsync();
     if (!result.cancelled) {
       setImage(result.uri);
+      setChangeImage(true);
       sheetRef.current.snapTo(2);
     }
   };
@@ -268,7 +288,7 @@ export const EditPetList = ({ route, navigation }) => {
         <ScrollView>
           <ImageContainer>
             <Image
-              source={{ uri: petImage }}
+              source={{ uri: changeImage === false ? url : petImage }}
               style={{ width: 300, height: 200 }}
             />
             <FormButton
