@@ -1,15 +1,16 @@
 import styled from "styled-components/native";
 import { Button, TextInput, Text } from "react-native-paper";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, View, SafeAreaView, Dimensions } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
-import { colors } from "../../../infrastructure/theme/colors";
+export const SafeArea = styled(SafeAreaView)`
+  flex: 1;
+  background-color: orange;
+`;
 
 export const Container = styled.View`
   //background-color: rgba(255, 255, 255, 0.7);
-  width: 380px;
   padding: ${(props) => props.theme.space[4]};
-  margin-top: ${(props) => props.theme.space[1]};
   padding-top: 10px;
   align-items: center;
   justify-content: center;
@@ -19,7 +20,8 @@ export const PutUpAdoptionPageHeader = styled(Text)`
   color: black;
   font-size: ${(props) => props.theme.fontSizes.h5};
   font-family: ${(props) => props.theme.fonts.monospace};
-  padding-top: 40px;
+  margin-top: ${(props) => props.theme.space[7]};
+  text-align: center;
 `;
 
 export const FormButton = styled(Button).attrs({
@@ -28,7 +30,7 @@ export const FormButton = styled(Button).attrs({
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
-  margin-top: 10px;
+  margin-horizontal: ${(props) => props.theme.space[3]};
 `;
 
 export const SubmitFormButton = styled(Button).attrs({
@@ -40,29 +42,38 @@ export const SubmitFormButton = styled(Button).attrs({
   margin-bottom: 20px;
 `;
 
-export const Background = styled.View`
-  background-color: orange;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  padding-top: 30px;
-`;
-
 export const Inputs = styled(TextInput)`
   width: 350px;
   background-color: whitesmoke;
+  border-radius: 10px;
+  border-width: 1px;
+  font-size: 16px;
+  font-family: ${(props) => props.theme.fonts.body};
 `;
 
 export const DescriptionInput = styled(TextInput)`
   width: 350px;
-  height: 90px;
+  height: 200px;
   textalignvertical: "top";
   background-color: whitesmoke;
-  padding-bottom: 200px;
-  margin-bottom: 50px;
+  border-radius: 10px;
+  border-width: 1px;
+  font-size: ${(props) => props.theme.fontSizes.body};
+  font-family: ${(props) => props.theme.fonts.body};
 `;
 
-export const RenderContentContainer = styled.View`
+export const RenderContentContainer = styled(View).attrs({
+  marginHorizontal: 15,
+  backgroundColor: 'white',
+  padding: 30,
+  paddingBottom: 16,
+  borderWidth: 1.5,
+  borderColor: '#ebe6e6',
+  marginTop: Platform.OS === 'ios'
+    ? ((Dimensions.get('window').height - 400) / 2)
+    : ((Dimensions.get('window').height - 400) / 2)
+})`
+  border-radius: 10px;
   background-color: white;
   height: 350px;
   padding: 20px;
@@ -89,13 +100,15 @@ export const RenderContentButtonTitle = styled(Text)`
 export const RenderContentButton = styled(TouchableOpacity)`
   padding: 13px;
   border-radius: 10px;
-  background-color: #ff6347;
+  background-color: #2196f3;
   align-items: center;
   margin-vertical: 7px;
 `;
 
 export const DropDown = styled(DropDownPicker)`
   width: 350px;
+  height: 70px;
   background-color: whitesmoke;
-  margin-top: 10px;
+  border-radius: 10px;
+  align-self: center;
 `;
