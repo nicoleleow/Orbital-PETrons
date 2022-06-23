@@ -20,7 +20,7 @@ export const PutUpAdoptionPageHeader = styled(Text)`
   color: black;
   font-size: ${(props) => props.theme.fontSizes.h5};
   font-family: ${(props) => props.theme.fonts.monospace};
-  margin-top: ${(props) => props.theme.space[7]};
+  margin-top: ${(props) => props.theme.space[5]};
   text-align: center;
 `;
 
@@ -60,11 +60,12 @@ export const DescriptionInput = styled(TextInput)`
   font-size: ${(props) => props.theme.fontSizes.body};
   font-family: ${(props) => props.theme.fonts.body};
   padding-bottom: 150px;
+  margin-bottom: 50px;
 `;
 
 export const RenderContentContainer = styled(View).attrs({
-  backgroundColor: 'white',
-  marginTop: Dimensions.get('window').height - 350
+  backgroundColor: "white",
+  marginTop: Dimensions.get("window").height - 350,
 })`
   border-width: 1.5px;
   border-color: #e6e6e6;
