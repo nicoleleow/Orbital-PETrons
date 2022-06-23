@@ -42,7 +42,7 @@ export const SubmitFormButton = styled(Button).attrs({
 `;
 
 export const Inputs = styled(TextInput)`
-  width: 350px;
+  width: 340px;
   background-color: whitesmoke;
   border-radius: 10px;
   border-width: 1px;
@@ -51,7 +51,7 @@ export const Inputs = styled(TextInput)`
 `;
 
 export const DescriptionInput = styled(TextInput)`
-  width: 350px;
+  width: 340px;
   height: 200px;
   textalignvertical: "top";
   background-color: whitesmoke;
@@ -59,6 +59,7 @@ export const DescriptionInput = styled(TextInput)`
   border-width: 1px;
   font-size: ${(props) => props.theme.fontSizes.body};
   font-family: ${(props) => props.theme.fonts.body};
+  padding-bottom: 150px;
 `;
 
 export const RenderContentContainer = styled(View).attrs({
@@ -100,7 +101,7 @@ export const RenderContentButton = styled(TouchableOpacity)`
 `;
 
 export const DropDown = styled(DropDownPicker)`
-  width: 350px;
+  width: 340px;
   height: 70px;
   background-color: whitesmoke;
   border-radius: 10px;
