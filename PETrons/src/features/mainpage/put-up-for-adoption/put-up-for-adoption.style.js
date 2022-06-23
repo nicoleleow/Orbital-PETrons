@@ -1,9 +1,7 @@
 import styled from "styled-components/native";
 import { Button, TextInput, Text } from "react-native-paper";
-import { TouchableOpacity, View, SafeAreaView } from "react-native";
+import { TouchableOpacity, View, SafeAreaView, Dimensions } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-
-import { colors } from "../../../infrastructure/theme/colors";
 
 export const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -64,12 +62,21 @@ export const DescriptionInput = styled(TextInput)`
   font-family: ${(props) => props.theme.fonts.body};
 `;
 
-export const RenderContentContainer = styled(View)`
+export const RenderContentContainer = styled(View).attrs({
+  marginHorizontal: 15,
+  backgroundColor: 'white',
+  padding: 30,
+  paddingBottom: 16,
+  borderWidth: 1.5,
+  borderColor: '#ebe6e6',
+  marginTop: Platform.OS === 'ios'
+    ? ((Dimensions.get('window').height - 400) / 2)
+    : ((Dimensions.get('window').height - 400) / 2)
+})`
   border-radius: 10px;
   background-color: white;
   height: 350px;
   padding: 20px;
-  margin-top: 20px;
 `;
 
 export const RenderContentTitle = styled(Text)`

@@ -1,23 +1,14 @@
-import React, { useState, useCallback, useMemo, useRef } from "react";
+import React, { useState } from "react";
 import {
-  SafeAreaView,
-  Text,
   View,
-  TouchableOpacity,
   Image,
   ScrollView,
   Keyboard,
   TouchableWithoutFeedback,
-  Dimensions,
   Alert,
+  Modal
 } from "react-native";
-import styled from "styled-components/native";
-import { Button, TextInput } from "react-native-paper";
-import Animated from "react-native-reanimated";
-import BottomSheet from "reanimated-bottom-sheet";
-import Render from "react-native-web/dist/cjs/exports/render";
 import * as ImagePicker from "expo-image-picker";
-import DropDownPicker from "react-native-dropdown-picker";
 import {
   collection,
   getDocs,
@@ -27,7 +18,6 @@ import {
 } from "firebase/firestore/lite";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 
-import { colors } from "../../../infrastructure/theme/colors";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { authentication, db } from "../../../../firebase/firebase-config";
 
@@ -44,7 +34,6 @@ import {
   PutUpAdoptionPageHeader,
   FormButton,
   SubmitFormButton,
-  Background,
   Inputs,
   DescriptionInput,
   RenderContentContainer,
@@ -54,7 +43,6 @@ import {
   RenderContentButton,
   DropDown,
 } from "./put-up-for-adoption.style";
-import { Oswald_400Regular } from "@expo-google-fonts/oswald";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -86,6 +74,8 @@ export const PutUpAdoptionPage = ({ navigation }) => {
   const [valueOrganisation, setValueOrganisation] = useState("");
   const [petOrganisation, setPetOrganisation] = useState(Groups);
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   const renderContent = () => (
     <RenderContentContainer>
       <View style={{ alignItems: "center" }}>
@@ -98,13 +88,11 @@ export const PutUpAdoptionPage = ({ navigation }) => {
       <RenderContentButton onPress={chooseFromLibrary}>
         <RenderContentButtonTitle>Choose From Library</RenderContentButtonTitle>
       </RenderContentButton>
-      <RenderContentButton onPress={() => sheetRef.current.snapTo(2)}>
+      <RenderContentButton onPress={setModalVisible(!modalVisible)}>
         <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
       </RenderContentButton>
     </RenderContentContainer>
   );
-
-  const sheetRef = React.useRef(null);
 
   const chooseFromLibrary = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -115,7 +103,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
     });
     if (!result.cancelled) {
       setImage(result.uri);
-      sheetRef.current.snapTo(2);
+      setModalVisible(!modalVisible)
     }
   };
 
@@ -123,13 +111,13 @@ export const PutUpAdoptionPage = ({ navigation }) => {
     // Ask the user for the permission to access the camera
     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
     if (permissionResult.granted === false) {
-      alert("You've refused to allow this appp to access your camera!");
+      alert("You've refused to allow this app to access your camera!");
       return;
     }
     const result = await ImagePicker.launchCameraAsync();
     if (!result.cancelled) {
       setImage(result.uri);
-      sheetRef.current.snapTo(2);
+      setModalVisible(!modalVisible)
     }
   };
 
@@ -204,14 +192,31 @@ export const PutUpAdoptionPage = ({ navigation }) => {
           Provide your pet's details:
         </PutUpAdoptionPageHeader>
         <Spacer size='small' />
-        <BottomSheet
-          initialSnap={2}
-          ref={sheetRef}
-          snapPoints={[450, 300, 0]}
-          borderRadius={10}
-          renderContent={renderContent}
-          enabledInnerScrolling={true}
-        />
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
+            }}
+        >
+          <RenderContentContainer>
+            <View style={{ alignItems: "center" }}>
+              <RenderContentTitle>Upload Photo</RenderContentTitle>
+              <RenderContentSubtitle>Choose Your Pet Image</RenderContentSubtitle>
+            </View>
+            <RenderContentButton onPress={takePhotoFromCamera}>
+              <RenderContentButtonTitle>Take Photo</RenderContentButtonTitle>
+            </RenderContentButton>
+            <RenderContentButton onPress={chooseFromLibrary}>
+              <RenderContentButtonTitle>Choose From Library</RenderContentButtonTitle>
+            </RenderContentButton>
+            <RenderContentButton onPress={() => setModalVisible(!modalVisible)}>
+              <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
+            </RenderContentButton>
+          </RenderContentContainer>
+        </Modal>
         <ScrollView>
           <Container>
             {image && (
@@ -223,7 +228,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
             <FormButton
               icon="image"
               mode="contained"
-              onPress={() => sheetRef.current.snapTo(0)}
+              onPress={renderContent}
             >
               Upload Image
             </FormButton>
