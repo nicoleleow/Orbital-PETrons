@@ -47,7 +47,8 @@ export const FrequentlyAskedQuestionsScreen = () => (
         {
           generalQuestions.map(item =>
             <View key={item.qn}>
-              <InfoText style={{fontWeight: 'bold'}}>{item.qn}</InfoText>
+              <InfoText style={{ fontWeight: 'bold' }}>Qn: {item.qn}</InfoText>
+              <Spacer size='small' />
               {
                 item.ans.map(text => 
                   <InfoText key={text}>{text}</InfoText>
@@ -64,7 +65,8 @@ export const FrequentlyAskedQuestionsScreen = () => (
         {
           orgQuestions.map(item =>
             <View key={item.qn}>
-              <InfoText style={{fontWeight: 'bold'}}>{item.qn}</InfoText>
+              <InfoText style={{ fontWeight: 'bold' }}>Qn: {item.qn}</InfoText>
+              <Spacer size='small' />
               {
                 item.ans.map(text => 
                   <InfoText key={text}>{text}</InfoText>
@@ -81,7 +83,8 @@ export const FrequentlyAskedQuestionsScreen = () => (
         {
           surrenderingQuestions.map(item =>
             <View key={item.qn}>
-              <InfoText style={{fontWeight: 'bold'}}>{item.qn}</InfoText>
+              <InfoText style={{ fontWeight: 'bold' }}>Qn: {item.qn}</InfoText>
+              <Spacer size='small' />
               {
                 item.ans.map(text => 
                   <InfoText key={text}>{text}</InfoText>
