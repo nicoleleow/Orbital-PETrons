@@ -30,6 +30,7 @@ export const FormButton = styled(Button).attrs({
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
+  margin-top: ${(props) => props.theme.space[3]};
 `;
 
 export const SubmitFormButton = styled(Button).attrs({
