@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { ScrollView } from "react-native";
+import { Alert, Linking, ScrollView } from "react-native";
 import { Text } from "../../../../components/typography/text.component";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 
@@ -57,7 +57,8 @@ export const LicensingDogsScreen = () => (
         }
       </Container>
       <LinksList>
-        <OpenURLButton url='https://www.nparks.gov.sg/avs/pets/owning-a-pet/licensing-a-pet/dog-licensing'>
+        <OpenURLButton
+          url='https://www.nparks.gov.sg/avs/pets/owning-a-pet/licensing-a-pet/dog-licensing'>
           NParks Dog Licensing Information Page
         </OpenURLButton>
       </LinksList>

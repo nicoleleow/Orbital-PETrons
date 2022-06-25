@@ -27,11 +27,12 @@ function MyTabs() {
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
+        tabBarActiveTintColor: "black",
+        tabBarInactiveTintColor: "gray",
+        tabBarStyle: [{
+          display: "flex"
+        }, null]
       })}
-      tabBarOptions={{
-        activeTintColor: "black",
-        inactiveTintColor: "gray",
-      }}
     >
       <Tab.Screen
         options={{ headerShown: false }}
