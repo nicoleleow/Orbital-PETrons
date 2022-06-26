@@ -1,23 +1,14 @@
-import React, { useState, useCallback, useMemo, useRef } from "react";
+import React, { useState } from "react";
 import {
-  SafeAreaView,
-  Text,
   View,
-  TouchableOpacity,
   Image,
   ScrollView,
   Keyboard,
   TouchableWithoutFeedback,
-  Dimensions,
   Alert,
+  Modal
 } from "react-native";
-import styled from "styled-components/native";
-import { Button, TextInput } from "react-native-paper";
-import Animated from "react-native-reanimated";
-import BottomSheet from "reanimated-bottom-sheet";
-import Render from "react-native-web/dist/cjs/exports/render";
 import * as ImagePicker from "expo-image-picker";
-import DropDownPicker from "react-native-dropdown-picker";
 import {
   collection,
   getDocs,
@@ -27,15 +18,22 @@ import {
 } from "firebase/firestore/lite";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 
-import { colors } from "../../../infrastructure/theme/colors";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { authentication, db } from "../../../../firebase/firebase-config";
+
 import {
+  AnimalTypes,
+  GenderTypes,
+  Groups,
+  HDBApproved
+} from "./put-up-adoption-categories"
+
+import {
+  SafeArea,
   Container,
   PutUpAdoptionPageHeader,
   FormButton,
   SubmitFormButton,
-  Background,
   Inputs,
   DescriptionInput,
   RenderContentContainer,
@@ -62,70 +60,21 @@ export const PutUpAdoptionPage = ({ navigation }) => {
 
   const [openGender, setOpenGender] = useState(false);
   const [valueGender, setValueGender] = useState("");
-  const [petGender, setPetGender] = useState([
-    { label: "Male", value: "Male" },
-    { label: "Female", value: "Female" },
-  ]);
+  const [petGender, setPetGender] = useState(GenderTypes);
 
   const [openType, setOpenType] = useState(false);
   const [valueType, setValueType] = useState("");
-  const [petType, setPetType] = useState([
-    { label: "Dog", value: "Dog" },
-    { label: "Cat", value: "Cat" },
-    { label: "Rabbit", value: "Rabbit" },
-    { label: "Hamster", value: "Hamster" },
-    { label: "Guinea Pig", value: "Guinea pig" },
-    { label: "Bird", value: "Bird" },
-    { label: "Fish", value: "Fish" },
-    { label: "Others", value: "Others" },
-  ]);
+  const [petType, setPetType] = useState(AnimalTypes);
 
   const [openHDB, setOpenHDB] = useState(false);
   const [valueHDB, setValueHDB] = useState("");
-  const [petHDB, setPetHDB] = useState([
-    { label: "Yes", value: "Yes" },
-    { label: "No", value: "No" },
-  ]);
+  const [petHDB, setPetHDB] = useState(HDBApproved);
 
   const [openOrganisation, setOpenOrganisation] = useState(false);
   const [valueOrganisation, setValueOrganisation] = useState("");
-  const [petOrganisation, setPetOrganisation] = useState([
-    { label: "Individual", value: "Individual" },
-    { label: "Action for Singapore Dogs", value: "Action for Singapore Dogs" },
-    { label: "Animals Lovers League", value: "Animals Lovers League" },
-    {
-      label: "Bunny Wonderland Singapore",
-      value: "Bunny Wonderland Singapore",
-    },
-    { label: "Cat Welfare Society", value: "Cat Welfare Society" },
-    {
-      label: "Causes for Animals (Singapore)",
-      value: "Causes for Animals (Singapore)",
-    },
-    { label: "Exclusively Mongrels", value: "Exclusively Mongrels" },
-    { label: "Hamster Society Singapore", value: "Hamster Society Singapore" },
-    {
-      label: "House Rabbit Society Singapore",
-      value: "House Rabbit Society Singapore",
-    },
-    {
-      label: "Mercylight Animal Rescue and Sanctuary",
-      value: "Mercylight Animal Rescue and Sanctuary",
-    },
-    { label: "Noah's Ark CARES", value: "Noah's Ark CARES" },
-    {
-      label: "Oasis Second Chance Animal Shelter",
-      value: "Oasis Second Chance Animal Shelter",
-    },
-    { label: "Purely Adoptions", value: "Purely Adoptions" },
-    { label: "SOSD", value: "SOSD" },
-    {
-      label: "Society for the Prevention of Cruelty to Animals",
-      value: "SPCA",
-    },
-    { label: "Voices for Animals", value: "Voices for Animals" },
-    { label: "Others", value: "Others" },
-  ]);
+  const [petOrganisation, setPetOrganisation] = useState(Groups);
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const renderContent = () => (
     <RenderContentContainer>
@@ -139,13 +88,11 @@ export const PutUpAdoptionPage = ({ navigation }) => {
       <RenderContentButton onPress={chooseFromLibrary}>
         <RenderContentButtonTitle>Choose From Library</RenderContentButtonTitle>
       </RenderContentButton>
-      <RenderContentButton onPress={() => sheetRef.current.snapTo(2)}>
+      <RenderContentButton onPress={setModalVisible(!modalVisible)}>
         <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
       </RenderContentButton>
     </RenderContentContainer>
   );
-
-  const sheetRef = React.useRef(null);
 
   const chooseFromLibrary = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -156,7 +103,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
     });
     if (!result.cancelled) {
       setImage(result.uri);
-      sheetRef.current.snapTo(2);
+      setModalVisible(!modalVisible)
     }
   };
 
@@ -164,17 +111,25 @@ export const PutUpAdoptionPage = ({ navigation }) => {
     // Ask the user for the permission to access the camera
     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
     if (permissionResult.granted === false) {
-      alert("You've refused to allow this appp to access your camera!");
+      alert("You've refused to allow this app to access your camera!");
       return;
     }
     const result = await ImagePicker.launchCameraAsync();
     if (!result.cancelled) {
       setImage(result.uri);
-      sheetRef.current.snapTo(2);
+      setModalVisible(!modalVisible)
     }
   };
 
   const SetData = async () => {
+    let userUsername;
+    const Snapshot = await getDocs(collection(db, "userinfo"));
+    Snapshot.forEach((doc) => {
+      if (doc.data().email === authentication.currentUser?.email) {
+        userUsername = doc.data().username;
+      }
+    });
+    console.log(userUsername);
     await addDoc(collection(db, "put-up-for-adoption"), {
       name: name,
       gender: valueGender,
@@ -187,6 +142,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
       short_description: description,
       image: image,
       email: authentication.currentUser?.email,
+      userName: userUsername,
     });
     navigation.navigate("mainpage");
     const uploadUri = image;
@@ -231,17 +187,36 @@ export const PutUpAdoptionPage = ({ navigation }) => {
 
   return (
     <DismissKeyboard>
-      <Background>
+      <SafeArea>
         <PutUpAdoptionPageHeader>
           Provide your pet's details:
         </PutUpAdoptionPageHeader>
-        <BottomSheet
-          initialSnap={2}
-          ref={sheetRef}
-          snapPoints={[450, 300, 0]}
-          borderRadius={10}
-          renderContent={renderContent}
-        />
+        <Spacer size='small' />
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
+            }}
+        >
+          <RenderContentContainer>
+            <View style={{ alignItems: "center" }}>
+              <RenderContentTitle>Upload Photo</RenderContentTitle>
+              <RenderContentSubtitle>Choose Your Pet Image</RenderContentSubtitle>
+            </View>
+            <RenderContentButton onPress={takePhotoFromCamera}>
+              <RenderContentButtonTitle>Take Photo</RenderContentButtonTitle>
+            </RenderContentButton>
+            <RenderContentButton onPress={chooseFromLibrary}>
+              <RenderContentButtonTitle>Choose From Library</RenderContentButtonTitle>
+            </RenderContentButton>
+            <RenderContentButton onPress={() => setModalVisible(!modalVisible)}>
+              <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
+            </RenderContentButton>
+          </RenderContentContainer>
+        </Modal>
         <ScrollView>
           <Container>
             {image && (
@@ -253,7 +228,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
             <FormButton
               icon="image"
               mode="contained"
-              onPress={() => sheetRef.current.snapTo(0)}
+              onPress={renderContent}
             >
               Upload Image
             </FormButton>
@@ -267,27 +242,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 onChangeText={(text) => setName(text)}
               />
             </Spacer>
-            <>
-              <DropDown
-                placeholder="Select Pet's Gender"
-                open={openGender}
-                value={valueGender}
-                items={petGender}
-                setOpen={setOpenGender}
-                setValue={setValueGender}
-                setItems={setPetGender}
-                listMode="SCROLLVIEW"
-              />
-            </>
-            <Spacer size="large">
-              <Inputs
-                label="Pet's Age (eg. _ years _ months)"
-                value={age}
-                textContentType="none"
-                keyboardType="default"
-                onChangeText={(text) => setAge(text)}
-              />
-            </Spacer>
+            <Spacer size="large" />
             <>
               <DropDown
                 placeholder="Select Type of Pet"
@@ -298,7 +253,8 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 setValue={setValueType}
                 setItems={setPetType}
                 listMode="SCROLLVIEW"
-                dropDownDirection="TOP"
+                zIndex={400}
+                placeholderStyle={{ fontSize: 16 }}
               />
             </>
             <Spacer size="large">
@@ -311,6 +267,31 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 onChangeText={(text) => setBreed(text)}
               />
             </Spacer>
+            <Spacer size="large" />
+            <>
+              <DropDown
+                placeholder="Select Pet's Gender"
+                open={openGender}
+                value={valueGender}
+                items={petGender}
+                setOpen={setOpenGender}
+                setValue={setValueGender}
+                setItems={setPetGender}
+                listMode="SCROLLVIEW"
+                zIndex={300}
+                placeholderStyle={{ fontSize: 16}}
+              />
+            </>
+            <Spacer size="large">
+              <Inputs
+                label="Pet's Age (eg. _ years _ months)"
+                value={age}
+                textContentType="none"
+                keyboardType="default"
+                onChangeText={(text) => setAge(text)}
+              />
+            </Spacer>
+            <Spacer size="large" />
             <>
               <DropDown
                 placeholder="Select Ownership type"
@@ -321,9 +302,11 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 setValue={setValueOrganisation}
                 setItems={setPetOrganisation}
                 listMode="SCROLLVIEW"
-                dropDownDirection="TOP"
+                zIndex={200}
+                placeholderStyle={{ fontSize: 16}}
               />
             </>
+            <Spacer size="large" />
             <>
               <DropDown
                 placeholder="Is your pet HDB approved?"
@@ -334,11 +317,13 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 setValue={setValueHDB}
                 setItems={setPetHDB}
                 listMode="SCROLLVIEW"
+                zIndex={100}
+                placeholderStyle={{ fontSize: 16}}
               />
             </>
             <Spacer size="large">
               <Inputs
-                label="Fee($)"
+                label="Fee ($)"
                 value={price}
                 textContentType="none"
                 keyboardType="number-pad"
@@ -358,12 +343,13 @@ export const PutUpAdoptionPage = ({ navigation }) => {
             </Spacer>
           </Container>
         </ScrollView>
-        <Spacer size="large">
+        <Spacer size="large" />
+        <View style={{alignItems: 'center'}}>
           <SubmitFormButton mode="contained" onPress={confirmAlert}>
             Confirm
           </SubmitFormButton>
-        </Spacer>
-      </Background>
+        </View>
+      </SafeArea>
     </DismissKeyboard>
   );
 };
