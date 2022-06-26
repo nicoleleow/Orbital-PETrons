@@ -25,7 +25,6 @@ import { authentication, db } from "../../../firebase/firebase-config";
 import {
   GetChatData,
   chatList,
-  getUserName,
   userUsername,
 } from "../../../firebase/firebase-config";
 
@@ -35,7 +34,6 @@ const SafeArea = styled(SafeAreaView)`
 `;
 
 GetChatData();
-getUserName();
 
 export const MessagePage = ({ navigation }) => {
   const filteredList = chatList.filter((obj) => {

@@ -9,10 +9,12 @@ import { ActivityPage } from "../../features/activity/message.screen";
 import { ProfileNavigator } from "./profile.navigation";
 import { MainPageNavigator } from "./mainpage.navigation";
 import { MessageNavigator } from "./message.navigation";
+import { getUserName } from "../../../firebase/firebase-config";
 
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
+  getUserName();
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -30,9 +32,12 @@ function MyTabs() {
         },
         tabBarActiveTintColor: "black",
         tabBarInactiveTintColor: "gray",
-        tabBarStyle: [{
-          display: "flex"
-        }, null]
+        tabBarStyle: [
+          {
+            display: "flex",
+          },
+          null,
+        ],
       })}
     >
       <Tab.Screen

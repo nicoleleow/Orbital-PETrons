@@ -39,12 +39,6 @@ export const ProfilePage = ({ navigation }) => {
 
   const PutUpAdoptionListPage = async () => {
     navigation.navigate("PutUpAdoptionList");
-    // const adoptionListCol = collection(db, "put-up-for-adoption");
-    // const adoptionListSnapshot = await getDocs(adoptionListCol);
-    // const adoptionList = adoptionListSnapshot.docs.map((doc) => doc.data());
-    // filteredList = adoptionList.filter((obj) => {
-    //   return obj.email === authentication.currentUser?.email;
-    // });
   };
 
   return (
