@@ -51,15 +51,6 @@ export const PetInfoScreen = ({ route, navigation }) => {
     userName,
   } = item;
 
-  //   const querySnapshot = getDocs(collection(db, "userinfo"));
-  //     let userUsername;
-  //     querySnapshot.forEach((doc) => {
-  //       if (doc.data().email === email) {
-  //         userUsername = doc.data().username;
-  //       }
-  //     });
-  //     console.log(userUsername);
-
   const contactOwner = organisation === "Individual" ? "Owner" : "Organisation";
 
   const isHDBApproved = HDB_approved === "Yes" ? true : false;
@@ -67,7 +58,7 @@ export const PetInfoScreen = ({ route, navigation }) => {
     "https://www.logolynx.com/images/logolynx/e5/e5d49abdb2ad1ac2dff8fb33e138d785.jpeg";
 
   const [count, setCount] = useState(0);
-  //   const onPress = () => navigation.navigate("Chat", { userName: item.email });
+
   const onPress = async () => {
     const querySnapshot = await getDocs(collection(db, "userinfo"));
     let userUsername;
@@ -76,7 +67,6 @@ export const PetInfoScreen = ({ route, navigation }) => {
         userUsername = doc.data().username;
       }
     });
-    // navigation.navigate("Chat", { item });
     navigation.navigate("Messages", { screen: "Chat", params: { item } });
   };
   const [url, setUrl] = useState();

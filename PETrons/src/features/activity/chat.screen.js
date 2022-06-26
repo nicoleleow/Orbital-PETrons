@@ -1,14 +1,8 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useLayoutEffect,
-} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, ScrollView, Text, Button, StyleSheet } from "react-native";
 import { Bubble, GiftedChat, Send } from "react-native-gifted-chat";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { authentication, db } from "../../../firebase/firebase-config";
 import {
   collection,
   getDocs,
@@ -21,12 +15,15 @@ import {
   onSnapshot,
 } from "firebase/firestore/lite";
 
+import { authentication, db } from "../../../firebase/firebase-config";
+
 export const ChatPage = ({ route, navigation }) => {
   const [messages, setMessages] = useState([]);
 
   const chatInfo = route.params.item;
   const { email, _id, createdAt, text, userName, userEmail, username, user } =
     chatInfo;
+    
   useEffect(() => {
     let chatList = [];
     let timeList = [];

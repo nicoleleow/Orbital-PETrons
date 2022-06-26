@@ -38,17 +38,6 @@ GetChatData();
 getUserName();
 
 export const MessagePage = ({ navigation }) => {
-  // const press = async () => {
-  //   const querySnapshot = await getDocs(collection(db, "userinfo"));
-  //   let userUsername;
-  //   querySnapshot.forEach((doc) => {
-  //     if (doc.data().email === authentication.currentUser?.email) {
-  //       userUsername = doc.data().username;
-  //     }
-  //   });
-  //   console.log("hi " + userUsername);
-  // };
-
   const filteredList = chatList.filter((obj) => {
     return (
       obj.userEmail === authentication.currentUser?.email ||
@@ -84,7 +73,6 @@ export const MessagePage = ({ navigation }) => {
 
   return (
     <SafeArea>
-      {/* <Button onPress={press} title="press"></Button> */}
       <Text variant="header">Messages</Text>
       <Container>
         <FlatList
