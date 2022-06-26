@@ -3,7 +3,6 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore/lite";
 import { collection, getDocs } from "firebase/firestore/lite";
 
-
 const firebaseConfig = {
   apiKey: "AIzaSyBN-1QrWO7woeGf7irPB_wnHt587R5HBXQ",
   authDomain: "petrons-39ae6.firebaseapp.com",
@@ -19,7 +18,24 @@ export const db = getFirestore(app);
 
 export let petsList = [];
 export const GetPetsData = async () => {
-  const petsCol = collection(db, 'put-up-for-adoption');
+  const petsCol = collection(db, "put-up-for-adoption");
   const petsOverview = await getDocs(petsCol);
-  petsList = petsOverview.docs.map(doc => doc.data());
+  petsList = petsOverview.docs.map((doc) => doc.data());
+};
+
+export let chatList = [];
+export const GetChatData = async () => {
+  const chatCol = collection(db, "chat");
+  const chatOverview = await getDocs(chatCol);
+  chatList = chatOverview.docs.map((doc) => doc.data());
+};
+
+export let userUsername;
+export const getUserName = async () => {
+  const Snapshot = await getDocs(collection(db, "userinfo"));
+  Snapshot.forEach((doc) => {
+    if (doc.data().email === authentication.currentUser?.email) {
+      userUsername = doc.data().username;
+    }
+  });
 };
