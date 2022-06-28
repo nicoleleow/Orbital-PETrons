@@ -15,6 +15,8 @@ import { LicensingDogsScreen } from "../../features/mainpage/faq/screens/licensi
 import { PetAdoptionProcedureScreen } from "../../features/mainpage/faq/screens/pet-adoption-procedure.screen";
 import { FrequentlyAskedQuestionsScreen } from "../../features/mainpage/faq/screens/frequently-asked-questions.screen";
 
+import { StoriesPostCard } from "../../features/mainpage/share-stories/components/stories-post-card.component";
+
 const Stack = createStackNavigator();
 
 export const MainPageNavigator = () => (
@@ -31,5 +33,7 @@ export const MainPageNavigator = () => (
     <Stack.Screen name="FrequentlyAskedQuestions" component={FrequentlyAskedQuestionsScreen} />
     <Stack.Screen name="PetAdoptionProcedure" component={PetAdoptionProcedureScreen} />
     <Stack.Screen name="LicensingDogs" component={LicensingDogsScreen} />
+
+    <Stack.Screen name="StoriesPostCard" component={StoriesPostCard} />
   </Stack.Navigator>
 );
