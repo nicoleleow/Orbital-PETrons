@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { Mainpage } from "../../features/mainpage/mainpage.screen";
@@ -14,22 +15,83 @@ import { EditPetList } from "../../features/profile/edit-adoption-list/edit-pet-
 import { LicensingDogsScreen } from "../../features/mainpage/faq/screens/licensing-dogs.screen";
 import { PetAdoptionProcedureScreen } from "../../features/mainpage/faq/screens/pet-adoption-procedure.screen";
 import { FrequentlyAskedQuestionsScreen } from "../../features/mainpage/faq/screens/frequently-asked-questions.screen";
+import { ChatPage } from "../../features/activity/chat.screen";
+import { authentication } from "../../../firebase/firebase-config";
 
 const Stack = createStackNavigator();
 
 export const MainPageNavigator = () => (
-  <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="mainpage" component={Mainpage} />
-    <Stack.Screen name="Adopt" component={AdoptPage} />
-    <Stack.Screen name="PutUpAdoption" component={PutUpAdoptionPage} />
-    <Stack.Screen name="ShareStories" component={StoriesPage} />
-    <Stack.Screen name="FAQ" component={FAQPage} />
+  <Stack.Navigator>
+    <Stack.Screen
+      name="mainpage"
+      component={Mainpage}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="Adopt"
+      component={AdoptPage}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="PutUpAdoption"
+      component={PutUpAdoptionPage}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="ShareStories"
+      component={StoriesPage}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="FAQ"
+      component={FAQPage}
+      options={{ headerShown: false }}
+    />
 
-    <Stack.Screen name="PetInfoCard" component={PetInfoCard} />
-    <Stack.Screen name="PetInfo" component={PetInfoScreen} />
+    <Stack.Screen
+      name="PetInfoCard"
+      component={PetInfoCard}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="PetInfo"
+      component={PetInfoScreen}
+      options={{ headerShown: false }}
+    />
 
-    <Stack.Screen name="FrequentlyAskedQuestions" component={FrequentlyAskedQuestionsScreen} />
-    <Stack.Screen name="PetAdoptionProcedure" component={PetAdoptionProcedureScreen} />
-    <Stack.Screen name="LicensingDogs" component={LicensingDogsScreen} />
+    <Stack.Screen
+      name="FrequentlyAskedQuestions"
+      component={FrequentlyAskedQuestionsScreen}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="PetAdoptionProcedure"
+      component={PetAdoptionProcedureScreen}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="LicensingDogs"
+      component={LicensingDogsScreen}
+      options={{ headerShown: false }}
+    />
+
+    <Stack.Screen
+      name="ChatPage"
+      component={ChatPage}
+      options={({ navigation, route }) => ({
+        title:
+          route.params.item.email === authentication.currentUser?.email
+            ? route.params.item.username
+            : route.params.item.userName,
+        headerBackTitleVisible: false,
+        headerLeft: () => (
+          <Button
+            onPress={() => navigation.goBack()}
+            title="< Back"
+            color="black"
+          />
+        ),
+      })}
+    />
   </Stack.Navigator>
 );
