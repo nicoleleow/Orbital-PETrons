@@ -15,6 +15,8 @@ import { AppNavigator } from "./src/infrastructure/navigation/app.navigation";
 import { AccountNavigator } from "./src/infrastructure/navigation/account.navigation";
 import { Navigation } from "./src/infrastructure/navigation";
 
+import { StoriesPage } from "./src/features/mainpage/share-stories/share-stories.screen";
+
 export default function App() {
   const [oswaldLoaded] = useOswald({
     Oswald_400Regular,
@@ -35,8 +37,8 @@ export default function App() {
           <Mainpage />
         </AppNavigator> */}
 
-        <Navigation />
-      
+        {/* <Navigation /> */}
+      <StoriesPage />
         {/* <NavigationContainer>
           <AppNavigator />
         </NavigationContainer> */}
