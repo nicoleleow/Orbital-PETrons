@@ -64,6 +64,16 @@ export const CreatePostScreen = ({ navigation }) => {
     }
   };
 
+  const removeImage = () => {
+    if (postImage === null) {
+      Alert.alert(
+        "No Image Uploaded Yet."
+      );
+    } else {
+      setPostImage(null);
+    }
+  }
+
   const cancelPostAlert = () => {
     Alert.alert(
       "Delete Post?",
@@ -217,6 +227,9 @@ export const CreatePostScreen = ({ navigation }) => {
                   />
                   <Spacer size='medium' position='right' />
                   <ImageButtonText>Upload Photo From Gallery</ImageButtonText>
+                </ImageButtons>
+                <ImageButtons onPress={removeImage}>
+                  <ImageButtonText>Remove Selected Image</ImageButtonText>
                 </ImageButtons>
                 <ImageButtons onPress={() => setImageModalVisible(!imageModalVisible)}>
                   <ImageButtonText>Cancel</ImageButtonText>
