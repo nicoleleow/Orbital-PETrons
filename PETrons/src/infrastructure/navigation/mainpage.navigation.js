@@ -16,6 +16,7 @@ import { PetAdoptionProcedureScreen } from "../../features/mainpage/faq/screens/
 import { FrequentlyAskedQuestionsScreen } from "../../features/mainpage/faq/screens/frequently-asked-questions.screen";
 
 import { StoriesPostCard } from "../../features/mainpage/share-stories/components/stories-post-card.component";
+import { CreatePostScreen } from "../../features/mainpage/share-stories/screens/create-post.screen";
 
 const Stack = createStackNavigator();
 
@@ -35,5 +36,6 @@ export const MainPageNavigator = () => (
     <Stack.Screen name="LicensingDogs" component={LicensingDogsScreen} />
 
     <Stack.Screen name="StoriesPostCard" component={StoriesPostCard} />
+    <Stack.Screen name="CreatePostScreen" component={CreatePostScreen} />
   </Stack.Navigator>
 );
