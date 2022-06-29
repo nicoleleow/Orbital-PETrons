@@ -1,11 +1,24 @@
 import React, { useState } from "react";
-import { SafeAreaView, View, TextInput, TouchableOpacity, Dimensions, Alert, Modal, Image } from "react-native";
-import styled from "styled-components/native";
+import { View, Alert, Modal, Image } from "react-native";
 import { Text } from "../../../../components/typography/text.component";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
 import { Avatar } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
+
+import {
+  SafeArea,
+  Header,
+  HeaderText,
+  Body,
+  UserDetails,
+  Uploads,
+  PostText,
+  TopButtons,
+  ImageButtons,
+  ImageButtonText,
+  ModalContainer
+} from "./create-post.styles";
 
 import {
   collection,
@@ -14,86 +27,6 @@ import {
 } from "firebase/firestore/lite";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { authentication, db } from "../../../../../firebase/firebase-config";
-
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: #ebe6e6;
-`;
-
-const Header = styled(View).attrs({
-  marginTop: Platform.OS == 'ios' ?
-    Dimensions.get("window").height - 850 :
-    Dimensions.get("window").height - 670
-})`
-  justify-content: flex-end;
-  height: 60px;
-`
-
-const HeaderText = styled.Text`
-  font-size: 20px;
-  font-weight: bold;
-  padding: 12px;
-  text-align: center;
-`
-
-const Body = styled.View`
-  background-color: white;
-  height: 800px;
-`
-
-const UserDetails = styled.View`
-  padding: 30px;
-  flex-direction: row;
-`
-
-const Uploads = styled.View`
-
-`
-
-const PostText = styled(TextInput)`
-  margin-horizontal: 30px;
-  border-radius: 5px;
-  border-width: 1px;
-  font-size: 16px;
-  font-family: ${(props) => props.theme.fonts.body};
-  padding: 10px;
-`;
-
-const TopButtons = styled(TouchableOpacity)`
-  position: absolute;
-  zIndex: 1;
-  background-color: #777;
-  border-radius: 5px;
-  padding: 5px 10px;
-  justify-content: center;
-  bottom: 10px;
-`
-
-const ImageButtons = styled(TouchableOpacity)`
-  padding: 10px 20px;
-  background-color: #2196f3;
-  margin: 20px 30px;
-  margin-bottom: 0;
-  border-radius: 10px;
-  flex-direction: row;
-  justify-content: center;
-`
-
-const ImageButtonText = styled(Text)`
-  text-align: center;
-  color: white;
-`
-
-const ModalContainer = styled(View).attrs({
-   marginTop: Dimensions.get("window").height - 350
-})`
-  elevation: 10;
-  border-radius: 10px;
-  border-width: 1.5px;
-  border-color: #e6e6e6;
-  background-color: whitesmoke;
-  padding-bottom: 150px;
-`
 
 export const CreatePostScreen = ({ navigation }) => {
   const pfp = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png';
@@ -151,19 +84,26 @@ export const CreatePostScreen = ({ navigation }) => {
   }
 
   const confirmPostAlert = () => {
-    Alert.alert(
-      "Upload Post?",
-      "Are you sure you want to upload the post?",
-        [
-          {
-            text: "Continue Writing Post",
-          },
-          {
-            text: "Upload Post",
-            onPress: SetData
-          },
-        ]
+    if (postImage === null && postText === "") {
+      Alert.alert(
+        "Empty Post",
+        "Please upload an image or input some text.\nIf you wish to delete this post, click on the 'Cancel' button."
       )
+    } else {
+      Alert.alert(
+        "Upload Post?",
+        "Are you sure you want to upload the post?",
+          [
+            {
+              text: "Continue Writing Post",
+            },
+            {
+              text: "Upload Post",
+              onPress: SetData
+            },
+          ]
+        )
+    }
   }
 
   const SetData = async () => {
