@@ -67,7 +67,7 @@ export const PetInfoScreen = ({ route, navigation }) => {
         userUsername = doc.data().username;
       }
     });
-    navigation.navigate("Messages", { screen: "Chat", params: { item } });
+    navigation.navigate("ChatPage", { item });
   };
   const [url, setUrl] = useState();
   useEffect(() => {

@@ -23,50 +23,51 @@ export const ChatPage = ({ route, navigation }) => {
   const chatInfo = route.params.item;
   const { email, _id, createdAt, text, userName, userEmail, username, user } =
     chatInfo;
-    
+  console.log(userName);
   useEffect(() => {
     let chatList = [];
     let timeList = [];
-    console.log("username" + userName);
     const func = async () => {
       let usersEmail;
       const Snapshot = await getDocs(collection(db, "userinfo"));
       Snapshot.forEach((doc) => {
-        if (doc.data().username === userName) {
+        if (doc.data().username === username) {
           usersEmail = doc.data().email;
         }
       });
-      console.log(usersEmail);
       const querySnapshot = await getDocs(collection(db, "chat"));
       querySnapshot.forEach((doc) => {
-        if (
-          (doc.data().userEmail === authentication.currentUser?.email) &
-          (doc.data().email === email)
-        ) {
-          timeList.push(doc.data().createdAt);
-          console.log("1");
-        } else if (
-          (doc.data().email === authentication.currentUser?.email) &
-          (doc.data().userEmail === usersEmail)
-        ) {
-          timeList.push(doc.data().createdAt);
-          console.log("2");
-        } else if (
-          doc.data().email === usersEmail //&
-          //(doc.data().userEmail === authentication.currentUser?.email)
-        ) {
-          timeList.push(doc.data().createdAt);
-          console.log("3");
-        } else if (
-          (doc.data().userEmail === authentication.currentUser?.email) &
-          (doc.data().email === userEmail)
-        ) {
-          timeList.push(doc.data().createdAt);
-          console.log("4");
+        //scenario 1: user 1 send chat to user 2, appear in user 1 chat
+        if (doc.data().userEmail === authentication.currentUser?.email) {
+          if (doc.data().email === email) {
+            timeList.push(doc.data().createdAt);
+          } else if (
+            (doc.data().userEmail === email) &
+            (doc.data().userName === username)
+          ) {
+            timeList.push(doc.data().createdAt);
+          }
+          //scenario 2: user 1 send chat to user 2, appear in user 2 chat
+        } else if (doc.data().email === authentication.currentUser?.email) {
+          if (doc.data().userEmail === usersEmail) {
+            timeList.push(doc.data().createdAt);
+          } else if (
+            (doc.data().email === usersEmail) &
+            (doc.data().username === userName)
+          ) {
+            timeList.push(doc.data().createdAt);
+          }
+        }
+        if (username === undefined) {
+          if (
+            (doc.data().email === authentication.currentUser?.email) &
+            (doc.data().username === userName)
+          ) {
+            timeList.push(doc.data().createdAt);
+          }
         }
       });
       timeList.sort().reverse();
-      console.log(timeList);
       timeList.forEach((element) => {
         querySnapshot.forEach((doc) => {
           if (doc.data().createdAt === element) {
@@ -74,7 +75,6 @@ export const ChatPage = ({ route, navigation }) => {
           }
         });
       });
-      console.log(chatList);
       setMessages(chatList);
     };
     func();
