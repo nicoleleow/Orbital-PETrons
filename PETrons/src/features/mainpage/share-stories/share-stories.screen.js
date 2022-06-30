@@ -32,7 +32,6 @@ export const StoriesPage = ({ navigation }) => {
   GetStoriesData();
 
   const pfp = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png';
-  const username = 'testUsername1'
 
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = () => {
@@ -43,28 +42,26 @@ export const StoriesPage = ({ navigation }) => {
 
   return (
     <SafeArea>
-      <View>
-        <Text variant='header'>Share Stories</Text>
-        <UploadPostContainer>
-          <Avatar.Image size={40} source={{ uri: pfp }} color="green" />
-          <Spacer size='xLarge' position='right' />
-          <TouchableOpacity onPress={() => navigation.navigate("CreatePostScreen")} style={{ width: 300, height: 50, justifyContent: 'center'}}>
-            <Text style={{color: '#777'}}>Share your story...</Text>
-          </TouchableOpacity> 
-        </UploadPostContainer>
-        <Spacer size='medium' />
-        <FlatList
-          data={storiesList}
-          renderItem={(item) => (
-            <StoriesPostCard storyDetails={item.item} />
-          )}
-          keyExtractor={(item) => item.date}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh} />}
-        />
-      </View>  
+      <Text variant='header'>Share Stories</Text>
+      <UploadPostContainer>
+        <Avatar.Image size={40} source={{ uri: pfp }} color="green" />
+        <Spacer size='xLarge' position='right' />
+        <TouchableOpacity onPress={() => navigation.navigate("CreatePostScreen")} style={{ width: 300, height: 50, justifyContent: 'center'}}>
+          <Text style={{color: '#777'}}>Share your story...</Text>
+        </TouchableOpacity> 
+      </UploadPostContainer>
+      <Spacer size='medium' />
+      <FlatList
+        data={storiesList}
+        renderItem={(item) => (
+          <StoriesPostCard storyDetails={item.item} />
+        )}
+        keyExtractor={(item) => item.date}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh} />}
+      /> 
     </SafeArea>
   )
 };
