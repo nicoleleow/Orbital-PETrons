@@ -13,6 +13,10 @@ export const UserDetails = styled(View)`
     padding-horizontal: 15px;
 `
 
+export const UserDetailsText = styled(Text)`
+    font-size: 15px;
+`
+
 export const PostDetails = styled(Card.Content)`
     padding-horizontal: 15px;
     padding-bottom: ${(props) => props.theme.space[3]};
@@ -20,7 +24,6 @@ export const PostDetails = styled(Card.Content)`
     display: flex;
 `
 
-export const PostCardCover = styled(Card.Cover)`
-    padding: ${(props) => props.theme.space[3]};
-    background-color: white;
-`
+export const Months = [
+    'Jan', 'Feb', 'Mar', 'April', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', "Dec"
+]

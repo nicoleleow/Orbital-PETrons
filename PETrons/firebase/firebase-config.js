@@ -44,5 +44,5 @@ export let storiesList = [];
 export const GetStoriesData = async () => {
   const storiesCol = collection(db, "stories");
   const storiesOverview = await getDocs(storiesCol);
-  storiesList = storiesOverview.docs.map((doc) => doc.data());
+  storiesList = storiesOverview.docs.map((doc) => doc.data()).sort((x, y) => x.date < y.date);
 };

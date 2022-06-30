@@ -8,55 +8,75 @@ import { Avatar } from "react-native-paper";
 import {
   PostCard,
   UserDetails,
-  PostCardCover,
-  PostDetails
+  PostDetails,
+  Months,
+  UserDetailsText
 } from "./stories-post-card.styles";
 
 export const StoriesPostCard = ({ storyDetails }) => {
-  const { date, day, month, year, postImage, postText, userName } = storyDetails;
+  const { date, hour, minutes, postImage, postText, userName } = storyDetails;
 
   const [url, setUrl] = useState();
   useEffect(() => {
-      const func = async () => {
-      const uploadUri = postImage;
-      const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
-      const storage = getStorage();
-      const reference = ref(storage, filename);
-      await getDownloadURL(reference).then((x) => {
+    const func = async () => {
+      if (postImage !== null) {
+        const uploadUri = postImage;
+    
+        const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+        const storage = getStorage();
+        const reference = ref(storage, filename);
+        await getDownloadURL(reference).then((x) => {
           setUrl(x);
-      });
-      };
+        });
+      }
+    };
 
       if (url == undefined) {
       func();
       }
   }, []);
-
-  const username = 'john doe'
-  const postDate = '12 October 2022'
-  const story = 'I adopted my pet Dolly and she\'s such a cute cat'
-  const pic = 'https://i.natgeofe.com/n/f0dccaca-174b-48a5-b944-9bcddf913645/01-cat-questions-nationalgeographic_1228126.jpg'
   
   const pfp = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png';
 
+  const formattedDateWhole = new Date(date.seconds * 1000 + 28800 * 1000)
+  const day = formattedDateWhole.getDate().toString();
+  const month = Months[formattedDateWhole.getMonth()];
+  const year = formattedDateWhole.getFullYear().toString();
+  const formattedDate = day + ' ' + month + ' ' + year;
+
+  const timeOfDay = hour > 12 ? 'PM' : 'AM'
+  const timeTwelveHour = hour > 12 ? hour - 12 : (hour === 0) ? hour + 12 : hour
+  const formattedHour = timeTwelveHour < 10 ? '0' + timeTwelveHour.toString() : timeTwelveHour;
+  const formattedMinutes = (minutes < 10) ? ('0' + minutes.toString()) : minutes.toString();
+  const formattedTime = formattedHour + ':' + formattedMinutes + ' ' + timeOfDay;
+  
+
   return (
     <PostCard elevation={5}>
-      <Spacer size='xLarge' />
-      <UserDetails>
-        <Avatar.Image size={40} source={{ uri: pfp }} color="green" />
-        <Spacer size='large' position='right' />
-        <Text>{userName}</Text>
-      </UserDetails>
-      <Spacer size='medium' />
-      <UserDetails style={{flexDirection: 'column'}}>
-        <Text>{day}/{month}/{year}</Text>
-      </UserDetails>
+      <View>
+        <Spacer size='xLarge' />
+        <UserDetails>
+          <Avatar.Image size={40} source={{ uri: pfp }} color="green" />
+          <Spacer size='large' position='right' />
+          <UserDetailsText>{userName}</UserDetailsText>
+        </UserDetails>
+        <Spacer size='medium' />
+        <UserDetails>
+          <UserDetailsText>{formattedDate}</UserDetailsText>
+          <Spacer size='large' position='right' />
+          <UserDetailsText>{formattedTime}</UserDetailsText>
+        </UserDetails>
+        <Spacer size='medium' />
+      </View>
       <Spacer size='medium' />
       {postImage && (
-        <Image
-          source={{ uri: url }}
-          style={{ resizeMode: "contain", width: 360, height: 220, alignSelf: 'center'}}
-        />
+        <View>
+          <Image
+            source={{ uri: url }}
+            style={{ resizeMode: "contain", width: 360, height: 220, alignSelf: 'center'}}
+          />
+          <Spacer size='medium' />
+        </View>
       )}
       {(postText !== '') && (
         <PostDetails>
@@ -64,7 +84,6 @@ export const StoriesPostCard = ({ storyDetails }) => {
         </PostDetails>
       )}
       <PostDetails>
-        <Spacer size='small' />
         <View style={{ flexDirection: 'row', borderTopColor: '#777', borderTopWidth: 1.5, justifyContent:'space-evenly' }}>  
           <View style={{flexDirection: 'row'}}>
             <Icon

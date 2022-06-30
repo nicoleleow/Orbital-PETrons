@@ -26,12 +26,10 @@ import {
   addDoc,
 } from "firebase/firestore/lite";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { authentication, db } from "../../../../../firebase/firebase-config";
+import { authentication, db, userUsername } from "../../../../../firebase/firebase-config";
 
 export const CreatePostScreen = ({ navigation }) => {
   const pfp = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png';
-  const currentUsername = 'testUsername1';
-  
   const [postText, setPostText] = useState('');
   const [postImage, setPostImage] = useState(null);
 
@@ -118,24 +116,17 @@ export const CreatePostScreen = ({ navigation }) => {
 
   const SetData = async () => {
     let userUsername, date;
-    let day, month, year, hour, minutes;
     const Snapshot = await getDocs(collection(db, "userinfo"));
     Snapshot.forEach((doc) => {
       if (doc.data().email === authentication.currentUser?.email) {
         userUsername = doc.data().username;
         date = new Date();
-        day = date.getDate();
-        month = date.getMonth();
-        year = date.getFullYear();
         hour = date.getHours();
         minutes = date.getMinutes();
       }
     });
     await addDoc(collection(db, "stories"), {
       date,
-      day, 
-      month,
-      year,
       hour,
       minutes,
       postText,
@@ -172,7 +163,7 @@ export const CreatePostScreen = ({ navigation }) => {
               source={{ uri: pfp }}
             />
             <Spacer size='medium' position='right' />
-            <Text>{currentUsername}</Text>
+            <Text>{userUsername}</Text>
           </UserDetails>
           <Uploads>
             {postImage && (
