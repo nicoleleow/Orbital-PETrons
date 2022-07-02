@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
-import { View, Text, Image } from 'react-native';
-import { Card, Title } from 'react-native-paper';
+import { View, Text } from 'react-native';
+import { Card } from 'react-native-paper';
 
 export const PostCard = styled(Card)`
     margin: ${(props) => props.theme.space[4]};

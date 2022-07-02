@@ -5,7 +5,7 @@ import { FavouritesPage } from "../../features/profile/favourites";
 import { PutUpAdoptionListPage } from "../../features/profile/put-up-for-adoption-list.screen";
 import { EditPetList } from "../../features/profile/edit-adoption-list/edit-pet-list.screen";
 import { EditProfilePage } from "../../features/profile/edit-profile.screen";
-import { MyStoryPostsPage } from "../../features/profile/my-story-posts.screen";
+import { MyStoryPostsPage } from "../../features/profile/screens/my-story-posts.screen";
 
 const Stack = createStackNavigator();
 

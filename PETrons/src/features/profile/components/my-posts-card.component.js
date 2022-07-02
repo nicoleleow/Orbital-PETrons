@@ -1,43 +1,62 @@
-import React, {useState, useEffect} from 'react';
-import { Spacer } from '../../../../components/spacer/spacer.component';
-import { Text, View, Image } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import { Months } from "../../mainpage/share-stories/components/stories-post-card.styles";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { Spacer } from "../../../components/spacer/spacer.component";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon2 from "react-native-vector-icons/MaterialIcons";
 import { Avatar } from "react-native-paper";
 
-import {
-  PostCard,
-  UserDetails,
-  PostDetails,
-  Months,
-  UserDetailsText
-} from "./stories-post-card.styles";
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import styled from 'styled-components/native';
+import { Card } from 'react-native-paper';
 
-export const StoriesPostCard = ({ storyDetails }) => {
+const PostCard = styled(Card)`
+  margin: ${(props) => props.theme.space[2]};
+  margin-bottom: ${(props) => props.theme.space[2]};
+  border-radius: ${(props) => props.theme.space[1]};
+`
+
+const UserDetails = styled(View)`
+    flex-direction: row;
+    padding-horizontal: 15px;
+`
+
+const UserDetailsText = styled(Text)`
+    font-size: 15px;
+`
+
+const PostDetails = styled(Card.Content)`
+    padding-horizontal: 15px;
+    padding-bottom: ${(props) => props.theme.space[3]};
+    padding-top: ${(props) => props.theme.space[1]};
+    display: flex;
+`
+
+
+export const MyPostsCard = ({ storyDetails}) => {
   const { date, hour, minutes, postImage, postText, userName } = storyDetails;
+
+  const pfp = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png';
 
   const [url, setUrl] = useState();
   useEffect(() => {
-    const func = async () => {
-      if (postImage !== null) {
-        const uploadUri = postImage;
-    
-        const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
-        const storage = getStorage();
-        const reference = ref(storage, filename);
-        await getDownloadURL(reference).then((x) => {
-          setUrl(x);
-        });
-      }
-    };
-
-      if (url == undefined) {
-      func();
-      }
-  }, []);
+  const func = async () => {
+    if (postImage !== null) {
+      const uploadUri = postImage;
   
-  const pfp = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png';
+      const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+      const storage = getStorage();
+      const reference = ref(storage, filename);
+      await getDownloadURL(reference).then((x) => {
+        setUrl(x);
+      });
+    }
+  };
+
+    if (url == undefined) {
+    func();
+    }
+  }, []);
 
   const formattedDateWhole = new Date(date.seconds * 1000 + 28800 * 1000)
   const day = formattedDateWhole.getDate().toString();
@@ -50,7 +69,6 @@ export const StoriesPostCard = ({ storyDetails }) => {
   const formattedHour = timeTwelveHour < 10 ? '0' + timeTwelveHour.toString() : timeTwelveHour;
   const formattedMinutes = (minutes < 10) ? ('0' + minutes.toString()) : minutes.toString();
   const formattedTime = formattedHour + ':' + formattedMinutes + ' ' + timeOfDay;
-  
 
   return (
     <PostCard elevation={5}>
@@ -61,6 +79,11 @@ export const StoriesPostCard = ({ storyDetails }) => {
           <Spacer size='large' position='right' />
           <UserDetailsText>{userName}</UserDetailsText>
         </UserDetails>
+        <Icon2
+          name="more-horiz"
+          size={30}
+          style={{position: 'absolute', marginTop: 10, right: 15}}
+        />
         <Spacer size='medium' />
         <UserDetails>
           <UserDetailsText>{formattedDate}</UserDetailsText>
@@ -68,6 +91,7 @@ export const StoriesPostCard = ({ storyDetails }) => {
           <UserDetailsText>{formattedTime}</UserDetailsText>
         </UserDetails>
         <Spacer size='medium' />
+        
       </View>
       <Spacer size='medium' />
       {postImage && (
@@ -93,7 +117,7 @@ export const StoriesPostCard = ({ storyDetails }) => {
                 size={24} color={'#777'}
             />
             <Spacer size='medium' position='right' />
-            <Text>Like</Text>
+            <Text>Likes</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => console.log('comment button pressed')}>
             <Icon
@@ -102,7 +126,7 @@ export const StoriesPostCard = ({ storyDetails }) => {
                 size={24} color={'#777'}
             />
             <Spacer size='medium' position='right' />
-            <Text>Comment</Text>
+            <Text>Comments</Text>
           </TouchableOpacity>
         </View>
       </PostDetails> 
@@ -110,4 +134,3 @@ export const StoriesPostCard = ({ storyDetails }) => {
     </PostCard>
   )
 }
-    

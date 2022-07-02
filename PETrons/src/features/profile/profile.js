@@ -15,7 +15,7 @@ import {
   userUsername,
 } from "../../../firebase/firebase-config";
 import { Spacer } from "../../components/spacer/spacer.component";
-import { MyStoryPostsPage } from "./my-story-posts.screen";
+import { MyStoryPostsPage } from "./screens/my-story-posts.screen";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -71,6 +71,10 @@ export const ProfilePage = ({ navigation }) => {
 
   const EditProfilePage = async () => {
     navigation.navigate("EditingProfile");
+  };
+
+  const MyStoryPostsPage = async () => {
+    navigation.navigate("MyStoryPostsPage");
   };
 
   return (

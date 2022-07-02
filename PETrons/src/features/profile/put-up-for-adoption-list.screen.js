@@ -84,7 +84,7 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
     <DismissKeyboard>
       <SafeArea>
         <View>
-          <Text variant="header">YOUR LIST</Text>
+          <Text variant="header">MY LISTED ADOPTIONS</Text>
         </View>
         <SearchContainer>
           <SearchInputContainer>
