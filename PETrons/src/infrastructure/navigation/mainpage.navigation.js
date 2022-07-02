@@ -96,5 +96,10 @@ export const MainPageNavigator = () => (
         ),
       })}
     />
+    <Stack.Screen
+      name="CreatePostScreen"
+      component={CreatePostScreen}
+      options={{ headerShown: false }}
+    />
   </Stack.Navigator>
 );
