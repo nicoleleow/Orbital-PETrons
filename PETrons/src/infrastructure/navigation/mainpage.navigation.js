@@ -18,6 +18,9 @@ import { FrequentlyAskedQuestionsScreen } from "../../features/mainpage/faq/scre
 import { ChatPage } from "../../features/activity/chat.screen";
 import { authentication } from "../../../firebase/firebase-config";
 
+import { StoriesPostCard } from "../../features/mainpage/share-stories/components/stories-post-card.component";
+import { CreatePostScreen } from "../../features/mainpage/share-stories/screens/create-post.screen";
+
 const Stack = createStackNavigator();
 
 export const MainPageNavigator = () => (
