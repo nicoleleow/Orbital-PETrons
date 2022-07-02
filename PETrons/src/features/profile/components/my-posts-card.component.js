@@ -1,14 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import { Months } from "../../mainpage/share-stories/components/stories-post-card.styles";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { Spacer } from "../../../components/spacer/spacer.component";
+import { colors } from "../../../infrastructure/theme/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import Icon2 from "react-native-vector-icons/MaterialIcons";
-import { Avatar } from "react-native-paper";
+import { db } from "../../../../firebase/firebase-config";
+import { Avatar, Button } from "react-native-paper";
 
 import styled from 'styled-components/native';
 import { Card } from 'react-native-paper';
+
+import {
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+  addDoc,
+  query,
+  deleteDoc,
+} from "firebase/firestore/lite";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 
 const PostCard = styled(Card)`
   margin: ${(props) => props.theme.space[2]};
@@ -32,11 +48,68 @@ const PostDetails = styled(Card.Content)`
     display: flex;
 `
 
+const EditButton = styled(Button).attrs({
+  color: colors.button.primary,
+  position: 'absolute',
+  marginTop: 15,
+  right: 15
+})`
+  align-content: center;
+  justify-content: center;
+`;
 
-export const MyPostsCard = ({ storyDetails}) => {
-  const { date, hour, minutes, postImage, postText, userName } = storyDetails;
+export const MyPostsCard = ({ storyDetails, navigation }) => {
+  const { date, hour, minutes, postImage, postText, userName, email } = storyDetails;
 
   const pfp = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png';
+
+  const formattedDateWhole = new Date(date.seconds * 1000 + 28800 * 1000)
+  const day = formattedDateWhole.getDate().toString();
+  const month = Months[formattedDateWhole.getMonth()];
+  const year = formattedDateWhole.getFullYear().toString();
+  const formattedDate = day + ' ' + month + ' ' + year;
+
+  const timeOfDay = hour > 12 ? 'PM' : 'AM'
+  const timeTwelveHour = hour > 12 ? hour - 12 : (hour === 0) ? hour + 12 : hour
+  const formattedHour = timeTwelveHour < 10 ? '0' + timeTwelveHour.toString() : timeTwelveHour;
+  const formattedMinutes = (minutes < 10) ? ('0' + minutes.toString()) : minutes.toString();
+  const formattedTime = formattedHour + ':' + formattedMinutes + ' ' + timeOfDay;
+
+  const EditAlert = () =>
+    Alert.alert("Edit?", "Are you sure you want to edit make changes to this form?", [
+      {
+        text: "Edit",
+        onPress: () => navigation.navigate("EditPostPage"),
+      },
+      { text: "Delete", onPress: DeleteData },
+      {
+        text: "Cancel",
+      },
+    ]);
+  
+  const DeleteData = async () => {
+    const querySnapshot = await getDocs(collection(db, "stories"));
+    let documentID;
+    querySnapshot.forEach((doc) => {
+      if (
+        (doc.data().email === email) &
+        (doc.data().date.seconds === date.seconds)
+      ) {
+        documentID = doc.id;
+      }
+    });
+    await deleteDoc(doc(db, "stories", documentID));
+    if (postImage !== null) {
+      console.log('filename is: ', postImage)
+      const uploadUri = postImage;
+      const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+      const storage = getStorage();
+      const reference = ref(storage, filename);
+      deleteObject(reference)
+        .then(() => {})
+        .catch((error) => {});
+    }
+  };
 
   const [url, setUrl] = useState();
   useEffect(() => {
@@ -58,18 +131,6 @@ export const MyPostsCard = ({ storyDetails}) => {
     }
   }, []);
 
-  const formattedDateWhole = new Date(date.seconds * 1000 + 28800 * 1000)
-  const day = formattedDateWhole.getDate().toString();
-  const month = Months[formattedDateWhole.getMonth()];
-  const year = formattedDateWhole.getFullYear().toString();
-  const formattedDate = day + ' ' + month + ' ' + year;
-
-  const timeOfDay = hour > 12 ? 'PM' : 'AM'
-  const timeTwelveHour = hour > 12 ? hour - 12 : (hour === 0) ? hour + 12 : hour
-  const formattedHour = timeTwelveHour < 10 ? '0' + timeTwelveHour.toString() : timeTwelveHour;
-  const formattedMinutes = (minutes < 10) ? ('0' + minutes.toString()) : minutes.toString();
-  const formattedTime = formattedHour + ':' + formattedMinutes + ' ' + timeOfDay;
-
   return (
     <PostCard elevation={5}>
       <View>
@@ -79,11 +140,9 @@ export const MyPostsCard = ({ storyDetails}) => {
           <Spacer size='large' position='right' />
           <UserDetailsText>{userName}</UserDetailsText>
         </UserDetails>
-        <Icon2
-          name="more-horiz"
-          size={30}
-          style={{position: 'absolute', marginTop: 10, right: 15}}
-        />
+        <EditButton mode="contained" icon="pencil" onPress={EditAlert}>
+          Edit
+        </EditButton>
         <Spacer size='medium' />
         <UserDetails>
           <UserDetailsText>{formattedDate}</UserDetailsText>

@@ -23,12 +23,6 @@ const SafeArea = styled(SafeAreaView)`
   background-color: orange;
 `;
 
-const DismissKeyboard = ({ children }) => (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    {children}
-  </TouchableWithoutFeedback>
-);
-
 const AdoptionList = styled(FlatList).attrs({
   contentContainerStyle: {
     padding: 16,
@@ -37,7 +31,6 @@ const AdoptionList = styled(FlatList).attrs({
 
 export const MyStoryPostsPage = ({ navigation }) => {
   GetStoriesData();
-  // console.log(storiesList);
 
   const filteredList = storiesList.filter((obj) => {
     return obj.email === authentication.currentUser?.email;
@@ -61,25 +54,23 @@ export const MyStoryPostsPage = ({ navigation }) => {
   
 
   return (
-    <DismissKeyboard>
-      <SafeArea>
-        <View>
-          <Text variant="header">MY STORY POSTS</Text>
-        </View>
-        
-        <AdoptionList
-          data={filteredStories}
-          renderItem={(item) => (
-            <TouchableOpacity>
-              <MyPostsCard storyDetails={item.item} />
-            </TouchableOpacity>
-          )}
-          keyExtractor={(item) => item.date}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        />
-      </SafeArea>
-    </DismissKeyboard>
+    <SafeArea>
+      <View>
+        <Text variant="header">MY STORY POSTS</Text>
+      </View>
+      
+      <AdoptionList
+        data={filteredStories}
+        renderItem={(item) => (
+          <TouchableOpacity>
+            <MyPostsCard storyDetails={item.item} navigation={navigation} />
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.date}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      />
+    </SafeArea>
   );
 };

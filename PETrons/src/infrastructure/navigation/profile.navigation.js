@@ -6,6 +6,7 @@ import { PutUpAdoptionListPage } from "../../features/profile/put-up-for-adoptio
 import { EditPetList } from "../../features/profile/edit-adoption-list/edit-pet-list.screen";
 import { EditProfilePage } from "../../features/profile/edit-profile.screen";
 import { MyStoryPostsPage } from "../../features/profile/screens/my-story-posts.screen";
+import { EditPostPage } from "../../features/profile/screens/edit-my-post.screen";
 
 const Stack = createStackNavigator();
 
@@ -17,5 +18,6 @@ export const ProfileNavigator = () => (
     <Stack.Screen name="EditingPetList" component={EditPetList} />
     <Stack.Screen name="EditingProfile" component={EditProfilePage} />
     <Stack.Screen name="MyStoryPostsPage" component={MyStoryPostsPage} />
+    <Stack.Screen name="EditPostPage" component={EditPostPage} />
   </Stack.Navigator>
 );

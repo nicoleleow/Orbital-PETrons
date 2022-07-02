@@ -100,7 +100,7 @@ export const AdoptionInfoCard = ({ pet, navigation }) => {
   } = item;
 
   const EditAlert = () =>
-    Alert.alert("Edit?", "Are you sure you want make changes to this form?", [
+    Alert.alert("Edit?", "Are you sure you want to make changes to this form?", [
       {
         text: "Edit",
         onPress: () => navigation.navigate("EditingPetList", { item }),
