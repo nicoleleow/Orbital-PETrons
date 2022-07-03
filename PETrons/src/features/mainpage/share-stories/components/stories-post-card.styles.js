@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
-import { View, Text, Image } from 'react-native';
-import { Card, Title } from 'react-native-paper';
+import { View, Text } from 'react-native';
+import { Card } from 'react-native-paper';
 
 export const PostCard = styled(Card)`
     margin: ${(props) => props.theme.space[4]};
@@ -22,6 +22,15 @@ export const PostDetails = styled(Card.Content)`
     padding-bottom: ${(props) => props.theme.space[3]};
     padding-top: ${(props) => props.theme.space[1]};
     display: flex;
+`
+
+export const BottomContainer = styled(View)`
+    flex-direction: row;
+    border-top-color: #777;
+    border-top-width: 1.5px;
+    justify-content: space-evenly;
+    padding-top: 8px;
+    padding-horizontal: 10px;
 `
 
 export const Months = [

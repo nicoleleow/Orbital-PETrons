@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Spacer } from '../../../../components/spacer/spacer.component';
 import { Text, View, Image } from 'react-native';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Avatar } from "react-native-paper";
 
 import {
@@ -10,11 +10,13 @@ import {
   UserDetails,
   PostDetails,
   Months,
-  UserDetailsText
+  UserDetailsText,
+  BottomContainer
 } from "./stories-post-card.styles";
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export const StoriesPostCard = ({ storyDetails }) => {
-  const { date, hour, minutes, postImage, postText, userName } = storyDetails;
+  const { date, hour, minutes, postImage, postText, userName, edited } = storyDetails;
 
   const [url, setUrl] = useState();
   useEffect(() => {
@@ -44,7 +46,7 @@ export const StoriesPostCard = ({ storyDetails }) => {
   const year = formattedDateWhole.getFullYear().toString();
   const formattedDate = day + ' ' + month + ' ' + year;
 
-  const timeOfDay = hour > 12 ? 'PM' : 'AM'
+  const timeOfDay = hour >= 12 ? 'PM' : 'AM'
   const timeTwelveHour = hour > 12 ? hour - 12 : (hour === 0) ? hour + 12 : hour
   const formattedHour = timeTwelveHour < 10 ? '0' + timeTwelveHour.toString() : timeTwelveHour;
   const formattedMinutes = (minutes < 10) ? ('0' + minutes.toString()) : minutes.toString();
@@ -65,6 +67,10 @@ export const StoriesPostCard = ({ storyDetails }) => {
           <UserDetailsText>{formattedDate}</UserDetailsText>
           <Spacer size='large' position='right' />
           <UserDetailsText>{formattedTime}</UserDetailsText>
+          <Spacer size='large' position='right' />
+          {edited && (
+            <Text style={{color: '#777'}}>(edited)</Text>
+          )}
         </UserDetails>
         <Spacer size='medium' />
       </View>
@@ -84,27 +90,28 @@ export const StoriesPostCard = ({ storyDetails }) => {
         </PostDetails>
       )}
       <PostDetails>
-        <View style={{ flexDirection: 'row', borderTopColor: '#777', borderTopWidth: 1.5, justifyContent:'space-evenly' }}>  
-          <View style={{flexDirection: 'row'}}>
+        <BottomContainer>  
+          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center'}} onPress={() => console.log('like button pressed')}>
+            <Spacer size='xLarge' position='right' />
             <Icon
                 raised
                 name="thumb-up-outline"
                 size={24} color={'#777'}
-                onPress={() => console.log('camera icon pressed')}
             />
             <Spacer size='medium' position='right' />
-            <Text>Like</Text>
-          </View>
-          <View style={{flexDirection: 'row'}}>
+            <Text>Like    </Text>
+          </TouchableOpacity>
+          <Spacer size='medium' position='right' />
+          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center'}} onPress={() => console.log('comment button pressed')}>
             <Icon
                 raised
                 name="comment-outline"
                 size={24} color={'#777'}
-                onPress={() => console.log('camera icon pressed')}
             />
+            <Spacer size='medium' position='right' />
             <Text>Comment</Text>
-          </View>
-          </View>
+          </TouchableOpacity>
+        </BottomContainer>
       </PostDetails> 
     
     </PostCard>

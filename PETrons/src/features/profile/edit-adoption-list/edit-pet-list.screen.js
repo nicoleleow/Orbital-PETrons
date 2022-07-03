@@ -263,7 +263,7 @@ export const EditPetList = ({ route, navigation }) => {
   const confirmEdit = () =>
     Alert.alert(
       "Submit Changes?",
-      "Are you sure you want to submit this changes?",
+      "Are you sure you want to submit these changes?",
       [
         {
           text: "Cancel",

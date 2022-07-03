@@ -6,6 +6,7 @@ import { Text } from "../../components/typography/text.component";
 import { collection, getDocs, doc, setDoc } from "firebase/firestore/lite";
 import { signOut } from "firebase/auth";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon2 from "react-native-vector-icons/Ionicons";
 
 import { AuthButton } from "../account/account.style";
 import {
@@ -14,6 +15,7 @@ import {
   userUsername,
 } from "../../../firebase/firebase-config";
 import { Spacer } from "../../components/spacer/spacer.component";
+import { MyStoryPostsPage } from "./screens/my-story-posts.screen";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -71,6 +73,10 @@ export const ProfilePage = ({ navigation }) => {
     navigation.navigate("EditingProfile");
   };
 
+  const MyStoryPostsPage = async () => {
+    navigation.navigate("MyStoryPostsPage");
+  };
+
   return (
     <SafeArea>
       <UserInfoSection>
@@ -97,17 +103,36 @@ export const ProfilePage = ({ navigation }) => {
             Edit Profile
           </AuthButton>
           <Spacer size="large">
+            <AuthButton mode="contained" icon="heart" onPress={FavouritesPage}>
+              Favourites
+            </AuthButton>
+          </Spacer>
+          <Spacer size="large">
             <AuthButton
               mode="contained"
               icon="tag-heart"
               onPress={PutUpAdoptionListPage}
             >
-              Your Listed Adoptions
+              My Listed Adoptions
             </AuthButton>
           </Spacer>
           <Spacer size="large">
-            <AuthButton mode="contained" icon="heart" onPress={FavouritesPage}>
-              Favourites
+            <AuthButton
+              mode="contained"
+              icon="post-outline"
+              onPress={MyStoryPostsPage}
+            >
+              My Story Posts
+            </AuthButton>
+          </Spacer>
+          <Spacer size="large">
+            <AuthButton
+              mode="contained"
+              onPress={MyStoryPostsPage}
+            >
+              <Icon2 name='thumbs-up-sharp' color='white' />
+              <Spacer size='medium' position='right' />
+              My Liked Posts
             </AuthButton>
           </Spacer>
           <Spacer size="large">

@@ -10,7 +10,6 @@ import {
   TextInput,
 } from "react-native";
 import styled from "styled-components/native";
-import { Searchbar } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { Text } from "../../components/typography/text.component";
@@ -48,7 +47,7 @@ const SearchInputContainer = styled(View)`
   background-color: white;
   border-radius: 7px;
   padding-horizontal: 20px;
-  margin-horizontal: ${(props) => props.theme.space[3]};
+  margin-horizontal: ${(props) => props.theme.space[4]};
 `;
 
 export const PutUpAdoptionListPage = ({ navigation }) => {
@@ -85,7 +84,7 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
     <DismissKeyboard>
       <SafeArea>
         <View>
-          <Text variant="header">YOUR LIST</Text>
+          <Text variant="header">My Listed Adoptions</Text>
         </View>
         <SearchContainer>
           <SearchInputContainer>

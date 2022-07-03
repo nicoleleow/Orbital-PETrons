@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Alert, Modal, Image } from "react-native";
+import { View, Alert, Modal, Image, ScrollView } from "react-native";
 import { Text } from "../../../../components/typography/text.component";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
@@ -133,15 +133,18 @@ export const CreatePostScreen = ({ navigation }) => {
       postImage,
       email: authentication.currentUser?.email,
       userName: userUsername,
+      edited: false
     });
     navigation.goBack()
-    const uploadUri = postImage;
-    const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
-    const storage = getStorage();
-    const reference = ref(storage, filename);
-    const img = await fetch(postImage);
-    const bytes = await img.blob();
-    await uploadBytes(reference, bytes);
+    if (postImage !== null) {
+      const uploadUri = postImage;
+      const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+      const storage = getStorage();
+      const reference = ref(storage, filename);
+      const img = await fetch(postImage);
+      const bytes = await img.blob();
+      await uploadBytes(reference, bytes);
+    }
   };
 
   return (
@@ -166,32 +169,37 @@ export const CreatePostScreen = ({ navigation }) => {
             <Text>{userUsername}</Text>
           </UserDetails>
           <Uploads>
-            {postImage && (
-              <View>
-                <Image
-                 source={{ uri: postImage }}
-                 style={{ resizeMode: "contain", width: 360, height: 220, alignSelf: 'center'}}
-                 />
-                <Spacer size='medium' />
-              </View>
-            )}
-            <PostText
-              placeholder="Share your story or ask a question (max 300 characters)"
-              textContentType="none"
-              keyboardType="default"
-              value={postText}
-              onChangeText={setPostText}
-              maxLength={300} 
-              multiline={true}
-            />
-            <Spacer size='large' />
-            <View style={{alignItems: 'flex-end', right: 30}}>
-              <Icon2
-                name="camera-alt"
-                size={30} color={'#777'}
-                onPress={() => setImageModalVisible(!imageModalVisible)}
+            <ScrollView>
+              {postImage && (
+                <View>
+                  <Image
+                  source={{ uri: postImage }}
+                  style={{ resizeMode: "contain", width: 360, height: 220, alignSelf: 'center'}}
+                  />
+                  <Spacer size='medium' />
+                </View>
+              )}
+              <PostText
+                placeholder="Share your story or ask a question (max 300 characters)"
+                textContentType="none"
+                keyboardType="default"
+                value={postText}
+                onChangeText={setPostText}
+                maxLength={300} 
+                multiline={true}
               />
-            </View>
+              <Spacer size='large' />
+              <View style={{alignItems: 'flex-end', right: 30}}>
+                <Icon2
+                  name="camera-alt"
+                  size={30} color={'#777'}
+                  onPress={() => setImageModalVisible(!imageModalVisible)}
+                  style={{marginBottom: 350}}
+                />
+              </View>
+              <View style={{ backgroundColor: 'white', height: 400 }}>
+              </View>
+            </ScrollView>
             <Modal
               animationType="slide"
               transparent={true}
@@ -227,9 +235,7 @@ export const CreatePostScreen = ({ navigation }) => {
                 </ImageButtons>
               </ModalContainer>  
             </Modal>
-            
           </Uploads>
-          
         </Body>
       </View>
     </SafeArea>
