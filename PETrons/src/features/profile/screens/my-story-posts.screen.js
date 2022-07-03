@@ -56,7 +56,7 @@ export const MyStoryPostsPage = ({ navigation }) => {
   return (
     <SafeArea>
       <View>
-        <Text variant="header">MY STORY POSTS</Text>
+        <Text variant="header">My Story Posts</Text>
       </View>
       
       <AdoptionList

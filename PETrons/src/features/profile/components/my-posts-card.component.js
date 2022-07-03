@@ -76,10 +76,10 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
   const formattedTime = formattedHour + ':' + formattedMinutes + ' ' + timeOfDay;
 
   const EditAlert = () =>
-    Alert.alert("Edit?", "Are you sure you want to edit make changes to this form?", [
+    Alert.alert("Edit?", "Are you sure you want to edit this post?", [
       {
-        text: "Edit",
-        onPress: () => navigation.navigate("EditPostPage"),
+        text: "Edit Caption",
+        onPress: () => navigation.navigate("EditPostPage", {storyDetails}),
       },
       { text: "Delete", onPress: DeleteData },
       {
@@ -100,7 +100,6 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
     });
     await deleteDoc(doc(db, "stories", documentID));
     if (postImage !== null) {
-      console.log('filename is: ', postImage)
       const uploadUri = postImage;
       const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
       const storage = getStorage();

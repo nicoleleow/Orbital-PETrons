@@ -47,7 +47,7 @@ const SearchInputContainer = styled(View)`
   background-color: white;
   border-radius: 7px;
   padding-horizontal: 20px;
-  margin-horizontal: ${(props) => props.theme.space[3]};
+  margin-horizontal: ${(props) => props.theme.space[4]};
 `;
 
 export const PutUpAdoptionListPage = ({ navigation }) => {
@@ -84,7 +84,7 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
     <DismissKeyboard>
       <SafeArea>
         <View>
-          <Text variant="header">MY LISTED ADOPTIONS</Text>
+          <Text variant="header">My Listed Adoptions</Text>
         </View>
         <SearchContainer>
           <SearchInputContainer>

@@ -66,6 +66,7 @@ const Name = styled(Title)`
   font-size: ${(props) => props.theme.fontSizes.title};
   font-family: ${(props) => props.theme.fonts.heading};
   color: ${(props) => props.theme.colors.text.error};
+  text-transform: capitalize;
 `;
 
 const Caption = styled(Text)`

@@ -11,7 +11,7 @@ const SafeArea = styled(SafeAreaView)`
 export const FavouritesPage = () => (
   <SafeArea>
     <View>
-      <Text variant='header'>FAVOURITES</Text>
+      <Text variant='header'>Favourites</Text>
     </View>
   </SafeArea>
 );
