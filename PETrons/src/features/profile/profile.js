@@ -135,7 +135,6 @@ export const ProfilePage = ({ navigation }) => {
               My Liked Posts
             </AuthButton>
           </Spacer>
-          <Spacer size='xxLarge' />
           <Spacer size="large">
             <AuthButton mode="contained" icon="logout" onPress={Logout}>
               Log Out

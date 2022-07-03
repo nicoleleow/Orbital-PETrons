@@ -69,7 +69,7 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
   const year = formattedDateWhole.getFullYear().toString();
   const formattedDate = day + ' ' + month + ' ' + year;
 
-  const timeOfDay = hour > 12 ? 'PM' : 'AM'
+  const timeOfDay = hour >= 12 ? 'PM' : 'AM'
   const timeTwelveHour = hour > 12 ? hour - 12 : (hour === 0) ? hour + 12 : hour
   const formattedHour = timeTwelveHour < 10 ? '0' + timeTwelveHour.toString() : timeTwelveHour;
   const formattedMinutes = (minutes < 10) ? ('0' + minutes.toString()) : minutes.toString();

@@ -60,18 +60,6 @@ export const EditPostPage = ({ route, navigation }) => {
 
   const pfp = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png';
 
-  const formattedDateWhole = new Date(date.seconds * 1000 + 28800 * 1000)
-  const day = formattedDateWhole.getDate().toString();
-  const month = Months[formattedDateWhole.getMonth()];
-  const year = formattedDateWhole.getFullYear().toString();
-  const formattedDate = day + ' ' + month + ' ' + year;
-
-  const timeOfDay = hour > 12 ? 'PM' : 'AM'
-  const timeTwelveHour = hour > 12 ? hour - 12 : (hour === 0) ? hour + 12 : hour
-  const formattedHour = timeTwelveHour < 10 ? '0' + timeTwelveHour.toString() : timeTwelveHour;
-  const formattedMinutes = (minutes < 10) ? ('0' + minutes.toString()) : minutes.toString();
-  const formattedTime = formattedHour + ':' + formattedMinutes + ' ' + timeOfDay;
-
   const [url, setUrl] = useState();
   useEffect(() => {
   const func = async () => {
