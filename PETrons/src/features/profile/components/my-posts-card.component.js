@@ -59,7 +59,7 @@ const EditButton = styled(Button).attrs({
 `;
 
 export const MyPostsCard = ({ storyDetails, navigation }) => {
-  const { date, hour, minutes, postImage, postText, userName, email } = storyDetails;
+  const { date, hour, minutes, postImage, postText, userName, email, edited } = storyDetails;
 
   const pfp = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png';
 
@@ -81,10 +81,18 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
         text: "Edit Caption",
         onPress: () => navigation.navigate("EditPostPage", {storyDetails}),
       },
-      { text: "Delete", onPress: DeleteData },
+      { text: "Delete", onPress: ConfirmDeleteAlert },
       {
         text: "Cancel",
       },
+    ]);
+  
+  const ConfirmDeleteAlert = () =>
+    Alert.alert("Delete?", "Are you sure you want to delete this post?", [
+      { text: "Cancel" },
+      {
+        text: "Delete", onPress: DeleteData
+      }
     ]);
   
   const DeleteData = async () => {
@@ -147,6 +155,10 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
           <UserDetailsText>{formattedDate}</UserDetailsText>
           <Spacer size='large' position='right' />
           <UserDetailsText>{formattedTime}</UserDetailsText>
+          <Spacer size='large' position='right' />
+          {edited && (
+            <Text style={{color: '#777'}}>(edited)</Text>
+          )}
         </UserDetails>
         <Spacer size='medium' />
         

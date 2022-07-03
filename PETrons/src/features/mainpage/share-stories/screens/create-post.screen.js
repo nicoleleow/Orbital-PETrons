@@ -133,15 +133,18 @@ export const CreatePostScreen = ({ navigation }) => {
       postImage,
       email: authentication.currentUser?.email,
       userName: userUsername,
+      edited: false
     });
     navigation.goBack()
-    const uploadUri = postImage;
-    const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
-    const storage = getStorage();
-    const reference = ref(storage, filename);
-    const img = await fetch(postImage);
-    const bytes = await img.blob();
-    await uploadBytes(reference, bytes);
+    if (postImage !== null) {
+      const uploadUri = postImage;
+      const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+      const storage = getStorage();
+      const reference = ref(storage, filename);
+      const img = await fetch(postImage);
+      const bytes = await img.blob();
+      await uploadBytes(reference, bytes);
+    }
   };
 
   return (

@@ -54,7 +54,7 @@ const DismissKeyboard = ({ children }) => (
 export const EditPostPage = ({ route, navigation }) => {
   getUserName();
   const details = route.params.storyDetails;
-  const { date, hour, minutes, postImage, postText, userName, email } = details;
+  const { date, hour, minutes, postImage, postText, userName, email, edited } = details;
 
   const [newPostText, setNewPostText] = useState(postText);
 
@@ -111,7 +111,8 @@ export const EditPostPage = ({ route, navigation }) => {
       postImage,
       postText: newPostText,
       email,
-      userName
+      userName,
+      edited: (newPostText !== postText ? true : false)
     });
     navigation.goBack();
   };
