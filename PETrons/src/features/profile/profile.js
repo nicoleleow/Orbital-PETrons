@@ -70,7 +70,7 @@ export const ProfilePage = ({ navigation }) => {
   };
 
   const EditProfilePage = async () => {
-    navigation.navigate("EditingProfile");
+    navigation.navigate("Edit Your Profile");
   };
 
   const MyStoryPostsPage = async () => {
@@ -126,12 +126,9 @@ export const ProfilePage = ({ navigation }) => {
             </AuthButton>
           </Spacer>
           <Spacer size="large">
-            <AuthButton
-              mode="contained"
-              onPress={MyStoryPostsPage}
-            >
-              <Icon2 name='thumbs-up-sharp' color='white' />
-              <Spacer size='medium' position='right' />
+            <AuthButton mode="contained" onPress={MyStoryPostsPage}>
+              <Icon2 name="thumbs-up-sharp" color="white" />
+              <Spacer size="medium" position="right" />
               My Liked Posts
             </AuthButton>
           </Spacer>

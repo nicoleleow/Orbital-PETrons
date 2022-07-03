@@ -1,4 +1,5 @@
 import React from "react";
+import { Button, Alert } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { ProfilePage } from "../../features/profile/profile";
 import { FavouritesPage } from "../../features/profile/favourites";
@@ -10,14 +11,73 @@ import { EditPostPage } from "../../features/profile/screens/edit-my-post.screen
 
 const Stack = createStackNavigator();
 
-export const ProfileNavigator = () => (
-  <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="ProfilePage" component={ProfilePage} />
-    <Stack.Screen name="Favourites" component={FavouritesPage} />
-    <Stack.Screen name="PutUpAdoptionList" component={PutUpAdoptionListPage} />
-    <Stack.Screen name="EditingPetList" component={EditPetList} />
-    <Stack.Screen name="EditingProfile" component={EditProfilePage} />
-    <Stack.Screen name="MyStoryPostsPage" component={MyStoryPostsPage} />
-    <Stack.Screen name="EditPostPage" component={EditPostPage} />
-  </Stack.Navigator>
-);
+export const ProfileNavigator = () => {
+  const DoneAlert = () =>
+    Alert.alert(
+      "Confirm profile update?",
+      "Are you sure you want to make the following changes?",
+      [
+        {
+          text: "Yes",
+          onPress: { confirmUpdate },
+        },
+        {
+          text: "Cancel",
+        },
+      ]
+    );
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="ProfilePage"
+        component={ProfilePage}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Favourites"
+        component={FavouritesPage}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PutUpAdoptionList"
+        component={PutUpAdoptionListPage}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="EditingPetList"
+        component={EditPetList}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Edit Your Profile"
+        component={EditProfilePage}
+        options={({ navigation, route }) => ({
+          headerStyle: {
+            backgroundColor: "orange",
+          },
+          headerBackTitleVisible: false,
+          headerLeft: () => (
+            <Button
+              onPress={() => navigation.navigate("ProfilePage")}
+              title="< Back"
+              color="black"
+            />
+          ),
+          headerRight: () => (
+            <Button onPress={DoneAlert} title="Done" color="black" />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="MyStoryPostsPage"
+        component={MyStoryPostsPage}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="EditPostPage"
+        component={EditPostPage}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
