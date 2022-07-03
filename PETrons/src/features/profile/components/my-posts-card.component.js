@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
-import { Months } from "../../mainpage/share-stories/components/stories-post-card.styles";
+import { Months, BottomContainer } from "../../mainpage/share-stories/components/stories-post-card.styles";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { colors } from "../../../infrastructure/theme/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -81,7 +81,7 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
         text: "Edit Caption",
         onPress: () => navigation.navigate("EditPostPage", {storyDetails}),
       },
-      { text: "Delete", onPress: ConfirmDeleteAlert },
+      { text: "Delete Post", onPress: ConfirmDeleteAlert },
       {
         text: "Cancel",
       },
@@ -147,9 +147,6 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
           <Spacer size='large' position='right' />
           <UserDetailsText>{userName}</UserDetailsText>
         </UserDetails>
-        <EditButton mode="contained" icon="pencil" onPress={EditAlert}>
-          Edit
-        </EditButton>
         <Spacer size='medium' />
         <UserDetails>
           <UserDetailsText>{formattedDate}</UserDetailsText>
@@ -179,7 +176,7 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
         </PostDetails>
       )}
       <PostDetails>
-        <View style={{ flexDirection: 'row', borderTopColor: '#777', borderTopWidth: 1.5, justifyContent: 'space-evenly', paddingTop: 5 }}>  
+        <BottomContainer style={{justifyContent: 'space-between'}}>  
           <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => console.log('like button pressed')}>
             <Icon
                 raised
@@ -198,7 +195,16 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
             <Spacer size='medium' position='right' />
             <Text>Comments</Text>
           </TouchableOpacity>
-        </View>
+          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={EditAlert}>
+            <Icon
+                raised
+                name="file-document-edit-outline"
+                size={24} color={'#777'}
+            />
+            <Spacer size='medium' position='right' />
+            <Text>Edit</Text>
+          </TouchableOpacity>
+        </BottomContainer>
       </PostDetails> 
     
     </PostCard>

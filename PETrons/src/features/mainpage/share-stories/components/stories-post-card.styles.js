@@ -24,6 +24,15 @@ export const PostDetails = styled(Card.Content)`
     display: flex;
 `
 
+export const BottomContainer = styled(View)`
+    flex-direction: row;
+    border-top-color: #777;
+    border-top-width: 1.5px;
+    justify-content: space-evenly;
+    padding-top: 8px;
+    padding-horizontal: 10px;
+`
+
 export const Months = [
     'Jan', 'Feb', 'Mar', 'April', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', "Dec"
 ]

@@ -10,7 +10,8 @@ import {
   UserDetails,
   PostDetails,
   Months,
-  UserDetailsText
+  UserDetailsText,
+  BottomContainer
 } from "./stories-post-card.styles";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -89,17 +90,19 @@ export const StoriesPostCard = ({ storyDetails }) => {
         </PostDetails>
       )}
       <PostDetails>
-        <View style={{ flexDirection: 'row', borderTopColor: '#777', borderTopWidth: 1.5, justifyContent: 'space-evenly', paddingTop: 5 }}>  
-          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => console.log('like button pressed')}>
+        <BottomContainer>  
+          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center'}} onPress={() => console.log('like button pressed')}>
+            <Spacer size='xLarge' position='right' />
             <Icon
                 raised
                 name="thumb-up-outline"
                 size={24} color={'#777'}
             />
             <Spacer size='medium' position='right' />
-            <Text>Like</Text>
+            <Text>Like    </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => console.log('comment button pressed')}>
+          <Spacer size='medium' position='right' />
+          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center'}} onPress={() => console.log('comment button pressed')}>
             <Icon
                 raised
                 name="comment-outline"
@@ -108,7 +111,7 @@ export const StoriesPostCard = ({ storyDetails }) => {
             <Spacer size='medium' position='right' />
             <Text>Comment</Text>
           </TouchableOpacity>
-        </View>
+        </BottomContainer>
       </PostDetails> 
     
     </PostCard>

@@ -8,13 +8,10 @@ import {
   Image,
   Alert,
 } from "react-native";
-import styled from "styled-components/native";
 import {
   getStorage,
   ref,
-  getDownloadURL,
-  deleteObject,
-  uploadBytes,
+  getDownloadURL
 } from "firebase/storage";
 
 import {
@@ -22,10 +19,7 @@ import {
   getDocs,
   doc,
   setDoc,
-  query,
-  updateDoc,
 } from "firebase/firestore/lite";
-import { Months } from "../../mainpage/share-stories/components/stories-post-card.styles";
 
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { db, authentication, userUsername, getUserName } from "../../../../firebase/firebase-config";
@@ -40,9 +34,7 @@ import {
   Uploads,
   PostText,
   TopButtons,
-  ImageButtons,
-  ImageButtonText,
-  ModalContainer
+  ImageButtonText
 } from "../../mainpage/share-stories/screens/create-post.styles";
 
 const DismissKeyboard = ({ children }) => (
@@ -158,27 +150,32 @@ export const EditPostPage = ({ route, navigation }) => {
               <Spacer size='medium' position='right' />
               <Text>{userUsername}</Text>
             </UserDetails>
-            <Uploads>
-              {postImage && (
-                <View>
-                  <Image
-                  source={{ uri: postImage }}
-                  style={{ resizeMode: "contain", width: 360, height: 220, alignSelf: 'center'}}
-                  />
-                  <Spacer size='medium' />
+            <ScrollView>
+              <Uploads>
+                {postImage && (
+                  <View>
+                    <Image
+                    source={{ uri: postImage }}
+                    style={{ resizeMode: "contain", width: 360, height: 220, alignSelf: 'center'}}
+                    />
+                    <Spacer size='medium' />
+                  </View>
+                )}
+                <PostText
+                  placeholder="Share your story or ask a question (max 300 characters)"
+                  textContentType="none"
+                  keyboardType="default"
+                  value={newPostText}
+                  onChangeText={setNewPostText}
+                  maxLength={300} 
+                  multiline={true}
+                  style={{marginBottom: 350}}
+                />
+                <View style={{ backgroundColor: 'white', height: 200 }}>
                 </View>
-              )}
-              <PostText
-                placeholder="Share your story or ask a question (max 300 characters)"
-                textContentType="none"
-                keyboardType="default"
-                value={newPostText}
-                onChangeText={setNewPostText}
-                maxLength={300} 
-                multiline={true}
-              />
-              <Spacer size='large' />
-            </Uploads>
+                <Spacer size='large' />
+              </Uploads>
+            </ScrollView>
           </Body>
         </View>
       </SafeArea>
