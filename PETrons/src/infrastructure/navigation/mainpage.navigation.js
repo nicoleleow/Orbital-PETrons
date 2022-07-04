@@ -10,7 +10,7 @@ import { FAQPage } from "../../features/mainpage/faq/faq.screen";
 
 import { PetInfoCard } from "../../features/mainpage/adopt/components/pet-info-card.component";
 import { PetInfoScreen } from "../../features/mainpage/adopt/screens/pet-info.screen";
-import { EditPetList } from "../../features/profile/edit-adoption-list/edit-pet-list.screen";
+import { EditPetList } from "../../features/profile/screens/edit-adoption-list/edit-pet-list.screen";
 
 import { LicensingDogsScreen } from "../../features/mainpage/faq/screens/licensing-dogs.screen";
 import { PetAdoptionProcedureScreen } from "../../features/mainpage/faq/screens/pet-adoption-procedure.screen";

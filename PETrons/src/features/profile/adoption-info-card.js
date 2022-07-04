@@ -101,16 +101,20 @@ export const AdoptionInfoCard = ({ pet, navigation }) => {
   } = item;
 
   const EditAlert = () =>
-    Alert.alert("Edit?", "Are you sure you want to make changes to this form?", [
-      {
-        text: "Edit",
-        onPress: () => navigation.navigate("EditingPetList", { item }),
-      },
-      { text: "Delete", onPress: DeleteData },
-      {
-        text: "Cancel",
-      },
-    ]);
+    Alert.alert(
+      "Edit?",
+      "Are you sure you want to make changes to this form?",
+      [
+        {
+          text: "Edit",
+          onPress: () => navigation.navigate("EditingPetList", { item }),
+        },
+        { text: "Delete", onPress: DeleteData },
+        {
+          text: "Cancel",
+        },
+      ]
+    );
 
   const DeleteData = async () => {
     const querySnapshot = await getDocs(collection(db, "put-up-for-adoption"));
