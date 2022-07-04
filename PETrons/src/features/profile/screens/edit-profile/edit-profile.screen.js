@@ -12,12 +12,31 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Button,
+  Alert,
 } from "react-native";
 import styled from "styled-components/native";
+import * as ImagePicker from "expo-image-picker";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  deleteObject,
+  uploadBytes,
+} from "firebase/storage";
+import {
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+  query,
+  updateDoc,
+} from "firebase/firestore/lite";
 
 import {
   authentication,
+  userImage,
   userUsername,
+  db,
 } from "../../../../../firebase/firebase-config";
 import { Text } from "../../../../components/typography/text.component";
 import {
@@ -32,6 +51,7 @@ import {
   FieldText,
   UserInfoSection,
   ChangePasswordButton,
+  DoneButton,
 } from "./edit-profile.style";
 
 const SafeArea = styled(SafeAreaView)`
@@ -47,7 +67,7 @@ const DismissKeyboard = ({ children }) => (
 
 export const EditProfilePage = ({ navigation }) => {
   const [userName, setUserName] = useState(userUsername);
-  const [profileImage, setImage] = useState(null);
+  const [profileImage, setImage] = useState(userImage);
   const [modalVisible, setModalVisible] = useState(false);
 
   const chooseFromLibrary = async () => {
@@ -77,21 +97,46 @@ export const EditProfilePage = ({ navigation }) => {
     }
   };
 
-  // const [url, setUrl] = useState();
-  // useEffect(() => {
-  //   const func = async () => {
-  //     const filename = "default_profile_pic.png";
-  //     const storage = getStorage();
-  //     const reference = ref(storage, filename);
-  //     await getDownloadURL(reference).then((x) => {
-  //       setUrl(x);
-  //     });
-  //   };
+  const confirmUpdate = async () => {
+    const querySnapshot = await getDocs(collection(db, "userinfo"));
+    let documentID;
+    querySnapshot.forEach((doc) => {
+      if (doc.data().email === authentication.currentUser?.email) {
+        documentID = doc.id;
+      }
+    });
+    const editedDoc = doc(db, "userinfo", documentID);
+    await setDoc(editedDoc, {
+      email: authentication.currentUser?.email,
+      profilepic: profileImage,
+      username: userName,
+    });
+    const newUploadUri = profileImage;
+    const newFilename = newUploadUri.substring(
+      newUploadUri.lastIndexOf("/") + 1
+    );
+    const storage = getStorage();
+    const newReference = ref(storage, newFilename);
+    const img = await fetch(profileImage);
+    const bytes = await img.blob();
+    await uploadBytes(newReference, bytes);
+    navigation.navigate("ProfilePage");
+  };
 
-  //   if (url == undefined) {
-  //     func();
-  //   }
-  // }, []);
+  const DoneAlert = () =>
+    Alert.alert(
+      "Confirm profile update?",
+      "Are you sure you want to make the following changes?",
+      [
+        {
+          text: "Yes",
+          onPress: confirmUpdate,
+        },
+        {
+          text: "Cancel",
+        },
+      ]
+    );
 
   return (
     <DismissKeyboard>
@@ -127,7 +172,15 @@ export const EditProfilePage = ({ navigation }) => {
         </Modal>
         <View style={{ alignItems: "center", paddingBottom: 30 }}>
           <ProfilePicture>
-            {profileImage && (
+            {profileImage === "default" && (
+              <ImageBackground
+                source={require("../../../../../assets/default_profilepic.png")}
+                style={{ height: 100, width: 100 }}
+                imageStyle={{ borderRadius: 15 }}
+                backgroundColor="white"
+              ></ImageBackground>
+            )}
+            {profileImage !== "default" && (
               <ImageBackground
                 source={{ uri: profileImage }}
                 style={{ height: 100, width: 100 }}
@@ -162,6 +215,13 @@ export const EditProfilePage = ({ navigation }) => {
           >
             Change Password
           </ChangePasswordButton>
+          <DoneButton
+            icon="sticker-check-outline"
+            mode="contained"
+            onPress={DoneAlert}
+          >
+            Done
+          </DoneButton>
         </View>
       </SafeArea>
     </DismissKeyboard>

@@ -13,26 +13,7 @@ import { ChangePasswordPage } from "../../features/profile/screens/edit-profile/
 
 const Stack = createStackNavigator();
 
-export const ProfileNavigator = ({ navigation }) => {
-  const confirmUpdate = async () => {
-    navigation.navigate("ProfilePage");
-  };
-
-  const DoneAlert = () =>
-    Alert.alert(
-      "Confirm profile update?",
-      "Are you sure you want to make the following changes?",
-      [
-        {
-          text: "Yes",
-          onPress: confirmUpdate,
-        },
-        {
-          text: "Cancel",
-        },
-      ]
-    );
-
+export const ProfileNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -69,9 +50,6 @@ export const ProfileNavigator = ({ navigation }) => {
               title="< Back"
               color="black"
             />
-          ),
-          headerRight: () => (
-            <Button onPress={DoneAlert} title="Done" color="black" />
           ),
         })}
       />
