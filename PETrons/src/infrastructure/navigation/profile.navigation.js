@@ -1,17 +1,23 @@
 import React from "react";
 import { Button, Alert } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+
 import { ProfilePage } from "../../features/profile/profile";
 import { FavouritesPage } from "../../features/profile/favourites";
 import { PutUpAdoptionListPage } from "../../features/profile/put-up-for-adoption-list.screen";
-import { EditPetList } from "../../features/profile/edit-adoption-list/edit-pet-list.screen";
-import { EditProfilePage } from "../../features/profile/edit-profile.screen";
+import { EditPetList } from "../../features/profile/screens/edit-adoption-list/edit-pet-list.screen";
+import { EditProfilePage } from "../../features/profile/screens/edit-profile/edit-profile.screen";
 import { MyStoryPostsPage } from "../../features/profile/screens/my-story-posts.screen";
 import { EditPostPage } from "../../features/profile/screens/edit-my-post.screen";
+import { ChangePasswordPage } from "../../features/profile/screens/edit-profile/change-password-screen";
 
 const Stack = createStackNavigator();
 
-export const ProfileNavigator = () => {
+export const ProfileNavigator = ({ navigation }) => {
+  const confirmUpdate = async () => {
+    navigation.navigate("ProfilePage");
+  };
+
   const DoneAlert = () =>
     Alert.alert(
       "Confirm profile update?",
@@ -19,13 +25,14 @@ export const ProfileNavigator = () => {
       [
         {
           text: "Yes",
-          onPress: { confirmUpdate },
+          onPress: confirmUpdate,
         },
         {
           text: "Cancel",
         },
       ]
     );
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -76,6 +83,11 @@ export const ProfileNavigator = () => {
       <Stack.Screen
         name="EditPostPage"
         component={EditPostPage}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ChangePasswordPage"
+        component={ChangePasswordPage}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

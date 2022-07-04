@@ -3,7 +3,7 @@ import { Button, TextInput, Text } from "react-native-paper";
 import { TouchableOpacity, Image } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
-import { colors } from "../../../infrastructure/theme/colors";
+import { colors } from "../../../../infrastructure/theme/colors";
 
 export const Background = styled.View`
   background-color: orange;

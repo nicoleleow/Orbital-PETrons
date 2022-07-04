@@ -81,8 +81,8 @@ export const ProfilePage = ({ navigation }) => {
     <SafeArea>
       <UserInfoSection>
         <Avatar.Image
-          backgroundColor="black"
-          source={require("../../../assets/postIt_icon.png")}
+          backgroundColor="white"
+          source={require("../../../assets/default_profilepic.png")}
           size={90}
         />
         <View style={{ marginLeft: 15 }}>
