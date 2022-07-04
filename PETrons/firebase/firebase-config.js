@@ -31,11 +31,13 @@ export const GetChatData = async () => {
 };
 
 export let userUsername;
+export let userImage;
 export const getUserName = async () => {
   const Snapshot = await getDocs(collection(db, "userinfo"));
   Snapshot.forEach((doc) => {
     if (doc.data().email === authentication.currentUser?.email) {
       userUsername = doc.data().username;
+      userImage = doc.data().profilepic;
     }
   });
 };

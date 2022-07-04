@@ -65,7 +65,7 @@ export const RegisterScreen = ({ navigation }) => {
           addDoc(collection(db, "userinfo"), {
             username: username,
             email: email,
-            profilepic: "../../../assets/default_profilepic.png",
+            profilepic: "default",
           });
         })
         .catch((re) => {
