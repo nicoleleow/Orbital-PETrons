@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { SafeAreaView, View, Text, TextInput, Alert } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TextInput,
+  Alert,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { Button } from "react-native-paper";
 import styled from "styled-components/native";
 import { authentication } from "../../../../../firebase/firebase-config";
@@ -38,6 +46,12 @@ const ConfirmButton = styled(Button).attrs({
   width: 300px;
   margin-top: ${(props) => props.theme.space[5]};
 `;
+
+const DismissKeyboard = ({ children }) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+);
 
 export const ChangePasswordPage = ({ navigation }) => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -97,37 +111,39 @@ export const ChangePasswordPage = ({ navigation }) => {
   };
 
   return (
-    <SafeArea>
-      <View style={{ alignItems: "center" }}>
-        <PasswordRequirements>
-          Password should be at least 6 characters long.
-        </PasswordRequirements>
-        <FieldInput
-          placeholder="Current Password"
-          autoCorrect={false}
-          placeholderTextColor="black"
-          onChangeText={(text) => setCurrentPassword(text)}
-        ></FieldInput>
-        <FieldInput
-          placeholder="New Password"
-          autoCorrect={false}
-          placeholderTextColor="black"
-          onChangeText={(text) => setNewPassword(text)}
-        ></FieldInput>
-        <FieldInput
-          placeholder="New Password, Again"
-          autoCorrect={false}
-          placeholderTextColor="black"
-          onChangeText={(text) => setNewRepeatedPassword(text)}
-        ></FieldInput>
-        <ConfirmButton
-          icon="sticker-check-outline"
-          mode="contained"
-          onPress={DoneAlert}
-        >
-          save
-        </ConfirmButton>
-      </View>
-    </SafeArea>
+    <DismissKeyboard>
+      <SafeArea>
+        <View style={{ alignItems: "center" }}>
+          <PasswordRequirements>
+            Password should be at least 6 characters long.
+          </PasswordRequirements>
+          <FieldInput
+            placeholder="Current Password"
+            autoCorrect={false}
+            placeholderTextColor="black"
+            onChangeText={(text) => setCurrentPassword(text)}
+          ></FieldInput>
+          <FieldInput
+            placeholder="New Password"
+            autoCorrect={false}
+            placeholderTextColor="black"
+            onChangeText={(text) => setNewPassword(text)}
+          ></FieldInput>
+          <FieldInput
+            placeholder="New Password, Again"
+            autoCorrect={false}
+            placeholderTextColor="black"
+            onChangeText={(text) => setNewRepeatedPassword(text)}
+          ></FieldInput>
+          <ConfirmButton
+            icon="sticker-check-outline"
+            mode="contained"
+            onPress={DoneAlert}
+          >
+            save
+          </ConfirmButton>
+        </View>
+      </SafeArea>
+    </DismissKeyboard>
   );
 };
