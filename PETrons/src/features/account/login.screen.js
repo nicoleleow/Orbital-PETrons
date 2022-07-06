@@ -1,7 +1,16 @@
 import React, { useState, useContext } from "react";
 import { Text } from "react-native-paper";
-import { Keyboard, TouchableWithoutFeedback, Image } from "react-native";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  Keyboard,
+  TouchableWithoutFeedback,
+  Image,
+  Button,
+} from "react-native";
+import {
+  signInWithEmailAndPassword,
+  signOut,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 import { collection, getDocs, doc, setDoc } from "firebase/firestore/lite";
 import styled from "styled-components/native";
 
@@ -118,10 +127,15 @@ export const LoginScreen = ({ navigation }) => {
             </Spacer>
           )}
         </AccountContainer>
-        <Spacer size="large">
-          <AuthButton mode="contained" onPress={() => navigation.goBack()}>
-            Back
-          </AuthButton>
+        <Spacer size="small">
+          <Button
+            title="Don't have an account? Sign Up"
+            onPress={() => navigation.navigate("Register")}
+          ></Button>
+          <Button
+            title="Forgot Password?"
+            onPress={() => navigation.navigate("ForgotPassword")}
+          ></Button>
         </Spacer>
       </AccountBackground>
     </DismissKeyboard>
