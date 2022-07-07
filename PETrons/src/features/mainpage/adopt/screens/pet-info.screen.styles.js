@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { View, Text, SafeAreaView, Dimensions} from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
 
 export const SafeArea = styled(SafeAreaView)`
     flex: 1;
@@ -94,13 +94,15 @@ export const AboutPet = styled(Text)`
     line-height: 20px;
 `
 
-export const ContactOwnerButton = styled.TouchableOpacity`
+export const ContactOwnerButton = styled(TouchableOpacity)`
     border-radius: ${(props) => props.theme.space[3]};
     text-align: center;
+    justify-content: center;
+    align-items: center;
     background-color: ${(props) => props.theme.colors.brand.blue1};
-    margin: 0 30px;
     padding: 10px;
     elevation: 5;
+    width: ${Platform.OS === 'ios' ? 280 : 290}
 `
 
 export const ContactOwnerText = styled(Text)`

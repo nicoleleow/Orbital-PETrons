@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Image, ScrollView } from "react-native";
+import { Image, ScrollView, TouchableOpacity, View } from "react-native";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import styled from "styled-components";
 
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import {
@@ -32,6 +33,15 @@ import {
 } from "./pet-info.screen.styles";
 import { authentication, db } from "../../../../../firebase/firebase-config";
 
+const FavouriteButton = styled(TouchableOpacity)`
+  height: 40px;
+  width: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: ${(props) => props.theme.space[3]};
+  background-color: ${(props) => props.theme.colors.brand.blue1};
+`;
+
 export const PetInfoScreen = ({ route, navigation }) => {
   const pet = route.params.item;
 
@@ -54,10 +64,8 @@ export const PetInfoScreen = ({ route, navigation }) => {
   const contactOwner = organisation === "Individual" ? "Owner" : "Organisation";
 
   const isHDBApproved = HDB_approved === "Yes" ? true : false;
-  const hdbIcon =
-    "https://www.logolynx.com/images/logolynx/e5/e5d49abdb2ad1ac2dff8fb33e138d785.jpeg";
-
-  const [count, setCount] = useState(0);
+  
+  const [isFavourite, setIsFavourite] = useState(false);
 
   const onPress = async () => {
     const querySnapshot = await getDocs(collection(db, "userinfo"));
@@ -69,6 +77,7 @@ export const PetInfoScreen = ({ route, navigation }) => {
     });
     navigation.navigate("ChatPage", { item });
   };
+
   const [url, setUrl] = useState();
   useEffect(() => {
     const func = async () => {
@@ -148,16 +157,27 @@ export const PetInfoScreen = ({ route, navigation }) => {
           <AboutPet>{short_description}</AboutPet>
         </AboutPetContainer>
 
-        <Spacer size="xLarge"></Spacer>
+        <Spacer size="xLarge" />
 
-        <ContactOwnerButton onPress={onPress}>
-          <ContactOwnerText>
-            <Icon name="chat" size={15} />
-            <Spacer size="large" position="right" />
-            contact {contactOwner}
-          </ContactOwnerText>
-        </ContactOwnerButton>
-        <Spacer size="xLarge"></Spacer>
+        <View style={{ flexDirection: 'row', alignContent: 'center', marginHorizontal: 32, justifyContent: 'space-between' }}>
+          <ContactOwnerButton onPress={onPress}>
+            <ContactOwnerText>
+              <Icon name="chat" size={15} />
+              <Spacer size="large" position="right" />
+              contact {contactOwner}
+            </ContactOwnerText>
+          </ContactOwnerButton>
+          <FavouriteButton
+            onPress={() => setIsFavourite(!isFavourite)}
+            >
+            <Icon
+              name='heart'
+              color= {isFavourite === true ? '#ff7f7f' : 'white'}
+              size={20}
+            />
+          </FavouriteButton>
+        </View>
+        <Spacer size="xLarge" />
       </ScrollView>
     </SafeArea>
   );
