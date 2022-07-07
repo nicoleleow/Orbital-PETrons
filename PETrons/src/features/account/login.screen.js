@@ -5,6 +5,7 @@ import {
   TouchableWithoutFeedback,
   Image,
   Button,
+  View,
 } from "react-native";
 import {
   signInWithEmailAndPassword,
@@ -100,6 +101,17 @@ export const LoginScreen = ({ navigation }) => {
               onChangeText={(text) => setPassword(text)}
             />
           </Spacer>
+          {errorDisplay && (
+            <Spacer size="large">
+              <Text style={{ color: "red" }}>Error: {errorMessage}</Text>
+            </Spacer>
+          )}
+          <View style={{ alignItems: "flex-end" }}>
+            <Button
+              title="Forgot Password?"
+              onPress={() => navigation.navigate("ForgotPassword")}
+            ></Button>
+          </View>
           {isSignedIn === true ? (
             <Spacer size="large">
               <AuthButton
@@ -121,22 +133,13 @@ export const LoginScreen = ({ navigation }) => {
               </AuthButton>
             </Spacer>
           )}
-          {errorDisplay && (
-            <Spacer size="large">
-              <Text style={{ color: "red" }}>Error: {errorMessage}</Text>
-            </Spacer>
-          )}
+          <Spacer size="small">
+            <Button
+              title="Don't have an account? Sign Up"
+              onPress={() => navigation.navigate("Register")}
+            ></Button>
+          </Spacer>
         </AccountContainer>
-        <Spacer size="small">
-          <Button
-            title="Don't have an account? Sign Up"
-            onPress={() => navigation.navigate("Register")}
-          ></Button>
-          <Button
-            title="Forgot Password?"
-            onPress={() => navigation.navigate("ForgotPassword")}
-          ></Button>
-        </Spacer>
       </AccountBackground>
     </DismissKeyboard>
   );
