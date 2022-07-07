@@ -18,6 +18,7 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { authentication, db } from "../../../firebase/firebase-config";
+// import { AccountContainer } from "./account.style";
 import { colors } from "../../infrastructure/theme/colors";
 
 const AccountBackground = styled.ImageBackground.attrs({
@@ -27,11 +28,13 @@ const AccountBackground = styled.ImageBackground.attrs({
   align-items: center;
 `;
 
-const DismissKeyboard = ({ children }) => (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    {children}
-  </TouchableWithoutFeedback>
-);
+const AccountContainer = styled.View`
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: ${(props) => props.theme.space[4]};
+  margin-top: ${(props) => props.theme.space[3]};
+  margin-bottom: ${(props) => props.theme.space[3]};
+  align-items: center;
+`;
 
 const Title = styled(Text)`
   color: black;
@@ -61,6 +64,12 @@ const AuthButton = styled(Button).attrs({ color: colors.button.primary })`
   margin-top: ${(props) => props.theme.space[2]};
 `;
 
+const DismissKeyboard = ({ children }) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+);
+
 export const ForgetPasswordPage = ({ navigation }) => {
   const [email, setEmail] = useState("");
 
@@ -79,16 +88,18 @@ export const ForgetPasswordPage = ({ navigation }) => {
     <DismissKeyboard>
       <AccountBackground>
         <Title>Forgot Password?</Title>
-        <Instructions>
-          Enter your email and we'll send you a link to reset your password.
-        </Instructions>
-        <FieldInput
-          placeholder="Email"
-          autoCorrect={false}
-          autoCapitalize="none"
-          placeholderTextColor="black"
-          onChangeText={(text) => setEmail(text)}
-        ></FieldInput>
+        <AccountContainer>
+          <Instructions>
+            Enter your email and we'll send you a link to reset your password.
+          </Instructions>
+          <FieldInput
+            placeholder="Email"
+            autoCorrect={false}
+            autoCapitalize="none"
+            placeholderTextColor="black"
+            onChangeText={(text) => setEmail(text)}
+          ></FieldInput>
+        </AccountContainer>
         <AuthButton
           icon="sticker-check-outline"
           mode="contained"
