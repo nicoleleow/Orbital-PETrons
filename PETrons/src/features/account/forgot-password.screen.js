@@ -72,6 +72,7 @@ export const ForgetPasswordPage = ({ navigation }) => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        Alert.alert(error.message.slice(22, -2));
       });
   };
   return (
