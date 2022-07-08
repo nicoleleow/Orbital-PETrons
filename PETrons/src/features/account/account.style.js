@@ -38,3 +38,9 @@ export const SubTitle = styled(Text)`
   font-size: ${(props) => props.theme.fontSizes.h5};
   font-family: ${(props) => props.theme.fonts.monospace};
 `;
+
+export const PressableText = styled(Text)`
+  color: #2196f3;
+  font-size: ${(props) => props.theme.fontSizes.body};
+  padding-top: ${(props) => props.theme.space[3]};
+`;
