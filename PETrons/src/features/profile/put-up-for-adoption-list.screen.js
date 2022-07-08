@@ -18,6 +18,12 @@ import { petsList, GetPetsData } from "../../../firebase/firebase-config";
 import { authentication } from "../../../firebase/firebase-config";
 import { Spacer } from "../../components/spacer/spacer.component";
 
+const StatusCategories = [
+  { name: "ALL", statusType: "all", icon: "gamepad-circle" },
+  { name: "AVAILABLE", statusType: "available", icon: "check-circle-outline" },
+  { name: "ADOPTED", statusType: "adopted", icon: "close-circle-outline" },
+];
+
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
   background-color: orange;
@@ -28,6 +34,10 @@ const DismissKeyboard = ({ children }) => (
     {children}
   </TouchableWithoutFeedback>
 );
+
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 
 const SearchContainer = styled.View`
   padding-top: ${(props) => props.theme.space[2]};
@@ -50,34 +60,67 @@ const SearchInputContainer = styled(View)`
   margin-horizontal: ${(props) => props.theme.space[4]};
 `;
 
+const CategoriesContainer = styled(View)`
+  flex-direction: row;
+  margin-top: ${(props) => props.theme.space[3]};
+  margin-horizontal: ${(props) => props.theme.space[2]};
+  align-items: center;
+  justify-content: center;
+`;
+
+const CategoriesButton = styled(TouchableOpacity)`
+  height: 40px;
+  width: 80px;
+  align-items: center;
+  justify-content: center;
+  border-radius: ${(props) => props.theme.space[3]};
+  margin-right: ${(props) => props.theme.space[4]};
+  margin-left: ${(props) => props.theme.space[4]};
+`;
+
+const CategoriesNames = styled(Text)`
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 2px;
+  padding-horizontal: 5px;
+  text-align: center;
+`;
+
 export const PutUpAdoptionListPage = ({ navigation }) => {
   GetPetsData();
   const filteredList = petsList.filter((obj) => {
     return obj.email === authentication.currentUser?.email;
   });
 
-  const wait = (timeout) => {
-    return new Promise((resolve) => setTimeout(resolve, timeout));
-  };
-  const [refreshing, setRefreshing] = React.useState(false);
-  const onRefresh = React.useCallback(() => {
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
     GetPetsData();
-    const newFilteredList = petsList.filter((obj) => {
-      return obj.email === authentication.currentUser?.email;
-    });
-    setFilteredPets(newFilteredList);
+    setFilteredPets(filteredList);
+    filterPets(categoryIndexFiltered, search);
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
-  }, []);
+  };
 
-  const [filteredPets, setFilteredPets] = React.useState(filteredList);
-  const [search, setSearch] = React.useState("");
-  const filterPetName = (text) => {
-    const newPets = filteredList.filter((item) =>
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
+  const [categoryIndexFiltered, setCategoryIndexFiltered] = useState(0);
+  const [filteredPets, setFilteredPets] = useState(filteredList);
+  const [search, setSearch] = useState("");
+
+  const filterPets = (index, text) => {
+    setSearch(text);
+    setCategoryIndexFiltered(index);
+    var newList = filteredList.filter((item) =>
+      StatusCategories[index].statusType.toUpperCase() === "ALL"
+        ? filteredList
+        : item?.status?.toUpperCase() ==
+          StatusCategories[index].statusType.toUpperCase()
+    );
+    newList = newList.filter((item) =>
       item?.name?.toUpperCase().includes(text.toUpperCase())
     );
-    setFilteredPets(newPets);
-    setSearch(text);
+    setFilteredPets(newList);
+    return filteredPets;
   };
 
   return (
@@ -95,10 +138,36 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
               placeholder="Search for pet name"
               style={{ flex: 1 }}
               value={search}
-              onChangeText={(text) => filterPetName(text)}
+              onChangeText={(text) => filterPets(categoryIndexFiltered, text)}
             />
           </SearchInputContainer>
         </SearchContainer>
+        <CategoriesContainer
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        >
+          {StatusCategories.map((item, index) => (
+            <View key={index}>
+              <CategoriesButton
+                onPress={() => {
+                  setSelectedCategoryIndex(index);
+                  filterPets(index, search);
+                }}
+                style={{
+                  backgroundColor:
+                    selectedCategoryIndex == index ? "#e36414" : "white",
+                }}
+              >
+                <Icon
+                  name={item.icon}
+                  size={30}
+                  color={selectedCategoryIndex == index ? "white" : "#e36414"}
+                />
+              </CategoriesButton>
+              <CategoriesNames>{item.name}</CategoriesNames>
+            </View>
+          ))}
+        </CategoriesContainer>
         <AdoptionList
           data={filteredPets}
           renderItem={(item) => (
