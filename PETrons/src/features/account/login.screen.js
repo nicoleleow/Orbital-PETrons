@@ -6,6 +6,7 @@ import {
   Image,
   Button,
   View,
+  Pressable,
 } from "react-native";
 import {
   signInWithEmailAndPassword,
@@ -21,6 +22,7 @@ import {
   AuthButton,
   AuthInput,
   SubTitle,
+  PressableText,
 } from "./account.style";
 import { Spacer } from "../../components/spacer/spacer.component";
 import { authentication, db } from "../../../firebase/firebase-config";
@@ -107,10 +109,9 @@ export const LoginScreen = ({ navigation }) => {
             </Spacer>
           )}
           <View style={{ alignItems: "flex-end" }}>
-            <Button
-              title="Forgot Password?"
-              onPress={() => navigation.navigate("ForgotPassword")}
-            ></Button>
+            <Pressable onPress={() => navigation.navigate("ForgotPassword")}>
+              <PressableText>Forgot Password?</PressableText>
+            </Pressable>
           </View>
           {isSignedIn === true ? (
             <Spacer size="large">
@@ -134,10 +135,11 @@ export const LoginScreen = ({ navigation }) => {
             </Spacer>
           )}
           <Spacer size="small">
-            <Button
-              title="Don't have an account? Sign Up"
-              onPress={() => navigation.navigate("Register")}
-            ></Button>
+            <View style={{ alignItems: "center" }}>
+              <Pressable onPress={() => navigation.navigate("Register")}>
+                <PressableText>Don't have an account? Sign Up</PressableText>
+              </Pressable>
+            </View>
           </Spacer>
         </AccountContainer>
       </AccountBackground>
