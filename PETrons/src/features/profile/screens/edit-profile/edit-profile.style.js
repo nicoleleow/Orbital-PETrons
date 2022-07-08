@@ -79,7 +79,8 @@ export const RenderContentButton = styled(TouchableOpacity)`
 `;
 
 export const ChangePasswordButton = styled(Button).attrs({
-  color: "peru",
+  // color: "peru",
+  color: "rgba(255, 255, 255, 0.7)",
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
@@ -87,9 +88,10 @@ export const ChangePasswordButton = styled(Button).attrs({
 `;
 
 export const DoneButton = styled(Button).attrs({
-  color: "peru",
+  // color: "peru",
+  color: "rgba(255, 255, 255, 0.7)",
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
-  margin-top: ${(props) => props.theme.space[8]};
+  margin-top: ${(props) => props.theme.space[3]};
 `;

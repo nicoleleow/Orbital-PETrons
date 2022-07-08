@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { SafeAreaView, View, RefreshControl, ScrollView } from "react-native";
-import { Avatar, Caption, Title } from "react-native-paper";
+import { Avatar, Caption, Title, Button } from "react-native-paper";
 import styled from "styled-components/native";
 import { Text } from "../../components/typography/text.component";
 import { collection, getDocs, doc, setDoc } from "firebase/firestore/lite";
@@ -15,7 +15,7 @@ import {
   uploadBytes,
 } from "firebase/storage";
 
-import { AuthButton } from "../account/account.style";
+import { colors } from "../../infrastructure/theme/colors";
 import {
   authentication,
   db,
@@ -55,6 +55,14 @@ const EmailCaption = styled(Caption)`
   font-size: 14px;
   line-height: ${(props) => props.theme.space[4]};
   font-weight: 500;
+`;
+
+const AuthButton = styled(Button).attrs({
+  // color: "peru",
+  // color: "rgba(255, 255, 255, 0.7)",
+  color: colors.button.primary,
+})`
+  padding: ${(props) => props.theme.space[2]};
 `;
 
 export let filteredList = [];
@@ -141,33 +149,15 @@ export const ProfilePage = ({ navigation }) => {
             </EmailCaption>
           </View>
         </UserInfoSection>
-        <View>
+        <View style={{ paddingTop: 20 }}>
           <ProfileContainer>
             <AuthButton
               mode="contained"
-              icon="account-check"
-              onPress={EditProfilePage}
+              icon="tag-heart"
+              onPress={PutUpAdoptionListPage}
             >
-              Edit Profile
+              My Listed Adoptions
             </AuthButton>
-            <Spacer size="large">
-              <AuthButton
-                mode="contained"
-                icon="heart"
-                onPress={FavouritesPage}
-              >
-                Favourites
-              </AuthButton>
-            </Spacer>
-            <Spacer size="large">
-              <AuthButton
-                mode="contained"
-                icon="tag-heart"
-                onPress={PutUpAdoptionListPage}
-              >
-                My Listed Adoptions
-              </AuthButton>
-            </Spacer>
             <Spacer size="large">
               <AuthButton
                 mode="contained"
@@ -179,9 +169,27 @@ export const ProfilePage = ({ navigation }) => {
             </Spacer>
             <Spacer size="large">
               <AuthButton mode="contained" onPress={MyStoryPostsPage}>
-                <Icon2 name="thumbs-up-sharp" color="white" />
+                <Icon2 name="thumbs-up-sharp" />
                 <Spacer size="medium" position="right" />
                 My Liked Posts
+              </AuthButton>
+            </Spacer>
+            <Spacer size="large">
+              <AuthButton
+                mode="contained"
+                icon="heart"
+                onPress={FavouritesPage}
+              >
+                My Favourites
+              </AuthButton>
+            </Spacer>
+            <Spacer size="large">
+              <AuthButton
+                mode="contained"
+                icon="account-check"
+                onPress={EditProfilePage}
+              >
+                Edit Profile
               </AuthButton>
             </Spacer>
             <Spacer size="large">
