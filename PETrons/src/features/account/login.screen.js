@@ -1,7 +1,18 @@
 import React, { useState, useContext } from "react";
 import { Text } from "react-native-paper";
-import { Keyboard, TouchableWithoutFeedback, Image } from "react-native";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  Keyboard,
+  TouchableWithoutFeedback,
+  Image,
+  Button,
+  View,
+  Pressable,
+} from "react-native";
+import {
+  signInWithEmailAndPassword,
+  signOut,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 import { collection, getDocs, doc, setDoc } from "firebase/firestore/lite";
 import styled from "styled-components/native";
 
@@ -11,6 +22,7 @@ import {
   AuthButton,
   AuthInput,
   SubTitle,
+  PressableText,
 } from "./account.style";
 import { Spacer } from "../../components/spacer/spacer.component";
 import { authentication, db } from "../../../firebase/firebase-config";
@@ -91,6 +103,16 @@ export const LoginScreen = ({ navigation }) => {
               onChangeText={(text) => setPassword(text)}
             />
           </Spacer>
+          {errorDisplay && (
+            <Spacer size="large">
+              <Text style={{ color: "red" }}>Error: {errorMessage}</Text>
+            </Spacer>
+          )}
+          <View style={{ alignItems: "flex-end" }}>
+            <Pressable onPress={() => navigation.navigate("ForgotPassword")}>
+              <PressableText>Forgot Password?</PressableText>
+            </Pressable>
+          </View>
           {isSignedIn === true ? (
             <Spacer size="large">
               <AuthButton
@@ -112,17 +134,14 @@ export const LoginScreen = ({ navigation }) => {
               </AuthButton>
             </Spacer>
           )}
-          {errorDisplay && (
-            <Spacer size="large">
-              <Text style={{ color: "red" }}>Error: {errorMessage}</Text>
-            </Spacer>
-          )}
+          <Spacer size="small">
+            <View style={{ alignItems: "center" }}>
+              <Pressable onPress={() => navigation.navigate("Register")}>
+                <PressableText>Don't have an account? Sign Up</PressableText>
+              </Pressable>
+            </View>
+          </Spacer>
         </AccountContainer>
-        <Spacer size="large">
-          <AuthButton mode="contained" onPress={() => navigation.goBack()}>
-            Back
-          </AuthButton>
-        </Spacer>
       </AccountBackground>
     </DismissKeyboard>
   );

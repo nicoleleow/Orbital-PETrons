@@ -64,9 +64,21 @@ export const ProfileNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="ChangePasswordPage"
+        name="Change Password"
         component={ChangePasswordPage}
-        options={{ headerShown: false }}
+        options={({ navigation, route }) => ({
+          headerStyle: {
+            backgroundColor: "orange",
+          },
+          headerBackTitleVisible: false,
+          headerLeft: () => (
+            <Button
+              onPress={() => navigation.goBack()}
+              title="< Back"
+              color="black"
+            />
+          ),
+        })}
       />
     </Stack.Navigator>
   );

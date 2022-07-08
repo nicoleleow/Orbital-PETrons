@@ -129,11 +129,11 @@ export const EditProfilePage = ({ navigation }) => {
       "Are you sure you want to make the following changes?",
       [
         {
-          text: "Yes",
-          onPress: confirmUpdate,
+          text: "Cancel",
         },
         {
-          text: "Cancel",
+          text: "Yes",
+          onPress: confirmUpdate,
         },
       ]
     );
@@ -209,9 +209,9 @@ export const EditProfilePage = ({ navigation }) => {
         </UserInfoSection>
         <View style={{ alignItems: "center" }}>
           <ChangePasswordButton
-            icon="security"
+            icon="key"
             mode="contained"
-            onPress={() => navigation.navigate("ChangePasswordPage")}
+            onPress={() => navigation.navigate("Change Password")}
           >
             Change Password
           </ChangePasswordButton>
