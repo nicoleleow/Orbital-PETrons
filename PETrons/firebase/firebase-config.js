@@ -46,3 +46,9 @@ export const GetStoriesData = async () => {
   const storiesOverview = await getDocs(storiesCol);
   storiesList = storiesOverview.docs.map((doc) => doc.data()).sort((x, y) => x.date < y.date);
 };
+
+export let postIDList = [];
+export const GetPostIDs = async () => {
+  const Snapshot = await getDocs(collection(db, "stories"));
+  postIDList = Snapshot.docs.map((doc) => doc.id);
+}

@@ -16,6 +16,7 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export const StoriesPostCard = ({ storyDetails }) => {
+
   const { date, hour, minutes, postImage, postText, userName, edited } = storyDetails;
 
   const [url, setUrl] = useState();
