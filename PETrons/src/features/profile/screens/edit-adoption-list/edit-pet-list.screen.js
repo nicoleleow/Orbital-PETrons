@@ -29,8 +29,8 @@ import {
   updateDoc,
 } from "firebase/firestore/lite";
 
-import { Spacer } from "../../../components/spacer/spacer.component";
-import { db, authentication } from "../../../../firebase/firebase-config";
+import { Spacer } from "../../../../components/spacer/spacer.component";
+import { db, authentication } from "../../../../../firebase/firebase-config";
 import {
   Background,
   AdoptionInfoPageHeader,

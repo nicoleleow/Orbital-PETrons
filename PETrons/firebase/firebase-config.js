@@ -31,11 +31,13 @@ export const GetChatData = async () => {
 };
 
 export let userUsername;
+export let userImage;
 export const getUserName = async () => {
   const Snapshot = await getDocs(collection(db, "userinfo"));
   Snapshot.forEach((doc) => {
     if (doc.data().email === authentication.currentUser?.email) {
       userUsername = doc.data().username;
+      userImage = doc.data().profilepic;
     }
   });
 };
@@ -44,7 +46,9 @@ export let storiesList = [];
 export const GetStoriesData = async () => {
   const storiesCol = collection(db, "stories");
   const storiesOverview = await getDocs(storiesCol);
-  storiesList = storiesOverview.docs.map((doc) => doc.data()).sort((x, y) => x.date < y.date);
+  storiesList = storiesOverview.docs
+    .map((doc) => doc.data())
+    .sort((x, y) => x.date < y.date);
 };
 
 export let postIDList = [];
