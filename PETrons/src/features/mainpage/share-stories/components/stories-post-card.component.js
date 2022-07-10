@@ -4,6 +4,10 @@ import { Text, View, Image } from 'react-native';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Avatar } from "react-native-paper";
+import {
+  collection,
+  getDocs,
+} from "firebase/firestore/lite";
 
 import {
   PostCard,
@@ -14,17 +18,22 @@ import {
   BottomContainer
 } from "./stories-post-card.styles";
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { GetUserPfp, userPfp } from '../../../../../firebase/firebase-config';
 
 export const StoriesPostCard = ({ storyDetails }) => {
-
   const { date, hour, minutes, postImage, postText, userName, edited } = storyDetails;
+
+  GetUserPfp(userName);
+  const [pfp, setPfp] = useState(userPfp);
+
+  console.log(pfp);
 
   const [url, setUrl] = useState();
   useEffect(() => {
     const func = async () => {
+      
       if (postImage !== null) {
         const uploadUri = postImage;
-    
         const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
         const storage = getStorage();
         const reference = ref(storage, filename);
@@ -39,8 +48,6 @@ export const StoriesPostCard = ({ storyDetails }) => {
       }
   }, []);
   
-  const pfp = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png';
-
   const formattedDateWhole = new Date(date.seconds * 1000 + 28800 * 1000)
   const day = formattedDateWhole.getDate().toString();
   const month = Months[formattedDateWhole.getMonth()];
@@ -59,9 +66,22 @@ export const StoriesPostCard = ({ storyDetails }) => {
       <View>
         <Spacer size='xLarge' />
         <UserDetails>
-          <Avatar.Image size={40} source={{ uri: pfp }} color="green" />
+          {/* {pfp === "default" && (
+            <Avatar.Image
+              backgroundColor="white"
+              source={require("../../../../../assets/default_profilepic.png")}
+              size={45}
+            />
+          )}
+          {pfp !== "default" && (
+            <Avatar.Image
+              backgroundColor="white"
+              source={{ uri: pfp }}
+              size={45}
+            />
+          )} */}
           <Spacer size='large' position='right' />
-          <UserDetailsText>{userName}</UserDetailsText>
+          <UserDetailsText style={{paddingTop: 5}}>{userName}</UserDetailsText>
         </UserDetails>
         <Spacer size='medium' />
         <UserDetails>

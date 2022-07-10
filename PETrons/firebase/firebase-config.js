@@ -42,6 +42,16 @@ export const getUserName = async () => {
   });
 };
 
+export let userPfp;
+export const GetUserPfp = async (userName) => {
+  const Snapshot = await getDocs(collection(db, "userinfo"));
+  Snapshot.forEach((doc) => {
+    if (doc.data().username === userName) {
+      userPfp = doc.data().profilepic;
+    }
+  });
+};
+
 export let storiesList = [];
 export const GetStoriesData = async () => {
   const storiesCol = collection(db, "stories");
