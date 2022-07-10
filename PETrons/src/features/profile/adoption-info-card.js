@@ -11,6 +11,7 @@ import {
   addDoc,
   query,
   deleteDoc,
+  updateDoc,
 } from "firebase/firestore/lite";
 import {
   getStorage,
@@ -98,6 +99,7 @@ export const AdoptionInfoCard = ({ pet, navigation }) => {
     short_description,
     HDB_approved,
     email,
+    status,
   } = item;
 
   const EditAlert = () =>
@@ -106,15 +108,35 @@ export const AdoptionInfoCard = ({ pet, navigation }) => {
       "Are you sure you want to make changes to this form?",
       [
         {
-          text: "Edit",
+          text: "Edit listing details",
           onPress: () => navigation.navigate("EditingPetList", { item }),
         },
-        { text: "Delete", onPress: DeleteData },
+        { text: "Mark as Adopted", onPress: ListingAdopted },
+        { text: "Delete listing", onPress: DeleteData },
         {
           text: "Cancel",
         },
       ]
     );
+
+  const ListingAdopted = async () => {
+    const querySnapshot = await getDocs(collection(db, "put-up-for-adoption"));
+    let documentID;
+    querySnapshot.forEach((doc) => {
+      if (
+        (doc.data().email === email) &
+        (doc.data().name === name) &
+        (doc.data().short_description === short_description) &
+        (doc.data().organisation === organisation)
+      ) {
+        documentID = doc.id;
+      }
+    });
+    const updatedDoc = doc(db, "put-up-for-adoption", documentID);
+    await updateDoc(updatedDoc, {
+      status: "adopted",
+    });
+  };
 
   const DeleteData = async () => {
     const querySnapshot = await getDocs(collection(db, "put-up-for-adoption"));
@@ -177,6 +199,7 @@ export const AdoptionInfoCard = ({ pet, navigation }) => {
           <Caption>Is you pet HDB approved? {HDB_approved}</Caption>
           <Caption>Fee: ${fee}</Caption>
           <Caption>Short Description: {short_description}</Caption>
+          <Caption>Status: {status}</Caption>
         </SectionStart>
         <SectionEnd>
           <EditButton mode="contained" icon="pencil" onPress={EditAlert}>
