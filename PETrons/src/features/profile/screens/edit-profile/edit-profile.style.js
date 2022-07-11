@@ -10,7 +10,7 @@ import {
 import { Button } from "react-native-paper";
 
 export const ProfilePicture = styled(View)`
-  margin-top: ${(props) => props.theme.space[6]};
+  margin-top: ${(props) => props.theme.space[5]};
   height: 100px;
   width: 100px;
   border-radius: 15px;
@@ -24,7 +24,7 @@ export const FieldInput = styled(TextInput)`
   border-bottom-width: 1px;
   border-bottom-color: whitesmoke;
   padding-bottom: 5px;
-  width: 250px;
+  width: 200px;
 `;
 
 export const FieldText = styled(Text)`
@@ -80,6 +80,7 @@ export const RenderContentButton = styled(TouchableOpacity)`
 
 export const ChangePasswordButton = styled(Button).attrs({
   color: "peru",
+  // color: "rgba(255, 255, 255, 0.7)",
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
@@ -88,8 +89,15 @@ export const ChangePasswordButton = styled(Button).attrs({
 
 export const DoneButton = styled(Button).attrs({
   color: "peru",
+  // color: "rgba(255, 255, 255, 0.7)",
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
-  margin-top: ${(props) => props.theme.space[8]};
+  margin-top: ${(props) => props.theme.space[3]};
+`;
+
+export const PressableText = styled(Text)`
+  color: #2196f3;
+  font-size: ${(props) => props.theme.fontSizes.body};
+  padding-top: ${(props) => props.theme.space[3]};
 `;
