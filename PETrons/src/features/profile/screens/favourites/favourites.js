@@ -1,4 +1,9 @@
 import React, { useState, useCallback } from "react";
+import styled from "styled-components/native";
+import { Text } from "../../../../components/typography/text.component"
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { Spacer } from "../../../../components/spacer/spacer.component";
+
 import {
   SafeAreaView,
   View,
@@ -9,14 +14,10 @@ import {
   RefreshControl,
   TextInput,
 } from "react-native";
-import styled from "styled-components/native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import { Text } from "../../components/typography/text.component";
-import { AdoptionInfoCard } from "./adoption-info-card";
-import { petsList, GetPetsData } from "../../../firebase/firebase-config";
-import { authentication } from "../../../firebase/firebase-config";
-import { Spacer } from "../../components/spacer/spacer.component";
+import { userFavouritesList, GetUserFavourites, favouritesDetails, GetFavouritesDetails } from "../../../../../firebase/firebase-config";
+import { FavouritesCard } from "../../components/favourites-card.component";
+import { PetInfoCard } from "../../../mainpage/adopt/components/pet-info-card.component";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -31,6 +32,7 @@ const DismissKeyboard = ({ children }) => (
 
 const SearchContainer = styled.View`
   padding-top: ${(props) => props.theme.space[2]};
+  margin-horizontal: ${(props) => props.theme.space[2]};
 `;
 
 const AdoptionList = styled(FlatList).attrs({
@@ -50,30 +52,26 @@ const SearchInputContainer = styled(View)`
   margin-horizontal: ${(props) => props.theme.space[4]};
 `;
 
-export const PutUpAdoptionListPage = ({ navigation }) => {
-  GetPetsData();
-  const filteredList = petsList.filter((obj) => {
-    return obj.email === authentication.currentUser?.email;
-  });
+
+export const FavouritesPage = ({ navigation }) => {
+  GetUserFavourites();
+  GetFavouritesDetails(userFavouritesList);
 
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
   };
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = useCallback(() => {
-    GetPetsData();
-    const newFilteredList = petsList.filter((obj) => {
-      return obj.email === authentication.currentUser?.email;
-    });
-    setFilteredPets(newFilteredList);
+    GetUserFavourites();
+    setFilteredPets(favouritesDetails);
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
-  const [filteredPets, setFilteredPets] = useState(filteredList);
+  const [filteredPets, setFilteredPets] = useState(favouritesDetails);
   const [search, setSearch] = useState("");
   const filterPetName = (text) => {
-    const newPets = filteredList.filter((item) =>
+    const newPets = favouritesDetails.filter((item) =>
       item?.name?.toUpperCase().includes(text.toUpperCase())
     );
     setFilteredPets(newPets);
@@ -84,7 +82,7 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
     <DismissKeyboard>
       <SafeArea>
         <View>
-          <Text variant="header">My Listed Adoptions</Text>
+          <Text variant='header'>Favourites</Text>
         </View>
         <SearchContainer>
           <SearchInputContainer>
@@ -93,7 +91,7 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
             <TextInput
               placeholderTextColor={"#777"}
               placeholder="Search for pet name"
-              style={{ flex: 1 }}
+              style={{flex: 1}}
               value={search}
               onChangeText={(text) => filterPetName(text)}
             />
@@ -103,15 +101,16 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
           data={filteredPets}
           renderItem={(item) => (
             <TouchableOpacity>
-              <AdoptionInfoCard pet={item} navigation={navigation} />
+              <FavouritesCard pet={item} navigation={navigation} />
             </TouchableOpacity>
           )}
-          keyExtractor={(item) => item.name}
+          keyExtractor={(item) => item[0]}
+          numColumns={2}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         />
       </SafeArea>
     </DismissKeyboard>
-  );
+  )
 };

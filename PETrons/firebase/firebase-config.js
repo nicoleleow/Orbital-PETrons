@@ -62,7 +62,7 @@ export const GetUserFavourites = async () => {
   });
 }
 
-export let petID
+export let petID;
 export const GetPetID = async(name, gender, email, short_description, image) => {
   const Snapshot = await getDocs(collection(db, "put-up-for-adoption"));
   Snapshot.forEach((doc) => {
@@ -73,5 +73,15 @@ export const GetPetID = async(name, gender, email, short_description, image) => 
       && doc.data().image === image) {
       petID = doc.id;
       }
+  })
+}
+
+export let favouritesDetails = [];
+export const GetFavouritesDetails = async (userFavouritesList) => {
+  const Snapshot = await getDocs(collection(db, "put-up-for-adoption"));
+  Snapshot.forEach((doc) => {
+    if (userFavouritesList.includes(doc.id) && favouritesDetails.length < userFavouritesList.length) {
+      favouritesDetails.push([doc.id, doc.data()]);
+    }
   })
 }

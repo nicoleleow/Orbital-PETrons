@@ -3,7 +3,7 @@ import { Button, Alert } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { ProfilePage } from "../../features/profile/profile";
-import { FavouritesPage } from "../../features/profile/favourites";
+import { FavouritesPage } from "../../features/profile/screens/favourites/favourites";
 import { PutUpAdoptionListPage } from "../../features/profile/put-up-for-adoption-list.screen";
 import { EditPetList } from "../../features/profile/screens/edit-adoption-list/edit-pet-list.screen";
 import { EditProfilePage } from "../../features/profile/screens/edit-profile/edit-profile.screen";

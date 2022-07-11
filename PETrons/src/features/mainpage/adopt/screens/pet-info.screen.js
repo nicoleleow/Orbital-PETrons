@@ -71,7 +71,7 @@ export const PetInfoScreen = ({ route, navigation }) => {
     tempList[i] = userFavouritesList[i]
   }
 
-  const [isFavourite, setIsFavourite] = useState(favourited);
+  const [isFavourite, setIsFavourite] = useState(!favourited);
 
   const UpdateFirebaseFavList = async (tempList) => {
     const querySnapshot = await getDocs(collection(db, "userinfo"));
