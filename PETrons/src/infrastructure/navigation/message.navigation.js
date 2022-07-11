@@ -1,12 +1,19 @@
 import React from "react";
-import { Text, View, Button } from "react-native";
+import { Text, View, Button, Pressable } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import styled from "styled-components/native";
+
 import { MessagePage } from "../../features/activity/message.screen";
 import { ChatPage } from "../../features/activity/chat.screen";
 import { authentication, GetChatData } from "../../../firebase/firebase-config";
-import { NavigationContainer } from "@react-navigation/native";
 
 const Stack = createStackNavigator();
+
+const PressableText = styled(Text)`
+  color: #2196f3;
+  font-size: ${(props) => props.theme.fontSizes.title};
+  padding-left: ${(props) => props.theme.space[3]};
+`;
 
 export const MessageNavigator = () => {
   return (
@@ -24,13 +31,12 @@ export const MessageNavigator = () => {
             route.params.item.email === authentication.currentUser?.email
               ? route.params.item.username
               : route.params.item.userName,
+          headerTitleAlign: "center",
           headerBackTitleVisible: false,
           headerLeft: () => (
-            <Button
-              onPress={() => navigation.navigate("MessagePage")}
-              title="< Back"
-              color="black"
-            />
+            <Pressable onPress={() => navigation.navigate("MessagePage")}>
+              <PressableText> Back </PressableText>
+            </Pressable>
           ),
         })}
       />
