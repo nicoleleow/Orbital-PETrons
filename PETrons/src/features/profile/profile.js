@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, View, RefreshControl, ScrollView } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  RefreshControl,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import { Avatar, Caption, Title, Button } from "react-native-paper";
 import styled from "styled-components/native";
 import { Text } from "../../components/typography/text.component";
@@ -26,22 +32,26 @@ import {
 import { Spacer } from "../../components/spacer/spacer.component";
 import { MyStoryPostsPage } from "./screens/my-story-posts.screen";
 
+const ProfileContainerPadding = Dimensions.get("screen").height / 40;
+// const UserInfoSectionMargin = Dimensions.get("screen").height / 12;
+
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
   background-color: orange;
 `;
 
-export const ProfileContainer = styled.View`
+const ProfileContainer = styled.View`
   background-color: orange
   padding: ${(props) => props.theme.space[5]};
-  margin-top: ${(props) => props.theme.space[2]};
+  padding-top: ${ProfileContainerPadding}px;
 `;
 
-const UserInfoSection = styled.View`
+const UserInfoSection = styled(View).attrs({
+  marginTop: Platform.OS === "ios" ? 40 : Dimensions.get("screen").height / 12,
+})`
   padding-horizontal: 30px;
   margin-bottom: ${(props) => props.theme.space[3]};
   flex-direction: row;
-  margin-top: 40px;
 `;
 
 const UsernameTitle = styled(Title)`
