@@ -91,10 +91,10 @@ export const AdoptPage = ({ navigation }) => {
     var newList = petsList.filter(
       item =>
         PetCategories[index].animalType.toUpperCase() === 'ALL' ? pets
-          : item?.type?.toUpperCase() == PetCategories[index].animalType.toUpperCase());
+          : item[1]?.type?.toUpperCase() == PetCategories[index].animalType.toUpperCase());
     
     //filter by text (pet's name)
-    newList = newList.filter(item => item?.name?.toUpperCase().includes(text.toUpperCase()));
+    newList = newList.filter(item => item[1]?.name?.toUpperCase().includes(text.toUpperCase()));
     
     // filter by age
 
@@ -103,19 +103,19 @@ export const AdoptPage = ({ navigation }) => {
     newList = newList.filter(
       item =>
         (valueGender === 'Gender') ? newList
-          : item?.gender?.toUpperCase() == valueGender.toUpperCase());
+          : item[1]?.gender?.toUpperCase() == valueGender.toUpperCase());
 
     // filter by ownership type
     newList = newList.filter(
       item =>
         (valueOrganisation === 'Ownership Type') ? newList
-          : item?.organisation?.toUpperCase() == valueOrganisation.toUpperCase());
+          : item[1]?.organisation?.toUpperCase() == valueOrganisation.toUpperCase());
     
     // filter by hdb approved status
     newList = newList.filter(
       item =>
         (valueHDB === 'HDB Approved Status') ? newList
-          : item?.HDB_approved?.toUpperCase() == valueHDB.toUpperCase());
+          : item[1]?.HDB_approved?.toUpperCase() == valueHDB.toUpperCase());
     
     // filter by fees
     newList = newList.filter(
@@ -123,17 +123,17 @@ export const AdoptPage = ({ navigation }) => {
         if (valueFee === 0) {
           return newList;
         } else if (valueFee === 20) {
-          return item?.fee <= 20;
+          return item[1]?.fee <= 20;
         } else if (valueFee === 50) {
-          return (item?.fee >= 21 && item?.fee <= 50);
+          return (item[1]?.fee >= 21 && item[1]?.fee <= 50);
         } else if (valueFee === 100) {
-          return (item?.fee >= 51 && item?.fee <= 100);
+          return (item[1]?.fee >= 51 && item[1]?.fee <= 100);
         } else if (valueFee === 150) {
-          return (item?.fee >= 101 && item?.fee <= 150);
+          return (item[1]?.fee >= 101 && item[1]?.fee <= 150);
         } else if (valueFee === 200) {
-          return (item?.fee >= 151 && item?.fee <= 200);
+          return (item[1]?.fee >= 151 && item[1]?.fee <= 200);
         } else {
-          return item?.fee > 200;
+          return item[1]?.fee > 200;
         }
       }
     );
@@ -303,7 +303,7 @@ export const AdoptPage = ({ navigation }) => {
           </TouchableOpacity>
         )}
         contentContainerStyle={{ marginHorizontal: ((Dimensions.get('window').width - 382) / 2) }}
-        keyExtractor={(item) => item.name}
+        keyExtractor={(item) => item[0]}
         numColumns={2}
         refreshControl={
           <RefreshControl

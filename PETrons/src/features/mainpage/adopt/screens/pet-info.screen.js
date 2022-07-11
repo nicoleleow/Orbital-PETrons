@@ -60,7 +60,7 @@ export const PetInfoScreen = ({ route, navigation }) => {
     organisation,
     email,
     userName,
-  } = item;
+  } = item[1];
 
   GetPetID(name, gender, email, short_description, image);
   GetUserFavourites();

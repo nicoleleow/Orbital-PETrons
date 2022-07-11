@@ -19,7 +19,7 @@ export const PetInfoCard = ({ pet }) => {
     // extract pet details 
     const { index, item } = pet;
     const { age, breed, type, fee, gender, HDB_approved,
-        name, image, short_description, organisation } = item;
+        name, image, short_description, organisation } = item[1];
 
     const genderIconType = gender === 'Male' ? 'male-symbol' : 'female-symbol';
     const genderIconColor = gender === 'Male' ? '#1260CC' : '#FE046A';

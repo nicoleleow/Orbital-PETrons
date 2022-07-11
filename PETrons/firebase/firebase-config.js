@@ -21,7 +21,7 @@ export let petsList = [];
 export const GetPetsData = async () => {
   const petsCol = collection(db, "put-up-for-adoption");
   const petsOverview = await getDocs(petsCol);
-  petsList = petsOverview.docs.map((doc) => doc.data());
+  petsList = petsOverview.docs.map((doc) => [doc.id, doc.data()]);
 };
 
 export let chatList = [];
@@ -52,6 +52,7 @@ export const GetStoriesData = async () => {
     .sort((x, y) => x.date < y.date);
 };
 
+// list of petIDs (string)
 export let userFavouritesList = [];
 export const GetUserFavourites = async () => {
  const Snapshot = await getDocs(collection(db, "userinfo"));
@@ -80,8 +81,13 @@ export let favouritesDetails = [];
 export const GetFavouritesDetails = async (userFavouritesList) => {
   const Snapshot = await getDocs(collection(db, "put-up-for-adoption"));
   Snapshot.forEach((doc) => {
-    if (userFavouritesList.includes(doc.id) && favouritesDetails.length < userFavouritesList.length) {
+    if (userFavouritesList.includes(doc.id)
+      && favouritesDetails.length < userFavouritesList.length
+      && !favouritesDetails.map(x => x[0]).includes(doc.id)) {
       favouritesDetails.push([doc.id, doc.data()]);
+    } else if (!userFavouritesList.includes(doc.id)
+      && favouritesDetails.map(x => x[0]).includes(doc.id)) {
+      favouritesDetails = favouritesDetails.filter(x => x[0] !== doc.id)
     }
   })
 }

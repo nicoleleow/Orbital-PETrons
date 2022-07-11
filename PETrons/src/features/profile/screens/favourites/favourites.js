@@ -13,11 +13,13 @@ import {
   TouchableOpacity,
   RefreshControl,
   TextInput,
+  Dimensions
 } from "react-native";
 
 import { userFavouritesList, GetUserFavourites, favouritesDetails, GetFavouritesDetails } from "../../../../../firebase/firebase-config";
 import { FavouritesCard } from "../../components/favourites-card.component";
 import { PetInfoCard } from "../../../mainpage/adopt/components/pet-info-card.component";
+import { FactorId } from "firebase/auth";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -35,12 +37,6 @@ const SearchContainer = styled.View`
   margin-horizontal: ${(props) => props.theme.space[2]};
 `;
 
-const AdoptionList = styled(FlatList).attrs({
-  contentContainerStyle: {
-    padding: 16,
-  },
-})``;
-
 const SearchInputContainer = styled(View)`
   flex-direction: row;
   align-items: center;
@@ -56,6 +52,8 @@ const SearchInputContainer = styled(View)`
 export const FavouritesPage = ({ navigation }) => {
   GetUserFavourites();
   GetFavouritesDetails(userFavouritesList);
+  console.log(userFavouritesList);
+  console.log(favouritesDetails);
 
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -63,16 +61,18 @@ export const FavouritesPage = ({ navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = useCallback(() => {
     GetUserFavourites();
-    setFilteredPets(favouritesDetails);
+    GetFavouritesDetails(userFavouritesList);
+    filterPetName(search);
     setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
+    setFilteredPets(favouritesDetails);
+    wait(3000).then(() => setRefreshing(false));
   }, []);
 
   const [filteredPets, setFilteredPets] = useState(favouritesDetails);
   const [search, setSearch] = useState("");
   const filterPetName = (text) => {
     const newPets = favouritesDetails.filter((item) =>
-      item?.name?.toUpperCase().includes(text.toUpperCase())
+      item[1]?.name?.toUpperCase().includes(text.toUpperCase())
     );
     setFilteredPets(newPets);
     setSearch(text);
@@ -84,26 +84,26 @@ export const FavouritesPage = ({ navigation }) => {
         <View>
           <Text variant='header'>Favourites</Text>
         </View>
-        <SearchContainer>
-          <SearchInputContainer>
-            <Icon name="magnify" size={24} color={"#777"} />
-            <Spacer size="medium" position="right" />
-            <TextInput
-              placeholderTextColor={"#777"}
-              placeholder="Search for pet name"
-              style={{flex: 1}}
-              value={search}
-              onChangeText={(text) => filterPetName(text)}
-            />
-          </SearchInputContainer>
-        </SearchContainer>
-        <AdoptionList
+        <SearchInputContainer>
+          <Icon name="magnify" size={24} color={'#777'} />
+          <Spacer size='medium' position='right' />
+          <TextInput
+            placeholderTextColor={'#777'}
+            placeholder="Search for pet name"
+            style={{ flex: 1 }}
+            value={search}
+            onChangeText={(text) => filterPetName(text)}
+          />
+        </SearchInputContainer>
+        <Spacer size='medium' />
+        <FlatList
           data={filteredPets}
           renderItem={(item) => (
-            <TouchableOpacity>
-              <FavouritesCard pet={item} navigation={navigation} />
+            <TouchableOpacity onPress={() => navigation.navigate('PetInfo', { item })}>
+              <PetInfoCard pet={item} navigation={navigation} />
             </TouchableOpacity>
           )}
+          contentContainerStyle={{ marginHorizontal: ((Dimensions.get('window').width - 382) / 2) }}
           keyExtractor={(item) => item[0]}
           numColumns={2}
           refreshControl={
