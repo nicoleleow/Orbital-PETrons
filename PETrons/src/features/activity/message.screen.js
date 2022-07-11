@@ -73,7 +73,10 @@ export const MessagePage = ({ navigation }) => {
       }
     });
     filteredList.forEach((element) => {
-      if (element.createdAt === timeList.at(-1) && timeList.length !== 0) {
+      if (
+        element.createdAt === timeList[timeList.length - 1] &&
+        timeList.length !== 0
+      ) {
         filterList.push(element);
       }
     });
@@ -120,7 +123,10 @@ export const MessagePage = ({ navigation }) => {
       });
       console.log(timeList);
       filteredList.forEach((element) => {
-        if (element.createdAt === timeList.at(-1) && timeList.length !== 0) {
+        if (
+          element.createdAt === timeList[timeList.length - 1] &&
+          timeList.length !== 0
+        ) {
           newFilterList.push(element);
         }
       });
