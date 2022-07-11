@@ -1,6 +1,7 @@
 import React from "react";
-import { Button, Alert } from "react-native";
+import { Button, Alert, Pressable, Text } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import styled from "styled-components/native";
 
 import { ProfilePage } from "../../features/profile/profile";
 import { FavouritesPage } from "../../features/profile/favourites";
@@ -12,6 +13,12 @@ import { EditPostPage } from "../../features/profile/screens/edit-my-post.screen
 import { ChangePasswordPage } from "../../features/profile/screens/edit-profile/change-password-screen";
 
 const Stack = createStackNavigator();
+
+const PressableText = styled(Text)`
+  color: black;
+  font-size: ${(props) => props.theme.fontSizes.title};
+  padding-left: ${(props) => props.theme.space[3]};
+`;
 
 export const ProfileNavigator = () => {
   return (
@@ -44,12 +51,11 @@ export const ProfileNavigator = () => {
             backgroundColor: "orange",
           },
           headerBackTitleVisible: false,
+          headerTitleAlign: "center",
           headerLeft: () => (
-            <Button
-              onPress={() => navigation.navigate("ProfilePage")}
-              title="< Back"
-              color="black"
-            />
+            <Pressable onPress={() => navigation.navigate("ProfilePage")}>
+              <PressableText> Back </PressableText>
+            </Pressable>
           ),
         })}
       />
@@ -70,13 +76,12 @@ export const ProfileNavigator = () => {
           headerStyle: {
             backgroundColor: "orange",
           },
+          headerTitleAlign: "center",
           headerBackTitleVisible: false,
           headerLeft: () => (
-            <Button
-              onPress={() => navigation.goBack()}
-              title="< Back"
-              color="black"
-            />
+            <Pressable onPress={() => navigation.goBack()}>
+              <PressableText> Back </PressableText>
+            </Pressable>
           ),
         })}
       />
