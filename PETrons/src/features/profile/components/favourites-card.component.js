@@ -38,7 +38,7 @@ const FavouriteButton = styled(TouchableOpacity)`
   width: 35px;
   align-items: center;
   justify-content: center;
-  border-radius: ${(props) => props.theme.space[1]};
+  border-radius: ${(props) => props.theme.space[5]};
   background-color: ${(props) => props.theme.colors.brand.blue1};
   position: absolute;
   right: 10px;
