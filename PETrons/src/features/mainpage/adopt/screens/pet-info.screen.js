@@ -31,7 +31,8 @@ import {
   ContactOwnerButton,
   ContactOwnerText,
 } from "./pet-info.screen.styles";
-import { authentication, db } from "../../../../../firebase/firebase-config";
+import { authentication, db, userFavouritesList, GetUserFavourites, petID, GetPetID, userUsername } from "../../../../../firebase/firebase-config";
+import { FactorId } from "firebase/auth";
 
 const FavouriteButton = styled(TouchableOpacity)`
   height: 40px;
@@ -44,7 +45,7 @@ const FavouriteButton = styled(TouchableOpacity)`
 
 export const PetInfoScreen = ({ route, navigation }) => {
   const pet = route.params.item;
-
+  
   const { index, item } = pet;
   const {
     age,
@@ -61,11 +62,54 @@ export const PetInfoScreen = ({ route, navigation }) => {
     userName,
   } = item;
 
+  GetPetID(name, gender, email, short_description, image);
+  GetUserFavourites();
+  const favourited = userFavouritesList.includes(petID);
+
+  let tempList = []
+  for (let i = 0; i < userFavouritesList.length; i++) {
+    tempList[i] = userFavouritesList[i]
+  }
+
+  const [isFavourite, setIsFavourite] = useState(favourited);
+
+  const UpdateFirebaseFavList = async (tempList) => {
+    const querySnapshot = await getDocs(collection(db, "userinfo"));
+      let documentID, pfp;
+      querySnapshot.forEach((doc) => {
+        if (
+          (doc.data().email === authentication.currentUser?.email)
+        ) {
+          documentID = doc.id;
+          pfp = doc.data().profilepic;
+        }
+      });
+      const editedDoc = doc(db, "userinfo", documentID);
+      await setDoc(editedDoc, {
+        email: authentication.currentUser?.email,
+        profilepic: pfp,
+        username: userUsername,
+        favourites: tempList
+      });
+  }
+
+  const UpdateFavouritesList = () => {
+    setIsFavourite(!isFavourite);
+    if (!isFavourite === false && tempList.includes(petID)) {
+      // if pet already previously favourited, but now no, remove pet from favourites list
+      tempList = tempList.filter(id => id !== petID)
+    } else if (!isFavourite === true && !tempList.includes(petID)) {
+      // add pet to favourites list
+      tempList.push(petID);
+    }
+    //update firebase db
+    UpdateFirebaseFavList(tempList);
+  }
+
   const contactOwner = organisation === "Individual" ? "Owner" : "Organisation";
 
   const isHDBApproved = HDB_approved === "Yes" ? true : false;
   
-  const [isFavourite, setIsFavourite] = useState(false);
 
   const onPress = async () => {
     const querySnapshot = await getDocs(collection(db, "userinfo"));
@@ -168,7 +212,7 @@ export const PetInfoScreen = ({ route, navigation }) => {
             </ContactOwnerText>
           </ContactOwnerButton>
           <FavouriteButton
-            onPress={() => setIsFavourite(!isFavourite)}
+            onPress={UpdateFavouritesList}
             >
             <Icon
               name='heart'
