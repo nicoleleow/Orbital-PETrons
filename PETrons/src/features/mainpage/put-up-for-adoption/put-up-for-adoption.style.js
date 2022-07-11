@@ -9,7 +9,6 @@ export const SafeArea = styled(SafeAreaView)`
 `;
 
 export const Container = styled.View`
-  //background-color: rgba(255, 255, 255, 0.7);
   padding: ${(props) => props.theme.space[4]};
   padding-top: 10px;
   align-items: center;
@@ -25,8 +24,7 @@ export const PutUpAdoptionPageHeader = styled(Text)`
 `;
 
 export const FormButton = styled(Button).attrs({
-  // color: colors.button.primary,
-  color: "peru",
+  color: "rgb(255, 227, 180)",
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
@@ -34,8 +32,7 @@ export const FormButton = styled(Button).attrs({
 `;
 
 export const SubmitFormButton = styled(Button).attrs({
-  // color: colors.button.primary,
-  color: "peru",
+  color: "rgb(255, 227, 180)",
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;

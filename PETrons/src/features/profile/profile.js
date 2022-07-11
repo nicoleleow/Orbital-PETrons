@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { SafeAreaView, View, RefreshControl, ScrollView } from "react-native";
+import { Button } from "react-native-paper";
 import { Avatar, Caption, Title } from "react-native-paper";
 import styled from "styled-components/native";
 import { Text } from "../../components/typography/text.component";
@@ -15,7 +16,6 @@ import {
   uploadBytes,
 } from "firebase/storage";
 
-import { AuthButton } from "../account/account.style";
 import {
   authentication,
   db,
@@ -55,6 +55,12 @@ const EmailCaption = styled(Caption)`
   font-size: 14px;
   line-height: ${(props) => props.theme.space[4]};
   font-weight: 500;
+`;
+
+const AuthButton = styled(Button).attrs({
+  color: "rgb(255, 227, 180)",
+})`
+  padding: ${(props) => props.theme.space[2]};
 `;
 
 export let filteredList = [];
@@ -179,7 +185,7 @@ export const ProfilePage = ({ navigation }) => {
             </Spacer>
             <Spacer size="large">
               <AuthButton mode="contained" onPress={MyStoryPostsPage}>
-                <Icon2 name="thumbs-up-sharp" color="white" />
+                <Icon2 name="thumbs-up-sharp" color="black" />
                 <Spacer size="medium" position="right" />
                 My Liked Posts
               </AuthButton>
