@@ -103,7 +103,8 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
     filterPets(categoryIndexFiltered, search);
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
-  };
+  }
+  );
 
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
   const [categoryIndexFiltered, setCategoryIndexFiltered] = useState(0);
