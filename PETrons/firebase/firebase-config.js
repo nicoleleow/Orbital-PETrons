@@ -20,7 +20,7 @@ export let petsList = [];
 export const GetPetsData = async () => {
   const petsCol = collection(db, "put-up-for-adoption");
   const petsOverview = await getDocs(petsCol);
-  petsList = petsOverview.docs.map((doc) => doc.data());
+  petsList = petsOverview.docs.map((doc) => [doc.id, doc.data()]);
 };
 
 export let chatList = [];
@@ -50,3 +50,44 @@ export const GetStoriesData = async () => {
     .map((doc) => doc.data())
     .sort((x, y) => x.date < y.date);
 };
+
+export let petID;
+export const GetPetID = async(name, gender, email, short_description, image) => {
+  const Snapshot = await getDocs(collection(db, "put-up-for-adoption"));
+  Snapshot.forEach((doc) => {
+    if (doc.data().email === email
+      && doc.data().gender === gender
+      && doc.data().name === name
+      && doc.data().short_description === short_description
+      && doc.data().image === image) {
+        petID = doc.id;
+      }
+    })
+  }
+  
+// list of favourited petIDs (string)
+export let userFavouritesList = [];
+export const GetUserFavourites = async () => {
+  const Snapshot = await getDocs(collection(db, "userinfo"));
+  Snapshot.forEach((doc) => {
+    if (doc.data().email === authentication.currentUser?.email) {
+      userFavouritesList = doc.data().favourites;
+    }
+  });
+}
+  
+// get pet details from favourited petIDs
+export let favouritesDetails = [];
+export const GetFavouritesDetails = async (userFavouritesList) => {
+  const Snapshot = await getDocs(collection(db, "put-up-for-adoption"));
+  Snapshot.forEach((doc) => {
+    if (userFavouritesList.includes(doc.id)
+      && favouritesDetails.length < userFavouritesList.length
+      && !favouritesDetails.map(x => x[0]).includes(doc.id)) {
+      favouritesDetails.push([doc.id, doc.data()]);
+    } else if (!userFavouritesList.includes(doc.id)
+      && favouritesDetails.map(x => x[0]).includes(doc.id)) {
+      favouritesDetails = favouritesDetails.filter(x => x[0] !== doc.id)
+    }
+  })
+}

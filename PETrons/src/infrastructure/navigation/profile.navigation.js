@@ -4,7 +4,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import styled from "styled-components/native";
 
 import { ProfilePage } from "../../features/profile/profile";
-import { FavouritesPage } from "../../features/profile/favourites";
+import { FavouritesPage } from "../../features/profile/screens/favourites/favourites";
+import { PetInfoScreen } from "../../features/mainpage/adopt/screens/pet-info.screen";
 import { PutUpAdoptionListPage } from "../../features/profile/put-up-for-adoption-list.screen";
 import { EditPetList } from "../../features/profile/screens/edit-adoption-list/edit-pet-list.screen";
 import { EditProfilePage } from "../../features/profile/screens/edit-profile/edit-profile.screen";
@@ -31,6 +32,11 @@ export const ProfileNavigator = () => {
       <Stack.Screen
         name="Favourites"
         component={FavouritesPage}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PetInfo"
+        component={PetInfoScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen

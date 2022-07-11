@@ -1,17 +1,8 @@
-import React, { useState, useCallback } from "react";
-import {
-  View,
-  TextInput,
-  TouchableOpacity,
-  RefreshControl,
-  Modal,
-  FlatList,
-  Dimensions,
-} from "react-native";
-import styled from "styled-components/native";
-import { Text } from "../../../components/typography/text.component";
-import { Spacer } from "../../../components/spacer/spacer.component";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import React, {useState, useCallback} from "react";
+import { View, TextInput, TouchableOpacity, RefreshControl, Modal, FlatList, Dimensions } from "react-native";
+import { Text } from "../../../components/typography/text.component"
+import { Spacer } from '../../../components/spacer/spacer.component';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import DropDownPicker from "react-native-dropdown-picker";
 
 import { PetInfoCard } from "./components/pet-info-card.component";
@@ -37,14 +28,6 @@ import {
   HDBApprovedStatus,
   Fees,
 } from "./components/pet-filter-categories";
-
-const AdoptPageHeader = styled(Text)`
-  color: black;
-  padding-top: ${(props) => props.theme.space[6]};
-  padding-left: 120px;
-  font-size: ${(props) => props.theme.fontSizes.h4};
-  font-family: ${(props) => props.theme.fonts.body};
-`;
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -98,57 +81,54 @@ export const AdoptPage = ({ navigation }) => {
     setSearch(text);
     setCategoryIndexFiltered(index);
     // filter by category
-    var newList = filterList.filter((item) =>
-      PetCategories[index].animalType.toUpperCase() === "ALL"
-        ? pets
-        : item?.type?.toUpperCase() ==
-          PetCategories[index].animalType.toUpperCase()
-    );
-
+    var newList = petsList.filter(
+      item =>
+        PetCategories[index].animalType.toUpperCase() === 'ALL' ? pets
+          : item[1]?.type?.toUpperCase() == PetCategories[index].animalType.toUpperCase());
+    
     //filter by text (pet's name)
-    newList = newList.filter((item) =>
-      item?.name?.toUpperCase().includes(text.toUpperCase())
-    );
-
+    newList = newList.filter(item => item[1]?.name?.toUpperCase().includes(text.toUpperCase()));
+ 
     // filter by age
 
     // filter by gender
-    newList = newList.filter((item) =>
-      valueGender === "Gender"
-        ? newList
-        : item?.gender?.toUpperCase() == valueGender.toUpperCase()
-    );
+
+    newList = newList.filter(
+      item =>
+        (valueGender === 'Gender') ? newList
+          : item[1]?.gender?.toUpperCase() == valueGender.toUpperCase());
 
     // filter by ownership type
-    newList = newList.filter((item) =>
-      valueOrganisation === "Ownership Type"
-        ? newList
-        : item?.organisation?.toUpperCase() == valueOrganisation.toUpperCase()
-    );
-
+    newList = newList.filter(
+      item =>
+        (valueOrganisation === 'Ownership Type') ? newList
+          : item[1]?.organisation?.toUpperCase() == valueOrganisation.toUpperCase());
+    
     // filter by hdb approved status
-    newList = newList.filter((item) =>
-      valueHDB === "HDB Approved Status"
-        ? newList
-        : item?.HDB_approved?.toUpperCase() == valueHDB.toUpperCase()
-    );
-
+    newList = newList.filter(
+      item =>
+        (valueHDB === 'HDB Approved Status') ? newList
+          : item[1]?.HDB_approved?.toUpperCase() == valueHDB.toUpperCase());
+    
     // filter by fees
-    newList = newList.filter((item) => {
-      if (valueFee === 0) {
-        return newList;
-      } else if (valueFee === 20) {
-        return item?.fee <= 20;
-      } else if (valueFee === 50) {
-        return item?.fee >= 21 && item?.fee <= 50;
-      } else if (valueFee === 100) {
-        return item?.fee >= 51 && item?.fee <= 100;
-      } else if (valueFee === 150) {
-        return item?.fee >= 101 && item?.fee <= 150;
-      } else if (valueFee === 200) {
-        return item?.fee >= 151 && item?.fee <= 200;
-      } else {
-        return item?.fee > 200;
+    newList = newList.filter(
+      item => {
+        if (valueFee === 0) {
+          return newList;
+        } else if (valueFee === 20) {
+          return item[1]?.fee <= 20;
+        } else if (valueFee === 50) {
+          return (item[1]?.fee >= 21 && item[1]?.fee <= 50);
+        } else if (valueFee === 100) {
+          return (item[1]?.fee >= 51 && item[1]?.fee <= 100);
+        } else if (valueFee === 150) {
+          return (item[1]?.fee >= 101 && item[1]?.fee <= 150);
+        } else if (valueFee === 200) {
+          return (item[1]?.fee >= 151 && item[1]?.fee <= 200);
+        } else {
+          return item[1]?.fee > 200;
+        }
+
       }
     });
 
@@ -321,19 +301,18 @@ export const AdoptPage = ({ navigation }) => {
         data={filteredPets}
         renderItem={(item) => (
           <TouchableOpacity
-            onPress={() => navigation.navigate("PetInfo", { item })}
-          >
+            onPress={() => navigation.navigate('PetInfo', { item })}>
             <PetInfoCard pet={item} />
           </TouchableOpacity>
         )}
-        contentContainerStyle={{
-          marginHorizontal: (Dimensions.get("window").width - 382) / 2,
-        }}
-        keyExtractor={(item) => item.name}
+        contentContainerStyle={{ marginHorizontal: ((Dimensions.get('window').width - 382) / 2) }}
+        keyExtractor={(item) => item[0]}
         numColumns={2}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />}
       />
     </SafeArea>
   );

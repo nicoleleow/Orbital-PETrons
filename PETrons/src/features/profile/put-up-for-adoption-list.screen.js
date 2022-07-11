@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   SafeAreaView,
   View,
@@ -93,8 +93,11 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
     return obj.email === authentication.currentUser?.email;
   });
 
+  const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
   const [refreshing, setRefreshing] = useState(false);
-  const onRefresh = () => {
+  const onRefresh = useCallback(() => {
     GetPetsData();
     setFilteredPets(filteredList);
     filterPets(categoryIndexFiltered, search);
