@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
-import { Months, BottomContainer } from "../../mainpage/share-stories/components/stories-post-card.styles";
 import { Spacer } from "../../../components/spacer/spacer.component";
-import { colors } from "../../../infrastructure/theme/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { db } from "../../../../firebase/firebase-config";
-import { Avatar, Button, Title } from "react-native-paper";
+import { db, authentication, userUsername, userFavouritesList, GetUserFavourites } from "../../../../firebase/firebase-config";
 
 import styled from 'styled-components/native';
-import { Card } from 'react-native-paper';
 
 import {
   collection,
@@ -22,8 +18,7 @@ import {
 import {
   getStorage,
   ref,
-  getDownloadURL,
-  deleteObject,
+  getDownloadURL
 } from "firebase/storage";
 
 import {
@@ -33,12 +28,32 @@ import {
   SectionStart,
   SectionEnd,
   Name,
-  Caption,
   HDBIcon,
   GenderIcon
 } from '../../mainpage/adopt/components/pet-info-card.styles';
 
+const FavouriteButton = styled(TouchableOpacity)`
+  height: 35px;
+  width: 35px;
+  align-items: center;
+  justify-content: center;
+  border-radius: ${(props) => props.theme.space[1]};
+  background-color: ${(props) => props.theme.colors.brand.blue1};
+  position: absolute;
+  right: -10px;
+  top: -10px;
+`;
+
+const Caption = styled(Text)`
+    font-size: 13px;
+    font-family: ${(props) => props.theme.fonts.body};
+    color: ${(props) => props.theme.colors.brand.secondary};
+    text-transform: capitalize;
+`
+
 export const FavouritesCard = ({ pet, navigation }) => {
+  GetUserFavourites();
+
   const { index, item } = pet;
   const {
     age,
@@ -53,6 +68,9 @@ export const FavouritesCard = ({ pet, navigation }) => {
     HDB_approved,
     email,
   } = item[1];
+
+  const petID = item[0];
+  const favourited = userFavouritesList.includes(petID);
 
   const [url, setUrl] = useState();
   useEffect(() => {
@@ -80,10 +98,57 @@ export const FavouritesCard = ({ pet, navigation }) => {
   const isHDBApproved = HDB_approved === 'Yes' ? true : false;
   const hdbIcon = 'https://www.logolynx.com/images/logolynx/e5/e5d49abdb2ad1ac2dff8fb33e138d785.jpeg';
 
+  const [isFavourite, setIsFavourite] = useState(favourited);
+  let tempList = []
+  for (let i = 0; i < userFavouritesList.length; i++) {
+    tempList[i] = userFavouritesList[i]
+  }
+
+  const UpdateFirebaseFavList = async (tempList) => {
+    const querySnapshot = await getDocs(collection(db, "userinfo"));
+      let documentID, pfp;
+      querySnapshot.forEach((doc) => {
+        if (
+          (doc.data().email === authentication.currentUser?.email)
+        ) {
+          documentID = doc.id;
+          pfp = doc.data().profilepic;
+        }
+      });
+      const editedDoc = doc(db, "userinfo", documentID);
+      await setDoc(editedDoc, {
+        email: authentication.currentUser?.email,
+        profilepic: pfp,
+        username: userUsername,
+        favourites: tempList
+      });
+  }
+
+  const UpdateFavouritesList = () => {
+    setIsFavourite(!isFavourite);
+    if (!isFavourite === false && tempList.includes(petID)) {
+      // if pet already previously favourited, but now no, remove pet from favourites list
+      tempList = tempList.filter(id => id !== petID)
+    } else if (!isFavourite === true && !tempList.includes(petID)) {
+      // add pet to favourites list
+      tempList.push(petID);
+    }
+    //update firebase db
+    UpdateFirebaseFavList(tempList);
+  }
 
   return (
-    <PetCard elevation={5}>
+    <PetCard elevation={5} style={{width: 170}}>
       <PetInfoCardCover key={name} source={{ uri: url }} />
+      <FavouriteButton
+            onPress={UpdateFavouritesList}
+            >
+            <Icon
+              name='heart'
+              color= {isFavourite === true ? '#ff7f7f' : 'white'}
+              size={20}
+            />
+          </FavouriteButton>
       <PetCardDetails>
         <SectionStart>
           <Name>{name}</Name>
@@ -101,8 +166,8 @@ export const FavouritesCard = ({ pet, navigation }) => {
               name={genderIconType}
               color={genderIconColor}
               size={20} />
-          
           <Spacer size='small' position='right' />
+          
         </SectionEnd>
       </PetCardDetails> 
     </PetCard>

@@ -18,23 +18,10 @@ import {
 
 import { userFavouritesList, GetUserFavourites, favouritesDetails, GetFavouritesDetails } from "../../../../../firebase/firebase-config";
 import { FavouritesCard } from "../../components/favourites-card.component";
-import { PetInfoCard } from "../../../mainpage/adopt/components/pet-info-card.component";
-import { FactorId } from "firebase/auth";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
   background-color: orange;
-`;
-
-const DismissKeyboard = ({ children }) => (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    {children}
-  </TouchableWithoutFeedback>
-);
-
-const SearchContainer = styled.View`
-  padding-top: ${(props) => props.theme.space[2]};
-  margin-horizontal: ${(props) => props.theme.space[2]};
 `;
 
 const SearchInputContainer = styled(View)`
@@ -45,15 +32,13 @@ const SearchInputContainer = styled(View)`
   background-color: white;
   border-radius: 7px;
   padding-horizontal: 20px;
-  margin-horizontal: ${(props) => props.theme.space[4]};
+  width: 360px;
 `;
 
 
 export const FavouritesPage = ({ navigation }) => {
   GetUserFavourites();
   GetFavouritesDetails(userFavouritesList);
-  console.log(userFavouritesList);
-  console.log(favouritesDetails);
 
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -79,11 +64,9 @@ export const FavouritesPage = ({ navigation }) => {
   };
 
   return (
-    <DismissKeyboard>
-      <SafeArea>
-        <View>
-          <Text variant='header'>Favourites</Text>
-        </View>
+    <SafeArea>
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <Text variant='header'>Favourites</Text>
         <SearchInputContainer>
           <Icon name="magnify" size={24} color={'#777'} />
           <Spacer size='medium' position='right' />
@@ -93,14 +76,18 @@ export const FavouritesPage = ({ navigation }) => {
             style={{ flex: 1 }}
             value={search}
             onChangeText={(text) => filterPetName(text)}
-          />
-        </SearchInputContainer>
-        <Spacer size='medium' />
+            />
+      </SearchInputContainer>
+      </View>
+      <Spacer size='medium' />
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
         <FlatList
           data={filteredPets}
           renderItem={(item) => (
             <TouchableOpacity onPress={() => navigation.navigate('PetInfo', { item })}>
-              <PetInfoCard pet={item} navigation={navigation} />
+              <FavouritesCard
+                pet={item}
+                navigation={navigation}/>
             </TouchableOpacity>
           )}
           contentContainerStyle={{ marginHorizontal: ((Dimensions.get('window').width - 382) / 2) }}
@@ -110,7 +97,7 @@ export const FavouritesPage = ({ navigation }) => {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         />
-      </SafeArea>
-    </DismissKeyboard>
+      </View>
+    </SafeArea>
   )
 };

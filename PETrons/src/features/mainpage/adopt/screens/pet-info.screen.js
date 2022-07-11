@@ -31,8 +31,7 @@ import {
   ContactOwnerButton,
   ContactOwnerText,
 } from "./pet-info.screen.styles";
-import { authentication, db, userFavouritesList, GetUserFavourites, petID, GetPetID, userUsername } from "../../../../../firebase/firebase-config";
-import { FactorId } from "firebase/auth";
+import { authentication, db, userFavouritesList, GetUserFavourites, userUsername } from "../../../../../firebase/firebase-config";
 
 const FavouriteButton = styled(TouchableOpacity)`
   height: 40px;
@@ -61,8 +60,8 @@ export const PetInfoScreen = ({ route, navigation }) => {
     email,
     userName,
   } = item[1];
+  const petID = item[0];
 
-  GetPetID(name, gender, email, short_description, image);
   GetUserFavourites();
   const favourited = userFavouritesList.includes(petID);
 
@@ -71,7 +70,7 @@ export const PetInfoScreen = ({ route, navigation }) => {
     tempList[i] = userFavouritesList[i]
   }
 
-  const [isFavourite, setIsFavourite] = useState(!favourited);
+  const [isFavourite, setIsFavourite] = useState(favourited);
 
   const UpdateFirebaseFavList = async (tempList) => {
     const querySnapshot = await getDocs(collection(db, "userinfo"));

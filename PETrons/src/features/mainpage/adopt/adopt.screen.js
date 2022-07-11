@@ -1,6 +1,5 @@
 import React, {useState, useCallback} from "react";
 import { View, TextInput, TouchableOpacity, RefreshControl, Modal, FlatList, Dimensions } from "react-native";
-import styled from "styled-components/native";
 import { Text } from "../../../components/typography/text.component"
 import { Spacer } from '../../../components/spacer/spacer.component';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -29,14 +28,6 @@ import {
   HDBApprovedStatus,
   Fees
 } from "./components/pet-filter-categories";
-
-const AdoptPageHeader = styled(Text)`
-  color: black;
-  padding-top: ${(props) => props.theme.space[6]};
-  padding-left: 120px;
-  font-size: ${(props) => props.theme.fontSizes.h4};
-  font-family: ${(props) => props.theme.fonts.body};
-`;
 
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -298,7 +289,8 @@ export const AdoptPage = ({ navigation }) => {
       <FlatList
         data={filteredPets}
         renderItem={(item) => (
-          <TouchableOpacity onPress={() => navigation.navigate('PetInfo', { item })}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PetInfo', { item })}>
             <PetInfoCard pet={item} />
           </TouchableOpacity>
         )}
@@ -308,7 +300,8 @@ export const AdoptPage = ({ navigation }) => {
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={onRefresh} />}
+            onRefresh={onRefresh}
+          />}
       />
 
     </SafeArea>
