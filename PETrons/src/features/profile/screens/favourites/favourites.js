@@ -7,8 +7,6 @@ import { Spacer } from "../../../../components/spacer/spacer.component";
 import {
   SafeAreaView,
   View,
-  Keyboard,
-  TouchableWithoutFeedback,
   FlatList,
   TouchableOpacity,
   RefreshControl,
@@ -50,7 +48,7 @@ export const FavouritesPage = ({ navigation }) => {
     filterPetName(search);
     setRefreshing(true);
     setFilteredPets(favouritesDetails);
-    wait(3000).then(() => setRefreshing(false));
+    wait(2000).then(() => setRefreshing(false));
   }, []);
 
   const [filteredPets, setFilteredPets] = useState(favouritesDetails);
@@ -80,7 +78,7 @@ export const FavouritesPage = ({ navigation }) => {
       </SearchInputContainer>
       </View>
       <Spacer size='medium' />
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+      
         <FlatList
           data={filteredPets}
           renderItem={(item) => (
@@ -90,14 +88,16 @@ export const FavouritesPage = ({ navigation }) => {
                 navigation={navigation}/>
             </TouchableOpacity>
           )}
-          contentContainerStyle={{ marginHorizontal: ((Dimensions.get('window').width - 382) / 2) }}
+        contentContainerStyle={{
+          marginHorizontal: ((Dimensions.get('window').width - 382) / 2)      
+        }}
           keyExtractor={(item) => item[0]}
           numColumns={2}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         />
-      </View>
+    
     </SafeArea>
   )
 };

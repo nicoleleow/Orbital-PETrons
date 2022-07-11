@@ -2,7 +2,6 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore/lite";
 import { collection, getDocs } from "firebase/firestore/lite";
-import { diffClamp } from "react-native-reanimated";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBN-1QrWO7woeGf7irPB_wnHt587R5HBXQ",
@@ -52,17 +51,6 @@ export const GetStoriesData = async () => {
     .sort((x, y) => x.date < y.date);
 };
 
-// list of petIDs (string)
-export let userFavouritesList = [];
-export const GetUserFavourites = async () => {
- const Snapshot = await getDocs(collection(db, "userinfo"));
-  Snapshot.forEach((doc) => {
-    if (doc.data().email === authentication.currentUser?.email) {
-      userFavouritesList = doc.data().favourites;
-    }
-  });
-}
-
 export let petID;
 export const GetPetID = async(name, gender, email, short_description, image) => {
   const Snapshot = await getDocs(collection(db, "put-up-for-adoption"));
@@ -72,11 +60,23 @@ export const GetPetID = async(name, gender, email, short_description, image) => 
       && doc.data().name === name
       && doc.data().short_description === short_description
       && doc.data().image === image) {
-      petID = doc.id;
+        petID = doc.id;
       }
-  })
+    })
+  }
+  
+// list of favourited petIDs (string)
+export let userFavouritesList = [];
+export const GetUserFavourites = async () => {
+  const Snapshot = await getDocs(collection(db, "userinfo"));
+  Snapshot.forEach((doc) => {
+    if (doc.data().email === authentication.currentUser?.email) {
+      userFavouritesList = doc.data().favourites;
+    }
+  });
 }
-
+  
+// get pet details from favourited petIDs
 export let favouritesDetails = [];
 export const GetFavouritesDetails = async (userFavouritesList) => {
   const Snapshot = await getDocs(collection(db, "put-up-for-adoption"));

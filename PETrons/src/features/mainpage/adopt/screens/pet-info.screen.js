@@ -215,7 +215,7 @@ export const PetInfoScreen = ({ route, navigation }) => {
             >
             <Icon
               name='heart'
-              color= {isFavourite === true ? '#ff7f7f' : 'white'}
+              color= {isFavourite === true ? 'red' : 'white'}
               size={20}
             />
           </FavouriteButton>

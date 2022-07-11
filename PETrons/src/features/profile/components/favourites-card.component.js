@@ -28,6 +28,7 @@ import {
   SectionStart,
   SectionEnd,
   Name,
+  Caption,
   HDBIcon,
   GenderIcon
 } from '../../mainpage/adopt/components/pet-info-card.styles';
@@ -40,16 +41,9 @@ const FavouriteButton = styled(TouchableOpacity)`
   border-radius: ${(props) => props.theme.space[1]};
   background-color: ${(props) => props.theme.colors.brand.blue1};
   position: absolute;
-  right: -10px;
-  top: -10px;
+  right: 10px;
+  top: 75px;
 `;
-
-const Caption = styled(Text)`
-    font-size: 13px;
-    font-family: ${(props) => props.theme.fonts.body};
-    color: ${(props) => props.theme.colors.brand.secondary};
-    text-transform: capitalize;
-`
 
 export const FavouritesCard = ({ pet, navigation }) => {
   GetUserFavourites();
@@ -138,14 +132,14 @@ export const FavouritesCard = ({ pet, navigation }) => {
   }
 
   return (
-    <PetCard elevation={5} style={{width: 170}}>
+    <PetCard elevation={5}>
       <PetInfoCardCover key={name} source={{ uri: url }} />
       <FavouriteButton
             onPress={UpdateFavouritesList}
             >
             <Icon
               name='heart'
-              color= {isFavourite === true ? '#ff7f7f' : 'white'}
+              color= {isFavourite === true ? 'red' : 'white'}
               size={20}
             />
           </FavouriteButton>
