@@ -13,6 +13,7 @@ import styled from "styled-components/native";
 import { Spacer } from "../../components/spacer/spacer.component";
 
 const widthMenuCard = Dimensions.get("screen").width / 2 - 30;
+const mainPageHeaderPadding = Dimensions.get("screen").height / 12;
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -21,7 +22,7 @@ const SafeArea = styled(SafeAreaView)`
 
 const MainPageHeader = styled(Text)`
   color: black;
-  padding-top: ${(props) => props.theme.space[6]};
+  padding-top: ${mainPageHeaderPadding}px;
   font-size: ${(props) => props.theme.fontSizes.h3};
   font-family: ${(props) => props.theme.fonts.heading};
   text-align: center;
@@ -44,11 +45,12 @@ const HeaderTwo = styled(Text)`
 `;
 
 const Container = styled(View).attrs({
-  height: Platform.OS === 'ios'
-    ? (Dimensions.get('window').height - 280)
-    : (Dimensions.get('window').height - 190),
-  justifyContent: 'center'
-})``
+  height:
+    Platform.OS === "ios"
+      ? Dimensions.get("window").height - 320
+      : Dimensions.get("window").height - 190,
+  justifyContent: "center",
+})``;
 
 const MenuCard = styled(View)`
   height: 200px;
@@ -59,7 +61,7 @@ const MenuCard = styled(View)`
   border-radius: 20px;
   padding-top: ${(props) => props.theme.space[3]};
   padding-horizontal: ${(props) => props.theme.space[3]};
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgb(255, 227, 170);
   justify-content: center;
 `;
 
@@ -102,7 +104,7 @@ export const Mainpage = ({ navigation }) => {
               <HeaderTwo>Put Up Pet For Adoption</HeaderTwo>
             </MenuCard>
           </TouchableOpacity>
-          <Spacer size='xLarge' position='right'/>
+          <Spacer size="xLarge" position="right" />
           <TouchableOpacity onPress={AdoptPage}>
             <MenuCard>
               <ImageCard source={require("../../../assets/adopt_new.png")} />
@@ -110,7 +112,7 @@ export const Mainpage = ({ navigation }) => {
             </MenuCard>
           </TouchableOpacity>
         </MenuCardContainer>
-        <Spacer size='xLarge' />
+        <Spacer size="xLarge" />
         <MenuCardContainer>
           <TouchableOpacity onPress={StoriesPage}>
             <MenuCard>
@@ -118,7 +120,7 @@ export const Mainpage = ({ navigation }) => {
               <Header>Share Stories</Header>
             </MenuCard>
           </TouchableOpacity>
-          <Spacer size='xLarge' position='right'/>
+          <Spacer size="xLarge" position="right" />
           <TouchableOpacity onPress={FAQPage}>
             <MenuCard>
               <ImageCard source={require("../../../assets/qna_icon.png")} />
