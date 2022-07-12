@@ -3,8 +3,8 @@ import { View, Text } from 'react-native';
 import { Card } from 'react-native-paper';
 
 export const PostCard = styled(Card)`
-    margin: ${(props) => props.theme.space[4]};
-    margin-bottom: ${(props) => props.theme.space[2]};
+    margin: ${(props) => props.theme.space[2]} ${(props) => props.theme.space[4]};
+    margin-bottom: ${(props) => props.theme.space[1]};
     border-radius: ${(props) => props.theme.space[1]};
 `
 

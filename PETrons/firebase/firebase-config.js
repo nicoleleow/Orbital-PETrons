@@ -91,3 +91,9 @@ export const GetFavouritesDetails = async (userFavouritesList) => {
     }
   })
 }
+
+export let postIDList = [];
+export const GetPostIDs = async () => {
+  const Snapshot = await getDocs(collection(db, "stories"));
+  postIDList = Snapshot.docs.map((doc) => doc.id);
+}

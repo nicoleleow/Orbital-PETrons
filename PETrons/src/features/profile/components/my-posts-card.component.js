@@ -4,7 +4,7 @@ import { Months, BottomContainer } from "../../mainpage/share-stories/components
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { colors } from "../../../infrastructure/theme/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { db } from "../../../../firebase/firebase-config";
+import { db, userImage, getUserName} from "../../../../firebase/firebase-config";
 import { Avatar, Button } from "react-native-paper";
 
 import styled from 'styled-components/native';
@@ -14,9 +14,6 @@ import {
   collection,
   getDocs,
   doc,
-  setDoc,
-  addDoc,
-  query,
   deleteDoc,
 } from "firebase/firestore/lite";
 import {
@@ -61,7 +58,7 @@ const EditButton = styled(Button).attrs({
 export const MyPostsCard = ({ storyDetails, navigation }) => {
   const { date, hour, minutes, postImage, postText, userName, email, edited } = storyDetails;
 
-  const pfp = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png';
+  const [pfp, setPfp] = useState(userImage);
 
   const formattedDateWhole = new Date(date.seconds * 1000 + 28800 * 1000)
   const day = formattedDateWhole.getDate().toString();
@@ -119,8 +116,19 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
   };
 
   const [url, setUrl] = useState();
+  const [pfpURL, setPfpURL] = useState();
   useEffect(() => {
-  const func = async () => {
+    const func = async () => {
+    getUserName();
+      if (pfp !== "default") {
+        const uploadUri = userImage;
+        const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+        const storage = getStorage();
+        const reference = ref(storage, filename);
+        await getDownloadURL(reference).then((x) => {
+          setPfpURL(x);
+        });
+      }
     if (postImage !== null) {
       const uploadUri = postImage;
   
@@ -143,7 +151,20 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
       <View>
         <Spacer size='xLarge' />
         <UserDetails>
-          <Avatar.Image size={40} source={{ uri: pfp }} color="green" />
+          {pfp === "default" && (
+            <Avatar.Image
+              backgroundColor="white"
+              source={require("../../../../assets/default_profilepic.png")}
+              size={45}
+            />
+            )}
+            {pfp !== "default" && (
+              <Avatar.Image
+                backgroundColor="white"
+                source={{ uri: pfpURL }}
+                size={45}
+              />
+            )}
           <Spacer size='large' position='right' />
           <UserDetailsText>{userName}</UserDetailsText>
         </UserDetails>
