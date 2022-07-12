@@ -3,6 +3,9 @@ import { Button, TextInput, Text } from "react-native-paper";
 import { TouchableOpacity, View, SafeAreaView, Dimensions } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
+const PageHeaderPadding = Dimensions.get("screen").height / 20;
+const InputWidth = Dimensions.get("screen").width - 40;
+
 export const SafeArea = styled(SafeAreaView)`
   flex: 1;
   background-color: orange;
@@ -19,7 +22,7 @@ export const PutUpAdoptionPageHeader = styled(Text)`
   color: black;
   font-size: ${(props) => props.theme.fontSizes.h5};
   font-family: ${(props) => props.theme.fonts.monospace};
-  margin-top: ${(props) => props.theme.space[5]};
+  padding-top: ${PageHeaderPadding}px;
   text-align: center;
 `;
 
@@ -27,20 +30,20 @@ export const FormButton = styled(Button).attrs({
   color: "rgb(255, 227, 180)",
 })`
   padding: ${(props) => props.theme.space[2]};
-  width: 300px;
-  margin-top: ${(props) => props.theme.space[3]};
+  width: ${InputWidth}px;
+  margin-top: ${(props) => props.theme.space[1]};
 `;
 
 export const SubmitFormButton = styled(Button).attrs({
   color: "rgb(255, 227, 180)",
 })`
   padding: ${(props) => props.theme.space[2]};
-  width: 300px;
+  width: ${InputWidth}px;
   margin-bottom: 20px;
 `;
 
 export const Inputs = styled(TextInput)`
-  width: 340px;
+  width: ${InputWidth}px;
   background-color: whitesmoke;
   border-radius: 10px;
   border-width: 1px;
@@ -49,7 +52,7 @@ export const Inputs = styled(TextInput)`
 `;
 
 export const DescriptionInput = styled(TextInput)`
-  width: 340px;
+  width: ${InputWidth}px;
   height: 200px;
   textalignvertical: "top";
   background-color: whitesmoke;
@@ -100,7 +103,7 @@ export const RenderContentButton = styled(TouchableOpacity)`
 `;
 
 export const DropDown = styled(DropDownPicker)`
-  width: 340px;
+  width: ${InputWidth}px;
   height: 70px;
   background-color: whitesmoke;
   border-radius: 10px;
