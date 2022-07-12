@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Image, ScrollView } from "react-native";
+import { Image, ScrollView, TouchableOpacity, View } from "react-native";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import styled from "styled-components";
 
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import {
@@ -30,11 +31,20 @@ import {
   ContactOwnerButton,
   ContactOwnerText,
 } from "./pet-info.screen.styles";
-import { authentication, db } from "../../../../../firebase/firebase-config";
+import { authentication, db, userFavouritesList, GetUserFavourites, userUsername } from "../../../../../firebase/firebase-config";
+
+const FavouriteButton = styled(TouchableOpacity)`
+  height: 40px;
+  width: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: ${(props) => props.theme.space[3]};
+  background-color: ${(props) => props.theme.colors.brand.blue1};
+`;
 
 export const PetInfoScreen = ({ route, navigation }) => {
   const pet = route.params.item;
-
+  
   const { index, item } = pet;
   const {
     age,
@@ -49,15 +59,56 @@ export const PetInfoScreen = ({ route, navigation }) => {
     organisation,
     email,
     userName,
-  } = item;
+  } = item[1];
+  const petID = item[0];
+
+  GetUserFavourites();
+  const favourited = userFavouritesList.includes(petID);
+
+  let tempList = []
+  for (let i = 0; i < userFavouritesList.length; i++) {
+    tempList[i] = userFavouritesList[i]
+  }
+
+  const [isFavourite, setIsFavourite] = useState(favourited);
+
+  const UpdateFirebaseFavList = async (tempList) => {
+    const querySnapshot = await getDocs(collection(db, "userinfo"));
+      let documentID, pfp;
+      querySnapshot.forEach((doc) => {
+        if (
+          (doc.data().email === authentication.currentUser?.email)
+        ) {
+          documentID = doc.id;
+          pfp = doc.data().profilepic;
+        }
+      });
+      const editedDoc = doc(db, "userinfo", documentID);
+      await setDoc(editedDoc, {
+        email: authentication.currentUser?.email,
+        profilepic: pfp,
+        username: userUsername,
+        favourites: tempList
+      });
+  }
+
+  const UpdateFavouritesList = () => {
+    setIsFavourite(!isFavourite);
+    if (!isFavourite === false && tempList.includes(petID)) {
+      // if pet already previously favourited, but now no, remove pet from favourites list
+      tempList = tempList.filter(id => id !== petID)
+    } else if (!isFavourite === true && !tempList.includes(petID)) {
+      // add pet to favourites list
+      tempList.push(petID);
+    }
+    //update firebase db
+    UpdateFirebaseFavList(tempList);
+  }
 
   const contactOwner = organisation === "Individual" ? "Owner" : "Organisation";
 
   const isHDBApproved = HDB_approved === "Yes" ? true : false;
-  const hdbIcon =
-    "https://www.logolynx.com/images/logolynx/e5/e5d49abdb2ad1ac2dff8fb33e138d785.jpeg";
-
-  const [count, setCount] = useState(0);
+  
 
   const onPress = async () => {
     const querySnapshot = await getDocs(collection(db, "userinfo"));
@@ -69,6 +120,7 @@ export const PetInfoScreen = ({ route, navigation }) => {
     });
     navigation.navigate("ChatPage", { item });
   };
+
   const [url, setUrl] = useState();
   useEffect(() => {
     const func = async () => {
@@ -148,16 +200,27 @@ export const PetInfoScreen = ({ route, navigation }) => {
           <AboutPet>{short_description}</AboutPet>
         </AboutPetContainer>
 
-        <Spacer size="xLarge"></Spacer>
+        <Spacer size="xLarge" />
 
-        <ContactOwnerButton onPress={onPress}>
-          <ContactOwnerText>
-            <Icon name="chat" size={15} />
-            <Spacer size="large" position="right" />
-            contact {contactOwner}
-          </ContactOwnerText>
-        </ContactOwnerButton>
-        <Spacer size="xLarge"></Spacer>
+        <View style={{ flexDirection: 'row', alignContent: 'center', marginHorizontal: 32, justifyContent: 'space-between' }}>
+          <ContactOwnerButton onPress={onPress}>
+            <ContactOwnerText>
+              <Icon name="chat" size={15} />
+              <Spacer size="large" position="right" />
+              contact {contactOwner}
+            </ContactOwnerText>
+          </ContactOwnerButton>
+          <FavouriteButton
+            onPress={UpdateFavouritesList}
+            >
+            <Icon
+              name='heart'
+              color= {isFavourite === true ? 'red' : 'white'}
+              size={20}
+            />
+          </FavouriteButton>
+        </View>
+        <Spacer size="xLarge" />
       </ScrollView>
     </SafeArea>
   );

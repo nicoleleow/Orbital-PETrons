@@ -66,6 +66,8 @@ export const RegisterScreen = ({ navigation }) => {
             username: username,
             email: email,
             profilepic: "default",
+            favourites: [],
+            // likedPosts: []
           });
         })
         .catch((re) => {

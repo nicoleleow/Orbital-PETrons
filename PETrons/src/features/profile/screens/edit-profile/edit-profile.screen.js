@@ -52,6 +52,7 @@ import {
   UserInfoSection,
   ChangePasswordButton,
   DoneButton,
+  PressableText,
 } from "./edit-profile.style";
 
 const SafeArea = styled(SafeAreaView)`
@@ -189,18 +190,16 @@ export const EditProfilePage = ({ navigation }) => {
               ></ImageBackground>
             )}
           </ProfilePicture>
-          <Button
-            mode="contained"
-            title="Change profile photo"
-            onPress={() => setModalVisible(!modalVisible)}
-          />
+          <Pressable onPress={() => setModalVisible(!modalVisible)}>
+            <PressableText> Change profile photo </PressableText>
+          </Pressable>
         </View>
         <UserInfoSection>
-          <Text style={{ width: 80 }}>Email:</Text>
+          <Text style={{ width: 85 }}>Email:</Text>
           <FieldText>{authentication.currentUser?.email}</FieldText>
         </UserInfoSection>
         <UserInfoSection>
-          <Text style={{ width: 80 }}>Username:</Text>
+          <Text style={{ width: 85 }}>Username:</Text>
           <FieldInput
             value={userName}
             autoCorrect={false}

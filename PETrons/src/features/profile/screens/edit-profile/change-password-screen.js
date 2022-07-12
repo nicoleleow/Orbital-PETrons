@@ -130,7 +130,7 @@ export const ChangePasswordPage = ({ navigation }) => {
             onChangeText={(text) => setNewPassword(text)}
           ></FieldInput>
           <FieldInput
-            placeholder="New Password, Again"
+            placeholder="Repeat New Password"
             autoCorrect={false}
             placeholderTextColor="black"
             onChangeText={(text) => setNewRepeatedPassword(text)}

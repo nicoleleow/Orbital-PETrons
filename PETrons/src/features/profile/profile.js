@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, View, RefreshControl, ScrollView } from "react-native";
-import { Button } from "react-native-paper";
-import { Avatar, Caption, Title } from "react-native-paper";
+import {
+  SafeAreaView,
+  View,
+  RefreshControl,
+  ScrollView,
+  Dimensions,
+} from "react-native";
+import { Avatar, Caption, Title, Button } from "react-native-paper";
 import styled from "styled-components/native";
 import { Text } from "../../components/typography/text.component";
 import { collection, getDocs, doc, setDoc } from "firebase/firestore/lite";
@@ -16,6 +21,7 @@ import {
   uploadBytes,
 } from "firebase/storage";
 
+import { colors } from "../../infrastructure/theme/colors";
 import {
   authentication,
   db,
@@ -26,22 +32,26 @@ import {
 import { Spacer } from "../../components/spacer/spacer.component";
 import { MyStoryPostsPage } from "./screens/my-story-posts.screen";
 
+const ProfileContainerPadding = Dimensions.get("screen").height / 40;
+// const UserInfoSectionMargin = Dimensions.get("screen").height / 12;
+
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
   background-color: orange;
 `;
 
-export const ProfileContainer = styled.View`
+const ProfileContainer = styled.View`
   background-color: orange
   padding: ${(props) => props.theme.space[5]};
-  margin-top: ${(props) => props.theme.space[2]};
+  padding-top: ${ProfileContainerPadding}px;
 `;
 
-const UserInfoSection = styled.View`
+const UserInfoSection = styled(View).attrs({
+  marginTop: Platform.OS === "ios" ? 40 : Dimensions.get("screen").height / 12,
+})`
   padding-horizontal: 30px;
   margin-bottom: ${(props) => props.theme.space[3]};
   flex-direction: row;
-  margin-top: 40px;
 `;
 
 const UsernameTitle = styled(Title)`
@@ -147,33 +157,15 @@ export const ProfilePage = ({ navigation }) => {
             </EmailCaption>
           </View>
         </UserInfoSection>
-        <View>
+        <View style={{ paddingTop: 20 }}>
           <ProfileContainer>
             <AuthButton
               mode="contained"
-              icon="account-check"
-              onPress={EditProfilePage}
+              icon="tag-heart"
+              onPress={PutUpAdoptionListPage}
             >
-              Edit Profile
+              My Listed Adoptions
             </AuthButton>
-            <Spacer size="large">
-              <AuthButton
-                mode="contained"
-                icon="heart"
-                onPress={FavouritesPage}
-              >
-                Favourites
-              </AuthButton>
-            </Spacer>
-            <Spacer size="large">
-              <AuthButton
-                mode="contained"
-                icon="tag-heart"
-                onPress={PutUpAdoptionListPage}
-              >
-                My Listed Adoptions
-              </AuthButton>
-            </Spacer>
             <Spacer size="large">
               <AuthButton
                 mode="contained"
@@ -185,9 +177,27 @@ export const ProfilePage = ({ navigation }) => {
             </Spacer>
             <Spacer size="large">
               <AuthButton mode="contained" onPress={MyStoryPostsPage}>
-                <Icon2 name="thumbs-up-sharp" color="black" />
-                <Spacer size="medium" position="right" />
+                <Icon2 name="thumbs-up-sharp" />
+                <Spacer size="medium" position="right" color="black"/>
                 My Liked Posts
+              </AuthButton>
+            </Spacer>
+            <Spacer size="large">
+              <AuthButton
+                mode="contained"
+                icon="heart"
+                onPress={FavouritesPage}
+              >
+                My Favourites
+              </AuthButton>
+            </Spacer>
+            <Spacer size="large">
+              <AuthButton
+                mode="contained"
+                icon="account-check"
+                onPress={EditProfilePage}
+              >
+                Edit Profile
               </AuthButton>
             </Spacer>
             <Spacer size="large">
