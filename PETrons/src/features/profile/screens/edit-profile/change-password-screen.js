@@ -40,7 +40,7 @@ const FieldInput = styled(TextInput)`
 `;
 
 const ConfirmButton = styled(Button).attrs({
-  color: "peru",
+  color: "rgb(255, 227, 180)",
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
@@ -130,7 +130,7 @@ export const ChangePasswordPage = ({ navigation }) => {
             onChangeText={(text) => setNewPassword(text)}
           ></FieldInput>
           <FieldInput
-            placeholder="New Password, Again"
+            placeholder="Repeat New Password"
             autoCorrect={false}
             placeholderTextColor="black"
             onChangeText={(text) => setNewRepeatedPassword(text)}

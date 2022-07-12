@@ -6,7 +6,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Alert,
-  Modal
+  Modal,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import {
@@ -25,8 +25,8 @@ import {
   AnimalTypes,
   GenderTypes,
   Groups,
-  HDBApproved
-} from "./put-up-adoption-categories"
+  HDBApproved,
+} from "./put-up-adoption-categories";
 
 import {
   SafeArea,
@@ -103,7 +103,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
     });
     if (!result.cancelled) {
       setImage(result.uri);
-      setModalVisible(!modalVisible)
+      setModalVisible(!modalVisible);
     }
   };
 
@@ -117,7 +117,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
     const result = await ImagePicker.launchCameraAsync();
     if (!result.cancelled) {
       setImage(result.uri);
-      setModalVisible(!modalVisible)
+      setModalVisible(!modalVisible);
     }
   };
 
@@ -143,6 +143,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
       image: image,
       email: authentication.currentUser?.email,
       userName: userUsername,
+      status: "available",
     });
     navigation.navigate("mainpage");
     const uploadUri = image;
@@ -191,26 +192,30 @@ export const PutUpAdoptionPage = ({ navigation }) => {
         <PutUpAdoptionPageHeader>
           Provide your pet's details:
         </PutUpAdoptionPageHeader>
-        <Spacer size='small' />
+        <Spacer size="small" />
         <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              Alert.alert("Modal has been closed.");
-              setModalVisible(!modalVisible);
-            }}
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
         >
           <RenderContentContainer>
             <View style={{ alignItems: "center" }}>
               <RenderContentTitle>Upload Photo</RenderContentTitle>
-              <RenderContentSubtitle>Choose Your Pet Image</RenderContentSubtitle>
+              <RenderContentSubtitle>
+                Choose Your Pet Image
+              </RenderContentSubtitle>
             </View>
             <RenderContentButton onPress={takePhotoFromCamera}>
               <RenderContentButtonTitle>Take Photo</RenderContentButtonTitle>
             </RenderContentButton>
             <RenderContentButton onPress={chooseFromLibrary}>
-              <RenderContentButtonTitle>Choose From Library</RenderContentButtonTitle>
+              <RenderContentButtonTitle>
+                Choose From Library
+              </RenderContentButtonTitle>
             </RenderContentButton>
             <RenderContentButton onPress={() => setModalVisible(!modalVisible)}>
               <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
@@ -225,11 +230,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 style={{ width: 300, height: 200 }}
               />
             )}
-            <FormButton
-              icon="image"
-              mode="contained"
-              onPress={renderContent}
-            >
+            <FormButton icon="image" mode="contained" onPress={renderContent}>
               Upload Image
             </FormButton>
             <Spacer size="large">
@@ -279,7 +280,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 setItems={setPetGender}
                 listMode="SCROLLVIEW"
                 zIndex={300}
-                placeholderStyle={{ fontSize: 16}}
+                placeholderStyle={{ fontSize: 16 }}
               />
             </>
             <Spacer size="large">
@@ -303,7 +304,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 setItems={setPetOrganisation}
                 listMode="SCROLLVIEW"
                 zIndex={200}
-                placeholderStyle={{ fontSize: 16}}
+                placeholderStyle={{ fontSize: 16 }}
               />
             </>
             <Spacer size="large" />
@@ -318,7 +319,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 setItems={setPetHDB}
                 listMode="SCROLLVIEW"
                 zIndex={100}
-                placeholderStyle={{ fontSize: 16}}
+                placeholderStyle={{ fontSize: 16 }}
               />
             </>
             <Spacer size="large">
@@ -344,7 +345,7 @@ export const PutUpAdoptionPage = ({ navigation }) => {
           </Container>
         </ScrollView>
         <Spacer size="large" />
-        <View style={{alignItems: 'center'}}>
+        <View style={{ alignItems: "center" }}>
           <SubmitFormButton mode="contained" onPress={confirmAlert}>
             Confirm
           </SubmitFormButton>
