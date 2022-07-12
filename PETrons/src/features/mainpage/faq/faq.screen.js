@@ -24,7 +24,7 @@ const Container = styled(View).attrs({
 
 const PageButtons = styled(TouchableOpacity)`
   elevation: 5;
-  background-color: ${(props) => props.theme.colors.brand.yellow3};
+  background-color: rgb(255, 227, 180);
   margin: ${(props) => props.theme.space[3]} ${(props) => props.theme.space[6]};
   padding: ${(props) => props.theme.space[4]} 20px;
   border-radius: ${(props) => props.theme.space[3]};

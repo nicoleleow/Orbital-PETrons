@@ -18,7 +18,6 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { authentication, db } from "../../../firebase/firebase-config";
-// import { AccountContainer } from "./account.style";
 import { colors } from "../../infrastructure/theme/colors";
 
 const AccountBackground = styled.ImageBackground.attrs({
@@ -26,6 +25,7 @@ const AccountBackground = styled.ImageBackground.attrs({
 })`
   flex: 1;
   align-items: center;
+  justify-content: center;
 `;
 
 const AccountContainer = styled.View`
@@ -40,7 +40,6 @@ const Title = styled(Text)`
   color: black;
   font-size: ${(props) => props.theme.fontSizes.h4};
   font-family: ${(props) => props.theme.fonts.monospace};
-  margin-top: ${(props) => props.theme.space[8]};
 `;
 
 const Instructions = styled(Text)`
