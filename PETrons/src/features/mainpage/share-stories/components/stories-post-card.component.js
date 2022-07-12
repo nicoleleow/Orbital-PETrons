@@ -18,20 +18,31 @@ import {
   BottomContainer
 } from "./stories-post-card.styles";
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { GetUserPfp, userPfp } from '../../../../../firebase/firebase-config';
+import { db } from '../../../../../firebase/firebase-config';
 
 export const StoriesPostCard = ({ storyDetails }) => {
   const { date, hour, minutes, postImage, postText, userName, edited } = storyDetails;
+ 
+  const [pfp, setPfp] = useState('');
+ 
+  let userPfp;
+  const GetUserPfp = async (userName) => {
+  const Snapshot = await getDocs(collection(db, "userinfo"));
+    Snapshot.forEach((doc) => {
+      if (doc.data().username === userName) {
+        setPfp(doc.data().profilepic);
+        userPfp = doc.data().profilepic;
+      }
+    });
+  };
 
   GetUserPfp(userName);
-  const [pfp, setPfp] = useState(userPfp);
-
-  console.log(pfp);
-
+  
   const [url, setUrl] = useState();
+  const [pfpURL, setPfpURL] = useState();
   useEffect(() => {
+    GetUserPfp(userName);
     const func = async () => {
-      
       if (postImage !== null) {
         const uploadUri = postImage;
         const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
@@ -41,9 +52,18 @@ export const StoriesPostCard = ({ storyDetails }) => {
           setUrl(x);
         });
       }
+      if (pfp !== "default") {
+        const uploadUriPFP = pfp;
+        const filenamePFP = uploadUriPFP.substring(uploadUriPFP.lastIndexOf("/") + 1);
+        const storagePFP = getStorage();
+        const referencePFP = ref(storagePFP, filenamePFP);
+        await getDownloadURL(referencePFP).then((x) => {
+          setPfpURL(x);
+        });
+      }
     };
 
-      if (url == undefined) {
+      if (url == undefined || pfp === '') {
       func();
       }
   }, []);
@@ -66,7 +86,7 @@ export const StoriesPostCard = ({ storyDetails }) => {
       <View>
         <Spacer size='xLarge' />
         <UserDetails>
-          {/* {pfp === "default" && (
+          {pfp === "default" && (
             <Avatar.Image
               backgroundColor="white"
               source={require("../../../../../assets/default_profilepic.png")}
@@ -76,10 +96,10 @@ export const StoriesPostCard = ({ storyDetails }) => {
           {pfp !== "default" && (
             <Avatar.Image
               backgroundColor="white"
-              source={{ uri: pfp }}
+              source={{ uri: pfpURL }}
               size={45}
             />
-          )} */}
+          )}
           <Spacer size='large' position='right' />
           <UserDetailsText style={{paddingTop: 5}}>{userName}</UserDetailsText>
         </UserDetails>

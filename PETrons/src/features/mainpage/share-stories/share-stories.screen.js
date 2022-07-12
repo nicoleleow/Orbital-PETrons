@@ -6,12 +6,8 @@ import { Spacer } from "../../../components/spacer/spacer.component";
 import { StoriesPostCard } from "./components/stories-post-card.component";
 import { Avatar } from "react-native-paper";
 
-import { GetStoriesData, storiesList, GetPostIDs, postIDList, userImage, getUserName } from "../../../../firebase/firebase-config";
-import {
-  getStorage,
-  ref,
-  getDownloadURL
-} from "firebase/storage";
+import { GetStoriesData, storiesList, GetPostIDs, postIDList, userUsername, userImage, getUserName } from "../../../../firebase/firebase-config";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -34,7 +30,7 @@ const wait = (timeout) => {
 }
 
 export const StoriesPage = ({ navigation }) => {
-  const [pfp, setPfp] = useState(userImage)
+  const [pfp, setPfp] = useState(userImage);
 
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = () => {
@@ -68,20 +64,19 @@ export const StoriesPage = ({ navigation }) => {
       <Text variant='header'>Share Stories</Text>
       <UploadPostContainer>
         {userImage === "default" && (
-            <Avatar.Image
-              backgroundColor="white"
-              source={require("../../../../assets/default_profilepic.png")}
-              size={45}
-            />
-          )}
-          {userImage !== "default" && (
-            <Avatar.Image
-              backgroundColor="white"
-              source={{ uri: url }}
-              size={45}
-            />
-          )}
-        {/* <Avatar.Image size={45} source={require("../../../../assets/default_profilepic.png")} style={{backgroundColor: 'white'}} /> */}
+          <Avatar.Image
+            backgroundColor="white"
+            source={require("../../../../assets/default_profilepic.png")}
+            size={45}
+          />
+        )}
+        {userImage !== "default" && (
+          <Avatar.Image
+            backgroundColor="white"
+            source={{ uri: url }}
+            size={45}
+          />
+        )}
         <Spacer size='xLarge' position='right' />
         <TouchableOpacity onPress={() => navigation.navigate("CreatePostScreen")} style={{ width: 300, height: 50, justifyContent: 'center'}}>
           <Text style={{color: '#777'}}>Share your story...</Text>
