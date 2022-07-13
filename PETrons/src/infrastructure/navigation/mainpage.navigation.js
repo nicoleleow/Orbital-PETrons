@@ -1,6 +1,7 @@
 import React from "react";
-import { Button } from "react-native";
+import { Button, Text, Pressable } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import styled from "styled-components/native";
 
 import { Mainpage } from "../../features/mainpage/mainpage.screen";
 import { AdoptPage } from "../../features/mainpage/adopt/adopt.screen";
@@ -22,6 +23,12 @@ import { StoriesPostCard } from "../../features/mainpage/share-stories/component
 import { CreatePostScreen } from "../../features/mainpage/share-stories/screens/create-post.screen";
 
 const Stack = createStackNavigator();
+
+const PressableText = styled(Text)`
+  color: #2196f3;
+  font-size: ${(props) => props.theme.fontSizes.title};
+  padding-left: ${(props) => props.theme.space[3]};
+`;
 
 export const MainPageNavigator = () => (
   <Stack.Navigator>
@@ -86,13 +93,12 @@ export const MainPageNavigator = () => (
           route.params.item.email === authentication.currentUser?.email
             ? route.params.item.username
             : route.params.item.userName,
+        headerTitleAlign: "center",
         headerBackTitleVisible: false,
         headerLeft: () => (
-          <Button
-            onPress={() => navigation.goBack()}
-            title="< Back"
-            color="black"
-          />
+          <Pressable onPress={() => navigation.goBack()}>
+            <PressableText> Back </PressableText>
+          </Pressable>
         ),
       })}
     />
