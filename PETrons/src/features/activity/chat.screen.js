@@ -23,7 +23,7 @@ export const ChatPage = ({ route, navigation }) => {
   const chatInfo = route.params.item;
   const { email, _id, createdAt, text, userName, userEmail, username, user } =
     chatInfo;
-  console.log(userName);
+
   useEffect(() => {
     let chatList = [];
     let timeList = [];

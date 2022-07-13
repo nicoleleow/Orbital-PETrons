@@ -132,7 +132,6 @@ export const MessagePage = ({ navigation }) => {
       });
       timeList = [];
     });
-    console.log(newFilterList);
     setFilteredChat(newFilterList);
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));

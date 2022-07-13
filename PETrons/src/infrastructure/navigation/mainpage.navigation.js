@@ -89,10 +89,7 @@ export const MainPageNavigator = () => (
       name="ChatPage"
       component={ChatPage}
       options={({ navigation, route }) => ({
-        title:
-          route.params.item.email === authentication.currentUser?.email
-            ? route.params.item.username
-            : route.params.item.userName,
+        title: route.params.item[1].userName,
         headerTitleAlign: "center",
         headerBackTitleVisible: false,
         headerLeft: () => (
