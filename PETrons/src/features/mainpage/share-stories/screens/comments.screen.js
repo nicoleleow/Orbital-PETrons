@@ -69,7 +69,7 @@ export const CommentsScreen = ({ navigation }) => {
   //     email: authentication.currentUser?.email,
   //     userName: userUsername,
   //     edited: false,
-  //     numLikes: 0
+  //     likedUsers: []
   //   });
   //   navigation.goBack()
   //   if (postImage !== null) {

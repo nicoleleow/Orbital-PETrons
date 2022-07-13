@@ -40,7 +40,9 @@ const CountsContainer = styled(View)`
 export const StoriesPostCard = ({ storyDetails }) => {
   const postID = storyDetails[0];
   const { date, hour, minutes, postImage, postText,
-    userName, edited, email, numLikes } = storyDetails[1];
+    userName, edited, email, likedUsers } = storyDetails[1];
+  
+  const currentUserEmail = authentication.currentUser?.email;
  
   const [pfp, setPfp] = useState('');
  
@@ -62,6 +64,7 @@ export const StoriesPostCard = ({ storyDetails }) => {
   useEffect(() => {
     GetUserPfp(userName);
     GetUserLikedPosts();
+    setNumLikes(tempLikedUsersList.length)
     const func = async () => {
       if (postImage !== null) {
         const uploadUri = postImage;
@@ -88,18 +91,22 @@ export const StoriesPostCard = ({ storyDetails }) => {
       }
     }, [])
 ;
-
-  const [tempNumLikes, setTempNumLikes] = useState(numLikes);
   
   GetUserLikedPosts();
   const liked = userLikedPostsList.includes(postID);
 
-  // deep copy userLikedPostsList to not alter original list
+  // deep copy likedUsers and userLikedPostsList to not alter original list
+  let tempLikedUsersList = [];
+  for (let i = 0; i < likedUsers.length; i++) {
+    tempLikedUsersList[i] = likedUsers[i];
+  }
+
   let tempPostIDsList = [];
   for (let i = 0; i < userLikedPostsList.length; i++) {
     tempPostIDsList[i] = userLikedPostsList[i];
   }
 
+  const [numLikes, setNumLikes] = useState(likedUsers.length)
   const [isLiked, setIsLiked] = useState(liked);
 
   // update firebase user-info db list of liked postIDs
@@ -118,7 +125,7 @@ export const StoriesPostCard = ({ storyDetails }) => {
     
       const editedDoc = doc(db, "userinfo", documentID);
       await setDoc(editedDoc, {
-        email: authentication.currentUser?.email,
+        email: currentUserEmail,
         username: userUsername,
         profilepic,
         favourites,
@@ -127,7 +134,7 @@ export const StoriesPostCard = ({ storyDetails }) => {
   }
 
   // update firebase stories db number of likes
-  const UpdateFirebaseNumLikes = async (tempNumLikes) => {
+  const UpdateFirebaseLikedUsersEmails = async (tempLikedUsersList) => {
     const editedDoc = doc(db, "stories", postID);
     await setDoc(editedDoc, {
       date,
@@ -138,7 +145,7 @@ export const StoriesPostCard = ({ storyDetails }) => {
       postImage,
       postText,
       userName,
-      numLikes: tempNumLikes
+      likedUsers: tempLikedUsersList
     });
   }
 
@@ -149,24 +156,23 @@ export const StoriesPostCard = ({ storyDetails }) => {
         // if post already previously liked, but now no, remove post from liked list
         tempPostIDsList = tempPostIDsList.filter(id => id !== postID);
       }
-      if (liked === true){
-        // decrease number of likes by 1
-        setTempNumLikes(tempNumLikes - 1);
+      if (tempLikedUsersList.includes(currentUserEmail)){
+        tempLikedUsersList = tempLikedUsersList.filter(mail => mail !== currentUserEmail);
+        setNumLikes(tempLikedUsersList.length);
       }
     } else if (!isLiked === true) {
       if (!tempPostIDsList.includes(postID)) {
         // add post to liked list
         tempPostIDsList.push(postID);
       }
-      if (liked === false) {
-        // increase number of likes by 1
-        setTempNumLikes(tempNumLikes + 1);
+      if (!tempLikedUsersList.includes(currentUserEmail)) {
+        tempLikedUsersList.push(currentUserEmail);
+        setNumLikes(tempLikedUsersList.length);
       }
     }
     //update firebase db
     UpdateFirebaseLikedPostsList(tempPostIDsList);
-    console.log('over here', tempNumLikes);
-    UpdateFirebaseNumLikes(tempNumLikes);
+    UpdateFirebaseLikedUsersEmails(tempLikedUsersList);
   }
 
   const formattedDateWhole = new Date(date.seconds * 1000 + 28800 * 1000)
@@ -239,11 +245,11 @@ export const StoriesPostCard = ({ storyDetails }) => {
         )}
       </View>
       <CountsContainer>
-        {tempNumLikes != 1 && (
-          <LikesCommentsCount>{tempNumLikes} Likes</LikesCommentsCount>
+        {numLikes != 1 && (
+          <LikesCommentsCount>{numLikes} Likes</LikesCommentsCount>
         )}
-        {tempNumLikes == 1 && (
-          <LikesCommentsCount>{tempNumLikes} Like</LikesCommentsCount>
+        {numLikes == 1 && (
+          <LikesCommentsCount>{numLikes} Like</LikesCommentsCount>
         )}
         <Spacer size='large' position='right' />
         <LikesCommentsCount>10 Comments</LikesCommentsCount>
