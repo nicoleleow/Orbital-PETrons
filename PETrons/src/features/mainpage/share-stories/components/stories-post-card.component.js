@@ -3,12 +3,14 @@ import { Spacer } from '../../../../components/spacer/spacer.component';
 import { Text, View, Image } from 'react-native';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import styled from 'styled-components';
 import { Avatar } from "react-native-paper";
 import {
   collection,
   getDocs,
   doc,
-  setDoc
+  setDoc,
+  updateDoc
 } from "firebase/firestore/lite";
 
 import {
@@ -21,6 +23,19 @@ import {
 } from "./stories-post-card.styles";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { db, authentication, userLikedPostsList, GetUserLikedPosts, userUsername } from '../../../../../firebase/firebase-config';
+
+const LikesCommentsCount = styled(Text)`
+  font-size: 12px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+`
+
+const CountsContainer = styled(View)`
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-top: 8px;
+  margin-horizontal: 15px;
+`
 
 export const StoriesPostCard = ({ storyDetails }) => {
   const postID = storyDetails[0];
@@ -57,15 +72,15 @@ export const StoriesPostCard = ({ storyDetails }) => {
           setUrl(x);
         });
       }
-        if (pfp !== "default") {
-          const uploadUriPFP = pfp;
-          const filenamePFP = uploadUriPFP.substring(uploadUriPFP.lastIndexOf("/") + 1);
-          const storagePFP = getStorage();
-          const referencePFP = ref(storagePFP, filenamePFP);
-          await getDownloadURL(referencePFP).then((x) => {
-            setPfpURL(x);
-          });
-        }
+      //   if (pfp !== "default") {
+      //     const uploadUriPFP = pfp;
+      //     const filenamePFP = uploadUriPFP.substring(uploadUriPFP.lastIndexOf("/") + 1);
+      //     const storagePFP = getStorage();
+      //     const referencePFP = ref(storagePFP, filenamePFP);
+      //     await getDownloadURL(referencePFP).then((x) => {
+      //       setPfpURL(x);
+      //     });
+      //   }
       };
 
       if (url == undefined || pfp === '') {
@@ -75,7 +90,6 @@ export const StoriesPostCard = ({ storyDetails }) => {
 ;
 
   const [tempNumLikes, setTempNumLikes] = useState(numLikes);
-  console.log('number of likes: ', tempNumLikes)
   
   GetUserLikedPosts();
   const liked = userLikedPostsList.includes(postID);
@@ -101,6 +115,7 @@ export const StoriesPostCard = ({ storyDetails }) => {
           favourites = doc.data().favourites;
         }
       });
+    
       const editedDoc = doc(db, "userinfo", documentID);
       await setDoc(editedDoc, {
         email: authentication.currentUser?.email,
@@ -129,19 +144,28 @@ export const StoriesPostCard = ({ storyDetails }) => {
 
   const UpdateLikedPostsList = () => {
     setIsLiked(!isLiked);
-    if (!isLiked === false && tempPostIDsList.includes(postID)) {
-      // if pet already previously favourited, but now no, remove pet from favourites list
-      tempPostIDsList = tempPostIDsList.filter(id => id !== postID);
-      // decrease number of likes by 1
-      setTempNumLikes(tempNumLikes - 1);
-    } else if (!isLiked === true && !tempPostIDsList.includes(postID)) {
-      // add pet to favourites list
-      tempPostIDsList.push(postID);
-      // increase number of likes by 1
-      setTempNumLikes(tempNumLikes + 1);
+    if (!isLiked === false) {
+      if (tempPostIDsList.includes(postID)) {
+        // if post already previously liked, but now no, remove post from liked list
+        tempPostIDsList = tempPostIDsList.filter(id => id !== postID);
+      }
+      if (liked === true){
+        // decrease number of likes by 1
+        setTempNumLikes(tempNumLikes - 1);
+      }
+    } else if (!isLiked === true) {
+      if (!tempPostIDsList.includes(postID)) {
+        // add post to liked list
+        tempPostIDsList.push(postID);
+      }
+      if (liked === false) {
+        // increase number of likes by 1
+        setTempNumLikes(tempNumLikes + 1);
+      }
     }
     //update firebase db
     UpdateFirebaseLikedPostsList(tempPostIDsList);
+    console.log('over here', tempNumLikes);
     UpdateFirebaseNumLikes(tempNumLikes);
   }
 
@@ -162,7 +186,12 @@ export const StoriesPostCard = ({ storyDetails }) => {
       <View>
         <Spacer size='xLarge' />
         <UserDetails>
-          {pfp === "default" && (
+          <Avatar.Image
+              backgroundColor="white"
+              source={require("../../../../../assets/default_profilepic.png")}
+              size={45}
+            />
+          {/* {pfp === "default" && (
             <Avatar.Image
               backgroundColor="white"
               source={require("../../../../../assets/default_profilepic.png")}
@@ -175,10 +204,13 @@ export const StoriesPostCard = ({ storyDetails }) => {
               source={{ uri: pfpURL }}
               size={45}
             />
-          )}
+          )} */}
           <Spacer size='large' position='right' />
           <UserDetailsText style={{paddingTop: 5}}>{userName}</UserDetailsText>
         </UserDetails>
+        <Spacer size='medium' />
+      </View>
+      <View>
         <Spacer size='medium' />
         <UserDetails>
           <UserDetailsText>{formattedDate}</UserDetailsText>
@@ -187,30 +219,35 @@ export const StoriesPostCard = ({ storyDetails }) => {
           <Spacer size='large' position='right' />
           {edited && (
             <Text style={{color: '#777'}}>(edited)</Text>
-          )}
+            )}
         </UserDetails>
         <Spacer size='medium' />
+        <Spacer size='medium' />
+        {postImage && (
+          <View>
+            <Image
+              source={{ uri: url }}
+              style={{ resizeMode: "contain", width: 360, height: 220, alignSelf: 'center'}}
+            />
+            <Spacer size='medium' />
+          </View>
+        )}
+        {(postText !== '') && (
+          <PostDetails>
+            <Text style={{fontSize: 15}}>{postText}</Text>
+          </PostDetails>
+        )}
       </View>
-      <Spacer size='medium' />
-      {postImage && (
-        <View>
-          <Image
-            source={{ uri: url }}
-            style={{ resizeMode: "contain", width: 360, height: 220, alignSelf: 'center'}}
-          />
-          <Spacer size='medium' />
-        </View>
-      )}
-      {(postText !== '') && (
-        <PostDetails>
-          <Text>{postText}</Text>
-        </PostDetails>
-      )}
-      <PostDetails style={{justifyContent: 'flex-end', flexDirection: 'row'}}>
-        <Text style={{color: '#777', fontSize: 10}}>{numLikes} Likes</Text>
-        <Spacer size='medium' position='right' />
-        <Text style={{color: '#777', fontSize: 10}}>__ Comments</Text>
-      </PostDetails>
+      <CountsContainer>
+        {tempNumLikes != 1 && (
+          <LikesCommentsCount>{tempNumLikes} Likes</LikesCommentsCount>
+        )}
+        {tempNumLikes == 1 && (
+          <LikesCommentsCount>{tempNumLikes} Like</LikesCommentsCount>
+        )}
+        <Spacer size='large' position='right' />
+        <LikesCommentsCount>10 Comments</LikesCommentsCount>
+      </CountsContainer>
       <PostDetails>
         <BottomContainer>  
           <TouchableOpacity
