@@ -4,7 +4,7 @@ import { Months, BottomContainer } from "../../mainpage/share-stories/components
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { colors } from "../../../infrastructure/theme/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { db, userImage, getUserName} from "../../../../firebase/firebase-config";
+import { db, userImage, getUserName } from "../../../../firebase/firebase-config";
 import { Avatar, Button } from "react-native-paper";
 
 import styled from 'styled-components/native';
@@ -56,7 +56,8 @@ const EditButton = styled(Button).attrs({
 `;
 
 export const MyPostsCard = ({ storyDetails, navigation }) => {
-  const { date, hour, minutes, postImage, postText, userName, email, edited } = storyDetails;
+  const postID = storyDetails[0];
+  const { date, hour, minutes, postImage, postText, userName, email, edited, likedUsers } = storyDetails[1];
 
   const [pfp, setPfp] = useState(userImage);
 
@@ -145,6 +146,8 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
     func();
     }
   }, []);
+
+  console.log('liked users', likedUsers);
 
   return (
     <PostCard elevation={5}>

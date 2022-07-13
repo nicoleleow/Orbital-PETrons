@@ -33,7 +33,7 @@ export const MyStoryPostsPage = ({ navigation }) => {
   GetStoriesData();
 
   const filteredList = storiesList.filter((obj) => {
-    return obj.email === authentication.currentUser?.email;
+    return obj[1].email === authentication.currentUser?.email;
   });
 
   const wait = (timeout) => {
@@ -43,7 +43,7 @@ export const MyStoryPostsPage = ({ navigation }) => {
   const onRefresh = React.useCallback(() => {
     GetStoriesData();
     const newFilteredList = storiesList.filter((obj) => {
-      return obj.email === authentication.currentUser?.email;
+      return obj[1].email === authentication.currentUser?.email;
     });
     setFilteredStories(newFilteredList);
     setRefreshing(true);
@@ -66,7 +66,7 @@ export const MyStoryPostsPage = ({ navigation }) => {
             <MyPostsCard storyDetails={item.item} navigation={navigation} />
           </TouchableOpacity>
         )}
-        keyExtractor={(item) => item.date}
+        keyExtractor={(item) => item[0]}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }

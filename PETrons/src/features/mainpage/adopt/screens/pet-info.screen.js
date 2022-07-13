@@ -74,21 +74,23 @@ export const PetInfoScreen = ({ route, navigation }) => {
 
   const UpdateFirebaseFavList = async (tempList) => {
     const querySnapshot = await getDocs(collection(db, "userinfo"));
-      let documentID, pfp;
+      let documentID, profilepic, likedPosts;
       querySnapshot.forEach((doc) => {
         if (
           (doc.data().email === authentication.currentUser?.email)
         ) {
           documentID = doc.id;
-          pfp = doc.data().profilepic;
+          profilepic = doc.data().profilepic;
+          likedPosts = doc.data().likedPosts;
         }
       });
       const editedDoc = doc(db, "userinfo", documentID);
       await setDoc(editedDoc, {
         email: authentication.currentUser?.email,
-        profilepic: pfp,
         username: userUsername,
-        favourites: tempList
+        favourites: tempList,
+        profilepic,
+        likedPosts
       });
   }
 
