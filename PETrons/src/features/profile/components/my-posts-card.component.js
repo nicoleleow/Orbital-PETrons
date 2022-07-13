@@ -57,7 +57,9 @@ const EditButton = styled(Button).attrs({
 
 export const MyPostsCard = ({ storyDetails, navigation }) => {
   const postID = storyDetails[0];
-  const { date, hour, minutes, postImage, postText, userName, email, edited, numLikes } = storyDetails[1];
+  const { date, hour, minutes, postImage, postText, userName, email, edited, likedUsers } = storyDetails[1];
+
+  const [numLikes, setNumLikes] = useState(likedUsers.length)
 
   const [pfp, setPfp] = useState(userImage);
 
@@ -206,7 +208,12 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
                 size={24} color={'#777'}
             />
             <Spacer size='medium' position='right' />
-            <Text>{numLikes} Likes</Text>
+            {numLikes != 1 && (
+              <Text>{numLikes} Likes</Text>
+            )}
+            {numLikes == 1 && (
+              <Text>{numLikes} Like</Text>
+            )}
           </TouchableOpacity>
           <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => console.log('comment button pressed')}>
             <Icon

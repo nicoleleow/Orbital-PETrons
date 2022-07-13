@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { View, Alert, Modal, Image, ScrollView } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { View, Alert, Modal, Image, ScrollView, Keyboard, Dimensions } from "react-native";
 import { Text } from "../../../../components/typography/text.component";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
@@ -116,7 +116,7 @@ export const CreatePostScreen = ({ navigation }) => {
   }
 
   const SetData = async () => {
-    let userUsername, date;
+    let userUsername, date, hour, minutes;
     const Snapshot = await getDocs(collection(db, "userinfo"));
     Snapshot.forEach((doc) => {
       if (doc.data().email === authentication.currentUser?.email) {
@@ -168,19 +168,31 @@ export const CreatePostScreen = ({ navigation }) => {
     }
   }, []);
 
+  const [keyboardOffset, setKeyboardOffset] = useState(0);
+  const onKeyboardShow = event => setKeyboardOffset(event.endCoordinates.height);
+  const onKeyboardHide = () => setKeyboardOffset(0);
+  const keyboardDidShowListener = useRef();
+  const keyboardDidHideListener = useRef();
+
+  useEffect(() => {
+    keyboardDidShowListener.current = Keyboard.addListener('keyboardWillShow', onKeyboardShow);
+    keyboardDidHideListener.current = Keyboard.addListener('keyboardWillHide', onKeyboardHide);
+
+    return () => {
+      keyboardDidShowListener.current.remove();
+      keyboardDidHideListener.current.remove();
+    };
+  }, []);
 
   return (
     <SafeArea>
-      <Header>
+      {/* <Header>
         <TopButtons onPress={cancelPostAlert} style={{left: 15}}>
           <ImageButtonText>Cancel</ImageButtonText>
         </TopButtons>
-        <TopButtons onPress={confirmPostAlert} style={{right: 15}}>
-          <ImageButtonText>Post</ImageButtonText>
-        </TopButtons>
         <HeaderText>Create a Post</HeaderText>
-      </Header>
-      <View style={{backgroundColor: 'white'}}>
+      </Header> */}
+      <View style={{backgroundColor: '#f0f0f0'}}>
         <Body>
           <UserDetails>
             {pfp === "default" && (
@@ -226,10 +238,22 @@ export const CreatePostScreen = ({ navigation }) => {
                   name="camera-alt"
                   size={30} color={'#777'}
                   onPress={() => setImageModalVisible(!imageModalVisible)}
-                  style={{marginBottom: 350}}
+                  // style={{marginBottom: 350}}
                 />
               </View>
-              <View style={{ backgroundColor: 'white', height: 400 }}>
+              <Spacer size='xLarge' />
+              <View style={{ backgroundColor: '#f0f0f0', height: 500, alignItems: 'center'}}>
+                {/* <TopButtons onPress={cancelPostAlert}>
+                  <ImageButtonText>Cancel</ImageButtonText>
+                </TopButtons> */}
+                <TopButtons
+                  onPress={confirmPostAlert}
+                  style={{
+                    width: Dimensions.get("window").width - 60,
+                    backgroundColor: '#2e64e5'
+                  }}>
+                  <ImageButtonText>Post</ImageButtonText>
+                </TopButtons>
               </View>
             </ScrollView>
             <Modal

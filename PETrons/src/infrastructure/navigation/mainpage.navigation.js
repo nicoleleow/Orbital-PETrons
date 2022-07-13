@@ -1,5 +1,6 @@
 import React from "react";
-import { Button } from "react-native";
+import { Platform, Pressable, Text } from "react-native";
+import styled from "styled-components";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { Mainpage } from "../../features/mainpage/mainpage.screen";
@@ -18,8 +19,13 @@ import { FrequentlyAskedQuestionsScreen } from "../../features/mainpage/faq/scre
 import { ChatPage } from "../../features/activity/chat.screen";
 import { authentication } from "../../../firebase/firebase-config";
 
-import { StoriesPostCard } from "../../features/mainpage/share-stories/components/stories-post-card.component";
 import { CreatePostScreen } from "../../features/mainpage/share-stories/screens/create-post.screen";
+
+const PressableText = styled(Text)`
+  color: #2196f3;
+  font-size: 18px;
+  padding-left: ${(props) => props.theme.space[3]};
+`;
 
 const Stack = createStackNavigator();
 
@@ -88,18 +94,30 @@ export const MainPageNavigator = () => (
             : route.params.item.userName,
         headerBackTitleVisible: false,
         headerLeft: () => (
-          <Button
-            onPress={() => navigation.goBack()}
-            title="< Back"
-            color="black"
-          />
+          <Pressable onPress={() => navigation.goBack()}>
+              <PressableText> Back </PressableText>
+            </Pressable>
         ),
       })}
     />
     <Stack.Screen
       name="CreatePostScreen"
       component={CreatePostScreen}
-      options={{ headerShown: false }}
+      options={({ navigation }) => ({
+        title: Platform.OS === "ios" ? "Create A Post" : "                    Create A Post",
+        headerBackTitleVisible: false,
+        headerTitleStyle: {fontSize: 18},
+        // headerLeft: () => (
+        //   <Pressable onPress={() => navigation.goBack()}>
+        //     <PressableText> Cancel </PressableText>
+        //   </Pressable>
+        // ),
+        // headerRight: () => (
+        //   <Pressable onPress={() => console.log('post')}>
+        //     <PressableText> Post   </PressableText>
+        //   </Pressable>
+        // )
+      })}
     />
   </Stack.Navigator>
 );
