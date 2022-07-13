@@ -25,7 +25,7 @@ import { db, authentication, userLikedPostsList, GetUserLikedPosts, userUsername
 export const StoriesPostCard = ({ storyDetails }) => {
   const postID = storyDetails[0];
   const { date, hour, minutes, postImage, postText,
-    userName, edited, email, likedUsers } = storyDetails[1];
+    userName, edited, email, numLikes } = storyDetails[1];
  
   const [pfp, setPfp] = useState('');
  
@@ -57,15 +57,15 @@ export const StoriesPostCard = ({ storyDetails }) => {
           setUrl(x);
         });
       }
-      //   if (pfp !== "default") {
-      //     const uploadUriPFP = pfp;
-      //     const filenamePFP = uploadUriPFP.substring(uploadUriPFP.lastIndexOf("/") + 1);
-      //     const storagePFP = getStorage();
-      //     const referencePFP = ref(storagePFP, filenamePFP);
-      //     await getDownloadURL(referencePFP).then((x) => {
-      //       setPfpURL(x);
-      //     });
-      //   }
+        if (pfp !== "default") {
+          const uploadUriPFP = pfp;
+          const filenamePFP = uploadUriPFP.substring(uploadUriPFP.lastIndexOf("/") + 1);
+          const storagePFP = getStorage();
+          const referencePFP = ref(storagePFP, filenamePFP);
+          await getDownloadURL(referencePFP).then((x) => {
+            setPfpURL(x);
+          });
+        }
       };
 
       if (url == undefined || pfp === '') {
@@ -74,17 +74,13 @@ export const StoriesPostCard = ({ storyDetails }) => {
     }, [])
 ;
 
-  // create deep copies of likedUsers and userLikedPostsList to not change original
-  let tempEmailsList = [];
-  for (let i = 0; i < likedUsers.length; i++) {
-    tempEmailsList[i] = likedUsers[i];
-  }
-  const [numLikes, setNumLikes] = useState(tempEmailsList.length);
-  console.log('number of likes: ', numLikes)
+  const [tempNumLikes, setTempNumLikes] = useState(numLikes);
+  console.log('number of likes: ', tempNumLikes)
   
   GetUserLikedPosts();
   const liked = userLikedPostsList.includes(postID);
 
+  // deep copy userLikedPostsList to not alter original list
   let tempPostIDsList = [];
   for (let i = 0; i < userLikedPostsList.length; i++) {
     tempPostIDsList[i] = userLikedPostsList[i];
@@ -115,8 +111,8 @@ export const StoriesPostCard = ({ storyDetails }) => {
       });
   }
 
-  // update firebase stories db list of liked users' emails
-  const UpdateFirebaseLikedUsersList = async (tempEmailsList) => {
+  // update firebase stories db number of likes
+  const UpdateFirebaseNumLikes = async (tempNumLikes) => {
     const editedDoc = doc(db, "stories", postID);
     await setDoc(editedDoc, {
       date,
@@ -127,32 +123,26 @@ export const StoriesPostCard = ({ storyDetails }) => {
       postImage,
       postText,
       userName,
-      likedPosts: tempEmailsList
+      numLikes: tempNumLikes
     });
   }
 
   const UpdateLikedPostsList = () => {
     setIsLiked(!isLiked);
-    if (!isLiked === false) {
-      if (tempPostIDsList.includes(postID)) {
-        // if pet already previously favourited, but now no, remove pet from favourites list
-        tempPostIDsList = tempPostIDsList.filter(id => id !== postID);
-      } else if (tempEmailsList.includes(email)) {
-        // remove user email from likedUsers
-        tempEmailsList = tempEmailsList.filter(mail => mail !== email);
-      }
-    } else if (!isLiked === true) {
-      if (!tempPostIDsList.includes(postID)) {
-        // add pet to favourites list
-        tempPostIDsList.push(postID);
-      } else if (!tempEmailsList.includes(email)) {
-        // add email to likedUsers
-        tempEmailsList.push(email);
-      }
+    if (!isLiked === false && tempPostIDsList.includes(postID)) {
+      // if pet already previously favourited, but now no, remove pet from favourites list
+      tempPostIDsList = tempPostIDsList.filter(id => id !== postID);
+      // decrease number of likes by 1
+      setTempNumLikes(tempNumLikes - 1);
+    } else if (!isLiked === true && !tempPostIDsList.includes(postID)) {
+      // add pet to favourites list
+      tempPostIDsList.push(postID);
+      // increase number of likes by 1
+      setTempNumLikes(tempNumLikes + 1);
     }
     //update firebase db
     UpdateFirebaseLikedPostsList(tempPostIDsList);
-    UpdateFirebaseLikedUsersList(tempEmailsList);
+    UpdateFirebaseNumLikes(tempNumLikes);
   }
 
   const formattedDateWhole = new Date(date.seconds * 1000 + 28800 * 1000)
@@ -172,7 +162,7 @@ export const StoriesPostCard = ({ storyDetails }) => {
       <View>
         <Spacer size='xLarge' />
         <UserDetails>
-          {/* {pfp === "default" && (
+          {pfp === "default" && (
             <Avatar.Image
               backgroundColor="white"
               source={require("../../../../../assets/default_profilepic.png")}
@@ -185,7 +175,7 @@ export const StoriesPostCard = ({ storyDetails }) => {
               source={{ uri: pfpURL }}
               size={45}
             />
-          )} */}
+          )}
           <Spacer size='large' position='right' />
           <UserDetailsText style={{paddingTop: 5}}>{userName}</UserDetailsText>
         </UserDetails>

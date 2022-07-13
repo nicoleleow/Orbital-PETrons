@@ -135,7 +135,7 @@ export const CreatePostScreen = ({ navigation }) => {
       email: authentication.currentUser?.email,
       userName: userUsername,
       edited: false,
-      likedUsers: []
+      numLikes: 0
     });
     navigation.goBack()
     if (postImage !== null) {
