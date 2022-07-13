@@ -7,6 +7,7 @@ import {
   Button,
   View,
   Pressable,
+  ScrollView,
 } from "react-native";
 import {
   signInWithEmailAndPassword,
@@ -19,7 +20,7 @@ import styled from "styled-components/native";
 import {
   AccountBackground,
   AccountContainer,
-  AuthButton,
+  ProceedButton,
   AuthInput,
   SubTitle,
   PressableText,
@@ -83,65 +84,67 @@ export const LoginScreen = ({ navigation }) => {
       <AccountBackground>
         <SubTitle>Welcome Back!</SubTitle>
         <ImagePet source={require("../../../assets/dog.png")} />
-        <AccountContainer>
-          <AuthInput
-            label="E-mail"
-            value={email}
-            textContentType="emailAddress"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            onChangeText={(text) => setEmail(text)}
-          />
-          <Spacer size="large">
+        <ScrollView>
+          <AccountContainer>
             <AuthInput
-              label="Password"
-              value={password}
-              textContentType="password"
-              secureTextEntry
+              label="E-mail"
+              value={email}
+              textContentType="emailAddress"
+              keyboardType="email-address"
               autoCapitalize="none"
-              secure
-              onChangeText={(text) => setPassword(text)}
+              onChangeText={(text) => setEmail(text)}
             />
-          </Spacer>
-          {errorDisplay && (
             <Spacer size="large">
-              <Text style={{ color: "red" }}>Error: {errorMessage}</Text>
+              <AuthInput
+                label="Password"
+                value={password}
+                textContentType="password"
+                secureTextEntry
+                autoCapitalize="none"
+                secure
+                onChangeText={(text) => setPassword(text)}
+              />
             </Spacer>
-          )}
-          <View style={{ alignItems: "flex-end" }}>
-            <Pressable onPress={() => navigation.navigate("ForgotPassword")}>
-              <PressableText>Forgot Password?</PressableText>
-            </Pressable>
-          </View>
-          {isSignedIn === true ? (
-            <Spacer size="large">
-              <AuthButton
-                icon="lock-open-outline"
-                mode="contained"
-                onPress={SignOutUser}
-              >
-                Logout
-              </AuthButton>
-            </Spacer>
-          ) : (
-            <Spacer size="large">
-              <AuthButton
-                icon="lock-open-outline"
-                mode="contained"
-                onPress={SignInUser}
-              >
-                Login
-              </AuthButton>
-            </Spacer>
-          )}
-          <Spacer size="small">
-            <View style={{ alignItems: "center" }}>
-              <Pressable onPress={() => navigation.navigate("Register")}>
-                <PressableText>Don't have an account? Sign Up</PressableText>
+            {errorDisplay && (
+              <Spacer size="large">
+                <Text style={{ color: "red" }}>Error: {errorMessage}</Text>
+              </Spacer>
+            )}
+            <View style={{ alignItems: "flex-end" }}>
+              <Pressable onPress={() => navigation.navigate("ForgotPassword")}>
+                <PressableText>Forgot Password?</PressableText>
               </Pressable>
             </View>
-          </Spacer>
-        </AccountContainer>
+            {isSignedIn === true ? (
+              <Spacer size="large">
+                <ProceedButton
+                  icon="lock-open-outline"
+                  mode="contained"
+                  onPress={SignOutUser}
+                >
+                  Logout
+                </ProceedButton>
+              </Spacer>
+            ) : (
+              <Spacer size="large">
+                <ProceedButton
+                  icon="lock-open-outline"
+                  mode="contained"
+                  onPress={SignInUser}
+                >
+                  Login
+                </ProceedButton>
+              </Spacer>
+            )}
+            <Spacer size="small">
+              <View style={{ alignItems: "center" }}>
+                <Pressable onPress={() => navigation.navigate("Register")}>
+                  <PressableText>Don't have an account? Sign Up</PressableText>
+                </Pressable>
+              </View>
+            </Spacer>
+          </AccountContainer>
+        </ScrollView>
       </AccountBackground>
     </DismissKeyboard>
   );
