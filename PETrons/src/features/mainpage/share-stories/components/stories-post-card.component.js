@@ -9,8 +9,7 @@ import {
   collection,
   getDocs,
   doc,
-  setDoc,
-  updateDoc
+  setDoc
 } from "firebase/firestore/lite";
 
 import {
@@ -40,7 +39,7 @@ const CountsContainer = styled(View)`
 export const StoriesPostCard = ({ storyDetails, navigation }) => {
   const postID = storyDetails[0];
   const { date, hour, minutes, postImage, postText,
-    userName, edited, email, likedUsers } = storyDetails[1];
+    userName, edited, email, likedUsers, comments } = storyDetails[1];
   
   const currentUserEmail = authentication.currentUser?.email;
  
@@ -64,7 +63,7 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
   useEffect(() => {
     GetUserPfp(userName);
     GetUserLikedPosts();
-    setNumLikes(tempLikedUsersList.length)
+    GetDBCommentsArray();
     const func = async () => {
       if (postImage !== null) {
         const uploadUri = postImage;
@@ -84,13 +83,12 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
       //       setPfpURL(x);
       //     });
       //   }
-      };
+    };
 
-      if (url == undefined || pfp === '') {
-        func();
-      }
-    }, [])
-;
+    if (url == undefined || pfp === '') {
+      func();
+    }
+  }, []);
   
   GetUserLikedPosts();
   const liked = userLikedPostsList.includes(postID);
@@ -106,7 +104,19 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
     tempPostIDsList[i] = userLikedPostsList[i];
   }
 
-  const [numLikes, setNumLikes] = useState(likedUsers.length)
+  const [tempCommentsList, setTempCommentsList] = useState([]);
+  const GetDBCommentsArray = async () => {
+    const Snapshot = await getDocs(collection(db, "stories"));
+    Snapshot.forEach((doc) => {
+    if (doc.id === postID) {
+      setTempCommentsList(doc.data().comments);
+      setNumComments(tempCommentsList.length);
+      }
+    })
+  }
+
+  const [numComments, setNumComments] = useState(tempCommentsList.length);
+  const [numLikes, setNumLikes] = useState(likedUsers.length);
   const [isLiked, setIsLiked] = useState(liked);
 
   // update firebase user-info db list of liked postIDs
@@ -145,7 +155,8 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
       postImage,
       postText,
       userName,
-      likedUsers: tempLikedUsersList
+      likedUsers: tempLikedUsersList,
+      comments
     });
   }
 
@@ -252,7 +263,12 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
           <LikesCommentsCount>{numLikes} Like</LikesCommentsCount>
         )}
         <Spacer size='large' position='right' />
-        <LikesCommentsCount>10 Comments</LikesCommentsCount>
+        {numComments != 1 && (
+          <LikesCommentsCount>{numComments} Comments</LikesCommentsCount>
+        )}
+        {numComments == 1 && (
+          <LikesCommentsCount>{numComments} Comment</LikesCommentsCount>
+        )}
       </CountsContainer>
       <PostDetails>
         <BottomContainer>  
@@ -283,7 +299,7 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
           <Spacer size='medium' position='right' />
           <TouchableOpacity
             style={{ flexDirection: 'row', alignItems: 'center' }}
-            onPress={() => navigation.navigate("CommentsScreen")}
+            onPress={() => navigation.navigate("CommentsScreen", { storyDetails })}
           >
             <Icon
                 raised

@@ -30,6 +30,7 @@ export const GetChatData = async () => {
   chatList = chatOverview.docs.map((doc) => doc.data());
 };
 
+// current user's username and pfp
 export let userUsername;
 export let userImage;
 export const getUserName = async () => {
@@ -41,6 +42,17 @@ export const getUserName = async () => {
     }
   });
 };
+
+// get any user's username with email
+export let indivUsername;
+export const getIndivUsername = async (inputEmail) => {
+const Snapshot = await getDocs(collection(db, "userinfo"));
+  Snapshot.forEach((doc) => {
+    if (doc.data().email === inputEmail) {
+      indivUsername = doc.data().username;
+    }
+  });
+}
 
 export let storiesList = [];
 export const GetStoriesData = async () => {
