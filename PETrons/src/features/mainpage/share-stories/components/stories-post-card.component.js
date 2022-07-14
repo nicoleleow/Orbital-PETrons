@@ -37,7 +37,7 @@ const CountsContainer = styled(View)`
   margin-horizontal: 15px;
 `
 
-export const StoriesPostCard = ({ storyDetails }) => {
+export const StoriesPostCard = ({ storyDetails, navigation }) => {
   const postID = storyDetails[0];
   const { date, hour, minutes, postImage, postText,
     userName, edited, email, likedUsers } = storyDetails[1];
@@ -281,7 +281,10 @@ export const StoriesPostCard = ({ storyDetails }) => {
             <Text>Like    </Text>
           </TouchableOpacity>
           <Spacer size='medium' position='right' />
-          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center'}} onPress={() => console.log('comment button pressed')}>
+          <TouchableOpacity
+            style={{ flexDirection: 'row', alignItems: 'center' }}
+            onPress={() => navigation.navigate("CommentsScreen")}
+          >
             <Icon
                 raised
                 name="comment-outline"

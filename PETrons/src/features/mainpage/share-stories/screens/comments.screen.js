@@ -46,7 +46,7 @@ const CommentBubble = styled(View)`
   background-color: #2e64e5
   
 `
-export const CommentsScreen = ({ navigation }) => {
+export const CommentsScreen = ({ route, navigation }) => {
   const [inputComment, setInputComment] = useState('');
 
   // const SetData = async () => {
@@ -102,9 +102,6 @@ export const CommentsScreen = ({ navigation }) => {
   return (
     <DismissKeyboard>
       <SafeArea>
-        <Header>
-          <HeaderText>Comments</HeaderText>
-        </Header>
         <ScrollView style={{backgroundColor: 'white'}}>
           <Body style={{ backgroundColor: 'lightyellow', height: Dimensions.get('window').height - 200 }}>
             <Text> hello</Text>

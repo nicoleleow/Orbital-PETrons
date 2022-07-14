@@ -186,12 +186,6 @@ export const CreatePostScreen = ({ navigation }) => {
 
   return (
     <SafeArea>
-      {/* <Header>
-        <TopButtons onPress={cancelPostAlert} style={{left: 15}}>
-          <ImageButtonText>Cancel</ImageButtonText>
-        </TopButtons>
-        <HeaderText>Create a Post</HeaderText>
-      </Header> */}
       <View style={{backgroundColor: '#f0f0f0'}}>
         <Body>
           <UserDetails>
@@ -231,6 +225,7 @@ export const CreatePostScreen = ({ navigation }) => {
                 onChangeText={setPostText}
                 maxLength={300} 
                 multiline={true}
+                style={{backgroundColor: 'white'}}
               />
               <Spacer size='large' />
               <View style={{alignItems: 'flex-end', right: 30}}>
@@ -243,9 +238,6 @@ export const CreatePostScreen = ({ navigation }) => {
               </View>
               <Spacer size='xLarge' />
               <View style={{ backgroundColor: '#f0f0f0', height: 500, alignItems: 'center'}}>
-                {/* <TopButtons onPress={cancelPostAlert}>
-                  <ImageButtonText>Cancel</ImageButtonText>
-                </TopButtons> */}
                 <TopButtons
                   onPress={confirmPostAlert}
                   style={{
@@ -296,6 +288,4 @@ export const CreatePostScreen = ({ navigation }) => {
       </View>
     </SafeArea>
   )
-
-
-  }
+}

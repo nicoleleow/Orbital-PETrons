@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import { Months, BottomContainer } from "../../mainpage/share-stories/components/stories-post-card.styles";
 import { Spacer } from "../../../components/spacer/spacer.component";
-import { colors } from "../../../infrastructure/theme/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { db, userImage, getUserName } from "../../../../firebase/firebase-config";
 import { Avatar, Button } from "react-native-paper";
@@ -45,16 +44,6 @@ const PostDetails = styled(Card.Content)`
     display: flex;
 `
 
-const EditButton = styled(Button).attrs({
-  color: colors.button.primary,
-  position: 'absolute',
-  marginTop: 15,
-  right: 15
-})`
-  align-content: center;
-  justify-content: center;
-`;
-
 export const MyPostsCard = ({ storyDetails, navigation }) => {
   const postID = storyDetails[0];
   const { date, hour, minutes, postImage, postText, userName, email, edited, likedUsers } = storyDetails[1];
@@ -79,7 +68,7 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
     Alert.alert("Edit?", "Are you sure you want to edit this post?", [
       {
         text: "Edit Caption",
-        onPress: () => navigation.navigate("EditPostPage", {storyDetails}),
+        onPress: () => navigation.navigate("EditPostPage", { storyDetails }),
       },
       { text: "Delete Post", onPress: ConfirmDeleteAlert },
       {
@@ -200,7 +189,7 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
         </PostDetails>
       )}
       <PostDetails>
-        <BottomContainer style={{justifyContent: 'space-between'}}>  
+        <BottomContainer style={{ justifyContent: 'space-between' }}>  
           <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => console.log('like button pressed')}>
             <Icon
                 raised

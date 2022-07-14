@@ -21,6 +21,8 @@ import { authentication } from "../../../firebase/firebase-config";
 
 import { CreatePostScreen } from "../../features/mainpage/share-stories/screens/create-post.screen";
 
+import { CommentsScreen } from "../../features/mainpage/share-stories/screens/comments.screen";
+
 const PressableText = styled(Text)`
   color: #2196f3;
   font-size: 18px;
@@ -73,11 +75,13 @@ export const MainPageNavigator = () => (
       component={FrequentlyAskedQuestionsScreen}
       options={{ headerShown: false }}
     />
+
     <Stack.Screen
       name="PetAdoptionProcedure"
       component={PetAdoptionProcedureScreen}
       options={{ headerShown: false }}
     />
+
     <Stack.Screen
       name="LicensingDogs"
       component={LicensingDogsScreen}
@@ -100,24 +104,28 @@ export const MainPageNavigator = () => (
         ),
       })}
     />
+
     <Stack.Screen
       name="CreatePostScreen"
       component={CreatePostScreen}
       options={({ navigation }) => ({
-        title: Platform.OS === "ios" ? "Create A Post" : "                    Create A Post",
+        title: "Create A Post",
         headerBackTitleVisible: false,
-        headerTitleStyle: {fontSize: 18},
-        // headerLeft: () => (
-        //   <Pressable onPress={() => navigation.goBack()}>
-        //     <PressableText> Cancel </PressableText>
-        //   </Pressable>
-        // ),
-        // headerRight: () => (
-        //   <Pressable onPress={() => console.log('post')}>
-        //     <PressableText> Post   </PressableText>
-        //   </Pressable>
-        // )
+        headerTitleStyle: { fontSize: 18 },
+        headerTitleAlign: "center"
       })}
     />
+
+    <Stack.Screen
+      name="CommentsScreen"
+      component={CommentsScreen}
+      options={({ navigation, route }) => ({
+        title: "Comments",
+        headerBackTitleVisible: false,
+        headerTitleStyle: { fontSize: 18 },
+        headerTitleAlign: "center"
+      })}
+    />
+
   </Stack.Navigator>
 );

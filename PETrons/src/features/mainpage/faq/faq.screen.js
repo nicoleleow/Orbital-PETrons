@@ -75,6 +75,9 @@ export const FAQPage = ({ navigation }) => (
         <PageButtons onPress={() => navigation.navigate("LicensingDogs")}>
           <PageTitles>Licensing Of Dogs</PageTitles>
         </PageButtons>
+         <PageButtons onPress={() => navigation.navigate("CommentsScreen")}>
+          <PageTitles>Comments</PageTitles>
+        </PageButtons>
       </Container>
     </View>
   </SafeArea>

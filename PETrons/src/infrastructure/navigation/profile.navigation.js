@@ -12,6 +12,7 @@ import { EditProfilePage } from "../../features/profile/screens/edit-profile/edi
 import { MyStoryPostsPage } from "../../features/profile/screens/my-story-posts.screen";
 import { EditPostPage } from "../../features/profile/screens/edit-my-post.screen";
 import { ChangePasswordPage } from "../../features/profile/screens/edit-profile/change-password-screen";
+import { CommentsScreen } from "../../features/mainpage/share-stories/screens/comments.screen";
 
 const Stack = createStackNavigator();
 
@@ -73,7 +74,14 @@ export const ProfileNavigator = () => {
       <Stack.Screen
         name="EditPostPage"
         component={EditPostPage}
-        options={{ headerShown: false }}
+        options={({ navigation, route }) => ({
+          title: "Edit Caption",
+          headerStyle: {
+            backgroundColor: "white",
+          },
+          headerBackTitleVisible: false,
+          headerTitleAlign: "center"
+        })}
       />
       <Stack.Screen
         name="Change Password"
@@ -91,6 +99,16 @@ export const ProfileNavigator = () => {
           ),
         })}
       />
+      <Stack.Screen
+      name="CommentsScreen"
+      component={CommentsScreen}
+      options={({ navigation, route }) => ({
+        title: "Comments",
+        headerBackTitleVisible: false,
+        headerTitleStyle: { fontSize: 18 },
+        headerTitleAlign: "center"
+      })}
+    />
     </Stack.Navigator>
   );
 };

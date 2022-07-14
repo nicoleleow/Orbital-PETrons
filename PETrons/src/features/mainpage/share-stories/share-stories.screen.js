@@ -86,7 +86,7 @@ export const StoriesPage = ({ navigation }) => {
       <FlatList
         data={storiesList}
         renderItem={(item) => (
-          <StoriesPostCard storyDetails={item.item}/>
+          <StoriesPostCard storyDetails={item.item} navigation/>
         )}
         keyExtractor={(item) => item[0]}
         refreshControl={
