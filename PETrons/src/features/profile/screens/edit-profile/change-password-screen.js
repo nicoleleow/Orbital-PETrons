@@ -7,6 +7,7 @@ import {
   Alert,
   Keyboard,
   TouchableWithoutFeedback,
+  ScrollView,
 } from "react-native";
 import { Button } from "react-native-paper";
 import styled from "styled-components/native";
@@ -113,36 +114,38 @@ export const ChangePasswordPage = ({ navigation }) => {
   return (
     <DismissKeyboard>
       <SafeArea>
-        <View style={{ alignItems: "center" }}>
-          <PasswordRequirements>
-            Password should be at least 6 characters long.
-          </PasswordRequirements>
-          <FieldInput
-            placeholder="Current Password"
-            autoCorrect={false}
-            placeholderTextColor="black"
-            onChangeText={(text) => setCurrentPassword(text)}
-          ></FieldInput>
-          <FieldInput
-            placeholder="New Password"
-            autoCorrect={false}
-            placeholderTextColor="black"
-            onChangeText={(text) => setNewPassword(text)}
-          ></FieldInput>
-          <FieldInput
-            placeholder="Repeat New Password"
-            autoCorrect={false}
-            placeholderTextColor="black"
-            onChangeText={(text) => setNewRepeatedPassword(text)}
-          ></FieldInput>
-          <ConfirmButton
-            icon="sticker-check-outline"
-            mode="contained"
-            onPress={DoneAlert}
-          >
-            save
-          </ConfirmButton>
-        </View>
+        <ScrollView>
+          <View style={{ alignItems: "center" }}>
+            <PasswordRequirements>
+              Password should be at least 6 characters long.
+            </PasswordRequirements>
+            <FieldInput
+              placeholder="Current Password"
+              autoCorrect={false}
+              placeholderTextColor="black"
+              onChangeText={(text) => setCurrentPassword(text)}
+            ></FieldInput>
+            <FieldInput
+              placeholder="New Password"
+              autoCorrect={false}
+              placeholderTextColor="black"
+              onChangeText={(text) => setNewPassword(text)}
+            ></FieldInput>
+            <FieldInput
+              placeholder="Repeat New Password"
+              autoCorrect={false}
+              placeholderTextColor="black"
+              onChangeText={(text) => setNewRepeatedPassword(text)}
+            ></FieldInput>
+            <ConfirmButton
+              icon="sticker-check-outline"
+              mode="contained"
+              onPress={DoneAlert}
+            >
+              save
+            </ConfirmButton>
+          </View>
+        </ScrollView>
       </SafeArea>
     </DismissKeyboard>
   );
