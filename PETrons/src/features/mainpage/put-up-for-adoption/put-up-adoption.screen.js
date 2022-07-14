@@ -250,7 +250,31 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                   onChangeText={(text) => setName(text)}
                 />
               </Spacer>
-              <Spacer size="large" />
+            </View>
+            <AdoptionInfoSubtitle>Pet's Age</AdoptionInfoSubtitle>
+            <Spacer size="small" />
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ flex: 1, alignItems: "center" }}>
+                <AgeInputs
+                  label="Year(s)"
+                  value={ageYears}
+                  textContentType="none"
+                  keyboardType="number-pad"
+                  onChangeText={(text) => setAgeYears(text)}
+                />
+              </View>
+              <View style={{ flex: 1, alignItems: "center" }}>
+                <AgeInputs
+                  label="Month(s)"
+                  value={ageMonths}
+                  textContentType="none"
+                  keyboardType="number-pad"
+                  onChangeText={(text) => setAgeMonths(text)}
+                />
+              </View>
+            </View>
+            <Spacer size="large" />
+            <View style={{ alignItems: "center" }}>
               <>
                 <DropDown
                   placeholder="Select Type of Pet"
@@ -290,30 +314,6 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                   placeholderStyle={{ fontSize: 16 }}
                 />
               </>
-            </View>
-            <AdoptionInfoSubtitle>Pet's Age</AdoptionInfoSubtitle>
-            <Spacer size="small" />
-            <View style={{ flexDirection: "row" }}>
-              <View style={{ flex: 1, alignItems: "center" }}>
-                <AgeInputs
-                  label="Year(s)"
-                  value={ageYears}
-                  textContentType="none"
-                  keyboardType="number-pad"
-                  onChangeText={(text) => setAgeYears(text)}
-                />
-              </View>
-              <View style={{ flex: 1, alignItems: "center" }}>
-                <AgeInputs
-                  label="Month(s)"
-                  value={ageMonths}
-                  textContentType="none"
-                  keyboardType="number-pad"
-                  onChangeText={(text) => setAgeMonths(text)}
-                />
-              </View>
-            </View>
-            <View style={{ alignItems: "center" }}>
               <Spacer size="large" />
               <>
                 <DropDown
