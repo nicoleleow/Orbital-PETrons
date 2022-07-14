@@ -142,15 +142,10 @@ export const MessagePage = ({ navigation }) => {
     const secondArray = nameList.forEach((i) => {
       filteredList.forEach((element) => {
         if (element.userName === i || element.username === i) {
-          console.log(new Date(element.createdAt).getSeconds());
           timeList.push(element.createdAt);
-          // timeList.sort(
-          //   (a, b) => new Date(a).getMonth() - new Date(b).getMonth()
-          // );
           timeList.sort((a, b) => sortingTime(new Date(a), new Date(b)));
         }
       });
-      console.log(timeList);
       filteredList.forEach((element) => {
         if (
           element.createdAt === timeList[timeList.length - 1] &&
