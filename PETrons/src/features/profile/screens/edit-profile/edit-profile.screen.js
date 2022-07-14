@@ -13,6 +13,7 @@ import {
   TouchableWithoutFeedback,
   Button,
   Alert,
+  ScrollView,
 } from "react-native";
 import styled from "styled-components/native";
 import * as ImagePicker from "expo-image-picker";
@@ -194,34 +195,36 @@ export const EditProfilePage = ({ navigation }) => {
             <PressableText> Change profile photo </PressableText>
           </Pressable>
         </View>
-        <UserInfoSection>
-          <Text style={{ width: 85 }}>Email:</Text>
-          <FieldText>{authentication.currentUser?.email}</FieldText>
-        </UserInfoSection>
-        <UserInfoSection>
-          <Text style={{ width: 85 }}>Username:</Text>
-          <FieldInput
-            value={userName}
-            autoCorrect={false}
-            onChangeText={(text) => setUserName(text)}
-          ></FieldInput>
-        </UserInfoSection>
-        <View style={{ alignItems: "center" }}>
-          <ChangePasswordButton
-            icon="key"
-            mode="contained"
-            onPress={() => navigation.navigate("Change Password")}
-          >
-            Change Password
-          </ChangePasswordButton>
-          <DoneButton
-            icon="sticker-check-outline"
-            mode="contained"
-            onPress={DoneAlert}
-          >
-            Done
-          </DoneButton>
-        </View>
+        <ScrollView>
+          <UserInfoSection>
+            <Text style={{ width: 85 }}>Email:</Text>
+            <FieldText>{authentication.currentUser?.email}</FieldText>
+          </UserInfoSection>
+          <UserInfoSection>
+            <Text style={{ width: 85 }}>Username:</Text>
+            <FieldInput
+              value={userName}
+              autoCorrect={false}
+              onChangeText={(text) => setUserName(text)}
+            ></FieldInput>
+          </UserInfoSection>
+          <View style={{ alignItems: "center" }}>
+            <ChangePasswordButton
+              icon="key"
+              mode="contained"
+              onPress={() => navigation.navigate("Change Password")}
+            >
+              Change Password
+            </ChangePasswordButton>
+            <DoneButton
+              icon="sticker-check-outline"
+              mode="contained"
+              onPress={DoneAlert}
+            >
+              Done
+            </DoneButton>
+          </View>
+        </ScrollView>
       </SafeArea>
     </DismissKeyboard>
   );
