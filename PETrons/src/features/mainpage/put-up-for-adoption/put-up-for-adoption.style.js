@@ -61,7 +61,7 @@ export const DescriptionInput = styled(TextInput)`
   font-size: ${(props) => props.theme.fontSizes.body};
   font-family: ${(props) => props.theme.fonts.body};
   padding-bottom: 150px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 `;
 
 export const RenderContentContainer = styled(View).attrs({

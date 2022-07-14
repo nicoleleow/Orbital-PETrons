@@ -343,13 +343,13 @@ export const PutUpAdoptionPage = ({ navigation }) => {
               />
             </Spacer>
           </Container>
+          <Spacer size="large" />
+          <View style={{ alignItems: "center" }}>
+            <SubmitFormButton mode="contained" onPress={confirmAlert}>
+              Confirm
+            </SubmitFormButton>
+          </View>
         </ScrollView>
-        <Spacer size="large" />
-        <View style={{ alignItems: "center" }}>
-          <SubmitFormButton mode="contained" onPress={confirmAlert}>
-            Confirm
-          </SubmitFormButton>
-        </View>
       </SafeArea>
     </DismissKeyboard>
   );
