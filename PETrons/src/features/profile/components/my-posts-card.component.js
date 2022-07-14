@@ -204,7 +204,9 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
               <Text>{numLikes} Like</Text>
             )}
           </TouchableOpacity>
-          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => console.log('comment button pressed')}>
+          <TouchableOpacity
+            style={{ flexDirection: 'row', alignItems: 'center' }}
+            onPress={() => navigation.navigate("CommentsScreen", { storyDetails })}>
             <Icon
                 raised
                 name="comment-outline"
