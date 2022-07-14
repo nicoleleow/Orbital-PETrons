@@ -19,10 +19,38 @@ import { authentication, db } from "../../../firebase/firebase-config";
 
 export const ChatPage = ({ route, navigation }) => {
   const [messages, setMessages] = useState([]);
-
-  const chatInfo = route.params.item;
+  let chatInfo;
+  if (route.params.item.email === undefined) {
+    chatInfo = route.params.item[1];
+  } else {
+    chatInfo = route.params.item;
+  }
   const { email, _id, createdAt, text, userName, userEmail, username, user } =
     chatInfo;
+
+  const sortingTime = (time1, time2) => {
+    if (time1.getFullYear() === time2.getFullYear()) {
+      if (time1.getMonth() !== time2.getMonth()) {
+        return time1.getMonth() - time2.getMonth();
+      } else {
+        if (time1.getDate() !== time2.getDate()) {
+          return time1.getDate() - time2.getDate();
+        } else {
+          if (time1.getHours() !== time2.getHours()) {
+            return time1.getHours() - time2.getHours();
+          } else {
+            if (time1.getMinutes() !== time2.getMinutes()) {
+              return time1.getMinutes() - time2.getMinutes();
+            } else {
+              return time1.getSeconds() - time2.getSeconds();
+            }
+          }
+        }
+      }
+    } else {
+      return time1.getFullYear() - time2.getFullYear();
+    }
+  };
 
   useEffect(() => {
     let chatList = [];
@@ -37,37 +65,47 @@ export const ChatPage = ({ route, navigation }) => {
       });
       const querySnapshot = await getDocs(collection(db, "chat"));
       querySnapshot.forEach((doc) => {
-        //scenario 1: user 1 send chat to user 2, appear in user 1 chat
-        if (doc.data().userEmail === authentication.currentUser?.email) {
-          if (doc.data().email === email) {
-            timeList.push(doc.data().createdAt);
-          } else if (
-            (doc.data().userEmail === email) &
-            (doc.data().userName === username)
-          ) {
-            timeList.push(doc.data().createdAt);
+        if (email !== undefined) {
+          //scenario 1: user 1 send chat to user 2, appear in user 1 chat
+          if (doc.data().userEmail === authentication.currentUser?.email) {
+            if (doc.data().email === email) {
+              timeList.push(doc.data().createdAt);
+            } else if (
+              (doc.data().userEmail === email) &
+              (doc.data().userName === username)
+            ) {
+              timeList.push(doc.data().createdAt);
+            }
+            //scenario 2: user 1 send chat to user 2, appear in user 2 chat
+          } else if (doc.data().email === authentication.currentUser?.email) {
+            if (doc.data().userEmail === usersEmail) {
+              timeList.push(doc.data().createdAt);
+            } else if (
+              (doc.data().email === usersEmail) &
+              (doc.data().username === userName)
+            ) {
+              timeList.push(doc.data().createdAt);
+            }
           }
-          //scenario 2: user 1 send chat to user 2, appear in user 2 chat
-        } else if (doc.data().email === authentication.currentUser?.email) {
-          if (doc.data().userEmail === usersEmail) {
-            timeList.push(doc.data().createdAt);
-          } else if (
-            (doc.data().email === usersEmail) &
-            (doc.data().username === userName)
-          ) {
-            timeList.push(doc.data().createdAt);
+          if (username === undefined) {
+            if (
+              (doc.data().email === authentication.currentUser?.email) &
+              (doc.data().username === userName)
+            ) {
+              timeList.push(doc.data().createdAt);
+            }
           }
-        }
-        if (username === undefined) {
+        } else {
           if (
-            (doc.data().email === authentication.currentUser?.email) &
-            (doc.data().username === userName)
+            (doc.data().userEmail === authentication.currentUser?.email) &
+            (doc.data().userName === userName)
           ) {
             timeList.push(doc.data().createdAt);
           }
         }
       });
-      timeList.sort().reverse();
+      // timeList.sort().reverse();
+      timeList.sort((a, b) => sortingTime(new Date(a), new Date(b))).reverse();
       timeList.forEach((element) => {
         querySnapshot.forEach((doc) => {
           if (doc.data().createdAt === element) {

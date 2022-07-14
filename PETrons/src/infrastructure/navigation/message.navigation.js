@@ -10,8 +10,8 @@ import { authentication, GetChatData } from "../../../firebase/firebase-config";
 const Stack = createStackNavigator();
 
 const PressableText = styled(Text)`
-  color: #2196f3;
-  font-size: ${(props) => props.theme.fontSizes.title};
+  color: black;
+  font-size: ${(props) => props.theme.fontSizes.h5};
   padding-left: ${(props) => props.theme.space[3]};
 `;
 
@@ -35,7 +35,7 @@ export const MessageNavigator = () => {
           headerBackTitleVisible: false,
           headerLeft: () => (
             <Pressable onPress={() => navigation.navigate("MessagePage")}>
-              <PressableText> Back </PressableText>
+              <PressableText> {"<"} </PressableText>
             </Pressable>
           ),
         })}
