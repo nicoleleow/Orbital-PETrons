@@ -5,6 +5,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 
 const PageHeaderPadding = Dimensions.get("screen").height / 20;
 const InputWidth = Dimensions.get("screen").width - 40;
+const AgeInputWidth = (Dimensions.get("screen").width - 50) / 2;
 
 export const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -14,7 +15,6 @@ export const SafeArea = styled(SafeAreaView)`
 export const Container = styled.View`
   padding: ${(props) => props.theme.space[4]};
   padding-top: 10px;
-  align-items: center;
   justify-content: center;
 `;
 
@@ -51,6 +51,15 @@ export const Inputs = styled(TextInput)`
   font-family: ${(props) => props.theme.fonts.body};
 `;
 
+export const AgeInputs = styled(TextInput)`
+  width: ${AgeInputWidth}px;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  border-width: 1px;
+  font-size: 16px;
+  font-family: ${(props) => props.theme.fonts.body};
+`;
+
 export const DescriptionInput = styled(TextInput)`
   width: ${InputWidth}px;
   height: 200px;
@@ -62,6 +71,14 @@ export const DescriptionInput = styled(TextInput)`
   font-family: ${(props) => props.theme.fonts.body};
   padding-bottom: 150px;
   margin-bottom: 30px;
+`;
+
+export const AdoptionInfoSubtitle = styled(Text)`
+  padding-top: ${(props) => props.theme.space[3]};
+  padding-left: ${(props) => props.theme.space[3]};
+  color: black;
+  font-size: ${(props) => props.theme.fontSizes.body};
+  font-family: ${(props) => props.theme.fonts.monospace};
 `;
 
 export const RenderContentContainer = styled(View).attrs({
