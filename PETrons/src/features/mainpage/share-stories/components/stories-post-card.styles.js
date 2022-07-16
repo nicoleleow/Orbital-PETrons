@@ -26,8 +26,8 @@ export const PostDetails = styled(Card.Content)`
 
 export const BottomContainer = styled(View)`
     flex-direction: row;
-    border-top-color: #777;
-    border-top-width: 1.5px;
+    border-top-color: #e6e6e6;
+    border-top-width: 1px;
     justify-content: space-evenly;
     padding-top: 8px;
     padding-horizontal: 10px;

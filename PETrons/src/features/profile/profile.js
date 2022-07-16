@@ -130,7 +130,7 @@ export const ProfilePage = ({ navigation }) => {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
-  return (
+  return(
     <SafeArea>
       <ScrollView contentContainerStyle={{ flex: 1 }}>
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

@@ -1,5 +1,8 @@
 import React from "react";
-import { Button, Text, Pressable } from "react-native";
+
+import { Platform, Pressable, Text, Button } from "react-native";
+import styled from "styled-components";
+
 import { createStackNavigator } from "@react-navigation/stack";
 import styled from "styled-components/native";
 
@@ -19,8 +22,15 @@ import { FrequentlyAskedQuestionsScreen } from "../../features/mainpage/faq/scre
 import { ChatPage } from "../../features/activity/chat.screen";
 import { authentication } from "../../../firebase/firebase-config";
 
-import { StoriesPostCard } from "../../features/mainpage/share-stories/components/stories-post-card.component";
 import { CreatePostScreen } from "../../features/mainpage/share-stories/screens/create-post.screen";
+
+import { CommentsScreen } from "../../features/mainpage/share-stories/screens/comments.screen";
+
+const PressableText = styled(Text)`
+  color: #2196f3;
+  font-size: 18px;
+  padding-left: ${(props) => props.theme.space[3]};
+`;
 
 const Stack = createStackNavigator();
 
@@ -74,11 +84,13 @@ export const MainPageNavigator = () => (
       component={FrequentlyAskedQuestionsScreen}
       options={{ headerShown: false }}
     />
+
     <Stack.Screen
       name="PetAdoptionProcedure"
       component={PetAdoptionProcedureScreen}
       options={{ headerShown: false }}
     />
+
     <Stack.Screen
       name="LicensingDogs"
       component={LicensingDogsScreen}
@@ -99,10 +111,28 @@ export const MainPageNavigator = () => (
         ),
       })}
     />
+
     <Stack.Screen
       name="CreatePostScreen"
       component={CreatePostScreen}
-      options={{ headerShown: false }}
+      options={({ navigation }) => ({
+        title: "Create A Post",
+        headerBackTitleVisible: false,
+        headerTitleStyle: { fontSize: 18 },
+        headerTitleAlign: "center"
+      })}
     />
+
+    <Stack.Screen
+      name="CommentsScreen"
+      component={CommentsScreen}
+      options={({ navigation, route }) => ({
+        title: "Comments",
+        headerBackTitleVisible: false,
+        headerTitleStyle: { fontSize: 18 },
+        headerTitleAlign: "center"
+      })}
+    />
+
   </Stack.Navigator>
 );

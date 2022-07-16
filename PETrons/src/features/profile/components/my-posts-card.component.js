@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import { Months, BottomContainer } from "../../mainpage/share-stories/components/stories-post-card.styles";
 import { Spacer } from "../../../components/spacer/spacer.component";
-import { colors } from "../../../infrastructure/theme/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { db, userImage, getUserName} from "../../../../firebase/firebase-config";
+import { db, userImage, getUserName } from "../../../../firebase/firebase-config";
 import { Avatar, Button } from "react-native-paper";
 
 import styled from 'styled-components/native';
@@ -45,20 +44,39 @@ const PostDetails = styled(Card.Content)`
     display: flex;
 `
 
-const EditButton = styled(Button).attrs({
-  color: colors.button.primary,
-  position: 'absolute',
-  marginTop: 15,
-  right: 15
-})`
-  align-content: center;
-  justify-content: center;
-`;
+const LikesCommentsCount = styled(Text)`
+  font-size: 12px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+`
+
+const CountsContainer = styled(View)`
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-top: 8px;
+  margin-horizontal: 15px;
+`
 
 export const MyPostsCard = ({ storyDetails, navigation }) => {
-  const { date, hour, minutes, postImage, postText, userName, email, edited } = storyDetails;
+  const postID = storyDetails[0];
+  const { date, hour, minutes, postImage, postText, userName, email, edited, likedUsers, comments } = storyDetails[1];
+
+  const [numLikes, setNumLikes] = useState(likedUsers.length)
+  const [numComments, setNumComments] = useState(comments.length);
 
   const [pfp, setPfp] = useState(userImage);
+
+  const [tempCommentsList, setTempCommentsList] = useState([]);
+  const GetDBCommentsArray = async () => {
+    const Snapshot = await getDocs(collection(db, "stories"));
+    Snapshot.forEach((doc) => {
+    if (doc.id === postID) {
+      setTempCommentsList(doc.data().comments);
+      setNumComments(tempCommentsList.length);
+      }
+    })
+  }
+
 
   const formattedDateWhole = new Date(date.seconds * 1000 + 28800 * 1000)
   const day = formattedDateWhole.getDate().toString();
@@ -76,7 +94,7 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
     Alert.alert("Edit?", "Are you sure you want to edit this post?", [
       {
         text: "Edit Caption",
-        onPress: () => navigation.navigate("EditPostPage", {storyDetails}),
+        onPress: () => navigation.navigate("EditPostPage", { storyDetails }),
       },
       { text: "Delete Post", onPress: ConfirmDeleteAlert },
       {
@@ -118,6 +136,8 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
   const [url, setUrl] = useState();
   const [pfpURL, setPfpURL] = useState();
   useEffect(() => {
+    GetDBCommentsArray();
+    setNumComments(tempCommentsList.length);
     const func = async () => {
     getUserName();
       if (pfp !== "default") {
@@ -196,9 +216,27 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
           <Text>{postText}</Text>
         </PostDetails>
       )}
+      <CountsContainer>
+        {numLikes != 1 && (
+          <LikesCommentsCount>{numLikes} Likes</LikesCommentsCount>
+        )}
+        {numLikes == 1 && (
+          <LikesCommentsCount>{numLikes} Like</LikesCommentsCount>
+        )}
+        <Spacer size='large' position='right' />
+        {numComments != 1 && (
+          <LikesCommentsCount>{numComments} Comments</LikesCommentsCount>
+        )}
+        {numComments == 1 && (
+          <LikesCommentsCount>{numComments} Comment</LikesCommentsCount>
+        )}
+      </CountsContainer>
       <PostDetails>
-        <BottomContainer style={{justifyContent: 'space-between'}}>  
-          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => console.log('like button pressed')}>
+        <BottomContainer style={{ justifyContent: 'space-between' }}>  
+          <TouchableOpacity
+            style={{ flexDirection: 'row', alignItems: 'center' }}
+            onPress={() => navigation.navigate("LikedUsersScreen", { storyDetails })}
+          >
             <Icon
                 raised
                 name="thumb-up-outline"
@@ -207,7 +245,9 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
             <Spacer size='medium' position='right' />
             <Text>Likes</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => console.log('comment button pressed')}>
+          <TouchableOpacity
+            style={{ flexDirection: 'row', alignItems: 'center' }}
+            onPress={() => navigation.navigate("CommentsScreen", { storyDetails })}>
             <Icon
                 raised
                 name="comment-outline"
