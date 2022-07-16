@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { Text } from "react-native-paper";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { Keyboard, TouchableWithoutFeedback } from "react-native";
+import {
+  Keyboard,
+  TouchableWithoutFeedback,
+  ScrollView,
+  View,
+} from "react-native";
 import {
   collection,
   getDocs,
@@ -13,9 +18,10 @@ import {
 import {
   AccountBackground,
   AccountContainer,
-  AuthButton,
+  ProceedButton,
   AuthInput,
   SubTitle,
+  SubmitButton,
 } from "./account.style";
 import { Spacer } from "../../components/spacer/spacer.component";
 import { authentication, db } from "../../../firebase/firebase-config";
@@ -82,62 +88,73 @@ export const RegisterScreen = ({ navigation }) => {
     <DismissKeyboard>
       <AccountBackground>
         <SubTitle>Create An Account</SubTitle>
-        <AccountContainer>
-          <AuthInput
-            label="E-mail"
-            value={email}
-            textContentType="emailAddress"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            onChangeText={(text) => setEmail(text)}
-          />
-          <Spacer size="large">
+        <ScrollView>
+          <AccountContainer>
             <AuthInput
-              label="Username"
-              value={username}
-              textContentType="username"
+              label="E-mail"
+              value={email}
+              textContentType="emailAddress"
+              keyboardType="email-address"
               autoCapitalize="none"
-              onChangeText={(text) => setUsername(text)}
+              onChangeText={(text) => setEmail(text)}
             />
-          </Spacer>
-          <Spacer size="large">
-            <AuthInput
-              label="Password"
-              value={password}
-              textContentType="password"
-              secureTextEntry
-              autoCapitalize="none"
-              secure
-              onChangeText={(text) => setPassword(text)}
-            />
-          </Spacer>
-          <Spacer size="large">
-            <AuthInput
-              label="Repeat Password"
-              value={repeatedPassword}
-              textContentType="password"
-              secureTextEntry
-              autoCapitalize="none"
-              secure
-              onChangeText={(text) => setRepeatedPassword(text)}
-            />
-          </Spacer>
-          <Spacer size="large">
-            <AuthButton icon="email" mode="contained" onPress={registerUser}>
-              Register
-            </AuthButton>
-          </Spacer>
-          {errorDisplay && (
             <Spacer size="large">
-              <Text style={{ color: "red" }}>Error: {errorMessage}</Text>
+              <AuthInput
+                label="Username"
+                value={username}
+                textContentType="username"
+                autoCapitalize="none"
+                onChangeText={(text) => setUsername(text)}
+              />
             </Spacer>
-          )}
-        </AccountContainer>
-        <Spacer size="large">
-          <AuthButton mode="contained" onPress={() => navigation.goBack()}>
-            Back
-          </AuthButton>
-        </Spacer>
+            <Spacer size="large">
+              <AuthInput
+                label="Password"
+                value={password}
+                textContentType="password"
+                secureTextEntry
+                autoCapitalize="none"
+                secure
+                onChangeText={(text) => setPassword(text)}
+              />
+            </Spacer>
+            <Spacer size="large">
+              <AuthInput
+                label="Repeat Password"
+                value={repeatedPassword}
+                textContentType="password"
+                secureTextEntry
+                autoCapitalize="none"
+                secure
+                onChangeText={(text) => setRepeatedPassword(text)}
+              />
+            </Spacer>
+            <Spacer size="large">
+              <ProceedButton
+                icon="email"
+                mode="contained"
+                onPress={registerUser}
+              >
+                Register
+              </ProceedButton>
+            </Spacer>
+            {errorDisplay && (
+              <Spacer size="large">
+                <Text style={{ color: "red" }}>Error: {errorMessage}</Text>
+              </Spacer>
+            )}
+          </AccountContainer>
+          <View style={{ alignItems: "center" }}>
+            <Spacer size="large">
+              <SubmitButton
+                mode="contained"
+                onPress={() => navigation.goBack()}
+              >
+                Back
+              </SubmitButton>
+            </Spacer>
+          </View>
+        </ScrollView>
       </AccountBackground>
     </DismissKeyboard>
   );

@@ -19,7 +19,7 @@ const Stack = createStackNavigator();
 
 const PressableText = styled(Text)`
   color: black;
-  font-size: ${(props) => props.theme.fontSizes.title};
+  font-size: ${(props) => props.theme.fontSizes.h5};
   padding-left: ${(props) => props.theme.space[3]};
 `;
 
@@ -62,7 +62,7 @@ export const ProfileNavigator = () => {
           headerTitleAlign: "center",
           headerLeft: () => (
             <Pressable onPress={() => navigation.navigate("ProfilePage")}>
-              <PressableText> Back </PressableText>
+              <PressableText> {"<"} </PressableText>
             </Pressable>
           ),
         })}
@@ -95,7 +95,7 @@ export const ProfileNavigator = () => {
           headerBackTitleVisible: false,
           headerLeft: () => (
             <Pressable onPress={() => navigation.goBack()}>
-              <PressableText> Back </PressableText>
+              <PressableText> {"<"} </PressableText>
             </Pressable>
           ),
         })}

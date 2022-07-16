@@ -8,11 +8,12 @@ import {
   TouchableOpacity,
   RefreshControl,
   TextInput,
+  Dimensions,
+  Text,
 } from "react-native";
 import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import { Text } from "../../components/typography/text.component";
 import { AdoptionInfoCard } from "./adoption-info-card";
 import { petsList, GetPetsData } from "../../../firebase/firebase-config";
 import { authentication } from "../../../firebase/firebase-config";
@@ -24,9 +25,20 @@ const StatusCategories = [
   { name: "ADOPTED", statusType: "adopted", icon: "close-circle-outline" },
 ];
 
+const PageHeaderPadding = Dimensions.get("screen").height / 20;
+
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
   background-color: orange;
+`;
+
+const PageHeader = styled(Text)`
+  color: black;
+  font-size: ${(props) => props.theme.fontSizes.h4};
+  font-family: ${(props) => props.theme.fonts.heading};
+  text-align: center;
+  padding-bottom: ${(props) => props.theme.space[3]};
+  padding-top: ${PageHeaderPadding}px;
 `;
 
 const DismissKeyboard = ({ children }) => (
@@ -90,7 +102,7 @@ const CategoriesNames = styled(Text)`
 export const PutUpAdoptionListPage = ({ navigation }) => {
   GetPetsData();
   const filteredList = petsList.filter((obj) => {
-    return obj.email === authentication.currentUser?.email;
+    return obj[1].email === authentication.currentUser?.email;
   });
 
   const wait = (timeout) => {
@@ -116,11 +128,11 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
     var newList = filteredList.filter((item) =>
       StatusCategories[index].statusType.toUpperCase() === "ALL"
         ? filteredList
-        : item?.status?.toUpperCase() ==
+        : item[1]?.status?.toUpperCase() ==
           StatusCategories[index].statusType.toUpperCase()
     );
     newList = newList.filter((item) =>
-      item?.name?.toUpperCase().includes(text.toUpperCase())
+      item[1]?.name?.toUpperCase().includes(text.toUpperCase())
     );
     setFilteredPets(newList);
     return filteredPets;
@@ -130,7 +142,8 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
     <DismissKeyboard>
       <SafeArea>
         <View>
-          <Text variant="header">My Listed Adoptions</Text>
+          {/* <Text variant="header">My Listed Adoptions</Text> */}
+          <PageHeader>My Listed Adoptions</PageHeader>
         </View>
         <SearchContainer>
           <SearchInputContainer>
@@ -158,7 +171,9 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
                 }}
                 style={{
                   backgroundColor:
-                    selectedCategoryIndex == index ? "#e36414" : "white",
+                    selectedCategoryIndex == index
+                      ? "rgb(255, 227, 180)"
+                      : "white",
                 }}
               >
                 <Icon
@@ -178,7 +193,7 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
               <AdoptionInfoCard pet={item} navigation={navigation} />
             </TouchableOpacity>
           )}
-          keyExtractor={(item) => item.name}
+          keyExtractor={(item) => item[0]}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }

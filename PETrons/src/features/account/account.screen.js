@@ -3,33 +3,34 @@ import { Spacer } from "../../components/spacer/spacer.component";
 import {
   AccountBackground,
   AccountContainer,
-  AuthButton,
+  ProceedButton,
   Title,
   SubTitle,
+  Caption,
 } from "./account.style";
 
 export const AccountScreen = ({ navigation }) => {
   return (
     <AccountBackground>
       <Title>PETrons</Title>
-      <SubTitle>No Better Option Than Adoption</SubTitle>
+      <Caption>No Better Option Than Adoption</Caption>
       <AccountContainer>
-        <AuthButton
+        <ProceedButton
           icon="lock-open-outline"
           mode="contained"
           onPress={() => navigation.navigate("Login")}
         >
           Login
-        </AuthButton>
+        </ProceedButton>
         <Spacer size="large">
-          <AuthButton
+          <ProceedButton
             icon="email"
             color="black"
             mode="contained"
             onPress={() => navigation.navigate("Register")}
           >
             Register
-          </AuthButton>
+          </ProceedButton>
         </Spacer>
       </AccountContainer>
     </AccountBackground>

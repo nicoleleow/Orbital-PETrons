@@ -1,7 +1,10 @@
 import React from "react";
-import { Platform, Pressable, Text } from "react-native";
+
+import { Platform, Pressable, Text, Button } from "react-native";
 import styled from "styled-components";
+
 import { createStackNavigator } from "@react-navigation/stack";
+import styled from "styled-components/native";
 
 import { Mainpage } from "../../features/mainpage/mainpage.screen";
 import { AdoptPage } from "../../features/mainpage/adopt/adopt.screen";
@@ -30,6 +33,12 @@ const PressableText = styled(Text)`
 `;
 
 const Stack = createStackNavigator();
+
+const PressableText = styled(Text)`
+  color: black;
+  font-size: ${(props) => props.theme.fontSizes.h5};
+  padding-left: ${(props) => props.theme.space[3]};
+`;
 
 export const MainPageNavigator = () => (
   <Stack.Navigator>
@@ -92,15 +101,13 @@ export const MainPageNavigator = () => (
       name="ChatPage"
       component={ChatPage}
       options={({ navigation, route }) => ({
-        title:
-          route.params.item.email === authentication.currentUser?.email
-            ? route.params.item.username
-            : route.params.item.userName,
+        title: route.params.item[1].userName,
+        headerTitleAlign: "center",
         headerBackTitleVisible: false,
         headerLeft: () => (
           <Pressable onPress={() => navigation.goBack()}>
-              <PressableText> Back </PressableText>
-            </Pressable>
+            <PressableText> {"<"} </PressableText>
+          </Pressable>
         ),
       })}
     />
