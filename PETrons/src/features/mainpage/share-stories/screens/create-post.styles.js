@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 
 export const SafeArea = styled(SafeAreaView)`
   flex: 1;
-  background-color: #e6e6e6;
+  background-color: #f0f0f0;
 `;
 
 export const Header = styled(View).attrs({

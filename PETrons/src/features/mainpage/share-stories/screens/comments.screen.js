@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, FlatList, RefreshControl, TextInput, TouchableWithoutFeedback, Keyboard, Dimensions } from "react-native";
 import styled from "styled-components";
-import { Text } from "../../../../components/typography/text.component";
-import { Spacer } from "../../../../components/spacer/spacer.component";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import {
@@ -54,6 +52,16 @@ export const CommentsScreen = ({ route, navigation }) => {
     })
   }
 
+  const [username, setUsername] = useState('');
+  const GetUsername = async (inputEmail) => {
+    const Snapshot = await getDocs(collection(db, "userinfo"));
+    Snapshot.forEach((doc) => {
+    if (doc.data().email === inputEmail) {
+      setUsername(doc.data().username);
+      }
+    })
+  }
+
   const [inputComment, setInputComment] = useState('');
 
   const UpdateFirebaseCommentsArr = async (updatedCommentsArr) => {
@@ -77,20 +85,14 @@ export const CommentsScreen = ({ route, navigation }) => {
     if (inputComment !== '') {
       setInputComment('');
       const commentDate = new Date();
-      const newCommentDetails = { date: commentDate, email: currentUserEmail, commentText: inputComment };
+      const newCommentDetails = {
+        date: commentDate,
+        email: currentUserEmail,
+        commentText: inputComment
+      };
       tempCommentsList.push(newCommentDetails);
       UpdateFirebaseCommentsArr(tempCommentsList);
     }
-  }
-
-  const [username, setUsername] = useState('');
-  const GetUsername = async (inputEmail) => {
-    const Snapshot = await getDocs(collection(db, "userinfo"));
-    Snapshot.forEach((doc) => {
-    if (doc.data().email === inputEmail) {
-      setUsername(doc.data().username);
-      }
-    })
   }
 
   const [refreshing, setRefreshing] = useState(false);
@@ -100,24 +102,9 @@ export const CommentsScreen = ({ route, navigation }) => {
     wait(2000).then(() => setRefreshing(false));
   };
   
-  const [url, setUrl] = useState();
   useEffect(() => {
     GetDBCommentsArray();
     GetUsername(currentUserEmail);
-    const func = async () => {
-      if (postImage !== null) {
-        const uploadUri = postImage;
-        const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
-        const storage = getStorage();
-        const reference = ref(storage, filename);
-        await getDownloadURL(reference).then((x) => {
-          setUrl(x);
-        });
-      }
-    }
-    if (url == undefined) {
-      func();
-    }
   }, []);
 
   const [keyboardOffset, setKeyboardOffset] = useState(0);
@@ -145,7 +132,6 @@ export const CommentsScreen = ({ route, navigation }) => {
           renderItem={(item) => (
             <CommentBubble postID={postID} commentDetails={item} storyDetails={storyDetails} />
           )}
-          keyExtractor={(item) => item[0]}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   View,
@@ -30,8 +30,6 @@ const AdoptionList = styled(FlatList).attrs({
 })``;
 
 export const MyStoryPostsPage = ({ navigation }) => {
-  GetStoriesData();
-
   const filteredList = storiesList.filter((obj) => {
     return obj[1].email === authentication.currentUser?.email;
   });
@@ -52,7 +50,10 @@ export const MyStoryPostsPage = ({ navigation }) => {
 
   const [filteredStories, setFilteredStories] = useState(filteredList);
   
-
+  useEffect(() => {
+    GetStoriesData();
+  }, []);
+  
   return (
     <SafeArea>
       <View>

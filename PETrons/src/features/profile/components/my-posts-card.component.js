@@ -44,13 +44,39 @@ const PostDetails = styled(Card.Content)`
     display: flex;
 `
 
+const LikesCommentsCount = styled(Text)`
+  font-size: 12px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+`
+
+const CountsContainer = styled(View)`
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-top: 8px;
+  margin-horizontal: 15px;
+`
+
 export const MyPostsCard = ({ storyDetails, navigation }) => {
   const postID = storyDetails[0];
-  const { date, hour, minutes, postImage, postText, userName, email, edited, likedUsers } = storyDetails[1];
+  const { date, hour, minutes, postImage, postText, userName, email, edited, likedUsers, comments } = storyDetails[1];
 
   const [numLikes, setNumLikes] = useState(likedUsers.length)
+  const [numComments, setNumComments] = useState(comments.length);
 
   const [pfp, setPfp] = useState(userImage);
+
+  const [tempCommentsList, setTempCommentsList] = useState([]);
+  const GetDBCommentsArray = async () => {
+    const Snapshot = await getDocs(collection(db, "stories"));
+    Snapshot.forEach((doc) => {
+    if (doc.id === postID) {
+      setTempCommentsList(doc.data().comments);
+      setNumComments(tempCommentsList.length);
+      }
+    })
+  }
+
 
   const formattedDateWhole = new Date(date.seconds * 1000 + 28800 * 1000)
   const day = formattedDateWhole.getDate().toString();
@@ -110,6 +136,8 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
   const [url, setUrl] = useState();
   const [pfpURL, setPfpURL] = useState();
   useEffect(() => {
+    GetDBCommentsArray();
+    setNumComments(tempCommentsList.length);
     const func = async () => {
     getUserName();
       if (pfp !== "default") {
@@ -188,21 +216,34 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
           <Text>{postText}</Text>
         </PostDetails>
       )}
+      <CountsContainer>
+        {numLikes != 1 && (
+          <LikesCommentsCount>{numLikes} Likes</LikesCommentsCount>
+        )}
+        {numLikes == 1 && (
+          <LikesCommentsCount>{numLikes} Like</LikesCommentsCount>
+        )}
+        <Spacer size='large' position='right' />
+        {numComments != 1 && (
+          <LikesCommentsCount>{numComments} Comments</LikesCommentsCount>
+        )}
+        {numComments == 1 && (
+          <LikesCommentsCount>{numComments} Comment</LikesCommentsCount>
+        )}
+      </CountsContainer>
       <PostDetails>
         <BottomContainer style={{ justifyContent: 'space-between' }}>  
-          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => console.log('like button pressed')}>
+          <TouchableOpacity
+            style={{ flexDirection: 'row', alignItems: 'center' }}
+            onPress={() => navigation.navigate("LikedUsersScreen", { storyDetails })}
+          >
             <Icon
                 raised
                 name="thumb-up-outline"
                 size={24} color={'#777'}
             />
             <Spacer size='medium' position='right' />
-            {numLikes != 1 && (
-              <Text>{numLikes} Likes</Text>
-            )}
-            {numLikes == 1 && (
-              <Text>{numLikes} Like</Text>
-            )}
+            <Text>Likes</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{ flexDirection: 'row', alignItems: 'center' }}

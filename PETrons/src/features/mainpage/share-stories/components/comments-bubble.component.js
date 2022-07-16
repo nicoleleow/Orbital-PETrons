@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { Spacer } from '../../../../components/spacer/spacer.component';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Alert } from 'react-native';
 import { Text } from "../../../../components/typography/text.component"
 import styled from 'styled-components';
 import {
@@ -22,39 +22,24 @@ const BubbleText = styled(Text)`
 `
 
 export const CommentBubble = ({ postID, commentDetails, storyDetails, navigation }) => {
+  
   const commentDate = commentDetails.item.date;
   const commentEmail = commentDetails.item.email;
   const commentText = commentDetails.item.commentText;
-
+  
   const currentUserEmail = authentication.currentUser?.email;
-
+  
   const { date, hour, minutes, postImage, postText,
     userName, edited, email, likedUsers, comments } = storyDetails;
-
+    
   const [username, setUsername] = useState('');
   const GetUsername = async (inputEmail) => {
-    const Snapshot = await getDocs(collection(db, "userinfo"));
-    Snapshot.forEach((doc) => {
+  const Snapshot = await getDocs(collection(db, "userinfo"));
+  Snapshot.forEach((doc) => {
     if (doc.data().email === inputEmail) {
       setUsername(doc.data().username);
-      }
-    })
-  }
-
-  const DeleteCommentAlert = () => {
-    Alert.alert(
-      "Delete Comment?",
-      "Are you sure you want to delete this comment",
-        [
-          {
-            text: "Cancel"
-          },
-          {
-            text: "Delete",
-            onPress: {UpdateFirebaseCommentsArr},
-          },
-        ]
-      )
+    }
+  })
   }
 
   const [tempCommentsList, setTempCommentsList] = useState([]);
@@ -66,12 +51,29 @@ export const CommentBubble = ({ postID, commentDetails, storyDetails, navigation
       }
     })
   }
+  
+  const DeleteCommentAlert = () => {
+    Alert.alert(
+      "Delete Comment?",
+      "Are you sure you want to delete this comment",
+        [
+          {
+            text: "Cancel"
+          },
+          {
+            text: "Delete",
+            onPress: UpdateFirebaseCommentsArr,
+          },
+        ]
+      )
+  }
 
   const UpdateFirebaseCommentsArr = async () => {
-    tempCommentsList = tempCommentsList.filter( details =>
-      details.date !== commentDate
-      && details.commentText !== commentText
-      && details.email !== commentEmail);
+    setTempCommentsList(tempCommentsList.filter(details =>
+      !(details.date.seconds === commentDate.seconds
+      && details.commentText === commentText
+      && details.email === commentEmail)));
+
     // update stories db
     const editedDoc = doc(db, "stories", postID);
     await setDoc(editedDoc, {
@@ -84,7 +86,10 @@ export const CommentBubble = ({ postID, commentDetails, storyDetails, navigation
       postText,
       userName: username,
       likedUsers,
-      comments: tempCommentsList,
+      comments: tempCommentsList.filter(details =>
+      !(details.date.seconds === commentDate.seconds
+      && details.commentText === commentText
+      && details.email === commentEmail)),
     });
   };
     
@@ -98,8 +103,8 @@ export const CommentBubble = ({ postID, commentDetails, storyDetails, navigation
     GetUsername(commentEmail);
     // get comments array for setting data
     GetDBCommentsArray();
-  });
-
+  }, []);
+   
   return (
     <View
       style={{
@@ -122,7 +127,7 @@ export const CommentBubble = ({ postID, commentDetails, storyDetails, navigation
         <View style={{flex: 15}}>
           <BubbleText style={{ fontSize: 15 }}>{commentText}</BubbleText>
         </View>
-        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+        <View style={{ flex: 1 }}>
           {commentEmail === currentUserEmail && (
             <TouchableOpacity
               style={{ fontSize: 10 }}

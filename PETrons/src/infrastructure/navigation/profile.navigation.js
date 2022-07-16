@@ -13,6 +13,7 @@ import { MyStoryPostsPage } from "../../features/profile/screens/my-story-posts.
 import { EditPostPage } from "../../features/profile/screens/edit-my-post.screen";
 import { ChangePasswordPage } from "../../features/profile/screens/edit-profile/change-password-screen";
 import { CommentsScreen } from "../../features/mainpage/share-stories/screens/comments.screen";
+import { LikedUsersScreen } from "../../features/profile/screens/my-posts-liked-users.screen";
 
 const Stack = createStackNavigator();
 
@@ -104,6 +105,16 @@ export const ProfileNavigator = () => {
       component={CommentsScreen}
       options={({ navigation, route }) => ({
         title: "Comments",
+        headerBackTitleVisible: false,
+        headerTitleStyle: { fontSize: 18 },
+        headerTitleAlign: "center"
+      })}
+      />
+      <Stack.Screen
+      name="LikedUsersScreen"
+      component={LikedUsersScreen}
+      options={({ navigation, route }) => ({
+        title: "Liked Users",
         headerBackTitleVisible: false,
         headerTitleStyle: { fontSize: 18 },
         headerTitleAlign: "center"
