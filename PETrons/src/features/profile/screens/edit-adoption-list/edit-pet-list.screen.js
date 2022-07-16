@@ -7,6 +7,7 @@ import {
   ScrollView,
   Image,
   Alert,
+  Modal,
 } from "react-native";
 import styled from "styled-components/native";
 import {
@@ -17,7 +18,6 @@ import {
   uploadBytes,
 } from "firebase/storage";
 import Animated from "react-native-reanimated";
-import BottomSheet from "reanimated-bottom-sheet";
 import Render from "react-native-web/dist/cjs/exports/render";
 import * as ImagePicker from "expo-image-picker";
 import {
@@ -47,7 +47,15 @@ import {
   RenderContentButtonTitle,
   RenderContentSubtitle,
   RenderContentTitle,
+  AgeInputs,
+  BackButton,
 } from "./edit-pet-list.style";
+import {
+  AnimalTypes,
+  GenderTypes,
+  Groups,
+  HDBApproved,
+} from "../../../mainpage/put-up-for-adoption/put-up-adoption-categories";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -61,9 +69,11 @@ const DismissKeyboard = ({ children }) => (
 );
 
 export const EditPetList = ({ route, navigation }) => {
-  const pet = route.params.item;
+  const pet = route.params.item[1];
   const {
-    age,
+    ageYears,
+    ageMonths,
+    status,
     breed,
     type,
     fee,
@@ -74,11 +84,15 @@ export const EditPetList = ({ route, navigation }) => {
     short_description,
     HDB_approved,
     email,
+    userName,
   } = pet;
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [petName, setPetName] = useState(name);
   const [petBreed, setPetBreed] = useState(breed);
-  const [petAge, setPetAge] = useState(age);
+  const [petAgeYears, setPetAgeYears] = useState(ageYears.toString());
+  const [petAgeMonths, setPetAgeMonths] = useState(ageMonths.toString());
   const [petPrice, setPetPrice] = useState(fee);
   const [petDescription, setPetDescription] = useState(short_description);
   const [petImage, setImage] = useState(image);
@@ -86,70 +100,19 @@ export const EditPetList = ({ route, navigation }) => {
 
   const [openGender, setOpenGender] = useState(false);
   const [valueGender, setValueGender] = useState(gender);
-  const [petGender, setPetGender] = useState([
-    { label: "Male", value: "Male" },
-    { label: "Female", value: "Female" },
-  ]);
+  const [petGender, setPetGender] = useState(GenderTypes);
 
   const [openType, setOpenType] = useState(false);
   const [valueType, setValueType] = useState(type);
-  const [petType, setPetType] = useState([
-    { label: "Dog", value: "Dog" },
-    { label: "Cat", value: "Cat" },
-    { label: "Rabbit", value: "Rabbit" },
-    { label: "Hamster", value: "Hamster" },
-    { label: "Guinea Pig", value: "Guinea pig" },
-    { label: "Bird", value: "Bird" },
-    { label: "Fish", value: "Fish" },
-    { label: "Others", value: "Others" },
-  ]);
+  const [petType, setPetType] = useState(AnimalTypes);
 
   const [openHDB, setOpenHDB] = useState(false);
   const [valueHDB, setValueHDB] = useState(HDB_approved);
-  const [petHDB, setPetHDB] = useState([
-    { label: "Yes", value: "Yes" },
-    { label: "No", value: "No" },
-  ]);
+  const [petHDB, setPetHDB] = useState(HDBApproved);
 
   const [openOrganisation, setOpenOrganisation] = useState(false);
   const [valueOrganisation, setValueOrganisation] = useState(organisation);
-  const [petOrganisation, setPetOrganisation] = useState([
-    { label: "Individual", value: "Individual" },
-    { label: "Action for Singapore Dogs", value: "Action for Singapore Dogs" },
-    { label: "Animals Lovers League", value: "Animals Lovers League" },
-    {
-      label: "Bunny Wonderland Singapore",
-      value: "Bunny Wonderland Singapore",
-    },
-    { label: "Cat Welfare Society", value: "Cat Welfare Society" },
-    {
-      label: "Causes for Animals (Singapore)",
-      value: "Causes for Animals (Singapore)",
-    },
-    { label: "Exclusively Mongrels", value: "Exclusively Mongrels" },
-    { label: "Hamster Society Singapore", value: "Hamster Society Singapore" },
-    {
-      label: "House Rabbit Society Singapore",
-      value: "House Rabbit Society Singapore",
-    },
-    {
-      label: "Mercylight Animal Rescue and Sanctuary",
-      value: "Mercylight Animal Rescue and Sanctuary",
-    },
-    { label: "Noah's Ark CARES", value: "Noah's Ark CARES" },
-    {
-      label: "Oasis Second Chance Animal Shelter",
-      value: "Oasis Second Chance Animal Shelter",
-    },
-    { label: "Purely Adoptions", value: "Purely Adoptions" },
-    { label: "SOSD", value: "SOSD" },
-    {
-      label: "Society for the Prevention of Cruelty to Animals",
-      value: "SPCA",
-    },
-    { label: "Voices for Animals", value: "Voices for Animals" },
-    { label: "Others", value: "Others" },
-  ]);
+  const [petOrganisation, setPetOrganisation] = useState(Groups);
 
   const [url, setUrl] = useState();
   useEffect(() => {
@@ -180,12 +143,12 @@ export const EditPetList = ({ route, navigation }) => {
       <RenderContentButton onPress={chooseFromLibrary}>
         <RenderContentButtonTitle>Choose From Library</RenderContentButtonTitle>
       </RenderContentButton>
-      <RenderContentButton onPress={() => sheetRef.current.snapTo(2)}>
+      <RenderContentButton onPress={setModalVisible(!modalVisible)}>
         <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
       </RenderContentButton>
     </RenderContentContainer>
   );
-  const sheetRef = React.useRef(null);
+
   const chooseFromLibrary = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -196,7 +159,7 @@ export const EditPetList = ({ route, navigation }) => {
     if (!result.cancelled) {
       setImage(result.uri);
       setChangeImage(true);
-      sheetRef.current.snapTo(2);
+      setModalVisible(!modalVisible);
     }
   };
 
@@ -211,7 +174,7 @@ export const EditPetList = ({ route, navigation }) => {
     if (!result.cancelled) {
       setImage(result.uri);
       setChangeImage(true);
-      sheetRef.current.snapTo(2);
+      setModalVisible(!modalVisible);
     }
   };
 
@@ -239,7 +202,9 @@ export const EditPetList = ({ route, navigation }) => {
     await setDoc(editedDoc, {
       name: petName,
       gender: valueGender,
-      age: petAge,
+      ageYears: parseInt(petAgeYears),
+      ageMonths: parseInt(petAgeMonths),
+      totalMonths: parseInt(petAgeYears) * 12 + parseInt(petAgeMonths),
       type: valueType,
       breed: petBreed,
       organisation: valueOrganisation,
@@ -248,6 +213,8 @@ export const EditPetList = ({ route, navigation }) => {
       short_description: petDescription,
       image: petImage,
       email: authentication.currentUser?.email,
+      status: status,
+      userName: userName,
     });
     const newUploadUri = petImage;
     const newFilename = newUploadUri.substring(
@@ -278,24 +245,42 @@ export const EditPetList = ({ route, navigation }) => {
         <AdoptionInfoPageHeader>
           Change your pet's details:
         </AdoptionInfoPageHeader>
-        <BottomSheet
-          initialSnap={2}
-          ref={sheetRef}
-          snapPoints={[450, 300, 0]}
-          borderRadius={10}
-          renderContent={renderContent}
-        />
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <RenderContentContainer>
+            <View style={{ alignItems: "center" }}>
+              <RenderContentTitle>Upload Photo</RenderContentTitle>
+              <RenderContentSubtitle>
+                Choose Your Pet Image
+              </RenderContentSubtitle>
+            </View>
+            <RenderContentButton onPress={takePhotoFromCamera}>
+              <RenderContentButtonTitle>Take Photo</RenderContentButtonTitle>
+            </RenderContentButton>
+            <RenderContentButton onPress={chooseFromLibrary}>
+              <RenderContentButtonTitle>
+                Choose From Library
+              </RenderContentButtonTitle>
+            </RenderContentButton>
+            <RenderContentButton onPress={() => setModalVisible(!modalVisible)}>
+              <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
+            </RenderContentButton>
+          </RenderContentContainer>
+        </Modal>
         <ScrollView>
           <ImageContainer>
             <Image
               source={{ uri: changeImage === false ? url : petImage }}
               style={{ width: 300, height: 200 }}
             />
-            <FormButton
-              icon="image"
-              mode="contained"
-              onPress={() => sheetRef.current.snapTo(0)}
-            >
+            <FormButton icon="image" mode="contained" onPress={renderContent}>
               Upload New Image
             </FormButton>
           </ImageContainer>
@@ -310,6 +295,28 @@ export const EditPetList = ({ route, navigation }) => {
                 onChangeText={(text) => setPetName(text)}
               />
             </Spacer>
+            <AdoptionInfoSubtitle>Select Pet's Age</AdoptionInfoSubtitle>
+            <Spacer size="small" />
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ flex: 1, alignItems: "center" }}>
+                <AgeInputs
+                  label="Year(s)"
+                  value={petAgeYears}
+                  textContentType="none"
+                  keyboardType="number-pad"
+                  onChangeText={(text) => setPetAgeYears(text)}
+                />
+              </View>
+              <View style={{ flex: 1, alignItems: "center" }}>
+                <AgeInputs
+                  label="Month(s)"
+                  value={petAgeMonths}
+                  textContentType="none"
+                  keyboardType="number-pad"
+                  onChangeText={(text) => setPetAgeMonths(text)}
+                />
+              </View>
+            </View>
             <AdoptionInfoSubtitle>Select Pet's Gender</AdoptionInfoSubtitle>
             <>
               <DropDown
@@ -320,17 +327,10 @@ export const EditPetList = ({ route, navigation }) => {
                 setValue={setValueGender}
                 setItems={setPetGender}
                 listMode="SCROLLVIEW"
+                zIndex={400}
+                placeholderStyle={{ fontSize: 16 }}
               />
             </>
-            <Spacer size="large">
-              <Inputs
-                label="Pet's Age (eg. _ years _ months)"
-                value={petAge}
-                textContentType="none"
-                keyboardType="default"
-                onChangeText={(text) => setPetAge(text)}
-              />
-            </Spacer>
             <AdoptionInfoSubtitle>Select Type of Pet</AdoptionInfoSubtitle>
             <>
               <DropDown
@@ -341,7 +341,8 @@ export const EditPetList = ({ route, navigation }) => {
                 setValue={setValueType}
                 setItems={setPetType}
                 listMode="SCROLLVIEW"
-                dropDownDirection="TOP"
+                zIndex={300}
+                placeholderStyle={{ fontSize: 16 }}
               />
             </>
             <Spacer size="large">
@@ -364,7 +365,8 @@ export const EditPetList = ({ route, navigation }) => {
                 setValue={setValueOrganisation}
                 setItems={setPetOrganisation}
                 listMode="SCROLLVIEW"
-                dropDownDirection="TOP"
+                zIndex={200}
+                placeholderStyle={{ fontSize: 16 }}
               />
             </>
             <AdoptionInfoSubtitle>
@@ -379,6 +381,8 @@ export const EditPetList = ({ route, navigation }) => {
                 setValue={setValueHDB}
                 setItems={setPetHDB}
                 listMode="SCROLLVIEW"
+                zIndex={100}
+                placeholderStyle={{ fontSize: 16 }}
               />
             </>
             <Spacer size="large">
