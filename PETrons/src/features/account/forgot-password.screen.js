@@ -7,6 +7,8 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Text,
+  ScrollView,
+  Dimensions,
 } from "react-native";
 import { Button } from "react-native-paper";
 import styled from "styled-components/native";
@@ -18,14 +20,16 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { authentication, db } from "../../../firebase/firebase-config";
-// import { AccountContainer } from "./account.style";
 import { colors } from "../../infrastructure/theme/colors";
+
+const PageHeaderPadding = (Dimensions.get("screen").height - 400) / 3;
 
 const AccountBackground = styled.ImageBackground.attrs({
   source: require("../../../assets/home_bg.jpg"),
 })`
   flex: 1;
   align-items: center;
+  justify-content: center;
 `;
 
 const AccountContainer = styled.View`
@@ -40,7 +44,7 @@ const Title = styled(Text)`
   color: black;
   font-size: ${(props) => props.theme.fontSizes.h4};
   font-family: ${(props) => props.theme.fonts.monospace};
-  margin-top: ${(props) => props.theme.space[8]};
+  padding-top: ${PageHeaderPadding}px;
 `;
 
 const Instructions = styled(Text)`
@@ -62,6 +66,7 @@ const FieldInput = styled(TextInput)`
 const AuthButton = styled(Button).attrs({ color: colors.button.primary })`
   padding: ${(props) => props.theme.space[2]};
   margin-top: ${(props) => props.theme.space[2]};
+  width: 200px;
 `;
 
 const DismissKeyboard = ({ children }) => (
@@ -88,32 +93,36 @@ export const ForgetPasswordPage = ({ navigation }) => {
     <DismissKeyboard>
       <AccountBackground>
         <Title>Forgot Password?</Title>
-        <AccountContainer>
-          <Instructions>
-            Enter your email and we'll send you a link to reset your password.
-          </Instructions>
-          <FieldInput
-            placeholder="Email"
-            autoCorrect={false}
-            autoCapitalize="none"
-            placeholderTextColor="black"
-            onChangeText={(text) => setEmail(text)}
-          ></FieldInput>
-        </AccountContainer>
-        <AuthButton
-          icon="sticker-check-outline"
-          mode="contained"
-          onPress={forgetPassword}
-        >
-          Submit
-        </AuthButton>
-        <AuthButton
-          icon="account-arrow-left"
-          mode="contained"
-          onPress={() => navigation.navigate("Login")}
-        >
-          Back to login
-        </AuthButton>
+        <ScrollView>
+          <AccountContainer>
+            <Instructions>
+              Enter your email and we'll send you a link to reset your password.
+            </Instructions>
+            <FieldInput
+              placeholder="Email"
+              autoCorrect={false}
+              autoCapitalize="none"
+              placeholderTextColor="black"
+              onChangeText={(text) => setEmail(text)}
+            ></FieldInput>
+          </AccountContainer>
+          <View style={{ alignItems: "center" }}>
+            <AuthButton
+              icon="sticker-check-outline"
+              mode="contained"
+              onPress={forgetPassword}
+            >
+              Submit
+            </AuthButton>
+            <AuthButton
+              icon="account-arrow-left"
+              mode="contained"
+              onPress={() => navigation.navigate("Login")}
+            >
+              Back to login
+            </AuthButton>
+          </View>
+        </ScrollView>
       </AccountBackground>
     </DismissKeyboard>
   );

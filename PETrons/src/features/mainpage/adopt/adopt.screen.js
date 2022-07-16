@@ -128,8 +128,7 @@ export const AdoptPage = ({ navigation }) => {
         } else {
           return item[1]?.fee > 200;
         }
-      }
-    );
+    });
 
     setFilteredPets(newList);
     return filteredPets;

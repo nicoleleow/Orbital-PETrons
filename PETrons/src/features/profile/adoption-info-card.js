@@ -77,7 +77,7 @@ const Caption = styled(Text)`
 `;
 
 const EditButton = styled(Button).attrs({
-  color: colors.button.primary,
+  color: "rgb(255, 227, 180)",
 })`
   align-content: center;
   justify-content: center;
@@ -88,7 +88,9 @@ const EditButton = styled(Button).attrs({
 export const AdoptionInfoCard = ({ pet, navigation }) => {
   const { index, item } = pet;
   const {
-    age,
+    ageYears,
+    ageMonths,
+    status,
     breed,
     type,
     fee,
@@ -99,8 +101,8 @@ export const AdoptionInfoCard = ({ pet, navigation }) => {
     short_description,
     HDB_approved,
     email,
-    status,
-  } = item;
+    userName,
+  } = item[1];
 
   const EditAlert = () =>
     Alert.alert(
@@ -193,7 +195,9 @@ export const AdoptionInfoCard = ({ pet, navigation }) => {
           <Spacer size="small" />
           <Caption>Type: {type}</Caption>
           <Caption>Breed: {breed}</Caption>
-          <Caption>Age: {age}</Caption>
+          <Caption>
+            Age: {ageYears} Years {ageMonths} Months
+          </Caption>
           <Caption>Gender: {gender}</Caption>
           <Caption>Owner: {organisation}</Caption>
           <Caption>Is you pet HDB approved? {HDB_approved}</Caption>

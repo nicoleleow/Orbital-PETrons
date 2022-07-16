@@ -68,9 +68,7 @@ const EmailCaption = styled(Caption)`
 `;
 
 const AuthButton = styled(Button).attrs({
-  // color: "peru",
-  // color: "rgba(255, 255, 255, 0.7)",
-  color: colors.button.primary,
+  color: "rgb(255, 227, 180)",
 })`
   padding: ${(props) => props.theme.space[2]};
 `;
@@ -178,9 +176,13 @@ export const ProfilePage = ({ navigation }) => {
               </AuthButton>
             </Spacer>
             <Spacer size="large">
-              <AuthButton mode="contained" onPress={MyStoryPostsPage}>
-                <Icon2 name="thumbs-up-sharp" />
-                <Spacer size="medium" position="right" />
+              <AuthButton
+                mode="contained"
+                icon="thumb-up"
+                onPress={MyStoryPostsPage}
+              >
+                {/* <Icon2 name="thumbs-up-sharp" />
+                <Spacer size="medium" position="right" color="black" /> */}
                 My Liked Posts
               </AuthButton>
             </Spacer>

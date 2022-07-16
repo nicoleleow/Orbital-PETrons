@@ -83,6 +83,30 @@ export const MessagePage = ({ navigation }) => {
     timeList = [];
   });
 
+  const sortingTime = (time1, time2) => {
+    if (time1.getFullYear() === time2.getFullYear()) {
+      if (time1.getMonth() !== time2.getMonth()) {
+        return time1.getMonth() - time2.getMonth();
+      } else {
+        if (time1.getDate() !== time2.getDate()) {
+          return time1.getDate() - time2.getDate();
+        } else {
+          if (time1.getHours() !== time2.getHours()) {
+            return time1.getHours() - time2.getHours();
+          } else {
+            if (time1.getMinutes() !== time2.getMinutes()) {
+              return time1.getMinutes() - time2.getMinutes();
+            } else {
+              return time1.getSeconds() - time2.getSeconds();
+            }
+          }
+        }
+      }
+    } else {
+      return time1.getFullYear() - time2.getFullYear();
+    }
+  };
+
   const [refreshing, setRefreshing] = React.useState(false);
   const [filteredChat, setFilteredChat] = React.useState(filterList);
   const wait = (timeout) => {
@@ -98,6 +122,7 @@ export const MessagePage = ({ navigation }) => {
         obj.email === authentication.currentUser?.email
       );
     });
+
     let timeList = [];
     let nameList = [];
     let newFilterList = [];
@@ -118,10 +143,9 @@ export const MessagePage = ({ navigation }) => {
       filteredList.forEach((element) => {
         if (element.userName === i || element.username === i) {
           timeList.push(element.createdAt);
-          timeList.sort();
+          timeList.sort((a, b) => sortingTime(new Date(a), new Date(b)));
         }
       });
-      console.log(timeList);
       filteredList.forEach((element) => {
         if (
           element.createdAt === timeList[timeList.length - 1] &&
@@ -132,7 +156,6 @@ export const MessagePage = ({ navigation }) => {
       });
       timeList = [];
     });
-    console.log(newFilterList);
     setFilteredChat(newFilterList);
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));

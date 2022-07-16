@@ -42,6 +42,8 @@ import {
   RenderContentButtonTitle,
   RenderContentButton,
   DropDown,
+  AdoptionInfoSubtitle,
+  AgeInputs,
 } from "./put-up-for-adoption.style";
 
 const DismissKeyboard = ({ children }) => (
@@ -53,7 +55,8 @@ const DismissKeyboard = ({ children }) => (
 export const PutUpAdoptionPage = ({ navigation }) => {
   const [name, setName] = useState("");
   const [breed, setBreed] = useState("");
-  const [age, setAge] = useState("");
+  const [ageYears, setAgeYears] = useState("");
+  const [ageMonths, setAgeMonths] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
@@ -93,7 +96,6 @@ export const PutUpAdoptionPage = ({ navigation }) => {
       </RenderContentButton>
     </RenderContentContainer>
   );
-
   const chooseFromLibrary = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -129,11 +131,12 @@ export const PutUpAdoptionPage = ({ navigation }) => {
         userUsername = doc.data().username;
       }
     });
-    console.log(userUsername);
     await addDoc(collection(db, "put-up-for-adoption"), {
       name: name,
       gender: valueGender,
-      age: age,
+      ageYears: parseInt(ageYears),
+      ageMonths: parseInt(ageMonths),
+      totalMonths: parseInt(ageYears) * 12 + parseInt(ageMonths),
       type: valueType,
       breed: breed,
       organisation: valueOrganisation,
@@ -159,7 +162,8 @@ export const PutUpAdoptionPage = ({ navigation }) => {
     const inputs = [
       name,
       breed,
-      age,
+      ageMonths,
+      ageYears,
       price,
       description,
       valueGender,
@@ -225,131 +229,150 @@ export const PutUpAdoptionPage = ({ navigation }) => {
         <ScrollView>
           <Container>
             {image && (
-              <Image
-                source={{ uri: image }}
-                style={{ width: 300, height: 200 }}
-              />
+              <View style={{ alignItems: "center" }}>
+                <Image
+                  source={{ uri: image }}
+                  style={{ width: 300, height: 200 }}
+                />
+              </View>
             )}
-            <FormButton icon="image" mode="contained" onPress={renderContent}>
-              Upload Image
-            </FormButton>
-            <Spacer size="large">
-              <Inputs
-                label="Pet's Name"
-                value={name}
-                textContentType="name"
-                keyboardType="default"
-                autoCapitalize="words"
-                onChangeText={(text) => setName(text)}
-              />
-            </Spacer>
+            <View style={{ alignItems: "center" }}>
+              <FormButton icon="image" mode="contained" onPress={renderContent}>
+                Upload Image
+              </FormButton>
+              <Spacer size="large">
+                <Inputs
+                  label="Pet's Name"
+                  value={name}
+                  textContentType="name"
+                  keyboardType="default"
+                  autoCapitalize="words"
+                  onChangeText={(text) => setName(text)}
+                />
+              </Spacer>
+            </View>
+            <AdoptionInfoSubtitle>Pet's Age</AdoptionInfoSubtitle>
+            <Spacer size="small" />
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ flex: 1, alignItems: "center" }}>
+                <AgeInputs
+                  label="Year(s)"
+                  value={ageYears}
+                  textContentType="none"
+                  keyboardType="number-pad"
+                  onChangeText={(text) => setAgeYears(text)}
+                />
+              </View>
+              <View style={{ flex: 1, alignItems: "center" }}>
+                <AgeInputs
+                  label="Month(s)"
+                  value={ageMonths}
+                  textContentType="none"
+                  keyboardType="number-pad"
+                  onChangeText={(text) => setAgeMonths(text)}
+                />
+              </View>
+            </View>
             <Spacer size="large" />
-            <>
-              <DropDown
-                placeholder="Select Type of Pet"
-                open={openType}
-                value={valueType}
-                items={petType}
-                setOpen={setOpenType}
-                setValue={setValueType}
-                setItems={setPetType}
-                listMode="SCROLLVIEW"
-                zIndex={400}
-                placeholderStyle={{ fontSize: 16 }}
-              />
-            </>
-            <Spacer size="large">
-              <Inputs
-                label="Pet's Breed"
-                value={breed}
-                textContentType="none"
-                keyboardType="default"
-                autoCapitalize="none"
-                onChangeText={(text) => setBreed(text)}
-              />
-            </Spacer>
-            <Spacer size="large" />
-            <>
-              <DropDown
-                placeholder="Select Pet's Gender"
-                open={openGender}
-                value={valueGender}
-                items={petGender}
-                setOpen={setOpenGender}
-                setValue={setValueGender}
-                setItems={setPetGender}
-                listMode="SCROLLVIEW"
-                zIndex={300}
-                placeholderStyle={{ fontSize: 16 }}
-              />
-            </>
-            <Spacer size="large">
-              <Inputs
-                label="Pet's Age (eg. _ years _ months)"
-                value={age}
-                textContentType="none"
-                keyboardType="default"
-                onChangeText={(text) => setAge(text)}
-              />
-            </Spacer>
-            <Spacer size="large" />
-            <>
-              <DropDown
-                placeholder="Select Ownership type"
-                open={openOrganisation}
-                value={valueOrganisation}
-                items={petOrganisation}
-                setOpen={setOpenOrganisation}
-                setValue={setValueOrganisation}
-                setItems={setPetOrganisation}
-                listMode="SCROLLVIEW"
-                zIndex={200}
-                placeholderStyle={{ fontSize: 16 }}
-              />
-            </>
-            <Spacer size="large" />
-            <>
-              <DropDown
-                placeholder="Is your pet HDB approved?"
-                open={openHDB}
-                value={valueHDB}
-                items={petHDB}
-                setOpen={setOpenHDB}
-                setValue={setValueHDB}
-                setItems={setPetHDB}
-                listMode="SCROLLVIEW"
-                zIndex={100}
-                placeholderStyle={{ fontSize: 16 }}
-              />
-            </>
-            <Spacer size="large">
-              <Inputs
-                label="Fee ($)"
-                value={price}
-                textContentType="none"
-                keyboardType="number-pad"
-                onChangeText={(text) => setPrice(text)}
-              />
-            </Spacer>
-            <Spacer size="large">
-              <DescriptionInput
-                label="Short Description..."
-                value={description}
-                textContentType="none"
-                autoCapitalize="none"
-                keyboardType="default"
-                multiline={true}
-                onChangeText={(text) => setDescription(text)}
-              />
-            </Spacer>
+            <View style={{ alignItems: "center" }}>
+              <>
+                <DropDown
+                  placeholder="Select Type of Pet"
+                  open={openType}
+                  value={valueType}
+                  items={petType}
+                  setOpen={setOpenType}
+                  setValue={setValueType}
+                  setItems={setPetType}
+                  listMode="SCROLLVIEW"
+                  zIndex={400}
+                  placeholderStyle={{ fontSize: 16 }}
+                />
+              </>
+              <Spacer size="large">
+                <Inputs
+                  label="Pet's Breed"
+                  value={breed}
+                  textContentType="none"
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  onChangeText={(text) => setBreed(text)}
+                />
+              </Spacer>
+              <Spacer size="large" />
+              <>
+                <DropDown
+                  placeholder="Select Pet's Gender"
+                  open={openGender}
+                  value={valueGender}
+                  items={petGender}
+                  setOpen={setOpenGender}
+                  setValue={setValueGender}
+                  setItems={setPetGender}
+                  listMode="SCROLLVIEW"
+                  zIndex={300}
+                  placeholderStyle={{ fontSize: 16 }}
+                />
+              </>
+              <Spacer size="large" />
+              <>
+                <DropDown
+                  placeholder="Select Ownership type"
+                  open={openOrganisation}
+                  value={valueOrganisation}
+                  items={petOrganisation}
+                  setOpen={setOpenOrganisation}
+                  setValue={setValueOrganisation}
+                  setItems={setPetOrganisation}
+                  listMode="SCROLLVIEW"
+                  zIndex={200}
+                  placeholderStyle={{ fontSize: 16 }}
+                />
+              </>
+              <Spacer size="large" />
+              <>
+                <DropDown
+                  placeholder="Is your pet HDB approved?"
+                  open={openHDB}
+                  value={valueHDB}
+                  items={petHDB}
+                  setOpen={setOpenHDB}
+                  setValue={setValueHDB}
+                  setItems={setPetHDB}
+                  listMode="SCROLLVIEW"
+                  zIndex={100}
+                  placeholderStyle={{ fontSize: 16 }}
+                />
+              </>
+              <Spacer size="large">
+                <Inputs
+                  label="Fee ($)"
+                  value={price}
+                  textContentType="none"
+                  keyboardType="number-pad"
+                  onChangeText={(text) => setPrice(text)}
+                />
+              </Spacer>
+              <Spacer size="large">
+                <DescriptionInput
+                  label="Short Description..."
+                  value={description}
+                  textContentType="none"
+                  autoCapitalize="none"
+                  keyboardType="default"
+                  multiline={true}
+                  onChangeText={(text) => setDescription(text)}
+                />
+              </Spacer>
+            </View>
           </Container>
+          <Spacer size="large" />
+          <View style={{ alignItems: "center" }}>
+            <SubmitFormButton mode="contained" onPress={confirmAlert}>
+              Confirm
+            </SubmitFormButton>
+          </View>
         </ScrollView>
-        <Spacer size="large" />
-        <View style={{ alignItems: "center" }}>
-          <SubmitFormButton mode="contained" onPress={confirmAlert}>
-            Confirm
-          </SubmitFormButton>
-        </View>
       </SafeArea>
     </DismissKeyboard>
   );

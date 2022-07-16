@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Alert, Modal, Image, ScrollView } from "react-native";
 import { Text } from "../../../../components/typography/text.component";
 import { Spacer } from "../../../../components/spacer/spacer.component";
@@ -25,11 +25,12 @@ import {
   getDocs,
   addDoc,
 } from "firebase/firestore/lite";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { authentication, db, userUsername } from "../../../../../firebase/firebase-config";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { authentication, db, userUsername, userImage, getUserName } from "../../../../../firebase/firebase-config";
 
 export const CreatePostScreen = ({ navigation }) => {
-  const pfp = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png';
+  const [pfp, setPfp] = useState(userImage);
+
   const [postText, setPostText] = useState('');
   const [postImage, setPostImage] = useState(null);
 
@@ -146,6 +147,26 @@ export const CreatePostScreen = ({ navigation }) => {
       await uploadBytes(reference, bytes);
     }
   };
+  
+  const [url, setUrl] = useState();
+  useEffect(() => {
+    const func = async () => {
+      getUserName();
+      if (pfp !== "default") {
+        const uploadUri = userImage;
+        const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+        const storage = getStorage();
+        const reference = ref(storage, filename);
+        await getDownloadURL(reference).then((x) => {
+          setUrl(x);
+        });
+      }
+    };
+    if (url == undefined) {
+      func();
+    }
+  }, []);
+
 
   return (
     <SafeArea>
@@ -161,12 +182,22 @@ export const CreatePostScreen = ({ navigation }) => {
       <View style={{backgroundColor: 'white'}}>
         <Body>
           <UserDetails>
+            {pfp === "default" && (
             <Avatar.Image
+              backgroundColor="white"
+              source={require("../../../../../assets/default_profilepic.png")}
               size={60}
-              source={{ uri: pfp }}
             />
-            <Spacer size='medium' position='right' />
-            <Text>{userUsername}</Text>
+            )}
+            {pfp !== "default" && (
+              <Avatar.Image
+                backgroundColor="white"
+                source={{ uri: url }}
+                size={60}
+              />
+            )}
+            <Spacer size='large' position='right' />
+            <Text style={{paddingTop: 5}}>{userUsername}</Text>
           </UserDetails>
           <Uploads>
             <ScrollView>

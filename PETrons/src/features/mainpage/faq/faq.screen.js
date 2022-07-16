@@ -10,9 +10,20 @@ import styled from "styled-components/native";
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 
+const mainPageHeaderPadding = Dimensions.get("screen").height / 12;
+
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
   background-color: orange;
+`;
+
+const MainPageHeader = styled(Text)`
+  color: black;
+  font-size: ${(props) => props.theme.fontSizes.h4};
+  font-family: ${(props) => props.theme.fonts.heading};
+  text-align: center;
+  padding-bottom: ${(props) => props.theme.space[3]};
+  padding-top: ${mainPageHeaderPadding}px;
 `;
 
 const Container = styled(View).attrs({
@@ -24,7 +35,7 @@ const Container = styled(View).attrs({
 
 const PageButtons = styled(TouchableOpacity)`
   elevation: 5;
-  background-color: ${(props) => props.theme.colors.brand.yellow3};
+  background-color: rgb(255, 227, 180);
   margin: ${(props) => props.theme.space[3]} ${(props) => props.theme.space[6]};
   padding: ${(props) => props.theme.space[4]} 20px;
   border-radius: ${(props) => props.theme.space[3]};
@@ -46,7 +57,7 @@ export const FAQPage = ({ navigation }) => (
   <SafeArea>
     <View>
       <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <Text variant="header">FAQ</Text>
+        <MainPageHeader>FAQ</MainPageHeader>
         <Spacer size="medium" />
         <ImagePet source={require("../../../../assets/cat.png")} />
       </View>

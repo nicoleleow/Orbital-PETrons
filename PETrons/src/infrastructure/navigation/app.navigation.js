@@ -30,6 +30,7 @@ function MyTabs() {
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
+        tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: "black",
         tabBarInactiveTintColor: "gray",
         tabBarStyle: [
