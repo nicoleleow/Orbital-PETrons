@@ -160,10 +160,47 @@ export const PetInfoScreen = ({ route, navigation }) => {
         <Spacer size="large" />
         <DetailsContainer>
           <DetailsRectangle>
-            <Details>
-              Age{`\n`}
-              {ageYears} Years {ageMonths} Months old
-            </Details>
+            {(() => {
+              if (totalMonths < 12) {
+                return (
+                  <Details>
+                    Age{`\n`} {ageMonths} Months
+                  </Details>
+                );
+              } else {
+                if (totalMonths % 12 === 0) {
+                  if (totalMonths < 24) {
+                    return (
+                      <Details>
+                        Age{`\n`} {ageYears} Year
+                      </Details>
+                    );
+                  } else {
+                    return (
+                      <Details>
+                        Age{`\n`} {ageYears} Years
+                      </Details>
+                    );
+                  }
+                } else {
+                  if (totalMonths < 24) {
+                    return (
+                      <Details>
+                        Age{`\n`}
+                        {ageYears} Year {ageMonths} Month
+                      </Details>
+                    );
+                  } else {
+                    return (
+                      <Details>
+                        Age{`\n`}
+                        {ageYears} Years {ageMonths} Month
+                      </Details>
+                    );
+                  }
+                }
+              }
+            })()}
           </DetailsRectangle>
           <DetailsRectangle>
             <Details>

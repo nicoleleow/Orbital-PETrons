@@ -66,9 +66,33 @@ export const PetInfoCard = ({ pet }) => {
           <Spacer size="small" />
           <Caption>{breed}</Caption>
           <Spacer size="small" />
-          <Caption>
-            {ageYears} Years {ageMonths} Months
-          </Caption>
+          {(() => {
+            if (totalMonths < 12) {
+              return <Caption>{ageMonths} Months</Caption>;
+            } else {
+              if (totalMonths % 12 === 0) {
+                if (totalMonths < 24) {
+                  return <Caption>{ageYears} Year</Caption>;
+                } else {
+                  return <Caption>{ageYears} Years</Caption>;
+                }
+              } else {
+                if (totalMonths < 24) {
+                  return (
+                    <Caption>
+                      {ageYears} Year {ageMonths} Month
+                    </Caption>
+                  );
+                } else {
+                  return (
+                    <Caption>
+                      {ageYears} Years {ageMonths} Month
+                    </Caption>
+                  );
+                }
+              }
+            }
+          })()}
         </SectionStart>
         <SectionEnd>
           {isHDBApproved && <HDBIcon source={{ uri: hdbIcon }} />}
