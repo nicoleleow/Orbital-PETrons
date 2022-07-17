@@ -90,6 +90,7 @@ export const AdoptionInfoCard = ({ pet, navigation }) => {
   const {
     ageYears,
     ageMonths,
+    totalMonths,
     status,
     breed,
     type,
@@ -195,9 +196,33 @@ export const AdoptionInfoCard = ({ pet, navigation }) => {
           <Spacer size="small" />
           <Caption>Type: {type}</Caption>
           <Caption>Breed: {breed}</Caption>
-          <Caption>
-            Age: {ageYears} Years {ageMonths} Months
-          </Caption>
+          {(() => {
+            if (totalMonths < 12) {
+              return <Caption>Age: {ageMonths} Months</Caption>;
+            } else {
+              if (totalMonths % 12 === 0) {
+                if (totalMonths < 24) {
+                  return <Caption>Age: {ageYears} Year</Caption>;
+                } else {
+                  return <Caption>Age: {ageYears} Years</Caption>;
+                }
+              } else {
+                if (totalMonths < 24) {
+                  return (
+                    <Caption>
+                      Age: {ageYears} Year {ageMonths} Month
+                    </Caption>
+                  );
+                } else {
+                  return (
+                    <Caption>
+                      Age: {ageYears} Years {ageMonths} Month
+                    </Caption>
+                  );
+                }
+              }
+            }
+          })()}
           <Caption>Gender: {gender}</Caption>
           <Caption>Owner: {organisation}</Caption>
           <Caption>Is you pet HDB approved? {HDB_approved}</Caption>

@@ -1,8 +1,16 @@
-import React, {useState, useCallback} from "react";
-import { View, TextInput, TouchableOpacity, RefreshControl, Modal, FlatList, Dimensions } from "react-native";
-import { Text } from "../../../components/typography/text.component"
-import { Spacer } from '../../../components/spacer/spacer.component';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import React, { useState, useCallback } from "react";
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  RefreshControl,
+  Modal,
+  FlatList,
+  Dimensions,
+} from "react-native";
+import { Text } from "../../../components/typography/text.component";
+import { Spacer } from "../../../components/spacer/spacer.component";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import DropDownPicker from "react-native-dropdown-picker";
 
 import { PetInfoCard } from "./components/pet-info-card.component";
@@ -57,8 +65,8 @@ export const AdoptPage = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   // FOR FILTERING THROUGH MODAL
-  const [openAge, setOpenAge] = useState("");
-  const [valueAge, setValueAge] = useState("Age");
+  const [openAge, setOpenAge] = useState(false);
+  const [valueAge, setValueAge] = useState(0);
   const [petAge, setPetAge] = useState(Ages);
 
   const [openGender, setOpenGender] = useState(false);
@@ -81,53 +89,76 @@ export const AdoptPage = ({ navigation }) => {
     setSearch(text);
     setCategoryIndexFiltered(index);
     // filter by category
-    var newList = petsList.filter(
-      item =>
-        PetCategories[index].animalType.toUpperCase() === 'ALL' ? pets
-          : item[1]?.type?.toUpperCase() == PetCategories[index].animalType.toUpperCase());
-    
+    var newList = petsList.filter((item) =>
+      PetCategories[index].animalType.toUpperCase() === "ALL"
+        ? pets
+        : item[1]?.type?.toUpperCase() ==
+          PetCategories[index].animalType.toUpperCase()
+    );
+
     //filter by text (pet's name)
-    newList = newList.filter(item => item[1]?.name?.toUpperCase().includes(text.toUpperCase()));
- 
+    newList = newList.filter((item) =>
+      item[1]?.name?.toUpperCase().includes(text.toUpperCase())
+    );
     // filter by age
+    newList = newList.filter((item) => {
+      if (valueAge === 0) {
+        return newList;
+      } else if (valueAge === 6) {
+        return item[1]?.totalMonths <= 6;
+      } else if (valueAge === 12) {
+        return item[1]?.totalMonths >= 7 && item[1]?.totalMonths <= 12;
+      } else if (valueAge === 36) {
+        return item[1]?.totalMonths >= 13 && item[1]?.totalMonths <= 36;
+      } else if (valueAge === 72) {
+        return item[1]?.totalMonths >= 37 && item[1]?.totalMonths <= 72;
+      } else if (valueAge === 108) {
+        return item[1]?.totalMonths >= 73 && item[1]?.totalMonths <= 108;
+      } else {
+        return item[1]?.totalMonths > 108;
+      }
+    });
 
     // filter by gender
 
-    newList = newList.filter(
-      item =>
-        (valueGender === 'Gender') ? newList
-          : item[1]?.gender?.toUpperCase() == valueGender.toUpperCase());
+    newList = newList.filter((item) =>
+      valueGender === "Gender"
+        ? newList
+        : item[1]?.gender?.toUpperCase() == valueGender.toUpperCase()
+    );
 
     // filter by ownership type
-    newList = newList.filter(
-      item =>
-        (valueOrganisation === 'Ownership Type') ? newList
-          : item[1]?.organisation?.toUpperCase() == valueOrganisation.toUpperCase());
-    
+    newList = newList.filter((item) =>
+      valueOrganisation === "Ownership Type"
+        ? newList
+        : item[1]?.organisation?.toUpperCase() ==
+          valueOrganisation.toUpperCase()
+    );
+
     // filter by hdb approved status
-    newList = newList.filter(
-      item =>
-        (valueHDB === 'HDB Approved Status') ? newList
-          : item[1]?.HDB_approved?.toUpperCase() == valueHDB.toUpperCase());
-    
+    newList = newList.filter((item) =>
+      valueHDB === "HDB Approved Status"
+        ? newList
+        : item[1]?.HDB_approved?.toUpperCase() == valueHDB.toUpperCase()
+    );
+
     // filter by fees
-    newList = newList.filter(
-      item => {
-        if (valueFee === 0) {
-          return newList;
-        } else if (valueFee === 20) {
-          return item[1]?.fee <= 20;
-        } else if (valueFee === 50) {
-          return (item[1]?.fee >= 21 && item[1]?.fee <= 50);
-        } else if (valueFee === 100) {
-          return (item[1]?.fee >= 51 && item[1]?.fee <= 100);
-        } else if (valueFee === 150) {
-          return (item[1]?.fee >= 101 && item[1]?.fee <= 150);
-        } else if (valueFee === 200) {
-          return (item[1]?.fee >= 151 && item[1]?.fee <= 200);
-        } else {
-          return item[1]?.fee > 200;
-        }
+    newList = newList.filter((item) => {
+      if (valueFee === 0) {
+        return newList;
+      } else if (valueFee === 20) {
+        return item[1]?.fee <= 20;
+      } else if (valueFee === 50) {
+        return item[1]?.fee >= 21 && item[1]?.fee <= 50;
+      } else if (valueFee === 100) {
+        return item[1]?.fee >= 51 && item[1]?.fee <= 100;
+      } else if (valueFee === 150) {
+        return item[1]?.fee >= 101 && item[1]?.fee <= 150;
+      } else if (valueFee === 200) {
+        return item[1]?.fee >= 151 && item[1]?.fee <= 200;
+      } else {
+        return item[1]?.fee > 200;
+      }
     });
 
     setFilteredPets(newList);
@@ -135,7 +166,7 @@ export const AdoptPage = ({ navigation }) => {
   };
 
   const removeAllFilters = async () => {
-    setValueAge("Age");
+    setValueAge(0);
     setValueGender("Gender");
     setValueOrganisation("Ownership Type");
     setValueHDB("HDB Approved Status");
@@ -299,18 +330,19 @@ export const AdoptPage = ({ navigation }) => {
         data={filteredPets}
         renderItem={(item) => (
           <TouchableOpacity
-            onPress={() => navigation.navigate('PetInfo', { item })}>
+            onPress={() => navigation.navigate("PetInfo", { item })}
+          >
             <PetInfoCard pet={item} />
           </TouchableOpacity>
         )}
-        contentContainerStyle={{ marginHorizontal: ((Dimensions.get('window').width - 382) / 2) }}
+        contentContainerStyle={{
+          marginHorizontal: (Dimensions.get("window").width - 382) / 2,
+        }}
         keyExtractor={(item) => item[0]}
         numColumns={2}
         refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />}
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </SafeArea>
   );
