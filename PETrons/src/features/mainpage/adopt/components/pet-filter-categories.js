@@ -1,28 +1,28 @@
 export const PetCategories = [
-  { name: 'ALL', animalType: 'all', icon: 'gamepad-circle'},
-  { name: 'CATS', animalType: 'cat', icon: 'cat' },
-  { name: 'DOGS', animalType: 'dog', icon: 'dog' },
-  { name: 'BIRDS', animalType: 'bird', icon: 'bird' },
-  { name: 'RABBITS', animalType: 'rabbit', icon: 'rabbit' },
-  { name: 'FISH', animalType: 'fish', icon: 'fish' },
-  { name: 'OTHERS', animalType: 'others', icon: 'grain' } 
+  { name: "ALL", animalType: "all", icon: "gamepad-circle" },
+  { name: "CATS", animalType: "cat", icon: "cat" },
+  { name: "DOGS", animalType: "dog", icon: "dog" },
+  { name: "BIRDS", animalType: "bird", icon: "bird" },
+  { name: "RABBITS", animalType: "rabbit", icon: "rabbit" },
+  { name: "FISH", animalType: "fish", icon: "fish" },
+  { name: "OTHERS", animalType: "others", icon: "grain" },
 ];
 
 export const Ages = [
   { label: "Age", value: "Age" },
-  { label: "1 - 6 Months", value: "1 - 6 Months" },
-  { label: "7 - 12 Months", value: "7 - 12 Months" },
-  { label: "1 - 3 Years", value: "1 - 3 Years" },
-  { label: "4 - 6 Years", value: "4 - 6 Years" },
-  { label: "7 - 9 Years", value: "7 - 9 Years" },
-  { label: "10 Years & Above", value: "10 Years & Above" }
-]
-  
+  { label: "1 - 6 Months", value: 6 },
+  { label: "7 - 12 Months", value: 12 },
+  { label: "1 - 3 Years", value: 36 },
+  { label: "4 - 6 Years", value: 72 },
+  { label: "7 - 9 Years", value: 108 },
+  { label: "9 Years & Above", value: 109 },
+];
+
 export const Genders = [
   { label: "Gender", value: "Gender" },
   { label: "Male", value: "Male" },
-  { label: "Female", value: "Female" }
-]
+  { label: "Female", value: "Female" },
+];
 
 export const Organisations = [
   { label: "Ownership Type", value: "Ownership Type" },
@@ -61,15 +61,15 @@ export const Organisations = [
     value: "SPCA",
   },
   { label: "Voices for Animals", value: "Voices for Animals" },
-  { label: "Others", value: "Others" }
-]
-  
+  { label: "Others", value: "Others" },
+];
+
 export const HDBApprovedStatus = [
   { label: "HDB Approved Status", value: "HDB Approved Status" },
   { label: "Yes", value: "Yes" },
-  { label: "No", value: "No" }
-]
-    
+  { label: "No", value: "No" },
+];
+
 export const Fees = [
   { label: "Fees", value: 0 },
   { label: "$0 - $20", value: 20 },
@@ -78,4 +78,4 @@ export const Fees = [
   { label: "$101 - $150", value: 150 },
   { label: "$151 - $200", value: 200 },
   { label: "above $200", value: 201 },
-]
+];

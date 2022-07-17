@@ -31,7 +31,13 @@ import {
   ContactOwnerButton,
   ContactOwnerText,
 } from "./pet-info.screen.styles";
-import { authentication, db, userFavouritesList, GetUserFavourites, userUsername } from "../../../../../firebase/firebase-config";
+import {
+  authentication,
+  db,
+  userFavouritesList,
+  GetUserFavourites,
+  userUsername,
+} from "../../../../../firebase/firebase-config";
 
 const FavouriteButton = styled(TouchableOpacity)`
   height: 40px;
@@ -44,10 +50,12 @@ const FavouriteButton = styled(TouchableOpacity)`
 
 export const PetInfoScreen = ({ route, navigation }) => {
   const pet = route.params.item;
-  
+
   const { index, item } = pet;
   const {
-    age,
+    ageYears,
+    ageMonths,
+    totalMonths,
     breed,
     type,
     fee,
@@ -65,50 +73,47 @@ export const PetInfoScreen = ({ route, navigation }) => {
   GetUserFavourites();
   const favourited = userFavouritesList.includes(petID);
 
-  let tempList = []
+  let tempList = [];
   for (let i = 0; i < userFavouritesList.length; i++) {
-    tempList[i] = userFavouritesList[i]
+    tempList[i] = userFavouritesList[i];
   }
 
   const [isFavourite, setIsFavourite] = useState(favourited);
 
   const UpdateFirebaseFavList = async (tempList) => {
     const querySnapshot = await getDocs(collection(db, "userinfo"));
-      let documentID, pfp;
-      querySnapshot.forEach((doc) => {
-        if (
-          (doc.data().email === authentication.currentUser?.email)
-        ) {
-          documentID = doc.id;
-          pfp = doc.data().profilepic;
-        }
-      });
-      const editedDoc = doc(db, "userinfo", documentID);
-      await setDoc(editedDoc, {
-        email: authentication.currentUser?.email,
-        profilepic: pfp,
-        username: userUsername,
-        favourites: tempList
-      });
-  }
+    let documentID, pfp;
+    querySnapshot.forEach((doc) => {
+      if (doc.data().email === authentication.currentUser?.email) {
+        documentID = doc.id;
+        pfp = doc.data().profilepic;
+      }
+    });
+    const editedDoc = doc(db, "userinfo", documentID);
+    await setDoc(editedDoc, {
+      email: authentication.currentUser?.email,
+      profilepic: pfp,
+      username: userUsername,
+      favourites: tempList,
+    });
+  };
 
   const UpdateFavouritesList = () => {
     setIsFavourite(!isFavourite);
     if (!isFavourite === false && tempList.includes(petID)) {
       // if pet already previously favourited, but now no, remove pet from favourites list
-      tempList = tempList.filter(id => id !== petID)
+      tempList = tempList.filter((id) => id !== petID);
     } else if (!isFavourite === true && !tempList.includes(petID)) {
       // add pet to favourites list
       tempList.push(petID);
     }
     //update firebase db
     UpdateFirebaseFavList(tempList);
-  }
+  };
 
   const contactOwner = organisation === "Individual" ? "Owner" : "Organisation";
 
   const isHDBApproved = HDB_approved === "Yes" ? true : false;
-  
 
   const onPress = async () => {
     const querySnapshot = await getDocs(collection(db, "userinfo"));
@@ -157,7 +162,7 @@ export const PetInfoScreen = ({ route, navigation }) => {
           <DetailsRectangle>
             <Details>
               Age{`\n`}
-              {age} old
+              {ageYears} Years {ageMonths} Months old
             </Details>
           </DetailsRectangle>
           <DetailsRectangle>
@@ -202,7 +207,14 @@ export const PetInfoScreen = ({ route, navigation }) => {
 
         <Spacer size="xLarge" />
 
-        <View style={{ flexDirection: 'row', alignContent: 'center', marginHorizontal: 32, justifyContent: 'space-between' }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignContent: "center",
+            marginHorizontal: 32,
+            justifyContent: "space-between",
+          }}
+        >
           <ContactOwnerButton onPress={onPress}>
             <ContactOwnerText>
               <Icon name="chat" size={15} />
@@ -210,12 +222,10 @@ export const PetInfoScreen = ({ route, navigation }) => {
               contact {contactOwner}
             </ContactOwnerText>
           </ContactOwnerButton>
-          <FavouriteButton
-            onPress={UpdateFavouritesList}
-            >
+          <FavouriteButton onPress={UpdateFavouritesList}>
             <Icon
-              name='heart'
-              color= {isFavourite === true ? 'red' : 'white'}
+              name="heart"
+              color={isFavourite === true ? "red" : "white"}
               size={20}
             />
           </FavouriteButton>
