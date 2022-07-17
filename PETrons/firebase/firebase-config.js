@@ -30,6 +30,7 @@ export const GetChatData = async () => {
   chatList = chatOverview.docs.map((doc) => doc.data());
 };
 
+// current user's username and pfp
 export let userUsername;
 export let userImage;
 export const getUserName = async () => {
@@ -42,13 +43,24 @@ export const getUserName = async () => {
   });
 };
 
+// get any user's username with email
+export let indivUsername;
+export const getIndivUsername = async (inputEmail) => {
+const Snapshot = await getDocs(collection(db, "userinfo"));
+  Snapshot.forEach((doc) => {
+    if (doc.data().email === inputEmail) {
+      indivUsername = doc.data().username;
+    }
+  });
+}
+
 export let storiesList = [];
 export const GetStoriesData = async () => {
   const storiesCol = collection(db, "stories");
   const storiesOverview = await getDocs(storiesCol);
   storiesList = storiesOverview.docs
-    .map((doc) => doc.data())
-    .sort((x, y) => x.date < y.date);
+    .map((doc) => [doc.id, doc.data()])
+    .sort((x, y) => x[1].date < y[1].date);
 };
 
 export let petID;
@@ -92,8 +104,33 @@ export const GetFavouritesDetails = async (userFavouritesList) => {
   })
 }
 
+export let postID;
+export const GetPostID = async(email, date, postText, postImage) => {
+  const Snapshot = await getDocs(collection(db, "stories"));
+  Snapshot.forEach((doc) => {
+    if (doc.data().email === email
+      && doc.data().date === date
+      && doc.data().postText === postText
+      && doc.data().postImage === postImage
+      ){
+        postID = doc.id;
+      }
+    })
+  }
+
 export let postIDList = [];
 export const GetPostIDs = async () => {
   const Snapshot = await getDocs(collection(db, "stories"));
   postIDList = Snapshot.docs.map((doc) => doc.id);
+}
+
+// list of liked postIDs (string)
+export let userLikedPostsList = [];
+export const GetUserLikedPosts = async () => {
+  const Snapshot = await getDocs(collection(db, "userinfo"));
+  Snapshot.forEach((doc) => {
+    if (doc.data().email === authentication.currentUser?.email) {
+      userLikedPostsList = doc.data().likedPosts;
+    }
+  });
 }

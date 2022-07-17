@@ -82,21 +82,26 @@ export const PetInfoScreen = ({ route, navigation }) => {
 
   const UpdateFirebaseFavList = async (tempList) => {
     const querySnapshot = await getDocs(collection(db, "userinfo"));
-    let documentID, pfp;
-    querySnapshot.forEach((doc) => {
-      if (doc.data().email === authentication.currentUser?.email) {
-        documentID = doc.id;
-        pfp = doc.data().profilepic;
-      }
-    });
-    const editedDoc = doc(db, "userinfo", documentID);
-    await setDoc(editedDoc, {
-      email: authentication.currentUser?.email,
-      profilepic: pfp,
-      username: userUsername,
-      favourites: tempList,
-    });
+      let documentID, profilepic, likedPosts;
+      querySnapshot.forEach((doc) => {
+        if (
+          (doc.data().email === authentication.currentUser?.email)
+        ) {
+          documentID = doc.id;
+          profilepic = doc.data().profilepic;
+          likedPosts = doc.data().likedPosts;
+        }
+      });
+      const editedDoc = doc(db, "userinfo", documentID);
+      await setDoc(editedDoc, {
+        email: authentication.currentUser?.email,
+        username: userUsername,
+        favourites: tempList,
+        profilepic,
+        likedPosts
+      });
   };
+
 
   const UpdateFavouritesList = () => {
     setIsFavourite(!isFavourite);

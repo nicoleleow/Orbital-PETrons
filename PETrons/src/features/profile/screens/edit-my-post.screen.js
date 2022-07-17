@@ -7,6 +7,7 @@ import {
   ScrollView,
   Image,
   Alert,
+  Dimensions
 } from "react-native";
 import {
   getStorage,
@@ -22,7 +23,7 @@ import {
 } from "firebase/firestore/lite";
 
 import { Spacer } from "../../../components/spacer/spacer.component";
-import { db, authentication, userUsername, getUserName } from "../../../../firebase/firebase-config";
+import { db, authentication, userUsername, getUserName, userImage } from "../../../../firebase/firebase-config";
 import { Avatar } from "react-native-paper";
 
 import {
@@ -46,28 +47,38 @@ const DismissKeyboard = ({ children }) => (
 export const EditPostPage = ({ route, navigation }) => {
   getUserName();
   const details = route.params.storyDetails;
-  const { date, hour, minutes, postImage, postText, userName, email, edited } = details;
-
+  const { date, hour, minutes, postImage, postText, userName, email, edited, likedUsers, comments } = details;
+  
   const [newPostText, setNewPostText] = useState(postText);
 
-  const pfp = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png';
+  const [pfp, setPfp] = useState(userImage);
 
   const [url, setUrl] = useState();
+  const [pfpUrl, setPfpUrl] = useState();
   useEffect(() => {
-  const func = async () => {
-    if (postImage !== null) {
-      const uploadUri = postImage;
-  
-      const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
-      const storage = getStorage();
-      const reference = ref(storage, filename);
-      await getDownloadURL(reference).then((x) => {
-        setUrl(x);
-      });
-    }
-  };
+    const func = async () => {
+      getUserName();
+      if (pfp !== "default") {
+        const uploadUri = userImage;
+        const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+        const storage = getStorage();
+        const reference = ref(storage, filename);
+        await getDownloadURL(reference).then((x) => {
+          setUrl(x);
+        });
+      }
+      if (postImage !== null) {
+        const uploadUri = postImage;
+        const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+        const storage = getStorage();
+        const reference = ref(storage, filename);
+        await getDownloadURL(reference).then((x) => {
+          setUrl(x);
+        });
+      }
+    };
 
-    if (url == undefined) {
+    if (url == undefined || pfpUrl == undefined) {
     func();
     }
   }, []);
@@ -77,8 +88,8 @@ export const EditPostPage = ({ route, navigation }) => {
     let documentID;
     querySnapshot.forEach((doc) => {
       if (
-        (doc.data().email === email) &
-        (doc.data().date.seconds === date.seconds)
+        (doc.data().email === email) 
+        & (doc.data().date.seconds === date.seconds)
       ) {
         documentID = doc.id;
       }
@@ -92,7 +103,9 @@ export const EditPostPage = ({ route, navigation }) => {
       postText: newPostText,
       email,
       userName,
-      edited: (newPostText !== postText ? true : false)
+      edited: (newPostText !== postText ? true : false),
+      likedUsers,
+      comments
     });
     navigation.goBack();
   };
@@ -131,22 +144,23 @@ export const EditPostPage = ({ route, navigation }) => {
   return (
     <DismissKeyboard>
       <SafeArea>
-        <Header>
-          <TopButtons onPress={cancelEditAlert} style={{left: 15}}>
-            <ImageButtonText>Cancel</ImageButtonText>
-          </TopButtons>
-          <TopButtons onPress={confirmEditAlert} style={{right: 15}}>
-            <ImageButtonText>Done</ImageButtonText>
-          </TopButtons>
-          <HeaderText>Edit Caption</HeaderText>
-        </Header>
-        <View style={{backgroundColor: 'white'}}>
+        <View style={{ backgroundColor: '#f0f0f0' }}>
           <Body>
             <UserDetails>
+              {pfp === "default" && (
               <Avatar.Image
+                backgroundColor="white"
+                source={require("../../../../assets/default_profilepic.png")}
                 size={60}
-                source={{ uri: pfp }}
               />
+            )}
+            {pfp !== "default" && (
+              <Avatar.Image
+                backgroundColor="white"
+                source={{ uri: pfpUrl }}
+                size={60}
+              />
+            )}
               <Spacer size='medium' position='right' />
               <Text>{userUsername}</Text>
             </UserDetails>
@@ -158,7 +172,7 @@ export const EditPostPage = ({ route, navigation }) => {
                     source={{ uri: postImage }}
                     style={{ resizeMode: "contain", width: 360, height: 220, alignSelf: 'center'}}
                     />
-                    <Spacer size='medium' />
+                    <Spacer size='large' />
                   </View>
                 )}
                 <PostText
@@ -169,9 +183,16 @@ export const EditPostPage = ({ route, navigation }) => {
                   onChangeText={setNewPostText}
                   maxLength={300} 
                   multiline={true}
-                  style={{marginBottom: 350}}
+                  style={{backgroundColor: 'white'}}
                 />
-                <View style={{ backgroundColor: 'white', height: 200 }}>
+                <Spacer size='xLarge' />
+                <View style={{ height: 200 }}>
+                  <TopButtons onPress={confirmEditAlert}  style={{
+                    width: Dimensions.get("window").width - 60,
+                    backgroundColor: '#2e64e5'
+                  }}>
+                    <ImageButtonText>Done</ImageButtonText>
+                  </TopButtons>
                 </View>
                 <Spacer size='large' />
               </Uploads>

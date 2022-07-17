@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 
 export const SafeArea = styled(SafeAreaView)`
   flex: 1;
-  background-color: #ebe6e6;
+  background-color: #f0f0f0;
 `;
 
 export const Header = styled(View).attrs({
@@ -24,7 +24,6 @@ export const HeaderText = styled.Text`
 `
 
 export const Body = styled.View`
-  background-color: white;
   height: 800px;
 `
 
@@ -47,13 +46,11 @@ export const PostText = styled(TextInput)`
 `;
 
 export const TopButtons = styled(TouchableOpacity)`
-  position: absolute;
-  zIndex: 1;
   background-color: #777;
   border-radius: 5px;
   padding: 5px 10px;
   justify-content: center;
-  bottom: 10px;
+  margin: 10px 30px;
 `
 
 export const ImageButtons = styled(TouchableOpacity)`
