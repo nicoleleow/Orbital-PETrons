@@ -97,8 +97,10 @@ export const AdoptPage = ({ navigation }) => {
     );
 
     //filter by text (pet's name)
-    newList = newList.filter((item) =>
-      item[1]?.name?.toUpperCase().includes(text.toUpperCase())
+    newList = newList.filter(
+      (item) =>
+        item[1]?.name?.toUpperCase().includes(text.toUpperCase()) ||
+        item[1]?.breed?.toUpperCase().includes(text.toUpperCase())
     );
     // filter by age
     newList = newList.filter((item) => {
