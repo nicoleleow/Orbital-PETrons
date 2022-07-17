@@ -66,17 +66,16 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
 
   const [pfp, setPfp] = useState(userImage);
 
-  const [tempCommentsList, setTempCommentsList] = useState([]);
+  const [tempCommentsList, setTempCommentsList] = useState(comments);
   const GetDBCommentsArray = async () => {
     const Snapshot = await getDocs(collection(db, "stories"));
     Snapshot.forEach((doc) => {
     if (doc.id === postID) {
       setTempCommentsList(doc.data().comments);
-      setNumComments(tempCommentsList.length);
+      setNumComments(doc.data().comments.length);
       }
     })
   }
-
 
   const formattedDateWhole = new Date(date.seconds * 1000 + 28800 * 1000)
   const day = formattedDateWhole.getDate().toString();
@@ -137,7 +136,6 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
   const [pfpURL, setPfpURL] = useState();
   useEffect(() => {
     GetDBCommentsArray();
-    setNumComments(tempCommentsList.length);
     const func = async () => {
     getUserName();
       if (pfp !== "default") {

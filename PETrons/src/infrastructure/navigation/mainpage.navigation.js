@@ -4,7 +4,6 @@ import { Platform, Pressable, Text, Button } from "react-native";
 import styled from "styled-components";
 
 import { createStackNavigator } from "@react-navigation/stack";
-import styled from "styled-components/native";
 
 import { Mainpage } from "../../features/mainpage/mainpage.screen";
 import { AdoptPage } from "../../features/mainpage/adopt/adopt.screen";
@@ -25,12 +24,6 @@ import { authentication } from "../../../firebase/firebase-config";
 import { CreatePostScreen } from "../../features/mainpage/share-stories/screens/create-post.screen";
 
 import { CommentsScreen } from "../../features/mainpage/share-stories/screens/comments.screen";
-
-const PressableText = styled(Text)`
-  color: #2196f3;
-  font-size: 18px;
-  padding-left: ${(props) => props.theme.space[3]};
-`;
 
 const Stack = createStackNavigator();
 

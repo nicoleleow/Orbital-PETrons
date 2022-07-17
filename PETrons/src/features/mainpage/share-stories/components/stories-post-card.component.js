@@ -55,40 +55,6 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
       }
     });
   };
-
-  GetUserPfp(userName);
-  
-  const [url, setUrl] = useState();
-  const [pfpURL, setPfpURL] = useState();
-  useEffect(() => {
-    GetUserPfp(userName);
-    GetUserLikedPosts();
-    GetDBCommentsArray();
-    const func = async () => {
-      if (postImage !== null) {
-        const uploadUri = postImage;
-        const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
-        const storage = getStorage();
-        const reference = ref(storage, filename);
-        await getDownloadURL(reference).then((x) => {
-          setUrl(x);
-        });
-      }
-      //   if (pfp !== "default") {
-      //     const uploadUriPFP = pfp;
-      //     const filenamePFP = uploadUriPFP.substring(uploadUriPFP.lastIndexOf("/") + 1);
-      //     const storagePFP = getStorage();
-      //     const referencePFP = ref(storagePFP, filenamePFP);
-      //     await getDownloadURL(referencePFP).then((x) => {
-      //       setPfpURL(x);
-      //     });
-      //   }
-    };
-
-    if (url == undefined || pfp === '') {
-      func();
-    }
-  }, []);
   
   GetUserLikedPosts();
   const liked = userLikedPostsList.includes(postID);
@@ -110,12 +76,12 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
     Snapshot.forEach((doc) => {
     if (doc.id === postID) {
       setTempCommentsList(doc.data().comments);
-      setNumComments(tempCommentsList.length);
+      setNumComments(doc.data().comments.length);
       }
     })
   }
 
-  const [numComments, setNumComments] = useState(tempCommentsList.length);
+  const [numComments, setNumComments] = useState(comments.length);
   const [numLikes, setNumLikes] = useState(likedUsers.length);
   const [isLiked, setIsLiked] = useState(liked);
 
@@ -198,6 +164,39 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
   const formattedMinutes = (minutes < 10) ? ('0' + minutes.toString()) : minutes.toString();
   const formattedTime = formattedHour + ':' + formattedMinutes + ' ' + timeOfDay;
 
+  const [url, setUrl] = useState();
+  const [pfpURL, setPfpURL] = useState();
+  useEffect(() => {
+    GetUserPfp(userName);
+    GetUserLikedPosts();
+    setNumLikes(likedUsers.length);
+    GetDBCommentsArray();
+    const func = async () => {
+      if (postImage !== null) {
+        const uploadUri = postImage;
+        const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+        const storage = getStorage();
+        const reference = ref(storage, filename);
+        await getDownloadURL(reference).then((x) => {
+          setUrl(x);
+        });
+      }
+      //   if (pfp !== "default") {
+      //     const uploadUriPFP = pfp;
+      //     const filenamePFP = uploadUriPFP.substring(uploadUriPFP.lastIndexOf("/") + 1);
+      //     const storagePFP = getStorage();
+      //     const referencePFP = ref(storagePFP, filenamePFP);
+      //     await getDownloadURL(referencePFP).then((x) => {
+      //       setPfpURL(x);
+      //     });
+      //   }
+    };
+
+    if (url == undefined || pfp === '') {
+      func();
+    }
+  }, []);
+
   return (
     <PostCard elevation={5}>
       <View>
@@ -207,7 +206,7 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
               backgroundColor="white"
               source={require("../../../../../assets/default_profilepic.png")}
               size={45}
-            />
+          />
           {/* {pfp === "default" && (
             <Avatar.Image
               backgroundColor="white"
