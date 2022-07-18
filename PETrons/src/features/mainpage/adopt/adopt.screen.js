@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TextInput,
@@ -42,7 +42,6 @@ const wait = (timeout) => {
 };
 
 export const AdoptPage = ({ navigation }) => {
-  GetPetsData();
   const filterList = petsList.filter((obj) => {
     return obj.status === "available";
   });
@@ -96,7 +95,7 @@ export const AdoptPage = ({ navigation }) => {
           PetCategories[index].animalType.toUpperCase()
     );
 
-    //filter by text (pet's name)
+    //filter by text (pet's name and breed)
     newList = newList.filter(
       (item) =>
         item[1]?.name?.toUpperCase().includes(text.toUpperCase()) ||
@@ -104,7 +103,7 @@ export const AdoptPage = ({ navigation }) => {
     );
     // filter by age
     newList = newList.filter((item) => {
-      if (valueAge === 0) {
+      if (valueAge === 0 || valueAge === "Age") {
         return newList;
       } else if (valueAge === 6) {
         return item[1]?.totalMonths <= 6;
@@ -122,7 +121,6 @@ export const AdoptPage = ({ navigation }) => {
     });
 
     // filter by gender
-
     newList = newList.filter((item) =>
       valueGender === "Gender"
         ? newList
@@ -175,6 +173,12 @@ export const AdoptPage = ({ navigation }) => {
     setValueFee(0);
   };
 
+  useEffect(() => {
+    GetPetsData();
+    setFilteredPets(filterList);
+    filterPets(categoryIndexFiltered, search);
+  }, []);
+
   return (
     <SafeArea>
       <Text variant="header">Adopt A Pet</Text>
@@ -184,7 +188,7 @@ export const AdoptPage = ({ navigation }) => {
           <Spacer size="medium" position="right" />
           <TextInput
             placeholderTextColor={"#777"}
-            placeholder="Search for pet name"
+            placeholder="Search for pet name or breed"
             style={{ flex: 1 }}
             value={search}
             onChangeText={(text) => filterPets(categoryIndexFiltered, text)}

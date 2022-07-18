@@ -169,7 +169,7 @@ export const PetInfoScreen = ({ route, navigation }) => {
               if (totalMonths < 12) {
                 return (
                   <Details>
-                    Age{`\n`} {ageMonths} Months
+                    Age{`\n`} {ageMonths} Months Old
                   </Details>
                 );
               } else {
@@ -177,13 +177,13 @@ export const PetInfoScreen = ({ route, navigation }) => {
                   if (totalMonths < 24) {
                     return (
                       <Details>
-                        Age{`\n`} {ageYears} Year
+                        Age{`\n`} {ageYears} Year Old
                       </Details>
                     );
                   } else {
                     return (
                       <Details>
-                        Age{`\n`} {ageYears} Years
+                        Age{`\n`} {ageYears} Years Old
                       </Details>
                     );
                   }
@@ -192,14 +192,14 @@ export const PetInfoScreen = ({ route, navigation }) => {
                     return (
                       <Details>
                         Age{`\n`}
-                        {ageYears} Year {ageMonths} Month
+                        {ageYears} Year {ageMonths} Months Old
                       </Details>
                     );
                   } else {
                     return (
                       <Details>
                         Age{`\n`}
-                        {ageYears} Years {ageMonths} Month
+                        {ageYears} Years {ageMonths} Months Old
                       </Details>
                     );
                   }

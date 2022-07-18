@@ -64,7 +64,6 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
     });
   };
   
-  GetUserLikedPosts();
   const liked = userLikedPostsList.includes(postID);
 
   // deep copy likedUsers and userLikedPostsList to not alter original list

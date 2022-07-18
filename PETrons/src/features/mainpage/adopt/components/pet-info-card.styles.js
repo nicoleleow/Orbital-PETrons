@@ -50,6 +50,12 @@ export const Caption = styled(Text)`
     text-transform: capitalize;
 `
 
+export const Age = styled(Text)`
+    font-size: 13px;
+    font-family: ${(props) => props.theme.fonts.body};
+    color: ${(props) => props.theme.colors.brand.secondary};
+`
+
 export const Container = styled(View)`
     flex-direction: row;
 `
