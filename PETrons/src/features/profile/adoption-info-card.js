@@ -53,7 +53,7 @@ const AdoptionPetInfoCardCover = styled(Card.Cover)`
 `;
 
 const SectionStart = styled.View`
-  flex-direction: col;
+  flex-direction: column;
 `;
 
 const SectionEnd = styled.View`
