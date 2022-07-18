@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import { Months, BottomContainer } from "../../mainpage/share-stories/components/stories-post-card.styles";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { db, userImage, getUserName } from "../../../../firebase/firebase-config";
+import { db, userImage, userUsername } from "../../../../firebase/firebase-config";
 import { Avatar, Button } from "react-native-paper";
 
 import styled from 'styled-components/native';
@@ -137,7 +137,6 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
   useEffect(() => {
     GetDBCommentsArray();
     const func = async () => {
-    getUserName();
       if (pfp !== "default") {
         const uploadUri = userImage;
         const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
@@ -184,7 +183,7 @@ export const MyPostsCard = ({ storyDetails, navigation }) => {
               />
             )}
           <Spacer size='large' position='right' />
-          <UserDetailsText>{userName}</UserDetailsText>
+          <UserDetailsText>{userUsername}</UserDetailsText>
         </UserDetails>
         <Spacer size='medium' />
         <UserDetails>

@@ -45,12 +45,14 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
  
   const [pfp, setPfp] = useState('');
   const [pfpURL, setPfpURL] = useState();
+  const [username, setUsername] = useState('');
 
-  const GetUserPfp = async (email) => {
+  const GetUserPfpAndEmail = async (email) => {
     const Snapshot = await getDocs(collection(db, "userinfo"));
     Snapshot.forEach((doc) => {
       if (doc.data().email === email) {
         setPfp(doc.data().profilepic);
+        setUsername(doc.data().username);
         if (doc.data().profilepic !== 'default') {
           const uploadUri = doc.data().profilepic;
           const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
@@ -63,7 +65,7 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
       }
     });
   };
-  
+
   const liked = userLikedPostsList.includes(postID);
 
   // deep copy likedUsers and userLikedPostsList to not alter original list
@@ -127,7 +129,7 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
       minutes,
       postImage,
       postText,
-      userName,
+      userName: username,
       likedUsers: tempLikedUsersList,
       comments
     });
@@ -177,7 +179,7 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
     GetUserLikedPosts();
     setNumLikes(likedUsers.length);
     GetDBCommentsArray();
-    GetUserPfp(email);
+    GetUserPfpAndEmail(email);
     const func = async () => {
       if (postImage !== null) {
         const uploadUri = postImage;
@@ -215,7 +217,7 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
             />
           )}
           <Spacer size='large' position='right' />
-          <UserDetailsText style={{ paddingTop: 5 }}>{userName}</UserDetailsText>
+          <UserDetailsText style={{ paddingTop: 5 }}>{username}</UserDetailsText>
         </UserDetails>
         <Spacer size='medium' />
       </View>

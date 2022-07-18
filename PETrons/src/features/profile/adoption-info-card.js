@@ -198,25 +198,25 @@ export const AdoptionInfoCard = ({ pet, navigation }) => {
           <Caption>Breed: {breed}</Caption>
           {(() => {
             if (totalMonths < 12) {
-              return <Caption>Age: {ageMonths} Months</Caption>;
+              return <Caption>Age: {ageMonths} Months Old</Caption>;
             } else {
               if (totalMonths % 12 === 0) {
                 if (totalMonths < 24) {
-                  return <Caption>Age: {ageYears} Year</Caption>;
+                  return <Caption>Age: {ageYears} Year Old</Caption>;
                 } else {
-                  return <Caption>Age: {ageYears} Years</Caption>;
+                  return <Caption>Age: {ageYears} Years Old</Caption>;
                 }
               } else {
                 if (totalMonths < 24) {
                   return (
                     <Caption>
-                      Age: {ageYears} Year {ageMonths} Month
+                      Age: {ageYears} Year {ageMonths} Months Old
                     </Caption>
                   );
                 } else {
                   return (
                     <Caption>
-                      Age: {ageYears} Years {ageMonths} Month
+                      Age: {ageYears} Years {ageMonths} Months Old
                     </Caption>
                   );
                 }

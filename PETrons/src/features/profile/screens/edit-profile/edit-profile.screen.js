@@ -135,10 +135,12 @@ export const EditProfilePage = ({ navigation }) => {
 
   const confirmUpdate = async () => {
     const querySnapshot = await getDocs(collection(db, "userinfo"));
-    let documentID;
+    let documentID, favourites, likedPosts ;
     querySnapshot.forEach((doc) => {
       if (doc.data().email === authentication.currentUser?.email) {
         documentID = doc.id;
+        favourites = doc.data().favourites;
+        likedPosts = doc.data().likedPosts;
       }
     });
     const editedDoc = doc(db, "userinfo", documentID);
@@ -146,6 +148,8 @@ export const EditProfilePage = ({ navigation }) => {
       email: authentication.currentUser?.email,
       profilepic: profileImage,
       username: userName,
+      favourites,
+      likedPosts
     });
     if (profileImage !== "default") {
       const newUploadUri = profileImage;

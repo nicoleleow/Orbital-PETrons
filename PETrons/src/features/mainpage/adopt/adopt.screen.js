@@ -43,7 +43,7 @@ const wait = (timeout) => {
 
 export const AdoptPage = ({ navigation }) => {
   const filterList = petsList.filter((obj) => {
-    return obj.status === "available";
+    return obj[1].status === "available";
   });
 
   const [refreshing, setRefreshing] = useState(false);
@@ -87,8 +87,11 @@ export const AdoptPage = ({ navigation }) => {
   const filterPets = (index, text) => {
     setSearch(text);
     setCategoryIndexFiltered(index);
+    // filter by availability
+    // var newList = filterList.filter((item) => item[1].status === "available");
+
     // filter by category
-    var newList = petsList.filter((item) =>
+    var newList = filterList.filter((item) =>
       PetCategories[index].animalType.toUpperCase() === "ALL"
         ? pets
         : item[1]?.type?.toUpperCase() ==

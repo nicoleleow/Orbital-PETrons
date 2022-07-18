@@ -11,9 +11,6 @@ import {
   getDocs,
   doc,
   setDoc,
-  addDoc,
-  query,
-  deleteDoc,
 } from "firebase/firestore/lite";
 import {
   getStorage,
@@ -29,6 +26,7 @@ import {
   SectionEnd,
   Name,
   Caption,
+  Age,
   HDBIcon,
   GenderIcon
 } from '../../mainpage/adopt/components/pet-info-card.styles';
@@ -50,7 +48,9 @@ export const FavouritesCard = ({ pet, navigation }) => {
 
   const { index, item } = pet;
   const {
-    age,
+    ageYears,
+    ageMonths,
+    totalMonths,
     breed,
     type,
     fee,
@@ -100,13 +100,14 @@ export const FavouritesCard = ({ pet, navigation }) => {
 
   const UpdateFirebaseFavList = async (tempList) => {
     const querySnapshot = await getDocs(collection(db, "userinfo"));
-      let documentID, pfp;
+      let documentID, pfp, likedPosts;
       querySnapshot.forEach((doc) => {
         if (
           (doc.data().email === authentication.currentUser?.email)
         ) {
           documentID = doc.id;
           pfp = doc.data().profilepic;
+          likedPosts = doc.data().likedPosts;
         }
       });
       const editedDoc = doc(db, "userinfo", documentID);
@@ -114,6 +115,7 @@ export const FavouritesCard = ({ pet, navigation }) => {
         email: authentication.currentUser?.email,
         profilepic: pfp,
         username: userUsername,
+        likedPosts,
         favourites: tempList
       });
   }
@@ -149,7 +151,33 @@ export const FavouritesCard = ({ pet, navigation }) => {
           <Spacer size='small' />
           <Caption>{breed}</Caption>
           <Spacer size='small'/>
-          <Caption>{age} old</Caption>
+          {(() => {
+            if (totalMonths < 12) {
+              return <Age>{ageMonths} months old</Age>;
+            } else {
+              if (totalMonths % 12 === 0) {
+                if (totalMonths < 24) {
+                  return <Age>{ageYears} year old</Age>;
+                } else {
+                  return <Age>{ageYears} years old</Age>;
+                }
+              } else {
+                if (totalMonths < 24) {
+                  return (
+                    <Age>
+                      {ageYears} year {ageMonths} months old
+                    </Age>
+                  );
+                } else {
+                  return (
+                    <Age>
+                      {ageYears} years {ageMonths} months old
+                    </Age>
+                  );
+                }
+              }
+            }
+          })()}
         </SectionStart>
         <SectionEnd>
           {isHDBApproved && (

@@ -34,12 +34,12 @@ export const CommentBubble = ({ postID, commentDetails, storyDetails, navigation
     
   const [username, setUsername] = useState('');
   const GetUsername = async (inputEmail) => {
-  const Snapshot = await getDocs(collection(db, "userinfo"));
-  Snapshot.forEach((doc) => {
-    if (doc.data().email === inputEmail) {
-      setUsername(doc.data().username);
-    }
-  })
+    const Snapshot = await getDocs(collection(db, "userinfo"));
+    Snapshot.forEach((doc) => {
+      if (doc.data().email === inputEmail) {
+        setUsername(doc.data().username);
+      }
+    })
   }
 
   const [tempCommentsList, setTempCommentsList] = useState([]);
