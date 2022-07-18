@@ -42,13 +42,13 @@ export const UserInfoSection = styled.View`
 
 export const RenderContentContainer = styled(View).attrs({
   backgroundColor: "white",
-  marginTop: Dimensions.get("window").height - 350,
+  marginTop: Dimensions.get("window").height - 380,
 })`
   border-width: 1.5px;
   border-color: #e6e6e6;
   border-radius: 10px;
   background-color: white;
-  height: 350px;
+  height: 380px;
   padding: 20px;
 `;
 
@@ -88,7 +88,6 @@ export const ChangePasswordButton = styled(Button).attrs({
 
 export const DoneButton = styled(Button).attrs({
   color: "rgb(255, 227, 180)",
-
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;

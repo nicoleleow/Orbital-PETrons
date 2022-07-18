@@ -71,23 +71,7 @@ export const EditProfilePage = ({ navigation }) => {
   const [userName, setUserName] = useState(userUsername);
   const [profileImage, setImage] = useState(userImage);
   const [modalVisible, setModalVisible] = useState(false);
-
-  const [url, setUrl] = useState();
-  useEffect(() => {
-    const func = async () => {
-      const uploadUri = profileImage;
-      const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
-      const storage = getStorage();
-      const reference = ref(storage, filename);
-      await getDownloadURL(reference).then((x) => {
-        setUrl(x);
-      });
-    };
-
-    if (url == undefined) {
-      func();
-    }
-  }, []);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const chooseFromLibrary = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -99,6 +83,7 @@ export const EditProfilePage = ({ navigation }) => {
     if (!result.cancelled) {
       setImage(result.uri);
       setModalVisible(!modalVisible);
+      setModalOpen(true);
     }
   };
 
@@ -113,7 +98,20 @@ export const EditProfilePage = ({ navigation }) => {
     if (!result.cancelled) {
       setImage(result.uri);
       setModalVisible(!modalVisible);
+      setModalOpen(true);
     }
+  };
+
+  const removeProfilePicture = async () => {
+    const uploadUri = profileImage;
+    const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+    const storage = getStorage();
+    const reference = ref(storage, filename);
+    deleteObject(reference)
+      .then(() => {})
+      .catch((error) => {});
+    setImage("default");
+    setModalVisible(!modalVisible);
   };
 
   const confirmUpdate = async () => {
@@ -130,15 +128,17 @@ export const EditProfilePage = ({ navigation }) => {
       profilepic: profileImage,
       username: userName,
     });
-    const newUploadUri = profileImage;
-    const newFilename = newUploadUri.substring(
-      newUploadUri.lastIndexOf("/") + 1
-    );
-    const storage = getStorage();
-    const newReference = ref(storage, newFilename);
-    const img = await fetch(profileImage);
-    const bytes = await img.blob();
-    await uploadBytes(newReference, bytes);
+    if (profileImage !== "default") {
+      const newUploadUri = profileImage;
+      const newFilename = newUploadUri.substring(
+        newUploadUri.lastIndexOf("/") + 1
+      );
+      const storage = getStorage();
+      const newReference = ref(storage, newFilename);
+      const img = await fetch(profileImage);
+      const bytes = await img.blob();
+      await uploadBytes(newReference, bytes);
+    }
     navigation.navigate("ProfilePage");
   };
 
@@ -156,6 +156,25 @@ export const EditProfilePage = ({ navigation }) => {
         },
       ]
     );
+
+  const [url, setUrl] = useState();
+  useEffect(() => {
+    const func = async () => {
+      if (profileImage !== "default") {
+        const uploadUri = profileImage;
+        const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+        const storage = getStorage();
+        const reference = ref(storage, filename);
+        await getDownloadURL(reference).then((x) => {
+          setUrl(x);
+        });
+      }
+    };
+
+    if (url == undefined) {
+      func();
+    }
+  }, []);
 
   return (
     <DismissKeyboard>
@@ -184,6 +203,11 @@ export const EditProfilePage = ({ navigation }) => {
                 Choose From Library
               </RenderContentButtonTitle>
             </RenderContentButton>
+            <RenderContentButton onPress={removeProfilePicture}>
+              <RenderContentButtonTitle>
+                Remove Profile Picture
+              </RenderContentButtonTitle>
+            </RenderContentButton>
             <RenderContentButton onPress={() => setModalVisible(!modalVisible)}>
               <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
             </RenderContentButton>
@@ -201,7 +225,7 @@ export const EditProfilePage = ({ navigation }) => {
             )}
             {profileImage !== "default" && (
               <ImageBackground
-                source={{ uri: url }}
+                source={{ uri: modalOpen === false ? url : profileImage }}
                 style={{ height: 100, width: 100 }}
                 imageStyle={{ borderRadius: 15 }}
                 backgroundColor="white"
