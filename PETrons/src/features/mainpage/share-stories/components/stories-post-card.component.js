@@ -1,15 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import { Spacer } from '../../../../components/spacer/spacer.component';
-import { Text, View, Image } from 'react-native';
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { Text, View, Image, Alert } from 'react-native';
+import { getStorage, ref, getDownloadURL, deleteObject, } from "firebase/storage";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon2 from "react-native-vector-icons/Feather";
 import styled from 'styled-components';
 import { Avatar } from "react-native-paper";
 import {
   collection,
   getDocs,
   doc,
-  setDoc
+  setDoc,
+  deleteDoc,
 } from "firebase/firestore/lite";
 
 import {
@@ -156,6 +158,8 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
         setNumLikes(tempLikedUsersList.length);
       }
     }
+    console.log('numlikes', numLikes);
+    console.log('length', tempLikedUsersList.length);
     //update firebase db
     UpdateFirebaseLikedPostsList(tempPostIDsList);
     UpdateFirebaseLikedUsersEmails(tempLikedUsersList);
@@ -172,12 +176,53 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
   const formattedHour = timeTwelveHour < 10 ? '0' + timeTwelveHour.toString() : timeTwelveHour;
   const formattedMinutes = (minutes < 10) ? ('0' + minutes.toString()) : minutes.toString();
   const formattedTime = formattedHour + ':' + formattedMinutes + ' ' + timeOfDay;
-
   
+   const EditAlert = () =>
+    Alert.alert("Edit?", "Are you sure you want to edit this post?", [
+      {
+        text: "Edit Caption",
+        onPress: () => navigation.navigate("EditPostPage", { storyDetails }),
+      },
+      { text: "Delete Post", onPress: ConfirmDeleteAlert },
+      {
+        text: "Cancel",
+      },
+    ]);
+  
+  const ConfirmDeleteAlert = () =>
+    Alert.alert("Delete?", "Are you sure you want to delete this post?", [
+      { text: "Cancel" },
+      {
+        text: "Delete", onPress: DeleteData
+      }
+    ]);
+  
+  const DeleteData = async () => {
+    const querySnapshot = await getDocs(collection(db, "stories"));
+    let documentID;
+    querySnapshot.forEach((doc) => {
+      if (
+        (doc.data().email === email) &
+        (doc.data().date.seconds === date.seconds)
+      ) {
+        documentID = doc.id;
+      }
+    });
+    await deleteDoc(doc(db, "stories", documentID));
+    if (postImage !== null) {
+      const uploadUri = postImage;
+      const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+      const storage = getStorage();
+      const reference = ref(storage, filename);
+      deleteObject(reference)
+        .then(() => {})
+        .catch((error) => {});
+    }
+  };
+
   const [url, setUrl] = useState();
   useEffect(() => {
     GetUserLikedPosts();
-    setNumLikes(likedUsers.length);
     GetDBCommentsArray();
     GetUserPfpAndEmail(email);
     const func = async () => {
@@ -197,27 +242,44 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
     }
   }, []);
 
+
   return (
     <PostCard elevation={5}>
       <View>
         <Spacer size='xLarge' />
-        <UserDetails>
-          {pfp === "default" && (
-            <Avatar.Image
-              backgroundColor="white"
-              source={require("../../../../../assets/default_profilepic.png")}
-              size={45}
-            />
+        <UserDetails style={{justifyContent: 'space-between'}}>
+          <View style={{flexDirection: 'row'}}>
+            {pfp === "default" && (
+              <Avatar.Image
+                backgroundColor="white"
+                source={require("../../../../../assets/default_profilepic.png")}
+                size={45}
+              />
+            )}
+            {pfp !== "default" && (
+              <Avatar.Image
+                backgroundColor="white"
+                source={{ uri: pfpURL }}
+                size={45}
+              />
+            )}
+            <Spacer size='large' position='right' />
+            <UserDetailsText style={{ paddingTop: 5 }}>{username}</UserDetailsText>
+          </View>
+            
+          {currentUserEmail === email && (
+            <TouchableOpacity
+              style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center' }}
+              zIndex={1}
+              onPress={EditAlert}
+            >
+              <Icon2
+                name='more-horizontal'
+                raised
+                size={24}
+              />
+            </TouchableOpacity>
           )}
-          {pfp !== "default" && (
-            <Avatar.Image
-              backgroundColor="white"
-              source={{ uri: pfpURL }}
-              size={45}
-            />
-          )}
-          <Spacer size='large' position='right' />
-          <UserDetailsText style={{ paddingTop: 5 }}>{username}</UserDetailsText>
         </UserDetails>
         <Spacer size='medium' />
       </View>

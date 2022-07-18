@@ -20,7 +20,7 @@ const UploadPostContainer = styled(View)`
   justify-content: flex-start;
   height: 50px;
   background-color: white;
-  border-radius: 7px;
+  border-radius: ${(props) => props.theme.space[1]};
   padding-horizontal: 10px;
   margin-horizontal: ${(props) => props.theme.space[4]};
 `
@@ -78,7 +78,7 @@ export const StoriesPage = ({ navigation }) => {
           />
         )}
         <Spacer size='xLarge' position='right' />
-        <TouchableOpacity onPress={() => navigation.navigate("CreatePostScreen")} style={{ width: 300, height: 50, justifyContent: 'center'}}>
+        <TouchableOpacity onPress={() => navigation.navigate("CreatePostScreen")} style={{ width: 300, height: 50, justifyContent: 'center' }}>
           <Text style={{color: '#777'}}>Share your story...</Text>
         </TouchableOpacity> 
       </UploadPostContainer>

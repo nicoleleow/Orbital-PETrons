@@ -22,6 +22,7 @@ import { ChatPage } from "../../features/activity/chat.screen";
 import { authentication } from "../../../firebase/firebase-config";
 
 import { CreatePostScreen } from "../../features/mainpage/share-stories/screens/create-post.screen";
+import { EditPostPage } from "../../features/profile/screens/edit-my-post.screen";
 
 import { CommentsScreen } from "../../features/mainpage/share-stories/screens/comments.screen";
 
@@ -105,6 +106,19 @@ export const MainPageNavigator = () => (
       })}
     />
 
+    <Stack.Screen
+        name="EditPostPage"
+        component={EditPostPage}
+        options={({ navigation, route }) => ({
+          title: "Edit Caption",
+          headerStyle: {
+            backgroundColor: "white",
+          },
+          headerBackTitleVisible: false,
+          headerTitleAlign: "center"
+        })}
+    />
+    
     <Stack.Screen
       name="CommentsScreen"
       component={CommentsScreen}
