@@ -6,7 +6,7 @@ import { Spacer } from "../../../components/spacer/spacer.component";
 import { StoriesPostCard } from "./components/stories-post-card.component";
 import { Avatar } from "react-native-paper";
 
-import { GetStoriesData, storiesList, GetPostIDs, postIDList, userUsername, userImage, getUserName } from "../../../../firebase/firebase-config";
+import { GetStoriesData, storiesList, userImage, getUserName } from "../../../../firebase/firebase-config";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 const SafeArea = styled(SafeAreaView)`

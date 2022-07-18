@@ -44,14 +44,22 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
   const currentUserEmail = authentication.currentUser?.email;
  
   const [pfp, setPfp] = useState('');
- 
-  let userPfp;
+  const [pfpURL, setPfpURL] = useState();
+
   const GetUserPfp = async (email) => {
     const Snapshot = await getDocs(collection(db, "userinfo"));
     Snapshot.forEach((doc) => {
       if (doc.data().email === email) {
         setPfp(doc.data().profilepic);
-        userPfp = doc.data().profilepic;
+        if (doc.data().profilepic !== 'default') {
+          const uploadUri = doc.data().profilepic;
+          const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+          const storage = getStorage();
+          const reference = ref(storage, filename);
+          getDownloadURL(reference).then((x) => {
+            setPfpURL(x);
+          })
+        }
       }
     });
   };
@@ -164,13 +172,13 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
   const formattedMinutes = (minutes < 10) ? ('0' + minutes.toString()) : minutes.toString();
   const formattedTime = formattedHour + ':' + formattedMinutes + ' ' + timeOfDay;
 
+  
   const [url, setUrl] = useState();
-  const [pfpURL, setPfpURL] = useState();
   useEffect(() => {
-    GetUserPfp(email);
     GetUserLikedPosts();
     setNumLikes(likedUsers.length);
     GetDBCommentsArray();
+    GetUserPfp(email);
     const func = async () => {
       if (postImage !== null) {
         const uploadUri = postImage;
@@ -181,18 +189,9 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
           setUrl(x);
         });
       }
-      if (pfp !== 'default') {
-        const uploadUri = pfp;
-        const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
-        const storage = getStorage();
-        const reference = ref(storage, filename);
-        await getDownloadURL(reference).then((x) => {
-          setPfpURL(x);
-        })
-      }
     };
 
-    if (url == undefined ||  pfpURL == undefined) {
+    if (url == undefined || pfpURL == undefined) {
       func();
     }
   }, []);
@@ -216,9 +215,8 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
               size={45}
             />
           )}
-          {/* <Text>{pfpURL}</Text> */}
           <Spacer size='large' position='right' />
-          <UserDetailsText style={{paddingTop: 5}}>{userName}</UserDetailsText>
+          <UserDetailsText style={{ paddingTop: 5 }}>{userName}</UserDetailsText>
         </UserDetails>
         <Spacer size='medium' />
       </View>
@@ -230,8 +228,8 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
           <UserDetailsText>{formattedTime}</UserDetailsText>
           <Spacer size='large' position='right' />
           {edited && (
-            <Text style={{color: '#777'}}>(edited)</Text>
-            )}
+            <Text style={{ color: '#777' }}>(edited)</Text>
+          )}
         </UserDetails>
         <Spacer size='medium' />
         <Spacer size='medium' />
@@ -239,14 +237,14 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
           <View>
             <Image
               source={{ uri: url }}
-              style={{ resizeMode: "contain", width: 360, height: 220, alignSelf: 'center'}}
+              style={{ resizeMode: "contain", width: 360, height: 220, alignSelf: 'center' }}
             />
             <Spacer size='medium' />
           </View>
         )}
         {(postText !== '') && (
           <PostDetails>
-            <Text style={{fontSize: 15}}>{postText}</Text>
+            <Text style={{ fontSize: 15 }}>{postText}</Text>
           </PostDetails>
         )}
       </View>
@@ -266,7 +264,7 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
         )}
       </CountsContainer>
       <PostDetails>
-        <BottomContainer>  
+        <BottomContainer>
           <TouchableOpacity
             style={{ flexDirection: 'row', alignItems: 'center' }}
             onPress={UpdateLikedPostsList}
@@ -297,17 +295,18 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
             onPress={() => navigation.navigate("CommentsScreen", { storyDetails })}
           >
             <Icon
-                raised
-                name="comment-outline"
-                size={24} color={'#777'}
+              raised
+              name="comment-outline"
+              size={24} color={'#777'}
             />
             <Spacer size='medium' position='right' />
             <Text>Comment</Text>
           </TouchableOpacity>
         </BottomContainer>
-      </PostDetails> 
-    
+      </PostDetails>
+  
     </PostCard>
   )
 }
-    
+
+  
