@@ -72,6 +72,23 @@ export const EditProfilePage = ({ navigation }) => {
   const [profileImage, setImage] = useState(userImage);
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [url, setUrl] = useState();
+  useEffect(() => {
+    const func = async () => {
+      const uploadUri = profileImage;
+      const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+      const storage = getStorage();
+      const reference = ref(storage, filename);
+      await getDownloadURL(reference).then((x) => {
+        setUrl(x);
+      });
+    };
+
+    if (url == undefined) {
+      func();
+    }
+  }, []);
+
   const chooseFromLibrary = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -184,7 +201,7 @@ export const EditProfilePage = ({ navigation }) => {
             )}
             {profileImage !== "default" && (
               <ImageBackground
-                source={{ uri: profileImage }}
+                source={{ uri: url }}
                 style={{ height: 100, width: 100 }}
                 imageStyle={{ borderRadius: 15 }}
                 backgroundColor="white"
