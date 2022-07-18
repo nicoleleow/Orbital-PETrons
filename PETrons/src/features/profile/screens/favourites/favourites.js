@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components/native";
 import { Text } from "../../../../components/typography/text.component"
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -30,13 +30,11 @@ const SearchInputContainer = styled(View)`
   background-color: white;
   border-radius: 7px;
   padding-horizontal: 20px;
-  width: 360px;
+  margin-horizontal: 20px;
 `;
 
 
 export const FavouritesPage = ({ navigation }) => {
-  GetUserFavourites();
-  GetFavouritesDetails(userFavouritesList);
 
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -61,6 +59,13 @@ export const FavouritesPage = ({ navigation }) => {
     setSearch(text);
   };
 
+  useEffect(() => {
+    GetUserFavourites();
+    GetFavouritesDetails(userFavouritesList);
+    filterPetName(search);
+    setFilteredPets(favouritesDetails);
+  }, []);
+
   return (
     <SafeArea>
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
@@ -78,7 +83,6 @@ export const FavouritesPage = ({ navigation }) => {
       </SearchInputContainer>
       </View>
       <Spacer size='medium' />
-      
         <FlatList
           data={filteredPets}
           renderItem={(item) => (
@@ -88,9 +92,9 @@ export const FavouritesPage = ({ navigation }) => {
                 navigation={navigation}/>
             </TouchableOpacity>
           )}
-        contentContainerStyle={{
-          marginHorizontal: ((Dimensions.get('window').width - 382) / 2)      
-        }}
+          contentContainerStyle={{
+            marginHorizontal: 15      
+          }}
           keyExtractor={(item) => item[0]}
           numColumns={2}
           refreshControl={
