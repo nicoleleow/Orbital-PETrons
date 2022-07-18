@@ -241,7 +241,7 @@ export const EditProfilePage = ({ navigation }) => {
             <Text style={{ width: 85 }}>Email:</Text>
             <FieldText>{authentication.currentUser?.email}</FieldText>
           </UserInfoSection>
-          <UserInfoSection>
+          <UserInfoSection style={{alignItems: 'center'}}>
             <Text style={{ width: 85 }}>Username:</Text>
             <FieldInput
               value={userName}
