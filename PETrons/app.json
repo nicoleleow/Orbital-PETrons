@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "PETrons",
+    "owner": "petrons",
     "slug": "PETrons",
     "version": "1.0.0",
     "orientation": "portrait",

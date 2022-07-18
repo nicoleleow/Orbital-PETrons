@@ -73,6 +73,25 @@ export const EditProfilePage = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
+  const [url, setUrl] = useState();
+  useEffect(() => {
+    const func = async () => {
+      if (profileImage !== 'default') {
+        const uploadUri = profileImage;
+        const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+        const storage = getStorage();
+        const reference = ref(storage, filename);
+        await getDownloadURL(reference).then((x) => {
+          setUrl(x);
+        });
+      }
+    };
+
+    if (url == undefined) {
+      func();
+    }
+  }, []);
+
   const chooseFromLibrary = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -156,25 +175,6 @@ export const EditProfilePage = ({ navigation }) => {
         },
       ]
     );
-
-  const [url, setUrl] = useState();
-  useEffect(() => {
-    const func = async () => {
-      if (profileImage !== "default") {
-        const uploadUri = profileImage;
-        const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
-        const storage = getStorage();
-        const reference = ref(storage, filename);
-        await getDownloadURL(reference).then((x) => {
-          setUrl(x);
-        });
-      }
-    };
-
-    if (url == undefined) {
-      func();
-    }
-  }, []);
 
   return (
     <DismissKeyboard>

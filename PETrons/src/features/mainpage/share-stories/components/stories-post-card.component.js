@@ -46,10 +46,10 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
   const [pfp, setPfp] = useState('');
  
   let userPfp;
-  const GetUserPfp = async (userName) => {
+  const GetUserPfp = async (email) => {
     const Snapshot = await getDocs(collection(db, "userinfo"));
     Snapshot.forEach((doc) => {
-      if (doc.data().username === userName) {
+      if (doc.data().email === email) {
         setPfp(doc.data().profilepic);
         userPfp = doc.data().profilepic;
       }
@@ -74,9 +74,9 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
   const GetDBCommentsArray = async () => {
     const Snapshot = await getDocs(collection(db, "stories"));
     Snapshot.forEach((doc) => {
-    if (doc.id === postID) {
-      setTempCommentsList(doc.data().comments);
-      setNumComments(doc.data().comments.length);
+      if (doc.id === postID) {
+        setTempCommentsList(doc.data().comments);
+        setNumComments(doc.data().comments.length);
       }
     })
   }
@@ -88,25 +88,25 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
   // update firebase user-info db list of liked postIDs
   const UpdateFirebaseLikedPostsList = async (tempPostIDsList) => {
     const querySnapshot = await getDocs(collection(db, "userinfo"));
-      let documentID, profilepic, favourites;
-      querySnapshot.forEach((doc) => {
-        if (
-          (doc.data().email === authentication.currentUser?.email)
-        ) {
-          documentID = doc.id;
-          profilepic = doc.data().profilepic;
-          favourites = doc.data().favourites;
-        }
-      });
+    let documentID, profilepic, favourites;
+    querySnapshot.forEach((doc) => {
+      if (
+        (doc.data().email === authentication.currentUser?.email)
+      ) {
+        documentID = doc.id;
+        profilepic = doc.data().profilepic;
+        favourites = doc.data().favourites;
+      }
+    });
     
-      const editedDoc = doc(db, "userinfo", documentID);
-      await setDoc(editedDoc, {
-        email: currentUserEmail,
-        username: userUsername,
-        profilepic,
-        favourites,
-        likedPosts: tempPostIDsList
-      });
+    const editedDoc = doc(db, "userinfo", documentID);
+    await setDoc(editedDoc, {
+      email: currentUserEmail,
+      username: userUsername,
+      profilepic,
+      favourites,
+      likedPosts: tempPostIDsList
+    });
   }
 
   // update firebase stories db number of likes
@@ -133,7 +133,7 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
         // if post already previously liked, but now no, remove post from liked list
         tempPostIDsList = tempPostIDsList.filter(id => id !== postID);
       }
-      if (tempLikedUsersList.includes(currentUserEmail)){
+      if (tempLikedUsersList.includes(currentUserEmail)) {
         tempLikedUsersList = tempLikedUsersList.filter(mail => mail !== currentUserEmail);
         setNumLikes(tempLikedUsersList.length);
       }
@@ -167,7 +167,7 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
   const [url, setUrl] = useState();
   const [pfpURL, setPfpURL] = useState();
   useEffect(() => {
-    GetUserPfp(userName);
+    GetUserPfp(email);
     GetUserLikedPosts();
     setNumLikes(likedUsers.length);
     GetDBCommentsArray();
@@ -181,18 +181,18 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
           setUrl(x);
         });
       }
-      //   if (pfp !== "default") {
-      //     const uploadUriPFP = pfp;
-      //     const filenamePFP = uploadUriPFP.substring(uploadUriPFP.lastIndexOf("/") + 1);
-      //     const storagePFP = getStorage();
-      //     const referencePFP = ref(storagePFP, filenamePFP);
-      //     await getDownloadURL(referencePFP).then((x) => {
-      //       setPfpURL(x);
-      //     });
-      //   }
+      if (pfp !== 'default') {
+        const uploadUri = pfp;
+        const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+        const storage = getStorage();
+        const reference = ref(storage, filename);
+        await getDownloadURL(reference).then((x) => {
+          setPfpURL(x);
+        })
+      }
     };
 
-    if (url == undefined || pfp === '') {
+    if (url == undefined ||  pfpURL == undefined) {
       func();
     }
   }, []);
@@ -202,12 +202,7 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
       <View>
         <Spacer size='xLarge' />
         <UserDetails>
-          <Avatar.Image
-              backgroundColor="white"
-              source={require("../../../../../assets/default_profilepic.png")}
-              size={45}
-          />
-          {/* {pfp === "default" && (
+          {pfp === "default" && (
             <Avatar.Image
               backgroundColor="white"
               source={require("../../../../../assets/default_profilepic.png")}
@@ -220,7 +215,8 @@ export const StoriesPostCard = ({ storyDetails, navigation }) => {
               source={{ uri: pfpURL }}
               size={45}
             />
-          )} */}
+          )}
+          {/* <Text>{pfpURL}</Text> */}
           <Spacer size='large' position='right' />
           <UserDetailsText style={{paddingTop: 5}}>{userName}</UserDetailsText>
         </UserDetails>

@@ -60,11 +60,6 @@ export const ProfileNavigator = () => {
           },
           headerBackTitleVisible: false,
           headerTitleAlign: "center",
-          headerLeft: () => (
-            <Pressable onPress={() => navigation.navigate("ProfilePage")}>
-              <PressableText> {"<"} </PressableText>
-            </Pressable>
-          ),
         })}
       />
       <Stack.Screen
@@ -93,11 +88,6 @@ export const ProfileNavigator = () => {
           },
           headerTitleAlign: "center",
           headerBackTitleVisible: false,
-          headerLeft: () => (
-            <Pressable onPress={() => navigation.goBack()}>
-              <PressableText> {"<"} </PressableText>
-            </Pressable>
-          ),
         })}
       />
       <Stack.Screen

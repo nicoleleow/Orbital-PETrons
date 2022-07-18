@@ -27,12 +27,6 @@ import { CommentsScreen } from "../../features/mainpage/share-stories/screens/co
 
 const Stack = createStackNavigator();
 
-const PressableText = styled(Text)`
-  color: black;
-  font-size: ${(props) => props.theme.fontSizes.h5};
-  padding-left: ${(props) => props.theme.space[3]};
-`;
-
 export const MainPageNavigator = () => (
   <Stack.Navigator>
     <Stack.Screen
@@ -97,11 +91,6 @@ export const MainPageNavigator = () => (
         title: route.params.item[1].userName,
         headerTitleAlign: "center",
         headerBackTitleVisible: false,
-        headerLeft: () => (
-          <Pressable onPress={() => navigation.goBack()}>
-            <PressableText> {"<"} </PressableText>
-          </Pressable>
-        ),
       })}
     />
 
@@ -112,7 +101,7 @@ export const MainPageNavigator = () => (
         title: "Create A Post",
         headerBackTitleVisible: false,
         headerTitleStyle: { fontSize: 18 },
-        headerTitleAlign: "center"
+        headerTitleAlign: "center",
       })}
     />
 
@@ -123,7 +112,7 @@ export const MainPageNavigator = () => (
         title: "Comments",
         headerBackTitleVisible: false,
         headerTitleStyle: { fontSize: 18 },
-        headerTitleAlign: "center"
+        headerTitleAlign: "center",
       })}
     />
 

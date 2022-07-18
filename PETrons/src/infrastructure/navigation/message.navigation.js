@@ -33,11 +33,6 @@ export const MessageNavigator = () => {
               : route.params.item.userName,
           headerTitleAlign: "center",
           headerBackTitleVisible: false,
-          headerLeft: () => (
-            <Pressable onPress={() => navigation.navigate("MessagePage")}>
-              <PressableText> {"<"} </PressableText>
-            </Pressable>
-          ),
         })}
       />
     </Stack.Navigator>

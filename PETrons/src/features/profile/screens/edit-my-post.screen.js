@@ -46,7 +46,7 @@ const DismissKeyboard = ({ children }) => (
 
 export const EditPostPage = ({ route, navigation }) => {
   getUserName();
-  const details = route.params.storyDetails;
+  const details = route.params.storyDetails[1];
   const { date, hour, minutes, postImage, postText, userName, email, edited, likedUsers, comments } = details;
   
   const [newPostText, setNewPostText] = useState(postText);
@@ -64,7 +64,7 @@ export const EditPostPage = ({ route, navigation }) => {
         const storage = getStorage();
         const reference = ref(storage, filename);
         await getDownloadURL(reference).then((x) => {
-          setUrl(x);
+          setPfpUrl(x);
         });
       }
       if (postImage !== null) {
@@ -82,6 +82,7 @@ export const EditPostPage = ({ route, navigation }) => {
     func();
     }
   }, []);
+
 
   const updateData = async () => {
     const querySnapshot = await getDocs(collection(db, "stories"));
@@ -169,7 +170,7 @@ export const EditPostPage = ({ route, navigation }) => {
                 {postImage && (
                   <View>
                     <Image
-                    source={{ uri: postImage }}
+                    source={{ uri: url }}
                     style={{ resizeMode: "contain", width: 360, height: 220, alignSelf: 'center'}}
                     />
                     <Spacer size='large' />
