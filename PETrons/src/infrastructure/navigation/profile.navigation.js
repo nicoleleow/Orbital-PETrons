@@ -56,10 +56,13 @@ export const ProfileNavigator = () => {
         component={EditProfilePage}
         options={({ navigation, route }) => ({
           headerStyle: {
-            backgroundColor: "orange",
+            backgroundColor: "#ff8c3f",
           },
           headerBackTitleVisible: false,
           headerTitleAlign: "center",
+          headerTitleStyle: {
+            color: "#fffff4",
+          },
         })}
       />
       <Stack.Screen
@@ -76,7 +79,7 @@ export const ProfileNavigator = () => {
             backgroundColor: "white",
           },
           headerBackTitleVisible: false,
-          headerTitleAlign: "center"
+          headerTitleAlign: "center",
         })}
       />
       <Stack.Screen
@@ -91,25 +94,25 @@ export const ProfileNavigator = () => {
         })}
       />
       <Stack.Screen
-      name="CommentsScreen"
-      component={CommentsScreen}
-      options={({ navigation, route }) => ({
-        title: "Comments",
-        headerBackTitleVisible: false,
-        headerTitleStyle: { fontSize: 18 },
-        headerTitleAlign: "center"
-      })}
+        name="CommentsScreen"
+        component={CommentsScreen}
+        options={({ navigation, route }) => ({
+          title: "Comments",
+          headerBackTitleVisible: false,
+          headerTitleStyle: { fontSize: 18 },
+          headerTitleAlign: "center",
+        })}
       />
       <Stack.Screen
-      name="LikedUsersScreen"
-      component={LikedUsersScreen}
-      options={({ navigation, route }) => ({
-        title: "Liked Users",
-        headerBackTitleVisible: false,
-        headerTitleStyle: { fontSize: 18 },
-        headerTitleAlign: "center"
-      })}
-    />
+        name="LikedUsersScreen"
+        component={LikedUsersScreen}
+        options={({ navigation, route }) => ({
+          title: "Liked Users",
+          headerBackTitleVisible: false,
+          headerTitleStyle: { fontSize: 18 },
+          headerTitleAlign: "center",
+        })}
+      />
     </Stack.Navigator>
   );
 };

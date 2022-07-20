@@ -31,11 +31,13 @@ function MyTabs() {
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarHideOnKeyboard: true,
-        tabBarActiveTintColor: "black",
-        tabBarInactiveTintColor: "gray",
+        tabBarActiveTintColor: "#FFFFF4",
+        tabBarInactiveTintColor: "#f8f0e1",
         tabBarStyle: [
           {
             display: "flex",
+            backgroundColor: "#ff8c3f",
+            height: 90,
           },
           null,
         ],
