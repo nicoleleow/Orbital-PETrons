@@ -96,7 +96,7 @@ export const CreatePostScreen = ({ navigation }) => {
     if (postImage === null && postText === "") {
       Alert.alert(
         "Empty Post",
-        "Please upload an image or input some text.\nIf you wish to delete this post, click on the 'Cancel' button."
+        "Please upload an image or input some text."
       )
     } else {
       Alert.alert(
