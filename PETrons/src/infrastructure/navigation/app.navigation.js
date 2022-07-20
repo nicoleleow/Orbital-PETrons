@@ -10,6 +10,7 @@ import { ProfileNavigator } from "./profile.navigation";
 import { MainPageNavigator } from "./mainpage.navigation";
 import { MessageNavigator } from "./message.navigation";
 import { getUserName } from "../../../firebase/firebase-config";
+import { colors } from "../theme/colors";
 
 const Tab = createBottomTabNavigator();
 
@@ -31,11 +32,13 @@ function MyTabs() {
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarHideOnKeyboard: true,
-        tabBarActiveTintColor: "black",
-        tabBarInactiveTintColor: "gray",
+        tabBarActiveTintColor: "#FFFFF4",
+        tabBarInactiveTintColor: "rgb(255, 227, 180)",
         tabBarStyle: [
           {
             display: "flex",
+            backgroundColor: colors.ui.header,
+            height: 90,
           },
           null,
         ],

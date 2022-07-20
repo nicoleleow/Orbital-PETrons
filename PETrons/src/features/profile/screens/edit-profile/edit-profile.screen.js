@@ -55,10 +55,11 @@ import {
   DoneButton,
   PressableText,
 } from "./edit-profile.style";
+import { colors } from "../../../../infrastructure/theme/colors";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
-  background-color: orange;
+  background-color: ${(props) => props.theme.colors.ui.background};
 `;
 
 const DismissKeyboard = ({ children }) => (
@@ -76,7 +77,7 @@ export const EditProfilePage = ({ navigation }) => {
   const [url, setUrl] = useState();
   useEffect(() => {
     const func = async () => {
-      if (profileImage !== 'default') {
+      if (profileImage !== "default") {
         const uploadUri = profileImage;
         const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
         const storage = getStorage();
@@ -135,7 +136,7 @@ export const EditProfilePage = ({ navigation }) => {
 
   const confirmUpdate = async () => {
     const querySnapshot = await getDocs(collection(db, "userinfo"));
-    let documentID, favourites, likedPosts ;
+    let documentID, favourites, likedPosts;
     querySnapshot.forEach((doc) => {
       if (doc.data().email === authentication.currentUser?.email) {
         documentID = doc.id;
@@ -149,7 +150,7 @@ export const EditProfilePage = ({ navigation }) => {
       profilepic: profileImage,
       username: userName,
       favourites,
-      likedPosts
+      likedPosts,
     });
     if (profileImage !== "default") {
       const newUploadUri = profileImage;
@@ -245,7 +246,7 @@ export const EditProfilePage = ({ navigation }) => {
             <Text style={{ width: 85 }}>Email:</Text>
             <FieldText>{authentication.currentUser?.email}</FieldText>
           </UserInfoSection>
-          <UserInfoSection style={{alignItems: 'center'}}>
+          <UserInfoSection style={{ alignItems: "center" }}>
             <Text style={{ width: 85 }}>Username:</Text>
             <FieldInput
               value={userName}
@@ -255,6 +256,7 @@ export const EditProfilePage = ({ navigation }) => {
           </UserInfoSection>
           <View style={{ alignItems: "center" }}>
             <ChangePasswordButton
+              labelStyle={{ color: colors.button.text }}
               icon="key"
               mode="contained"
               onPress={() => navigation.navigate("Change Password")}
@@ -262,6 +264,7 @@ export const EditProfilePage = ({ navigation }) => {
               Change Password
             </ChangePasswordButton>
             <DoneButton
+              labelStyle={{ color: colors.button.text }}
               icon="sticker-check-outline"
               mode="contained"
               onPress={DoneAlert}

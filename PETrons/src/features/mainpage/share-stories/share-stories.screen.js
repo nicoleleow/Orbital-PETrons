@@ -1,17 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, View, TouchableOpacity, FlatList, RefreshControl } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  TouchableOpacity,
+  FlatList,
+  RefreshControl,
+} from "react-native";
 import styled from "styled-components/native";
-import { Text } from "../../../components/typography/text.component"
+import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { StoriesPostCard } from "./components/stories-post-card.component";
 import { Avatar } from "react-native-paper";
 
-import { GetStoriesData, storiesList, userImage, getUserName } from "../../../../firebase/firebase-config";
+import {
+  GetStoriesData,
+  storiesList,
+  userImage,
+  getUserName,
+} from "../../../../firebase/firebase-config";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { colors } from "../../../infrastructure/theme/colors";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
-  background-color: orange;
+  background-color: ${(props) => props.theme.colors.ui.background};
 `;
 
 const UploadPostContainer = styled(View)`
@@ -23,11 +35,11 @@ const UploadPostContainer = styled(View)`
   border-radius: ${(props) => props.theme.space[1]};
   padding-horizontal: 10px;
   margin-horizontal: ${(props) => props.theme.space[4]};
-`
+`;
 
 const wait = (timeout) => {
-  return new Promise(resolve => setTimeout(resolve, timeout));
-}
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 
 export const StoriesPage = ({ navigation }) => {
   const [pfp, setPfp] = useState(userImage);
@@ -61,7 +73,7 @@ export const StoriesPage = ({ navigation }) => {
 
   return (
     <SafeArea>
-      <Text variant='header'>Share Stories</Text>
+      <Text variant="header">Share Stories</Text>
       <UploadPostContainer>
         {userImage === "default" && (
           <Avatar.Image
@@ -77,23 +89,25 @@ export const StoriesPage = ({ navigation }) => {
             size={45}
           />
         )}
-        <Spacer size='xLarge' position='right' />
-        <TouchableOpacity onPress={() => navigation.navigate("CreatePostScreen")} style={{ width: 300, height: 50, justifyContent: 'center' }}>
-          <Text style={{color: '#777'}}>Share your story...</Text>
-        </TouchableOpacity> 
+        <Spacer size="xLarge" position="right" />
+        <TouchableOpacity
+          onPress={() => navigation.navigate("CreatePostScreen")}
+          style={{ width: 300, height: 50, justifyContent: "center" }}
+        >
+          <Text style={{ color: "#777" }}>Share your story...</Text>
+        </TouchableOpacity>
       </UploadPostContainer>
-      <Spacer size='medium' />
+      <Spacer size="medium" />
       <FlatList
         data={storiesList}
         renderItem={(item) => (
-          <StoriesPostCard storyDetails={item.item} navigation={navigation}/>
+          <StoriesPostCard storyDetails={item.item} navigation={navigation} />
         )}
         keyExtractor={(item) => item[0]}
         refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh} />}
-      /> 
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      />
     </SafeArea>
-  )
+  );
 };

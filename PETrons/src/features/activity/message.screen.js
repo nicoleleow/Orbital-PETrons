@@ -33,10 +33,11 @@ import {
   chatList,
   userUsername,
 } from "../../../firebase/firebase-config";
+import { colors } from "../../infrastructure/theme/colors";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
-  background-color: orange;
+  background-color: ${(props) => props.theme.colors.ui.background};
 `;
 
 const wait = (timeout) => {

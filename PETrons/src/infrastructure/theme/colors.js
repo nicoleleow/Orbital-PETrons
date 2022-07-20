@@ -11,15 +11,19 @@ export const colors = {
     blue1: "#789fcc",
     blue2: "#afc9cf",
     lightgreen: "#bee6b0",
-    red: "#ff7f7f"
+    red: "#ff7f7f",
   },
   button: {
     primary: "#2182BD",
     secondary: "#5282BD",
     muted: "#C6DAF7",
-    confirmButton: "#2196f3"
+    confirmButton: "#2196f3",
+    main: "#ffae42",
+    text: "#ffffec",
   },
   ui: {
+    background: "#ffffec",
+    header: "#ffae42",
     primary: "#262626",
     secondary: "#757575",
     tertiary: "#F1F1F1",

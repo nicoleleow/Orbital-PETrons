@@ -8,6 +8,7 @@ import {
   Dimensions,
 } from "react-native";
 import { Button } from "react-native-paper";
+import { colors } from "../../../../infrastructure/theme/colors";
 
 export const ProfilePicture = styled(View)`
   margin-top: ${(props) => props.theme.space[5]};
@@ -29,7 +30,7 @@ export const FieldInput = styled(TextInput)`
 export const FieldText = styled(Text)`
   margin-left: ${(props) => props.theme.space[3]};
   margin-bottom: ${(props) => props.theme.space[3]};
-  border-bottom-color: whitesmoke;
+  border-bottom-color: black;
   padding-bottom: 5px;
 `;
 
@@ -78,7 +79,7 @@ export const RenderContentButton = styled(TouchableOpacity)`
 `;
 
 export const ChangePasswordButton = styled(Button).attrs({
-  color: "rgb(255, 227, 180)",
+  color: colors.button.main,
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
@@ -86,7 +87,7 @@ export const ChangePasswordButton = styled(Button).attrs({
 `;
 
 export const DoneButton = styled(Button).attrs({
-  color: "rgb(255, 227, 180)",
+  color: colors.button.main,
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;

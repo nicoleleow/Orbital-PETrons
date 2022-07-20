@@ -45,6 +45,7 @@ import {
   AdoptionInfoSubtitle,
   AgeInputs,
 } from "./put-up-for-adoption.style";
+import { colors } from "../../../infrastructure/theme/colors";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -237,7 +238,12 @@ export const PutUpAdoptionPage = ({ navigation }) => {
               </View>
             )}
             <View style={{ alignItems: "center" }}>
-              <FormButton icon="image" mode="contained" onPress={renderContent}>
+              <FormButton
+                labelStyle={{ color: colors.button.text }}
+                icon="image"
+                mode="contained"
+                onPress={renderContent}
+              >
                 Upload Image
               </FormButton>
               <Spacer size="large">
@@ -368,7 +374,11 @@ export const PutUpAdoptionPage = ({ navigation }) => {
           </Container>
           <Spacer size="large" />
           <View style={{ alignItems: "center" }}>
-            <SubmitFormButton mode="contained" onPress={confirmAlert}>
+            <SubmitFormButton
+              labelStyle={{ color: colors.button.text }}
+              mode="contained"
+              onPress={confirmAlert}
+            >
               Confirm
             </SubmitFormButton>
           </View>

@@ -11,13 +11,14 @@ import {
 import { Menu } from "react-native-paper";
 import styled from "styled-components/native";
 import { Spacer } from "../../components/spacer/spacer.component";
+import { colors } from "../../infrastructure/theme/colors";
 
 const widthMenuCard = Dimensions.get("screen").width / 2 - 30;
 const mainPageHeaderPadding = Dimensions.get("screen").height / 12;
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
-  background-color: orange;
+  background-color: ${(props) => props.theme.colors.ui.background};
 `;
 
 const MainPageHeader = styled(Text)`

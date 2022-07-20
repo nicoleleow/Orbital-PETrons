@@ -2,6 +2,7 @@ import styled from "styled-components/native";
 import { Button, TextInput, Text } from "react-native-paper";
 import { TouchableOpacity, View, SafeAreaView, Dimensions } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+import { colors } from "../../../infrastructure/theme/colors";
 
 const PageHeaderPadding = Dimensions.get("screen").height / 20;
 const InputWidth = Dimensions.get("screen").width - 40;
@@ -9,7 +10,7 @@ const AgeInputWidth = (Dimensions.get("screen").width - 50) / 2;
 
 export const SafeArea = styled(SafeAreaView)`
   flex: 1;
-  background-color: orange;
+  background-color: ${(props) => props.theme.colors.ui.background};
 `;
 
 export const Container = styled.View`
@@ -27,7 +28,7 @@ export const PutUpAdoptionPageHeader = styled(Text)`
 `;
 
 export const FormButton = styled(Button).attrs({
-  color: "rgb(255, 227, 180)",
+  color: colors.button.main,
 })`
   padding: ${(props) => props.theme.space[2]};
   width: ${InputWidth}px;
@@ -35,7 +36,7 @@ export const FormButton = styled(Button).attrs({
 `;
 
 export const SubmitFormButton = styled(Button).attrs({
-  color: "rgb(255, 227, 180)",
+  color: colors.button.main,
 })`
   padding: ${(props) => props.theme.space[2]};
   width: ${InputWidth}px;

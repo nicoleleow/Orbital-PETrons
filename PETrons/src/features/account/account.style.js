@@ -21,13 +21,13 @@ export const AccountContainer = styled.View`
 `;
 
 export const ProceedButton = styled(Button).attrs({
-  color: colors.button.primary,
+  color: colors.button.main,
 })`
   padding: ${(props) => props.theme.space[2]};
 `;
 
 export const SubmitButton = styled(Button).attrs({
-  color: colors.button.primary,
+  color: colors.button.main,
 })`
   padding: ${(props) => props.theme.space[2]};
   margin-top: ${(props) => props.theme.space[3]};

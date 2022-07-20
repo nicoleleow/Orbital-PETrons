@@ -8,6 +8,7 @@ import {
   SubTitle,
   Caption,
 } from "./account.style";
+import { colors } from "../../infrastructure/theme/colors";
 
 export const AccountScreen = ({ navigation }) => {
   return (
@@ -16,6 +17,7 @@ export const AccountScreen = ({ navigation }) => {
       <Caption>No Better Option Than Adoption</Caption>
       <AccountContainer>
         <ProceedButton
+          labelStyle={{ color: colors.button.text }}
           icon="lock-open-outline"
           mode="contained"
           onPress={() => navigation.navigate("Login")}
@@ -24,6 +26,7 @@ export const AccountScreen = ({ navigation }) => {
         </ProceedButton>
         <Spacer size="large">
           <ProceedButton
+            labelStyle={{ color: colors.button.text }}
             icon="email"
             color="black"
             mode="contained"

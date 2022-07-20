@@ -14,7 +14,7 @@ const mainPageHeaderPadding = Dimensions.get("screen").height / 12;
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
-  background-color: orange;
+  background-color: ${(props) => props.theme.colors.ui.background};
 `;
 
 const MainPageHeader = styled(Text)`
@@ -35,7 +35,7 @@ const Container = styled(View).attrs({
 
 const PageButtons = styled(TouchableOpacity)`
   elevation: 5;
-  background-color: rgb(255, 227, 180);
+  background-color: ${(props) => props.theme.colors.button.main};
   margin: ${(props) => props.theme.space[3]} ${(props) => props.theme.space[6]};
   padding: ${(props) => props.theme.space[4]} 20px;
   border-radius: ${(props) => props.theme.space[3]};
@@ -44,6 +44,7 @@ const PageButtons = styled(TouchableOpacity)`
 `;
 
 const PageTitles = styled(Text)`
+  color: ${(props) => props.theme.colors.button.text};
   text-align: center;
   font-size: ${(props) => props.theme.fontSizes.title};
 `;

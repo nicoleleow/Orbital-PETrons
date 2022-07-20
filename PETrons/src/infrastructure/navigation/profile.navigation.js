@@ -14,12 +14,13 @@ import { EditPostPage } from "../../features/profile/screens/edit-my-post.screen
 import { ChangePasswordPage } from "../../features/profile/screens/edit-profile/change-password-screen";
 import { CommentsScreen } from "../../features/mainpage/share-stories/screens/comments.screen";
 import { LikedUsersScreen } from "../../features/profile/screens/my-posts-liked-users.screen";
+import { colors } from "../theme/colors";
 
 const Stack = createStackNavigator();
 
 const PressableText = styled(Text)`
-  color: black;
-  font-size: ${(props) => props.theme.fontSizes.h5};
+  color: #fffff4;
+  font-size: ${(props) => props.theme.fontSizes.body};
   padding-left: ${(props) => props.theme.space[3]};
 `;
 
@@ -56,10 +57,14 @@ export const ProfileNavigator = () => {
         component={EditProfilePage}
         options={({ navigation, route }) => ({
           headerStyle: {
-            backgroundColor: "orange",
+            backgroundColor: colors.ui.header,
           },
           headerBackTitleVisible: false,
           headerTitleAlign: "center",
+          headerTintColor: "#fffff4",
+          headerTitleStyle: {
+            color: "#fffff4",
+          },
         })}
       />
       <Stack.Screen
@@ -76,7 +81,7 @@ export const ProfileNavigator = () => {
             backgroundColor: "white",
           },
           headerBackTitleVisible: false,
-          headerTitleAlign: "center"
+          headerTitleAlign: "center",
         })}
       />
       <Stack.Screen
@@ -84,32 +89,36 @@ export const ProfileNavigator = () => {
         component={ChangePasswordPage}
         options={({ navigation, route }) => ({
           headerStyle: {
-            backgroundColor: "orange",
+            backgroundColor: colors.ui.header,
           },
-          headerTitleAlign: "center",
           headerBackTitleVisible: false,
+          headerTitleAlign: "center",
+          headerTintColor: "#fffff4",
+          headerTitleStyle: {
+            color: "#fffff4",
+          },
         })}
       />
       <Stack.Screen
-      name="CommentsScreen"
-      component={CommentsScreen}
-      options={({ navigation, route }) => ({
-        title: "Comments",
-        headerBackTitleVisible: false,
-        headerTitleStyle: { fontSize: 18 },
-        headerTitleAlign: "center"
-      })}
+        name="CommentsScreen"
+        component={CommentsScreen}
+        options={({ navigation, route }) => ({
+          title: "Comments",
+          headerBackTitleVisible: false,
+          headerTitleStyle: { fontSize: 18 },
+          headerTitleAlign: "center",
+        })}
       />
       <Stack.Screen
-      name="LikedUsersScreen"
-      component={LikedUsersScreen}
-      options={({ navigation, route }) => ({
-        title: "Liked Users",
-        headerBackTitleVisible: false,
-        headerTitleStyle: { fontSize: 18 },
-        headerTitleAlign: "center"
-      })}
-    />
+        name="LikedUsersScreen"
+        component={LikedUsersScreen}
+        options={({ navigation, route }) => ({
+          title: "Liked Users",
+          headerBackTitleVisible: false,
+          headerTitleStyle: { fontSize: 18 },
+          headerTitleAlign: "center",
+        })}
+      />
     </Stack.Navigator>
   );
 };
