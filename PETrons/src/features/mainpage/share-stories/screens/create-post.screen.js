@@ -66,7 +66,7 @@ export const CreatePostScreen = ({ navigation }) => {
   const removeImage = () => {
     if (postImage === null) {
       Alert.alert(
-        "No Image Uploaded Yet."
+        "No Image Selected Yet."
       );
     } else {
       setPostImage(null);
