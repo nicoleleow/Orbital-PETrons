@@ -9,7 +9,7 @@ const InputWidth = Dimensions.get("screen").width - 40;
 const AgeInputWidth = (Dimensions.get("screen").width - 50) / 2;
 
 export const Background = styled.View`
-  background-color: orange;
+  background-color: ${(props) => props.theme.colors.ui.background};
   flex: 1;
   align-items: center;
   justify-content: center;
@@ -24,7 +24,7 @@ export const AdoptionInfoPageHeader = styled(Text)`
 `;
 
 export const FormButton = styled(Button).attrs({
-  color: "rgb(255, 227, 180)",
+  color: colors.button.main,
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
@@ -47,11 +47,15 @@ export const ImageContainer = styled.View`
 export const Inputs = styled(TextInput)`
   width: ${InputWidth}px;
   background-color: whitesmoke;
+  border-width: 0.5px;
+  border-color: black;
 `;
 
 export const DescriptionInput = styled(TextInput)`
   width: ${InputWidth}px;
   height: 90px;
+  border-width: 0.5px;
+  border-color: black;
   textalignvertical: "top";
   background-color: whitesmoke;
   padding-bottom: 200px;
@@ -62,13 +66,14 @@ export const AgeInputs = styled(TextInput)`
   width: ${AgeInputWidth}px;
   background-color: whitesmoke;
   border-radius: 10px;
-  border-width: 1px;
+  border-width: 0.5px;
+  border-color: black;
   font-size: 16px;
   font-family: ${(props) => props.theme.fonts.body};
 `;
 
 export const EditFormButton = styled(Button).attrs({
-  color: "rgb(255, 227, 180)",
+  color: colors.button.main,
 })`
   padding: ${(props) => props.theme.space[2]};
   width: ${InputWidth}px;

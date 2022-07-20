@@ -27,6 +27,8 @@ const SafeArea = styled(SafeAreaView)`
 `;
 
 const UploadPostContainer = styled(View)`
+  border-color: grey;
+  border-width: 0.5px;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;

@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components/native";
-import { Text } from "../../../../components/typography/text.component"
+import { Text } from "../../../../components/typography/text.component";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 
@@ -11,15 +11,21 @@ import {
   TouchableOpacity,
   RefreshControl,
   TextInput,
-  Dimensions
+  Dimensions,
 } from "react-native";
 
-import { userFavouritesList, GetUserFavourites, favouritesDetails, GetFavouritesDetails } from "../../../../../firebase/firebase-config";
+import {
+  userFavouritesList,
+  GetUserFavourites,
+  favouritesDetails,
+  GetFavouritesDetails,
+} from "../../../../../firebase/firebase-config";
 import { FavouritesCard } from "../../components/favourites-card.component";
+import { colors } from "../../../../infrastructure/theme/colors";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
-  background-color: orange;
+  background-color: ${(props) => props.theme.colors.ui.background};
 `;
 
 const SearchInputContainer = styled(View)`
@@ -29,13 +35,13 @@ const SearchInputContainer = styled(View)`
   height: 50px;
   background-color: white;
   border-radius: 7px;
+  border-color: grey;
+  border-width: 0.5px;
   padding-horizontal: 20px;
   margin-horizontal: 20px;
 `;
 
-
 export const FavouritesPage = ({ navigation }) => {
-
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
   };
@@ -68,40 +74,39 @@ export const FavouritesPage = ({ navigation }) => {
 
   return (
     <SafeArea>
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        <Text variant='header'>Favourites</Text>
+      <View style={{ justifyContent: "center", alignItems: "center" }}>
+        <Text variant="header">Favourites</Text>
         <SearchInputContainer>
-          <Icon name="magnify" size={24} color={'#777'} />
-          <Spacer size='medium' position='right' />
+          <Icon name="magnify" size={24} color={"#777"} />
+          <Spacer size="medium" position="right" />
           <TextInput
-            placeholderTextColor={'#777'}
+            placeholderTextColor={"#777"}
             placeholder="Search for pet name"
             style={{ flex: 1 }}
             value={search}
             onChangeText={(text) => filterPetName(text)}
-            />
-      </SearchInputContainer>
+          />
+        </SearchInputContainer>
       </View>
-      <Spacer size='medium' />
-        <FlatList
-          data={filteredPets}
-          renderItem={(item) => (
-            <TouchableOpacity onPress={() => navigation.navigate('PetInfo', { item })}>
-              <FavouritesCard
-                pet={item}
-                navigation={navigation}/>
-            </TouchableOpacity>
-          )}
-          contentContainerStyle={{
-            marginHorizontal: 15      
-          }}
-          keyExtractor={(item) => item[0]}
-          numColumns={2}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        />
-    
+      <Spacer size="medium" />
+      <FlatList
+        data={filteredPets}
+        renderItem={(item) => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("PetInfo", { item })}
+          >
+            <FavouritesCard pet={item} navigation={navigation} />
+          </TouchableOpacity>
+        )}
+        contentContainerStyle={{
+          marginHorizontal: 15,
+        }}
+        keyExtractor={(item) => item[0]}
+        numColumns={2}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      />
     </SafeArea>
-  )
+  );
 };

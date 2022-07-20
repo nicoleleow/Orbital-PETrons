@@ -1,9 +1,10 @@
 import styled from "styled-components/native";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import { colors } from "../../../../infrastructure/theme/colors";
 
 export const SafeArea = styled(SafeAreaView)`
   flex: 1;
-  background-color: orange;
+  background-color: ${(props) => props.theme.colors.ui.background};
 `;
 
 export const Name = styled(Text)`

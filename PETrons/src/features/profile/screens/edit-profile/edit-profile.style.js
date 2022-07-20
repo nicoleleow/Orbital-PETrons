@@ -22,7 +22,7 @@ export const ProfilePicture = styled(View)`
 export const FieldInput = styled(TextInput)`
   margin-left: ${(props) => props.theme.space[3]};
   border-bottom-width: 1px;
-  border-bottom-color: whitesmoke;
+  border-bottom-color: black;
   padding-bottom: 5px;
   width: 200px;
 `;

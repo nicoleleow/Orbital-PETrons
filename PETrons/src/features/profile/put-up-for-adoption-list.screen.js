@@ -18,6 +18,7 @@ import { AdoptionInfoCard } from "./adoption-info-card";
 import { petsList, GetPetsData } from "../../../firebase/firebase-config";
 import { authentication } from "../../../firebase/firebase-config";
 import { Spacer } from "../../components/spacer/spacer.component";
+import { colors } from "../../infrastructure/theme/colors";
 
 const StatusCategories = [
   { name: "ALL", statusType: "all", icon: "gamepad-circle" },
@@ -29,7 +30,7 @@ const PageHeaderPadding = Dimensions.get("screen").height / 20;
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
-  background-color: orange;
+  background-color: ${(props) => props.theme.colors.ui.background};
 `;
 
 const PageHeader = styled(Text)`
@@ -67,6 +68,8 @@ const SearchInputContainer = styled(View)`
   justify-content: space-between;
   height: 50px;
   background-color: white;
+  border-color: grey;
+  border-width: 0.5px;
   border-radius: 7px;
   padding-horizontal: 20px;
   margin-horizontal: ${(props) => props.theme.space[4]};
@@ -85,13 +88,15 @@ const CategoriesButton = styled(TouchableOpacity)`
   width: 80px;
   align-items: center;
   justify-content: center;
+  border-color: grey;
+  border-width: 0.5px;
   border-radius: ${(props) => props.theme.space[3]};
   margin-right: ${(props) => props.theme.space[4]};
   margin-left: ${(props) => props.theme.space[4]};
 `;
 
 const CategoriesNames = styled(Text)`
-  color: white;
+  color: black;
   font-size: 12px;
   font-weight: bold;
   margin-top: 2px;
@@ -142,7 +147,6 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
     <DismissKeyboard>
       <SafeArea>
         <View>
-          {/* <Text variant="header">My Listed Adoptions</Text> */}
           <PageHeader>My Listed Adoptions</PageHeader>
         </View>
         <SearchContainer>
@@ -171,9 +175,7 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
                 }}
                 style={{
                   backgroundColor:
-                    selectedCategoryIndex == index
-                      ? "rgb(255, 227, 180)"
-                      : "white",
+                    selectedCategoryIndex == index ? "#e36414" : "white",
                 }}
               >
                 <Icon

@@ -56,11 +56,7 @@ import {
   Groups,
   HDBApproved,
 } from "../../../mainpage/put-up-for-adoption/put-up-adoption-categories";
-
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: orange;
-`;
+import { colors } from "../../../../infrastructure/theme/colors";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -280,7 +276,12 @@ export const EditPetList = ({ route, navigation }) => {
               source={{ uri: changeImage === false ? url : petImage }}
               style={{ width: 300, height: 200 }}
             />
-            <FormButton icon="image" mode="contained" onPress={renderContent}>
+            <FormButton
+              labelStyle={{ color: colors.button.text }}
+              icon="image"
+              mode="contained"
+              onPress={renderContent}
+            >
               Upload New Image
             </FormButton>
           </ImageContainer>
@@ -408,7 +409,11 @@ export const EditPetList = ({ route, navigation }) => {
           </Container>
         </ScrollView>
         <Spacer size="large">
-          <EditFormButton mode="contained" onPress={confirmEdit}>
+          <EditFormButton
+            labelStyle={{ color: colors.button.text }}
+            mode="contained"
+            onPress={confirmEdit}
+          >
             Confirm Change
           </EditFormButton>
         </Spacer>

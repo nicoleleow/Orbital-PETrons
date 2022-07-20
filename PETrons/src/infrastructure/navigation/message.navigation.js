@@ -5,6 +5,7 @@ import styled from "styled-components/native";
 
 import { MessagePage } from "../../features/activity/message.screen";
 import { ChatPage } from "../../features/activity/chat.screen";
+import { colors } from "../theme/colors";
 import { authentication, GetChatData } from "../../../firebase/firebase-config";
 
 const Stack = createStackNavigator();
@@ -31,6 +32,13 @@ export const MessageNavigator = () => {
             route.params.item.email === authentication.currentUser?.email
               ? route.params.item.username
               : route.params.item.userName,
+          headerStyle: {
+            backgroundColor: colors.ui.header,
+          },
+          headerTintColor: "#fffff4",
+          headerTitleStyle: {
+            color: "#fffff4",
+          },
           headerTitleAlign: "center",
           headerBackTitleVisible: false,
         })}
