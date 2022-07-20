@@ -18,7 +18,6 @@ import {
 } from "firebase/firestore/lite";
 
 import {
-  Container,
   Card,
   UserInfo,
   UserInfoText,
@@ -40,6 +39,77 @@ const SafeArea = styled(SafeAreaView)`
   background-color: orange;
 `;
 
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
+
+const sortingTime = (time1, time2) => {
+  if (time1.getFullYear() === time2.getFullYear()) {
+    if (time1.getMonth() !== time2.getMonth()) {
+      return time1.getMonth() - time2.getMonth();
+    } else {
+      if (time1.getDate() !== time2.getDate()) {
+        return time1.getDate() - time2.getDate();
+      } else {
+        if (time1.getHours() !== time2.getHours()) {
+          return time1.getHours() - time2.getHours();
+        } else {
+          if (time1.getMinutes() !== time2.getMinutes()) {
+            return time1.getMinutes() - time2.getMinutes();
+          } else {
+            return time1.getSeconds() - time2.getSeconds();
+          }
+        }
+      }
+    }
+  } else {
+    return time1.getFullYear() - time2.getFullYear();
+  }
+};
+
+const getNameList = (inputList, inputListTwo) => {
+  inputList.forEach((element) => {
+    if (
+      (element.email === authentication.currentUser?.email) &
+      !inputListTwo.includes(element.username)
+    ) {
+      inputListTwo.push(element.username);
+    } else if (
+      (element.userEmail === authentication.currentUser?.email) &
+      !inputListTwo.includes(element.userName)
+    ) {
+      inputListTwo.push(element.userName);
+    }
+  });
+};
+
+let timeList = [];
+let filterList = [];
+const getFilteredList = (
+  inputList,
+  inputListTwo,
+  inputListThree,
+  inputListFour
+) => {
+  inputListTwo.forEach((i) => {
+    inputList.forEach((element) => {
+      if (element.userName === i || element.username === i) {
+        inputListThree.push(element.createdAt);
+        inputListThree.sort((a, b) => sortingTime(new Date(a), new Date(b)));
+      }
+    });
+    inputList.forEach((element) => {
+      if (
+        element.createdAt === inputListThree[inputListThree.length - 1] &&
+        inputListThree.length !== 0
+      ) {
+        inputListFour.push(element);
+      }
+    });
+    inputListThree = [];
+  });
+};
+
 GetChatData();
 
 export const MessagePage = ({ navigation }) => {
@@ -49,146 +119,65 @@ export const MessagePage = ({ navigation }) => {
       obj.email === authentication.currentUser?.email
     );
   });
-  let timeList = [];
-  let nameList = [];
-  let filterList = [];
-  const arrayList = filteredList.forEach((element) => {
-    if (
-      (element.email === authentication.currentUser?.email) &
-      !nameList.includes(element.username)
-    ) {
-      nameList.push(element.username);
-    } else if (
-      (element.userEmail === authentication.currentUser?.email) &
-      !nameList.includes(element.userName)
-    ) {
-      nameList.push(element.userName);
-    }
-  });
-  const secondArray = nameList.forEach((i) => {
-    filteredList.forEach((element) => {
-      if (element.userName === i || element.username === i) {
-        timeList.push(element.createdAt);
-        timeList.sort();
-      }
-    });
-    filteredList.forEach((element) => {
-      if (
-        element.createdAt === timeList[timeList.length - 1] &&
-        timeList.length !== 0
-      ) {
-        filterList.push(element);
-      }
-    });
-    timeList = [];
-  });
 
-  const sortingTime = (time1, time2) => {
-    if (time1.getFullYear() === time2.getFullYear()) {
-      if (time1.getMonth() !== time2.getMonth()) {
-        return time1.getMonth() - time2.getMonth();
-      } else {
-        if (time1.getDate() !== time2.getDate()) {
-          return time1.getDate() - time2.getDate();
-        } else {
-          if (time1.getHours() !== time2.getHours()) {
-            return time1.getHours() - time2.getHours();
-          } else {
-            if (time1.getMinutes() !== time2.getMinutes()) {
-              return time1.getMinutes() - time2.getMinutes();
-            } else {
-              return time1.getSeconds() - time2.getSeconds();
-            }
-          }
-        }
-      }
-    } else {
-      return time1.getFullYear() - time2.getFullYear();
-    }
-  };
+  let nameList = [];
+  let timeList = [];
+  let filterList = [];
+  getNameList(filteredList, nameList);
+  getFilteredList(filteredList, nameList, timeList, filterList);
 
   const [refreshing, setRefreshing] = React.useState(false);
   const [filteredChat, setFilteredChat] = React.useState(filterList);
-  const wait = (timeout) => {
-    return new Promise((resolve) => setTimeout(resolve, timeout));
-  };
-  const onRefresh = React.useCallback(async () => {
-    const chatCol = collection(db, "chat");
-    const chatOverview = await getDocs(chatCol);
-    const chatList = chatOverview.docs.map((doc) => doc.data());
+
+  const onRefresh = React.useCallback(() => {
+    GetChatData();
     const filteredList = chatList.filter((obj) => {
       return (
         obj.userEmail === authentication.currentUser?.email ||
         obj.email === authentication.currentUser?.email
       );
     });
-
-    let timeList = [];
     let nameList = [];
-    let newFilterList = [];
-    const arrayList = filteredList.forEach((element) => {
-      if (
-        (element.email === authentication.currentUser?.email) &
-        !nameList.includes(element.username)
-      ) {
-        nameList.push(element.username);
-      } else if (
-        (element.userEmail === authentication.currentUser?.email) &
-        !nameList.includes(element.userName)
-      ) {
-        nameList.push(element.userName);
-      }
-    });
-    const secondArray = nameList.forEach((i) => {
-      filteredList.forEach((element) => {
-        if (element.userName === i || element.username === i) {
-          timeList.push(element.createdAt);
-          timeList.sort((a, b) => sortingTime(new Date(a), new Date(b)));
-        }
-      });
-      filteredList.forEach((element) => {
-        if (
-          element.createdAt === timeList[timeList.length - 1] &&
-          timeList.length !== 0
-        ) {
-          newFilterList.push(element);
-        }
-      });
-      timeList = [];
-    });
-    setFilteredChat(newFilterList);
+    let timeList = [];
+    let filterList = [];
+    getNameList(filteredList, nameList);
+    getFilteredList(filteredList, nameList, timeList, filterList);
+    setFilteredChat(filterList);
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
   }, []);
   return (
     <SafeArea>
       <Text variant="header">Messages</Text>
-      <Container>
-        <FlatList
-          data={filteredChat}
-          keyExtractor={(item) => item._id}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-          renderItem={({ item }) => (
-            <Card onPress={() => navigation.navigate("Chat", { item })}>
-              <UserInfo>
-                <TextSection>
-                  <UserInfoText>
-                    <UserName>
-                      {item.userEmail === authentication.currentUser?.email
-                        ? item.userName
-                        : item.username}
-                    </UserName>
-                    <PostTime>{item.createdAt}</PostTime>
-                  </UserInfoText>
-                  <MessageText>{item.text}</MessageText>
-                </TextSection>
-              </UserInfo>
-            </Card>
-          )}
-        />
-      </Container>
+      <FlatList
+        data={filteredChat}
+        keyExtractor={(item) => item._id}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        contentContainerStyle={{
+          flex: 1,
+          alignItems: "center",
+          paddingTop: 30,
+        }}
+        renderItem={({ item }) => (
+          <Card onPress={() => navigation.navigate("Chat", { item })}>
+            <UserInfo>
+              <TextSection>
+                <UserInfoText>
+                  <UserName>
+                    {item.userEmail === authentication.currentUser?.email
+                      ? item.userName
+                      : item.username}
+                  </UserName>
+                  <PostTime>{item.createdAt}</PostTime>
+                </UserInfoText>
+                <MessageText>{item.text}</MessageText>
+              </TextSection>
+            </UserInfo>
+          </Card>
+        )}
+      />
     </SafeArea>
   );
 };

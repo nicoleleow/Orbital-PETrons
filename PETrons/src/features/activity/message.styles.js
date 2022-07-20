@@ -1,14 +1,5 @@
 import styled from "styled-components";
 
-export const Container = styled.View`
-  flex: 1;
-  padding-left: 20px;
-  padding-right: 20px;
-  align-items: center;
-  padding-top: 50px;
-  background-color: orange;
-`;
-
 export const Card = styled.TouchableOpacity`
   width: 100%;
 `;
