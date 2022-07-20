@@ -77,11 +77,15 @@ export const ProfileNavigator = () => {
         component={EditPostPage}
         options={({ navigation, route }) => ({
           title: "Edit Caption",
-          headerStyle: {
-            backgroundColor: "white",
-          },
           headerBackTitleVisible: false,
           headerTitleAlign: "center",
+          headerStyle: {
+            backgroundColor: colors.ui.header,
+          },
+          headerTintColor: "#fffff4",
+          headerTitleStyle: {
+            color: "#fffff4",
+          },
         })}
       />
       <Stack.Screen
@@ -107,6 +111,13 @@ export const ProfileNavigator = () => {
           headerBackTitleVisible: false,
           headerTitleStyle: { fontSize: 18 },
           headerTitleAlign: "center",
+          headerStyle: {
+            backgroundColor: colors.ui.header,
+          },
+          headerTintColor: "#fffff4",
+          headerTitleStyle: {
+            color: "#fffff4",
+          },
         })}
       />
       <Stack.Screen
@@ -117,6 +128,13 @@ export const ProfileNavigator = () => {
           headerBackTitleVisible: false,
           headerTitleStyle: { fontSize: 18 },
           headerTitleAlign: "center",
+          headerStyle: {
+            backgroundColor: colors.ui.header,
+          },
+          headerTintColor: "#fffff4",
+          headerTitleStyle: {
+            color: "#fffff4",
+          },
         })}
       />
     </Stack.Navigator>

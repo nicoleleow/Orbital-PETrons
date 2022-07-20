@@ -25,6 +25,7 @@ import { CreatePostScreen } from "../../features/mainpage/share-stories/screens/
 import { EditPostPage } from "../../features/profile/screens/edit-my-post.screen";
 
 import { CommentsScreen } from "../../features/mainpage/share-stories/screens/comments.screen";
+import { colors } from "../theme/colors";
 
 const Stack = createStackNavigator();
 
@@ -92,6 +93,13 @@ export const MainPageNavigator = () => (
         title: route.params.item[1].userName,
         headerTitleAlign: "center",
         headerBackTitleVisible: false,
+        headerStyle: {
+          backgroundColor: colors.ui.header,
+        },
+        headerTintColor: "#fffff4",
+        headerTitleStyle: {
+          color: "#fffff4",
+        },
       })}
     />
 
@@ -103,22 +111,33 @@ export const MainPageNavigator = () => (
         headerBackTitleVisible: false,
         headerTitleStyle: { fontSize: 18 },
         headerTitleAlign: "center",
+        headerStyle: {
+          backgroundColor: colors.ui.header,
+        },
+        headerTintColor: "#fffff4",
+        headerTitleStyle: {
+          color: "#fffff4",
+        },
       })}
     />
 
     <Stack.Screen
-        name="EditPostPage"
-        component={EditPostPage}
-        options={({ navigation, route }) => ({
-          title: "Edit Caption",
-          headerStyle: {
-            backgroundColor: "white",
-          },
-          headerBackTitleVisible: false,
-          headerTitleAlign: "center"
-        })}
+      name="EditPostPage"
+      component={EditPostPage}
+      options={({ navigation, route }) => ({
+        title: "Edit Caption",
+        headerBackTitleVisible: false,
+        headerTitleAlign: "center",
+        headerStyle: {
+          backgroundColor: colors.ui.header,
+        },
+        headerTintColor: "#fffff4",
+        headerTitleStyle: {
+          color: "#fffff4",
+        },
+      })}
     />
-    
+
     <Stack.Screen
       name="CommentsScreen"
       component={CommentsScreen}
@@ -129,6 +148,5 @@ export const MainPageNavigator = () => (
         headerTitleAlign: "center",
       })}
     />
-
   </Stack.Navigator>
 );
