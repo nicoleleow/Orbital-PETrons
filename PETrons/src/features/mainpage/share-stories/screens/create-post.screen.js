@@ -257,7 +257,7 @@ export const CreatePostScreen = ({ navigation }) => {
             <Spacer size="xLarge" />
             <View
               style={{
-                backgroundColor: "#f0f0f0",
+                backgroundColor: colors.ui.background,
                 height: 500,
                 alignItems: "center",
               }}
