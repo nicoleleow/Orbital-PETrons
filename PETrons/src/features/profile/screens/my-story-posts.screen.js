@@ -20,11 +20,7 @@ import {
 import { authentication } from "../../../../firebase/firebase-config";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { MyPostsCard } from "../components/my-posts-card.component";
-
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: ${(props) => props.theme.colors.ui.background};
-`;
+import { SafeArea } from "../../../components/utility/safe-area.component";
 
 const AdoptionList = styled(FlatList).attrs({
   contentContainerStyle: {

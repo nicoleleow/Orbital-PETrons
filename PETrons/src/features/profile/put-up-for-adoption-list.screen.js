@@ -9,7 +9,6 @@ import {
   RefreshControl,
   TextInput,
   Dimensions,
-  Text,
 } from "react-native";
 import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -18,29 +17,15 @@ import { AdoptionInfoCard } from "./adoption-info-card";
 import { petsList, GetPetsData } from "../../../firebase/firebase-config";
 import { authentication } from "../../../firebase/firebase-config";
 import { Spacer } from "../../components/spacer/spacer.component";
+import { Text } from "../../components/typography/text.component";
 import { colors } from "../../infrastructure/theme/colors";
+import { SafeArea } from "../../components/utility/safe-area.component";
 
 const StatusCategories = [
   { name: "ALL", statusType: "all", icon: "gamepad-circle" },
   { name: "AVAILABLE", statusType: "available", icon: "check-circle-outline" },
   { name: "ADOPTED", statusType: "adopted", icon: "close-circle-outline" },
 ];
-
-const PageHeaderPadding = Dimensions.get("screen").height / 20;
-
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: ${(props) => props.theme.colors.ui.background};
-`;
-
-const PageHeader = styled(Text)`
-  color: black;
-  font-size: ${(props) => props.theme.fontSizes.h4};
-  font-family: ${(props) => props.theme.fonts.heading};
-  text-align: center;
-  padding-bottom: ${(props) => props.theme.space[3]};
-  padding-top: ${PageHeaderPadding}px;
-`;
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -77,7 +62,7 @@ const SearchInputContainer = styled(View)`
 
 const CategoriesContainer = styled(View)`
   flex-direction: row;
-  margin-top: ${(props) => props.theme.space[3]};
+  margin-top: ${(props) => props.theme.space[4]};
   margin-horizontal: ${(props) => props.theme.space[2]};
   align-items: center;
   justify-content: center;
@@ -147,7 +132,7 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
     <DismissKeyboard>
       <SafeArea>
         <View>
-          <PageHeader>My Listed Adoptions</PageHeader>
+          <Text variant="header">My Story Posts</Text>
         </View>
         <SearchContainer>
           <SearchInputContainer>

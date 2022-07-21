@@ -29,7 +29,6 @@ import {
 } from "./put-up-adoption-categories";
 
 import {
-  SafeArea,
   Container,
   PutUpAdoptionPageHeader,
   FormButton,
@@ -45,6 +44,7 @@ import {
   AdoptionInfoSubtitle,
   AgeInputs,
 } from "./put-up-for-adoption.style";
+import { SafeArea } from "../../../components/utility/safe-area.component";
 import { colors } from "../../../infrastructure/theme/colors";
 
 const DismissKeyboard = ({ children }) => (

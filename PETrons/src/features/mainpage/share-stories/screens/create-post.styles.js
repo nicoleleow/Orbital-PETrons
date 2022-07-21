@@ -9,11 +9,6 @@ import { Text } from "../../../../components/typography/text.component";
 import styled from "styled-components/native";
 import { colors } from "../../../../infrastructure/theme/colors";
 
-export const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: ${(props) => props.theme.colors.ui.background};
-`;
-
 export const Header = styled(View).attrs({
   marginTop:
     Platform.OS == "ios"

@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet, SafeAreaView, Text, View } from "react-native";
+import { StyleSheet, SafeAreaView, Text, View, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { SafeArea } from "../../components/utility/safe-area.component";
@@ -38,7 +38,6 @@ function MyTabs() {
           {
             display: "flex",
             backgroundColor: colors.ui.header,
-            height: 90,
           },
           null,
         ],
@@ -51,8 +50,8 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Messages"
-        options={{ headerShown: false }}
         component={MessageNavigator}
+        options={{ headerShown: false }}
       />
       <Tab.Screen
         options={{ headerShown: false }}

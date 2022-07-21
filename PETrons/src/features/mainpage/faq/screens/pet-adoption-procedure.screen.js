@@ -1,12 +1,16 @@
 import React, { useCallback } from "react";
-import { Alert, Linking, ScrollView} from "react-native";
+import { Alert, Linking, ScrollView } from "react-native";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { Text } from "../../../../components/typography/text.component";
 
-import { organisationLinks, individualProcedureText, organisationProcedureText, organisationProcedureSteps } from "../components/pet-adoption-procedure-info";
+import {
+  organisationLinks,
+  individualProcedureText,
+  organisationProcedureText,
+  organisationProcedureSteps,
+} from "../components/pet-adoption-procedure-info";
 
 import {
-  SafeArea,
   Container,
   Title,
   InfoText,
@@ -15,6 +19,7 @@ import {
   LinksList,
   LinkButtons,
 } from "./faq-pages.styles";
+import { SafeArea } from "../../../../components/utility/safe-area.component";
 
 const OpenURLButton = ({ url, children }) => {
   const handlePress = useCallback(async () => {
@@ -34,51 +39,47 @@ const OpenURLButton = ({ url, children }) => {
     <LinkButtons onPress={handlePress}>
       <Text>{children}</Text>
     </LinkButtons>
-  )
+  );
 };
-
 
 export const PetAdoptionProcedureScreen = () => (
   <SafeArea>
-    <Text variant='header'>Pet Adoption Procedure</Text>
-    <Spacer size='small' />
+    <Text variant="header">Pet Adoption Procedure</Text>
+    <Spacer size="small" />
     <ScrollView>
-      <Spacer size='small' />
+      <Spacer size="small" />
       <Title>Adopting from Individual Pet Owners</Title>
       <Container>
-        {
-          individualProcedureText.map(text =>
-            <InfoText key={text}>{text}</InfoText>)
-        }
+        {individualProcedureText.map((text) => (
+          <InfoText key={text}>{text}</InfoText>
+        ))}
       </Container>
-      <Spacer size='xLarge' />
+      <Spacer size="xLarge" />
       <Title>Adopting from Animal Welfare Groups</Title>
       <Container>
         <InfoText>{organisationProcedureText[0]}</InfoText>
-        <Spacer size='medium' />
-        {
-          organisationProcedureSteps.map(item =>
-            <List key={item.step}>
-              <ListItems>{item.step} </ListItems>
-              <ListItems>{item.text}</ListItems>
-            </List>
-          )
-        }
-        <Spacer size='large' />
+        <Spacer size="medium" />
+        {organisationProcedureSteps.map((item) => (
+          <List key={item.step}>
+            <ListItems>{item.step} </ListItems>
+            <ListItems>{item.text}</ListItems>
+          </List>
+        ))}
+        <Spacer size="large" />
         <InfoText>{organisationProcedureText[1]}</InfoText>
         <InfoText>{organisationProcedureText[2]}</InfoText>
         <InfoText>{organisationProcedureText[3]}</InfoText>
       </Container>
-      <Spacer size='xLarge' />
+      <Spacer size="xLarge" />
       <Title>Links to the Animal Welfare Groups</Title>
       <LinksList>
-        {
-          organisationLinks.map( item =>
-            <OpenURLButton url={item.link} key={item.org}>{item.org}</OpenURLButton>
-          )
-        }
+        {organisationLinks.map((item) => (
+          <OpenURLButton url={item.link} key={item.org}>
+            {item.org}
+          </OpenURLButton>
+        ))}
       </LinksList>
     </ScrollView>
-    <Spacer size='large' />
+    <Spacer size="large" />
   </SafeArea>
 );

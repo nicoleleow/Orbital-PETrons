@@ -20,11 +20,7 @@ import {
 } from "../../../../firebase/firebase-config";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { colors } from "../../../infrastructure/theme/colors";
-
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: ${(props) => props.theme.colors.ui.background};
-`;
+import { SafeArea } from "../../../components/utility/safe-area.component";
 
 const UploadPostContainer = styled(View)`
   border-color: grey;
@@ -37,6 +33,7 @@ const UploadPostContainer = styled(View)`
   border-radius: ${(props) => props.theme.space[1]};
   padding-horizontal: 10px;
   margin-horizontal: ${(props) => props.theme.space[4]};
+  margin-top: ${(props) => props.theme.space[3]};
 `;
 
 const wait = (timeout) => {

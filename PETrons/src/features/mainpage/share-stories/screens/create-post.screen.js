@@ -15,7 +15,6 @@ import { Avatar } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 
 import {
-  SafeArea,
   Header,
   HeaderText,
   Body,
@@ -27,6 +26,7 @@ import {
   ImageButtonText,
   ModalContainer,
 } from "./create-post.styles";
+import { SafeArea } from "../../../../components/utility/safe-area.component";
 
 import { collection, getDocs, addDoc } from "firebase/firestore/lite";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";

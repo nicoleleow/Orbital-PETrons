@@ -18,11 +18,7 @@ import {
   updatePassword,
 } from "firebase/auth";
 import { colors } from "../../../../infrastructure/theme/colors";
-
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: ${(props) => props.theme.colors.ui.background};
-`;
+import { SafeArea } from "../../../../components/utility/safe-area.component";
 
 const PasswordRequirements = styled(Text)`
   color: black;

@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import { Dimensions } from "react-native";
+
+const sectionWidth = Dimensions.get("screen").width - 60;
 
 export const Card = styled.TouchableOpacity`
   width: 100%;
@@ -9,13 +12,20 @@ export const UserInfo = styled.View`
   justify-content: space-between;
 `;
 
+export const SubTitle = styled.Text`
+  color: black;
+  padding-top: ${(props) => props.theme.space[5]};
+  padding-left: 30px;
+  font-size: ${(props) => props.theme.fontSizes.title};
+  font-family: ${(props) => props.theme.fonts.monospace};
+`;
+
 export const TextSection = styled.View`
   flex-direction: column;
   justify-content: center;
   padding: 15px;
   padding-left: 0;
-  margin-left: 10px;
-  width: 300px;
+  width: ${sectionWidth}px;
   border-bottom-width: 1px;
   border-bottom-color: #cccccc;
 `;

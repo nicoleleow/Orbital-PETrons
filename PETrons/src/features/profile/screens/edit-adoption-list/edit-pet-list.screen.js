@@ -57,6 +57,7 @@ import {
   HDBApproved,
 } from "../../../mainpage/put-up-for-adoption/put-up-adoption-categories";
 import { colors } from "../../../../infrastructure/theme/colors";
+import { SafeArea } from "../../../../components/utility/safe-area.component";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -237,7 +238,7 @@ export const EditPetList = ({ route, navigation }) => {
 
   return (
     <DismissKeyboard>
-      <Background>
+      <SafeArea>
         <AdoptionInfoPageHeader>
           Change your pet's details:
         </AdoptionInfoPageHeader>
@@ -407,17 +408,19 @@ export const EditPetList = ({ route, navigation }) => {
               />
             </Spacer>
           </Container>
+          <Spacer size="large">
+            <View style={{ alignItems: "center" }}>
+              <EditFormButton
+                labelStyle={{ color: colors.button.text }}
+                mode="contained"
+                onPress={confirmEdit}
+              >
+                Confirm Change
+              </EditFormButton>
+            </View>
+          </Spacer>
         </ScrollView>
-        <Spacer size="large">
-          <EditFormButton
-            labelStyle={{ color: colors.button.text }}
-            mode="contained"
-            onPress={confirmEdit}
-          >
-            Confirm Change
-          </EditFormButton>
-        </Spacer>
-      </Background>
+      </SafeArea>
     </DismissKeyboard>
   );
 };

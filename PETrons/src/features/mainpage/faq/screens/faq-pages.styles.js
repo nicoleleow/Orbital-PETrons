@@ -2,11 +2,6 @@ import { SafeAreaView, TouchableOpacity, View } from "react-native";
 import styled from "styled-components/native";
 import { Text } from "../../../../components/typography/text.component";
 
-export const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: ${(props) => props.theme.colors.ui.background};
-`;
-
 export const Container = styled(View)`
   padding: ${(props) => props.theme.space[2]};
   padding-top: ${(props) => props.theme.space[3]};

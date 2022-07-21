@@ -1,6 +1,12 @@
 import styled from "styled-components/native";
 import { Button, TextInput, Text } from "react-native-paper";
-import { TouchableOpacity, Image, Dimensions, View } from "react-native";
+import {
+  TouchableOpacity,
+  Image,
+  Dimensions,
+  View,
+  SafeAreaView,
+} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
 import { colors } from "../../../../infrastructure/theme/colors";
@@ -8,19 +14,12 @@ import { colors } from "../../../../infrastructure/theme/colors";
 const InputWidth = Dimensions.get("screen").width - 40;
 const AgeInputWidth = (Dimensions.get("screen").width - 50) / 2;
 
-export const Background = styled.View`
-  background-color: ${(props) => props.theme.colors.ui.background};
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  padding-top: 30px;
-`;
-
 export const AdoptionInfoPageHeader = styled(Text)`
   color: black;
   font-size: ${(props) => props.theme.fontSizes.h5};
   font-family: ${(props) => props.theme.fonts.monospace};
-  padding-top: 40px;
+  padding-top: ${(props) => props.theme.space[4]};
+  text-align: center;
 `;
 
 export const FormButton = styled(Button).attrs({
@@ -38,8 +37,7 @@ export const Container = styled.View`
 `;
 
 export const ImageContainer = styled.View`
-  width: 380px;
-  margin-top: ${(props) => props.theme.space[1]};
+  margin-top: ${(props) => props.theme.space[3]};
   align-items: center;
   justify-content: center;
 `;

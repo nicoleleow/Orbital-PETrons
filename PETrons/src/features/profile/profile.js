@@ -31,14 +31,10 @@ import {
 } from "../../../firebase/firebase-config";
 import { Spacer } from "../../components/spacer/spacer.component";
 import { MyStoryPostsPage } from "./screens/my-story-posts.screen";
+import { SafeArea } from "../../components/utility/safe-area.component";
 
 const ProfileContainerPadding = Dimensions.get("screen").height / 40;
 // const UserInfoSectionMargin = Dimensions.get("screen").height / 12;
-
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: ${(props) => props.theme.colors.ui.background};
-`;
 
 const ProfileContainer = styled.View`
   background-color: ${(props) => props.theme.colors.ui.background};

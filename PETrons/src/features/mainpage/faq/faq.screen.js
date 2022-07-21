@@ -9,13 +9,9 @@ import {
 import styled from "styled-components/native";
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
+import { SafeArea } from "../../../components/utility/safe-area.component";
 
 const mainPageHeaderPadding = Dimensions.get("screen").height / 12;
-
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: ${(props) => props.theme.colors.ui.background};
-`;
 
 const MainPageHeader = styled(Text)`
   color: black;

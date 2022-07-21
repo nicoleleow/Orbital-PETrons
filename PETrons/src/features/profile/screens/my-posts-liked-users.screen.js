@@ -12,12 +12,11 @@ import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import { SafeArea } from "../../mainpage/share-stories/screens/create-post.styles";
-
 import { collection, getDocs } from "firebase/firestore/lite";
 import { authentication, db } from "../../../../firebase/firebase-config";
 import { LikedUsersBubble } from "../components/liked-users-bubble.component";
 import { colors } from "../../../infrastructure/theme/colors";
+import { SafeArea } from "../../../components/utility/safe-area.component";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

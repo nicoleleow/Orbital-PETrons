@@ -177,18 +177,20 @@ export const ChatPage = ({ route, navigation }) => {
         {...props}
         wrapperStyle={{
           right: {
-            backgroundColor: "#2e64e5",
+            backgroundColor: "snow",
           },
           left: {
-            backgroundColor: "#2e64e5",
+            backgroundColor: "white",
+            borderWidth: 0.3,
+            borderColor: "grey",
           },
         }}
         textStyle={{
           right: {
-            color: "#fff",
+            color: "black",
           },
           left: {
-            color: "#fff",
+            color: "black",
           },
         }}
       />

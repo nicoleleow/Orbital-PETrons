@@ -16,7 +16,7 @@ const home = (theme) => `
     font-size: ${theme.fontSizes.h3};
     font-family: ${theme.fonts.heading};
     text-align: center;
-`
+`;
 
 const title = (theme) => `
     color: black;
@@ -26,7 +26,7 @@ const title = (theme) => `
     flex: 1;
     text-align-vertical: center;
     text-align: center;
-`
+`;
 
 const buttonText = (theme) => `
     color: white;
@@ -35,16 +35,16 @@ const buttonText = (theme) => `
     flex: 1;
     text-align-vertical: center;
     text-align: center;
-`
+`;
 
 const header = (theme) => `
     color: black;
-    margin-top: ${theme.space[6]};
+    margin-top: ${theme.space[4]};
     margin-bottom:  ${theme.space[1]};
     font-size: ${theme.fontSizes.h4};
     font-family: ${theme.fonts.heading};
     text-align: center;
-`
+`;
 
 const body = (theme) => `
     font-size: ${theme.fontSizes.body};
@@ -70,22 +70,22 @@ const label = (theme) => `
 `;
 
 const variants = {
-    home,
-    title,
-    buttonText,
-    header,
-    body,
-    label,
-    caption,
-    error,
-    hint,
+  home,
+  title,
+  buttonText,
+  header,
+  body,
+  label,
+  caption,
+  error,
+  hint,
 };
 
 export const Text = styled.Text`
-    ${({ theme }) => defaultTextStyles(theme)}
-    ${({ variant, theme }) => variants[variant](theme)}
+  ${({ theme }) => defaultTextStyles(theme)}
+  ${({ variant, theme }) => variants[variant](theme)}
 `;
 
 Text.defaultProps = {
-    variant: "body",
+  variant: "body",
 };

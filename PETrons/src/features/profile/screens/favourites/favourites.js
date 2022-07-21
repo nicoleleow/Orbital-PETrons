@@ -22,11 +22,7 @@ import {
 } from "../../../../../firebase/firebase-config";
 import { FavouritesCard } from "../../components/favourites-card.component";
 import { colors } from "../../../../infrastructure/theme/colors";
-
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: ${(props) => props.theme.colors.ui.background};
-`;
+import { SafeArea } from "../../../../components/utility/safe-area.component";
 
 const SearchInputContainer = styled(View)`
   flex-direction: row;
@@ -39,6 +35,8 @@ const SearchInputContainer = styled(View)`
   border-width: 0.5px;
   padding-horizontal: 20px;
   margin-horizontal: 20px;
+  margin-top: ${(props) => props.theme.space[3]};
+  margin-bottom: ${(props) => props.theme.space[2]};
 `;
 
 export const FavouritesPage = ({ navigation }) => {

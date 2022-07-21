@@ -15,7 +15,6 @@ import {
 } from "firebase/firestore/lite";
 
 import {
-  SafeArea,
   Name,
   Breed,
   PetPhotoContainer,
@@ -38,6 +37,7 @@ import {
   GetUserFavourites,
   userUsername,
 } from "../../../../../firebase/firebase-config";
+import { SafeArea } from "../../../../components/utility/safe-area.component";
 
 const FavouriteButton = styled(TouchableOpacity)`
   height: 40px;
@@ -82,26 +82,23 @@ export const PetInfoScreen = ({ route, navigation }) => {
 
   const UpdateFirebaseFavList = async (tempList) => {
     const querySnapshot = await getDocs(collection(db, "userinfo"));
-      let documentID, profilepic, likedPosts;
-      querySnapshot.forEach((doc) => {
-        if (
-          (doc.data().email === authentication.currentUser?.email)
-        ) {
-          documentID = doc.id;
-          profilepic = doc.data().profilepic;
-          likedPosts = doc.data().likedPosts;
-        }
-      });
-      const editedDoc = doc(db, "userinfo", documentID);
-      await setDoc(editedDoc, {
-        email: authentication.currentUser?.email,
-        username: userUsername,
-        favourites: tempList,
-        profilepic,
-        likedPosts
-      });
+    let documentID, profilepic, likedPosts;
+    querySnapshot.forEach((doc) => {
+      if (doc.data().email === authentication.currentUser?.email) {
+        documentID = doc.id;
+        profilepic = doc.data().profilepic;
+        likedPosts = doc.data().likedPosts;
+      }
+    });
+    const editedDoc = doc(db, "userinfo", documentID);
+    await setDoc(editedDoc, {
+      email: authentication.currentUser?.email,
+      username: userUsername,
+      favourites: tempList,
+      profilepic,
+      likedPosts,
+    });
   };
-
 
   const UpdateFavouritesList = () => {
     setIsFavourite(!isFavourite);

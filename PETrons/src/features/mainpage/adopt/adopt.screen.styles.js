@@ -11,11 +11,6 @@ import {
 import styled from "styled-components/native";
 import { colors } from "../../../infrastructure/theme/colors";
 
-export const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: ${(props) => props.theme.colors.ui.background};
-`;
-
 export const MainContainer = styled(View)`
   border-radius: 5px;
   margin: 0 10px;
@@ -32,6 +27,8 @@ export const SearchInputContainer = styled(View)`
   border-radius: 7px;
   padding-horizontal: 20px;
   margin-horizontal: ${(props) => props.theme.space[3]};
+  margin-top: ${(props) => props.theme.space[3]};
+  margin-bottom: ${(props) => props.theme.space[2]};
 `;
 
 export const PetCategoriesContainer = styled(ScrollView)`

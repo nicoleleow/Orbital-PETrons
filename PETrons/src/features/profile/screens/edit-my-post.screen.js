@@ -24,7 +24,6 @@ import {
 import { Avatar } from "react-native-paper";
 
 import {
-  SafeArea,
   Header,
   HeaderText,
   Body,
@@ -35,6 +34,7 @@ import {
   ImageButtonText,
 } from "../../mainpage/share-stories/screens/create-post.styles";
 import { colors } from "../../../infrastructure/theme/colors";
+import { SafeArea } from "../../../components/utility/safe-area.component";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
