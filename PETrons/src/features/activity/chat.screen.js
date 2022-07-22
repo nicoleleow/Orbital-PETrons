@@ -164,7 +164,7 @@ export const ChatPage = ({ route, navigation }) => {
             name="send-circle"
             style={{ marginBottom: 5, marginRight: 5 }}
             size={32}
-            color="#2e64e5"
+            color="#f9e2ae"
           />
         </View>
       </Send>
@@ -177,12 +177,10 @@ export const ChatPage = ({ route, navigation }) => {
         {...props}
         wrapperStyle={{
           right: {
-            backgroundColor: "snow",
+            backgroundColor: "#f9e2ae",
           },
           left: {
-            backgroundColor: "white",
-            borderWidth: 0.3,
-            borderColor: "grey",
+            backgroundColor: "snow",
           },
         }}
         textStyle={{
@@ -198,12 +196,13 @@ export const ChatPage = ({ route, navigation }) => {
   };
 
   const scrollToBottomComponent = () => {
-    return <FontAwesome name="angle-double-down" size={22} color="#333" />;
+    return <FontAwesome name="angle-double-down" size={22} color="#f9e2ae" />;
   };
 
   return (
     <GiftedChat
       messages={messages}
+      timeTextStyle={{ left: { color: "grey" }, right: { color: "grey" } }}
       showUserAvatar={false}
       onSend={(messages) => onSend(messages)}
       user={{

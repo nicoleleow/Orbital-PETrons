@@ -49,6 +49,7 @@ import {
   RenderContentTitle,
   AgeInputs,
   BackButton,
+  RenderContentCancelButton,
 } from "./edit-pet-list.style";
 import {
   AnimalTypes,
@@ -140,9 +141,9 @@ export const EditPetList = ({ route, navigation }) => {
       <RenderContentButton onPress={chooseFromLibrary}>
         <RenderContentButtonTitle>Choose From Library</RenderContentButtonTitle>
       </RenderContentButton>
-      <RenderContentButton onPress={setModalVisible(!modalVisible)}>
+      <RenderContentCancelButton onPress={setModalVisible(!modalVisible)}>
         <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
-      </RenderContentButton>
+      </RenderContentCancelButton>
     </RenderContentContainer>
   );
 
@@ -266,9 +267,11 @@ export const EditPetList = ({ route, navigation }) => {
                 Choose From Library
               </RenderContentButtonTitle>
             </RenderContentButton>
-            <RenderContentButton onPress={() => setModalVisible(!modalVisible)}>
+            <RenderContentCancelButton
+              onPress={() => setModalVisible(!modalVisible)}
+            >
               <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
-            </RenderContentButton>
+            </RenderContentCancelButton>
           </RenderContentContainer>
         </Modal>
         <ScrollView>

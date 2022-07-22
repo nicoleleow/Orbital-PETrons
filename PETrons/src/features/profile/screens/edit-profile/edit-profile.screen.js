@@ -54,6 +54,7 @@ import {
   ChangePasswordButton,
   DoneButton,
   PressableText,
+  RenderContentCancelButton,
 } from "./edit-profile.style";
 import { colors } from "../../../../infrastructure/theme/colors";
 import { SafeArea } from "../../../../components/utility/safe-area.component";
@@ -209,9 +210,11 @@ export const EditProfilePage = ({ navigation }) => {
                 Remove Profile Picture
               </RenderContentButtonTitle>
             </RenderContentButton>
-            <RenderContentButton onPress={() => setModalVisible(!modalVisible)}>
+            <RenderContentCancelButton
+              onPress={() => setModalVisible(!modalVisible)}
+            >
               <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
-            </RenderContentButton>
+            </RenderContentCancelButton>
           </RenderContentContainer>
         </Modal>
         <View

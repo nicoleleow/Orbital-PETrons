@@ -25,6 +25,7 @@ import {
   ImageButtons,
   ImageButtonText,
   ModalContainer,
+  CancelButtons,
 } from "./create-post.styles";
 import { SafeArea } from "../../../../components/utility/safe-area.component";
 
@@ -287,21 +288,21 @@ export const CreatePostScreen = ({ navigation }) => {
               <ImageButtons onPress={takePhotoFromCamera}>
                 <Icon2 name="camera-alt" size={20} color={"white"} />
                 <Spacer size="medium" position="right" />
-                <ImageButtonText>Take a Photo</ImageButtonText>
+                <ImageButtonText>Take Photo</ImageButtonText>
               </ImageButtons>
               <ImageButtons onPress={chooseFromLibrary}>
                 <Icon2 name="photo-library" size={20} color={"white"} />
                 <Spacer size="medium" position="right" />
-                <ImageButtonText>Upload Photo From Gallery</ImageButtonText>
+                <ImageButtonText>Choose From Library</ImageButtonText>
               </ImageButtons>
               <ImageButtons onPress={removeImage}>
                 <ImageButtonText>Remove Selected Image</ImageButtonText>
               </ImageButtons>
-              <ImageButtons
+              <CancelButtons
                 onPress={() => setImageModalVisible(!imageModalVisible)}
               >
                 <ImageButtonText>Cancel</ImageButtonText>
-              </ImageButtons>
+              </CancelButtons>
             </ModalContainer>
           </Modal>
         </Uploads>

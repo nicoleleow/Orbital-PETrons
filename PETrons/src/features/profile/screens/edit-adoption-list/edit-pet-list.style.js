@@ -124,7 +124,15 @@ export const RenderContentButtonTitle = styled(Text)`
 export const RenderContentButton = styled(TouchableOpacity)`
   padding: 13px;
   border-radius: 10px;
-  background-color: #2196f3;
+  background-color: ${(props) => props.theme.colors.button.modal};
+  align-items: center;
+  margin-vertical: 7px;
+`;
+
+export const RenderContentCancelButton = styled(TouchableOpacity)`
+  padding: 13px;
+  border-radius: 10px;
+  background-color: ${(props) => props.theme.colors.button.modalCancel};
   align-items: center;
   margin-vertical: 7px;
 `;

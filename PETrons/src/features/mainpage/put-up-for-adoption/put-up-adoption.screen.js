@@ -43,6 +43,7 @@ import {
   DropDown,
   AdoptionInfoSubtitle,
   AgeInputs,
+  RenderContentCancelButton,
 } from "./put-up-for-adoption.style";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { colors } from "../../../infrastructure/theme/colors";
@@ -92,9 +93,9 @@ export const PutUpAdoptionPage = ({ navigation }) => {
       <RenderContentButton onPress={chooseFromLibrary}>
         <RenderContentButtonTitle>Choose From Library</RenderContentButtonTitle>
       </RenderContentButton>
-      <RenderContentButton onPress={setModalVisible(!modalVisible)}>
+      <RenderContentCancelButton onPress={setModalVisible(!modalVisible)}>
         <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
-      </RenderContentButton>
+      </RenderContentCancelButton>
     </RenderContentContainer>
   );
   const chooseFromLibrary = async () => {
@@ -222,9 +223,11 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 Choose From Library
               </RenderContentButtonTitle>
             </RenderContentButton>
-            <RenderContentButton onPress={() => setModalVisible(!modalVisible)}>
+            <RenderContentCancelButton
+              onPress={() => setModalVisible(!modalVisible)}
+            >
               <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
-            </RenderContentButton>
+            </RenderContentCancelButton>
           </RenderContentContainer>
         </Modal>
         <ScrollView>

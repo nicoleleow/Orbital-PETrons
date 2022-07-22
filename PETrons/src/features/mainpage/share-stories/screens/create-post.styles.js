@@ -57,7 +57,17 @@ export const TopButtons = styled(TouchableOpacity)`
 
 export const ImageButtons = styled(TouchableOpacity)`
   padding: 10px 20px;
-  background-color: #2196f3;
+  background-color: ${(props) => props.theme.colors.button.modal};
+  margin: 20px 30px;
+  margin-bottom: 0;
+  border-radius: 10px;
+  flex-direction: row;
+  justify-content: center;
+`;
+
+export const CancelButtons = styled(TouchableOpacity)`
+  padding: 10px 20px;
+  background-color: ${(props) => props.theme.colors.button.modalCancel};
   margin: 20px 30px;
   margin-bottom: 0;
   border-radius: 10px;
