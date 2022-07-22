@@ -58,7 +58,7 @@ const MenuCard = styled(View)`
   border-radius: 20px;
   padding-top: ${(props) => props.theme.space[3]};
   padding-horizontal: ${(props) => props.theme.space[3]};
-  background-color: rgb(255, 227, 180);
+  background-color: #ffffec;
   justify-content: center;
 `;
 

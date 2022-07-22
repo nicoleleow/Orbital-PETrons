@@ -22,7 +22,7 @@ export const colors = {
     text: "#ffffec",
   },
   ui: {
-    background: "#ffffec",
+    background: "#f9e2ae",
     header: "#ffae42",
     primary: "#262626",
     secondary: "#757575",

@@ -170,7 +170,17 @@ export const MessagePage = ({ navigation }) => {
                   </UserName>
                   <PostTime>{new Date(item.createdAt).toDateString()}</PostTime>
                 </UserInfoText>
-                <MessageText>{item.text}</MessageText>
+                {(() => {
+                  if (item.username == userUsername) {
+                    return <MessageText>You: {item.text}</MessageText>;
+                  } else {
+                    return (
+                      <MessageText>
+                        {item.username}: {item.text}
+                      </MessageText>
+                    );
+                  }
+                })()}
               </TextSection>
             </UserInfo>
           </Card>
