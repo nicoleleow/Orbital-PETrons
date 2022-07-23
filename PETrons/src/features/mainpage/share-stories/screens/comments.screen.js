@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, FlatList, RefreshControl, TextInput, TouchableWithoutFeedback, Keyboard, Dimensions } from "react-native";
+import {
+  View,
+  FlatList,
+  RefreshControl,
+  TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Dimensions,
+} from "react-native";
 import styled from "styled-components";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import {
-  SafeArea
-} from "./create-post.styles";
+import { SafeArea } from "../../../../components/utility/safe-area.component";
 
 import {
   collection,
@@ -15,7 +21,11 @@ import {
   setDoc,
 } from "firebase/firestore/lite";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { authentication, db, userUsername } from "../../../../../firebase/firebase-config";
+import {
+  authentication,
+  db,
+  userUsername,
+} from "../../../../../firebase/firebase-config";
 import { CommentBubble } from "../components/comments-bubble.component";
 
 const DismissKeyboard = ({ children }) => (
@@ -31,38 +41,48 @@ const CommentTextInput = styled(TextInput)`
 `;
 
 const wait = (timeout) => {
-  return new Promise(resolve => setTimeout(resolve, timeout));
-}
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 
 export const CommentsScreen = ({ route, navigation }) => {
   const storyDetails = route.params.storyDetails[1];
   const postID = route.params.storyDetails[0];
-  const { date, hour, minutes, postImage, postText,
-    userName, edited, email, likedUsers, comments } = storyDetails;
-  
+  const {
+    date,
+    hour,
+    minutes,
+    postImage,
+    postText,
+    userName,
+    edited,
+    email,
+    likedUsers,
+    comments,
+  } = storyDetails;
+
   const currentUserEmail = authentication.currentUser?.email;
-  
+
   const [tempCommentsList, setTempCommentsList] = useState([]);
   const GetDBCommentsArray = async () => {
     const Snapshot = await getDocs(collection(db, "stories"));
     Snapshot.forEach((doc) => {
-    if (doc.id === postID) {
-      setTempCommentsList(doc.data().comments);
+      if (doc.id === postID) {
+        setTempCommentsList(doc.data().comments);
       }
-    })
-  }
+    });
+  };
 
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
   const GetUsername = async (inputEmail) => {
     const Snapshot = await getDocs(collection(db, "userinfo"));
     Snapshot.forEach((doc) => {
-    if (doc.data().email === inputEmail) {
-      setUsername(doc.data().username);
+      if (doc.data().email === inputEmail) {
+        setUsername(doc.data().username);
       }
-    })
-  }
+    });
+  };
 
-  const [inputComment, setInputComment] = useState('');
+  const [inputComment, setInputComment] = useState("");
 
   const UpdateFirebaseCommentsArr = async (updatedCommentsArr) => {
     const editedDoc = doc(db, "stories", postID);
@@ -78,22 +98,22 @@ export const CommentsScreen = ({ route, navigation }) => {
       likedUsers,
       comments: updatedCommentsArr,
     });
-  }
+  };
 
   const UpdateTempCommentsArr = () => {
     // only add comment if not empty
-    if (inputComment !== '') {
-      setInputComment('');
+    if (inputComment !== "") {
+      setInputComment("");
       const commentDate = new Date();
       const newCommentDetails = {
         date: commentDate,
         email: currentUserEmail,
-        commentText: inputComment
+        commentText: inputComment,
       };
       tempCommentsList.push(newCommentDetails);
       UpdateFirebaseCommentsArr(tempCommentsList);
     }
-  }
+  };
 
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = () => {
@@ -101,28 +121,34 @@ export const CommentsScreen = ({ route, navigation }) => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
   };
-  
+
   useEffect(() => {
     GetDBCommentsArray();
     GetUsername(currentUserEmail);
   }, []);
 
   const [keyboardOffset, setKeyboardOffset] = useState(0);
-  const onKeyboardShow = event => setKeyboardOffset(event.endCoordinates.height);
+  const onKeyboardShow = (event) =>
+    setKeyboardOffset(event.endCoordinates.height);
   const onKeyboardHide = () => setKeyboardOffset(0);
   const keyboardDidShowListener = useRef();
   const keyboardDidHideListener = useRef();
 
   useEffect(() => {
-    keyboardDidShowListener.current = Keyboard.addListener('keyboardWillShow', onKeyboardShow);
-    keyboardDidHideListener.current = Keyboard.addListener('keyboardWillHide', onKeyboardHide);
+    keyboardDidShowListener.current = Keyboard.addListener(
+      "keyboardWillShow",
+      onKeyboardShow
+    );
+    keyboardDidHideListener.current = Keyboard.addListener(
+      "keyboardWillHide",
+      onKeyboardHide
+    );
 
     return () => {
       keyboardDidShowListener.current.remove();
       keyboardDidHideListener.current.remove();
     };
   }, []);
-  
 
   return (
     <DismissKeyboard>
@@ -130,30 +156,33 @@ export const CommentsScreen = ({ route, navigation }) => {
         <FlatList
           data={tempCommentsList}
           renderItem={(item) => (
-            <CommentBubble postID={postID} commentDetails={item} storyDetails={storyDetails} />
+            <CommentBubble
+              postID={postID}
+              commentDetails={item}
+              storyDetails={storyDetails}
+            />
           )}
           refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-              />}
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
           style={{
-            backgroundColor: '#f0f0f0',
+            backgroundColor: "#f0f0f0",
             marginBottom: 70,
-            paddingTop: 10
+            paddingTop: 10,
           }}
-        /> 
+        />
         <View
           style={{
-            justifyContent: 'flex-end',
-            position: 'absolute',
+            justifyContent: "flex-end",
+            position: "absolute",
             bottom: keyboardOffset + 10,
-            backgroundColor: 'white',
-            width: Dimensions.get('window').width
-          }}>
+            backgroundColor: "white",
+            width: Dimensions.get("window").width,
+          }}
+        >
           <Icon
             name="send-circle"
-            style={{ position: 'absolute', right: 5 , top: 5}}
+            style={{ position: "absolute", right: 5, top: 5 }}
             size={32}
             color="#2e64e5"
             onPress={UpdateTempCommentsArr}
@@ -164,14 +193,14 @@ export const CommentsScreen = ({ route, navigation }) => {
             keyboardType="default"
             value={inputComment}
             onChangeText={setInputComment}
-            maxLength={300} 
+            maxLength={300}
             multiline={true}
             style={{
-              width: Dimensions.get('window').width - 40,
+              width: Dimensions.get("window").width - 40,
             }}
           />
         </View>
       </SafeArea>
     </DismissKeyboard>
-  )
- }
+  );
+};
