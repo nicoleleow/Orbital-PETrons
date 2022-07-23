@@ -18,12 +18,6 @@ import { colors } from "../theme/colors";
 
 const Stack = createStackNavigator();
 
-const PressableText = styled(Text)`
-  color: #fffff4;
-  font-size: ${(props) => props.theme.fontSizes.body};
-  padding-left: ${(props) => props.theme.space[3]};
-`;
-
 export const ProfileNavigator = () => {
   return (
     <Stack.Navigator>
@@ -61,9 +55,9 @@ export const ProfileNavigator = () => {
           },
           headerBackTitleVisible: false,
           headerTitleAlign: "center",
-          headerTintColor: "#fffff4",
+          headerTintColor: colors.ui.creamBackground,
           headerTitleStyle: {
-            color: "#fffff4",
+            color: colors.ui.creamBackground,
           },
         })}
       />
@@ -82,9 +76,9 @@ export const ProfileNavigator = () => {
           headerStyle: {
             backgroundColor: colors.ui.header,
           },
-          headerTintColor: "#fffff4",
+          headerTintColor: colors.ui.creamBackground,
           headerTitleStyle: {
-            color: "#fffff4",
+            color: colors.ui.creamBackground,
           },
         })}
       />
@@ -97,9 +91,9 @@ export const ProfileNavigator = () => {
           },
           headerBackTitleVisible: false,
           headerTitleAlign: "center",
-          headerTintColor: "#fffff4",
+          headerTintColor: colors.ui.creamBackground,
           headerTitleStyle: {
-            color: "#fffff4",
+            color: colors.ui.creamBackground,
           },
         })}
       />
@@ -114,9 +108,9 @@ export const ProfileNavigator = () => {
           headerStyle: {
             backgroundColor: colors.ui.header,
           },
-          headerTintColor: "#fffff4",
+          headerTintColor: colors.ui.creamBackground,
           headerTitleStyle: {
-            color: "#fffff4",
+            color: colors.ui.creamBackground,
           },
         })}
       />
@@ -131,9 +125,9 @@ export const ProfileNavigator = () => {
           headerStyle: {
             backgroundColor: colors.ui.header,
           },
-          headerTintColor: "#fffff4",
+          headerTintColor: colors.ui.creamBackground,
           headerTitleStyle: {
-            color: "#fffff4",
+            color: colors.ui.creamBackground,
           },
         })}
       />

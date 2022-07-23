@@ -96,9 +96,9 @@ export const MainPageNavigator = () => (
         headerStyle: {
           backgroundColor: colors.ui.header,
         },
-        headerTintColor: "#fffff4",
+        headerTintColor: colors.ui.creamBackground,
         headerTitleStyle: {
-          color: "#fffff4",
+          color: colors.ui.creamBackground,
         },
       })}
     />
@@ -114,9 +114,9 @@ export const MainPageNavigator = () => (
         headerStyle: {
           backgroundColor: colors.ui.header,
         },
-        headerTintColor: "#fffff4",
+        headerTintColor: colors.ui.creamBackground,
         headerTitleStyle: {
-          color: "#fffff4",
+          color: colors.ui.creamBackground,
         },
       })}
     />
@@ -131,9 +131,9 @@ export const MainPageNavigator = () => (
         headerStyle: {
           backgroundColor: colors.ui.header,
         },
-        headerTintColor: "#fffff4",
+        headerTintColor: colors.ui.creamBackground,
         headerTitleStyle: {
-          color: "#fffff4",
+          color: colors.ui.creamBackground,
         },
       })}
     />
@@ -146,6 +146,13 @@ export const MainPageNavigator = () => (
         headerBackTitleVisible: false,
         headerTitleStyle: { fontSize: 18 },
         headerTitleAlign: "center",
+        headerStyle: {
+          backgroundColor: colors.ui.header,
+        },
+        headerTintColor: colors.ui.creamBackground,
+        headerTitleStyle: {
+          color: colors.ui.creamBackground,
+        },
       })}
     />
   </Stack.Navigator>

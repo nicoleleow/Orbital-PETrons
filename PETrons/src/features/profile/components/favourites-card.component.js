@@ -141,7 +141,7 @@ export const FavouritesCard = ({ pet, navigation }) => {
             >
             <Icon
               name='heart'
-              color= {isFavourite === true ? 'red' : 'white'}
+              color= {isFavourite === true ? '#e95949' : 'white'}
               size={20}
             />
           </FavouriteButton>

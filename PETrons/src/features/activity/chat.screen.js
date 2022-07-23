@@ -164,7 +164,7 @@ export const ChatPage = ({ route, navigation }) => {
             name="send-circle"
             style={{ marginBottom: 5, marginRight: 5 }}
             size={32}
-            color="#f9e2ae"
+            color="#ffae42"
           />
         </View>
       </Send>
@@ -200,19 +200,19 @@ export const ChatPage = ({ route, navigation }) => {
   };
 
   return (
-    <GiftedChat
-      messages={messages}
-      timeTextStyle={{ left: { color: "grey" }, right: { color: "grey" } }}
-      showUserAvatar={false}
-      onSend={(messages) => onSend(messages)}
-      user={{
-        _id: authentication.currentUser?.email,
-      }}
-      renderBubble={renderBubble}
-      alwaysShowSend
-      renderSend={renderSend}
-      scrollToBottom
-      scrollToBottomComponent={scrollToBottomComponent}
+      <GiftedChat
+        messages={messages}
+        timeTextStyle={{ left: { color: "grey" }, right: { color: "grey" } }}
+        showUserAvatar={false}
+        onSend={(messages) => onSend(messages)}
+        user={{
+          _id: authentication.currentUser?.email,
+        }}
+        renderBubble={renderBubble}
+        alwaysShowSend
+        renderSend={renderSend}
+        scrollToBottom
+        scrollToBottomComponent={scrollToBottomComponent}
     />
   );
 };
