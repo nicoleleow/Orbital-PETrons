@@ -97,7 +97,7 @@ export const FavouritesPage = ({ navigation }) => {
           </TouchableOpacity>
         )}
         contentContainerStyle={{
-          marginHorizontal: 15,
+          marginHorizontal: (Dimensions.get("window").width - 382) / 2,
         }}
         keyExtractor={(item) => item[0]}
         numColumns={2}
