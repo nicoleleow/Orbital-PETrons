@@ -80,14 +80,16 @@ export const CreatePostScreen = ({ navigation }) => {
       setImageModalVisible(!imageModalVisible);
     }
   };
-
+  
   const removeImage = () => {
     if (postImage === null) {
-      Alert.alert("No Image Uploaded Yet.");
+      Alert.alert(
+        "No Image Selected Yet."
+      );
     } else {
       setPostImage(null);
     }
-  };
+  }
 
   const cancelPostAlert = () => {
     Alert.alert(
@@ -112,20 +114,24 @@ export const CreatePostScreen = ({ navigation }) => {
     if (postImage === null && postText === "") {
       Alert.alert(
         "Empty Post",
-        "Please upload an image or input some text.\nIf you wish to delete this post, click on the 'Cancel' button."
-      );
+        "Please upload an image or input some text."
+      )
     } else {
-      Alert.alert("Upload Post?", "Are you sure you want to upload the post?", [
-        {
-          text: "Continue Writing Post",
-        },
-        {
-          text: "Upload Post",
-          onPress: SetData,
-        },
-      ]);
+      Alert.alert(
+        "Upload Post?",
+        "Are you sure you want to upload the post?",
+          [
+            {
+              text: "Continue Writing Post",
+            },
+            {
+              text: "Upload Post",
+              onPress: SetData
+            },
+          ]
+        )
     }
-  };
+  }
 
   const SetData = async () => {
     let userUsername, date, hour, minutes;
