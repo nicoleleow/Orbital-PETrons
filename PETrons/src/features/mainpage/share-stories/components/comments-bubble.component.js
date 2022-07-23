@@ -14,12 +14,9 @@ import Icon from "react-native-vector-icons/Ionicons";
 import {
   Months
 } from "./stories-post-card.styles";
-// import { TouchableOpacity } from 'react-native-gesture-handler';
+import { colors } from '../../../../infrastructure/theme/colors';
 import { db, authentication } from '../../../../../firebase/firebase-config';
 
-const BubbleText = styled(Text)`
-  color: white;
-`
 
 export const CommentBubble = ({ postID, commentDetails, storyDetails, navigation }) => {
   
@@ -110,22 +107,22 @@ export const CommentBubble = ({ postID, commentDetails, storyDetails, navigation
       style={{
         marginHorizontal: 20,
         marginVertical: 5,
-        backgroundColor: '#2e64e5',
+        backgroundColor: "#f9e2ae",
         borderRadius: 10,
         padding: 10,
       }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <BubbleText style={{ fontWeight: 'bold', fontSize: 17 }}>{username}</BubbleText>
-        <BubbleText
+        <Text style={{ fontWeight: 'bold', fontSize: 17 }}>{username}</Text>
+        <Text
           style={{ paddingTop: 5, fontSize: 13 }}
         >
           {formattedDate}
-        </BubbleText>
+        </Text>
       </View>
       <Spacer size='small' />
       <View style={{ flexDirection: 'row' }}>
         <View style={{flex: 15}}>
-          <BubbleText style={{ fontSize: 15 }}>{commentText}</BubbleText>
+          <Text style={{ fontSize: 15 }}>{commentText}</Text>
         </View>
         <View style={{ flex: 1 }}>
           {commentEmail === currentUserEmail && (
@@ -134,7 +131,7 @@ export const CommentBubble = ({ postID, commentDetails, storyDetails, navigation
               onPress={DeleteCommentAlert}>
               <Icon
                 name="trash-sharp"
-                size={15} color="white"
+                size={15}
               />
             </TouchableOpacity>
           )}

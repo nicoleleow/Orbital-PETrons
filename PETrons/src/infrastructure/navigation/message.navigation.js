@@ -35,9 +35,9 @@ export const MessageNavigator = () => {
           headerStyle: {
             backgroundColor: colors.ui.header,
           },
-          headerTintColor: "#fffff4",
+          headerTintColor: colors.ui.creamBackground,
           headerTitleStyle: {
-            color: "#fffff4",
+            color: colors.ui.creamBackground,
           },
           headerTitleAlign: "center",
           headerBackTitleVisible: false,

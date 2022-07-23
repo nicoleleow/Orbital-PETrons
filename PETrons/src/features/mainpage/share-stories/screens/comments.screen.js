@@ -20,7 +20,7 @@ import {
   doc,
   setDoc,
 } from "firebase/firestore/lite";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { colors } from "../../../../infrastructure/theme/colors";
 import {
   authentication,
   db,
@@ -152,7 +152,7 @@ export const CommentsScreen = ({ route, navigation }) => {
 
   return (
     <DismissKeyboard>
-      <SafeArea>
+      <SafeArea style={{backgroundColor: "#f0f0f0"}}>
         <FlatList
           data={tempCommentsList}
           renderItem={(item) => (
@@ -178,13 +178,16 @@ export const CommentsScreen = ({ route, navigation }) => {
             bottom: keyboardOffset + 10,
             backgroundColor: "white",
             width: Dimensions.get("window").width,
+            borderWidth: 1,
+            borderColor: '#e6e6e6',
+            marginBottom: 25
           }}
         >
           <Icon
             name="send-circle"
             style={{ position: "absolute", right: 5, top: 5 }}
             size={32}
-            color="#2e64e5"
+            color={colors.ui.header}
             onPress={UpdateTempCommentsArr}
           />
           <CommentTextInput

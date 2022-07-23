@@ -26,6 +26,7 @@ export const colors = {
   ui: {
     background: "#f9e2ae",
     header: "#ffae42",
+    creamBackground: "#fffff4",
     primary: "#262626",
     secondary: "#757575",
     tertiary: "#F1F1F1",
