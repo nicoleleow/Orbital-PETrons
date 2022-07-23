@@ -97,7 +97,7 @@ export const ContactOwnerButton = styled(TouchableOpacity)`
   align-items: center;
   background-color: ${(props) => props.theme.colors.brand.blue1};
   padding-vertical: 10px;
-  padding-horizontal: ${(Dimensions.get("window").width - 114 - 240) / 2 }px;
+  width: 270px;
   elevation: 5;
 `;
 
