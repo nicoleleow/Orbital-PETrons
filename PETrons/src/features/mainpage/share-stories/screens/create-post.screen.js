@@ -26,6 +26,12 @@ import {
   ImageButtonText,
   ModalContainer,
   CancelButtons,
+  RenderContentButton,
+  RenderContentSubtitle,
+  RenderContentTitle,
+  RenderContentContainer,
+  RenderContentButtonTitle,
+  RenderContentCancelButton,
 } from "./create-post.styles";
 import { SafeArea } from "../../../../components/utility/safe-area.component";
 
@@ -283,27 +289,32 @@ export const CreatePostScreen = ({ navigation }) => {
               setImageModalVisible(!imageModalVisible);
             }}
           >
-            <ModalContainer>
-              <HeaderText style={{ marginTop: 10 }}>Upload An Image</HeaderText>
-              <ImageButtons onPress={takePhotoFromCamera}>
-                <Icon2 name="camera-alt" size={20} color={"white"} />
-                <Spacer size="medium" position="right" />
-                <ImageButtonText>Take Photo</ImageButtonText>
-              </ImageButtons>
-              <ImageButtons onPress={chooseFromLibrary}>
-                <Icon2 name="photo-library" size={20} color={"white"} />
-                <Spacer size="medium" position="right" />
-                <ImageButtonText>Choose From Library</ImageButtonText>
-              </ImageButtons>
-              <ImageButtons onPress={removeImage}>
-                <ImageButtonText>Remove Selected Image</ImageButtonText>
-              </ImageButtons>
-              <CancelButtons
+            <RenderContentContainer>
+              <View style={{ alignItems: "center" }}>
+                <RenderContentTitle>Upload Photo</RenderContentTitle>
+                <RenderContentSubtitle>
+                  Choose Your Picture
+                </RenderContentSubtitle>
+              </View>
+              <RenderContentButton onPress={takePhotoFromCamera}>
+                <RenderContentButtonTitle>Take Photo</RenderContentButtonTitle>
+              </RenderContentButton>
+              <RenderContentButton onPress={chooseFromLibrary}>
+                <RenderContentButtonTitle>
+                  Choose From Library
+                </RenderContentButtonTitle>
+              </RenderContentButton>
+              <RenderContentButton onPress={removeImage}>
+                <RenderContentButtonTitle>
+                  Remove Selected Image
+                </RenderContentButtonTitle>
+              </RenderContentButton>
+              <RenderContentCancelButton
                 onPress={() => setImageModalVisible(!imageModalVisible)}
               >
-                <ImageButtonText>Cancel</ImageButtonText>
-              </CancelButtons>
-            </ModalContainer>
+                <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
+              </RenderContentCancelButton>
+            </RenderContentContainer>
           </Modal>
         </Uploads>
       </Body>

@@ -90,3 +90,49 @@ export const ModalContainer = styled(View).attrs({
   background-color: whitesmoke;
   padding-bottom: 150px;
 `;
+
+export const RenderContentContainer = styled(View).attrs({
+  backgroundColor: "white",
+  marginTop: Dimensions.get("window").height - 380,
+})`
+  border-width: 1.5px;
+  border-color: #e6e6e6;
+  border-radius: 10px;
+  background-color: white;
+  height: 380px;
+  padding: 20px;
+`;
+
+export const RenderContentTitle = styled(Text)`
+  font-size: 27px;
+  height: 35px;
+`;
+
+export const RenderContentSubtitle = styled(Text)`
+  font-size: 14px;
+  color: gray;
+  height: 30px;
+  margin-bottom: 10px;
+`;
+
+export const RenderContentButtonTitle = styled(Text)`
+  font-size: 17px;
+  font-weight: bold;
+  color: white;
+`;
+
+export const RenderContentButton = styled(TouchableOpacity)`
+  padding: 13px;
+  border-radius: 10px;
+  background-color: #2196f3;
+  align-items: center;
+  margin-vertical: 7px;
+`;
+
+export const RenderContentCancelButton = styled(TouchableOpacity)`
+  padding: 13px;
+  border-radius: 10px;
+  background-color: ${(props) => props.theme.colors.button.modalCancel};
+  align-items: center;
+  margin-vertical: 7px;
+`;
