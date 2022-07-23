@@ -29,6 +29,7 @@ import {
   AboutPet,
   ContactOwnerButton,
   ContactOwnerText,
+  FavouriteButton
 } from "./pet-info.screen.styles";
 import {
   authentication,
@@ -38,15 +39,6 @@ import {
   userUsername,
 } from "../../../../../firebase/firebase-config";
 import { SafeArea } from "../../../../components/utility/safe-area.component";
-
-const FavouriteButton = styled(TouchableOpacity)`
-  height: 40px;
-  width: 40px;
-  align-items: center;
-  justify-content: center;
-  border-radius: ${(props) => props.theme.space[3]};
-  background-color: ${(props) => props.theme.colors.brand.blue1};
-`;
 
 export const PetInfoScreen = ({ route, navigation }) => {
   const pet = route.params.item;

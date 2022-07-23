@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import { View, Text, SafeAreaView, TouchableOpacity, Dimensions } from "react-native";
 import { colors } from "../../../../infrastructure/theme/colors";
 
 export const Name = styled(Text)`
@@ -96,9 +96,9 @@ export const ContactOwnerButton = styled(TouchableOpacity)`
   justify-content: center;
   align-items: center;
   background-color: ${(props) => props.theme.colors.brand.blue1};
-  padding: 10px;
+  padding-vertical: 10px;
+  padding-horizontal: ${(Dimensions.get("window").width - 114 - 240) / 2 }px;
   elevation: 5;
-  width: ${Platform.OS === "ios" ? 280 : 290}px;
 `;
 
 export const ContactOwnerText = styled(Text)`
@@ -107,4 +107,13 @@ export const ContactOwnerText = styled(Text)`
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 2px;
+`;
+
+export const FavouriteButton = styled(TouchableOpacity)`
+  height: 40px;
+  width: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: ${(props) => props.theme.space[3]};
+  background-color: ${(props) => props.theme.colors.brand.blue1};
 `;
