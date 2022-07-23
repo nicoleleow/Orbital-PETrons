@@ -77,7 +77,7 @@ const Caption = styled(Text)`
 `;
 
 const EditButton = styled(Button).attrs({
-  color: "rgb(255, 227, 180)",
+  color: colors.button.main,
 })`
   align-content: center;
   justify-content: center;
@@ -231,7 +231,12 @@ export const AdoptionInfoCard = ({ pet, navigation }) => {
           <Caption>Status: {status}</Caption>
         </SectionStart>
         <SectionEnd>
-          <EditButton mode="contained" icon="pencil" onPress={EditAlert}>
+          <EditButton
+            labelStyle={{ color: colors.button.text }}
+            mode="contained"
+            icon="pencil"
+            onPress={EditAlert}
+          >
             Edit
           </EditButton>
         </SectionEnd>

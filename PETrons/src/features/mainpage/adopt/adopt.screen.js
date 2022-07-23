@@ -17,7 +17,6 @@ import { PetInfoCard } from "./components/pet-info-card.component";
 import { GetPetsData, petsList } from "../../../../firebase/firebase-config";
 
 import {
-  SafeArea,
   MainContainer,
   SearchInputContainer,
   PetCategoriesContainer,
@@ -36,6 +35,7 @@ import {
   HDBApprovedStatus,
   Fees,
 } from "./components/pet-filter-categories";
+import { SafeArea } from "../../../components/utility/safe-area.component";
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));

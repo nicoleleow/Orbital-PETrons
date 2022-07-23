@@ -1,19 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, FlatList, RefreshControl, TextInput, TouchableWithoutFeedback, Keyboard, Dimensions } from "react-native";
+import {
+  View,
+  FlatList,
+  RefreshControl,
+  TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Dimensions,
+} from "react-native";
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import {
-  SafeArea
-} from "../../mainpage/share-stories/screens/create-post.styles";
-
-import {
-  collection,
-  getDocs
-} from "firebase/firestore/lite";
+import { collection, getDocs } from "firebase/firestore/lite";
 import { authentication, db } from "../../../../firebase/firebase-config";
 import { LikedUsersBubble } from "../components/liked-users-bubble.component";
+import { colors } from "../../../infrastructure/theme/colors";
+import { SafeArea } from "../../../components/utility/safe-area.component";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -22,15 +25,25 @@ const DismissKeyboard = ({ children }) => (
 );
 
 const wait = (timeout) => {
-  return new Promise(resolve => setTimeout(resolve, timeout));
-}
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 
 export const LikedUsersScreen = ({ route, navigation }) => {
   const storyDetails = route.params.storyDetails[1];
   const postID = route.params.storyDetails[0];
-  const { date, hour, minutes, postImage, postText,
-    userName, edited, email, likedUsers, comments } = storyDetails;
-  
+  const {
+    date,
+    hour,
+    minutes,
+    postImage,
+    postText,
+    userName,
+    edited,
+    email,
+    likedUsers,
+    comments,
+  } = storyDetails;
+
   const currentUserEmail = authentication.currentUser?.email;
 
   const [tempLikedUsersList, setTempLikedUsersList] = useState([]);
@@ -39,12 +52,12 @@ export const LikedUsersScreen = ({ route, navigation }) => {
   const GetDBLikedUsersArray = async () => {
     const Snapshot = await getDocs(collection(db, "stories"));
     Snapshot.forEach((doc) => {
-    if (doc.id === postID) {
-      setTempLikedUsersList(doc.data().likedUsers);
-      setNumLikes(tempLikedUsersList.length);
+      if (doc.id === postID) {
+        setTempLikedUsersList(doc.data().likedUsers);
+        setNumLikes(tempLikedUsersList.length);
       }
-    })
-  }
+    });
+  };
 
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = () => {
@@ -63,20 +76,16 @@ export const LikedUsersScreen = ({ route, navigation }) => {
       <SafeArea>
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'flex-end',
+            flexDirection: "row",
+            justifyContent: "flex-end",
             paddingRight: 10,
-            paddingTop: 10
-          }}>
-          <Icon
-            raised
-            name="thumb-up"
-            size={20}
-            color="black"
-          />
-          <Spacer size='small' position='right' />
+            paddingTop: 10,
+          }}
+        >
+          <Icon raised name="thumb-up" size={20} color="black" />
+          <Spacer size="small" position="right" />
           {numLikes == 1 && (
-            <Text style={{ paddingTop: 2}}>{numLikes} Like</Text>
+            <Text style={{ paddingTop: 2 }}>{numLikes} Like</Text>
           )}
           {numLikes != 1 && (
             <Text style={{ paddingTop: 2 }}>{numLikes} Likes</Text>
@@ -90,18 +99,15 @@ export const LikedUsersScreen = ({ route, navigation }) => {
             </View>
           )}
           refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-              />}
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
           style={{
-            backgroundColor: '#f0f0f0',
+            backgroundColor: colors.ui.background,
             marginBottom: 0,
-            paddingTop: 10
+            paddingTop: 10,
           }}
-        /> 
+        />
       </SafeArea>
     </DismissKeyboard>
-  )
-}
- 
+  );
+};

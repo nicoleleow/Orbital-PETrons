@@ -31,17 +31,13 @@ import {
 } from "../../../firebase/firebase-config";
 import { Spacer } from "../../components/spacer/spacer.component";
 import { MyStoryPostsPage } from "./screens/my-story-posts.screen";
+import { SafeArea } from "../../components/utility/safe-area.component";
 
 const ProfileContainerPadding = Dimensions.get("screen").height / 40;
 // const UserInfoSectionMargin = Dimensions.get("screen").height / 12;
 
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: orange;
-`;
-
 const ProfileContainer = styled.View`
-  background-color: orange
+  background-color: ${(props) => props.theme.colors.ui.background};
   padding: ${(props) => props.theme.space[5]};
   padding-top: ${ProfileContainerPadding}px;
 `;
@@ -68,7 +64,7 @@ const EmailCaption = styled(Caption)`
 `;
 
 const AuthButton = styled(Button).attrs({
-  color: "rgb(255, 227, 180)",
+  color: colors.button.main,
 })`
   padding: ${(props) => props.theme.space[2]};
 `;
@@ -130,7 +126,7 @@ export const ProfilePage = ({ navigation }) => {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
-  return(
+  return (
     <SafeArea>
       <ScrollView contentContainerStyle={{ flex: 1 }}>
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -160,6 +156,7 @@ export const ProfilePage = ({ navigation }) => {
         <View style={{ paddingTop: 20 }}>
           <ProfileContainer>
             <AuthButton
+              labelStyle={{ color: colors.button.text }}
               mode="contained"
               icon="tag-heart"
               onPress={PutUpAdoptionListPage}
@@ -168,6 +165,7 @@ export const ProfilePage = ({ navigation }) => {
             </AuthButton>
             <Spacer size="large">
               <AuthButton
+                labelStyle={{ color: colors.button.text }}
                 mode="contained"
                 icon="post-outline"
                 onPress={MyStoryPostsPage}
@@ -186,6 +184,7 @@ export const ProfilePage = ({ navigation }) => {
             </Spacer> */}
             <Spacer size="large">
               <AuthButton
+                labelStyle={{ color: colors.button.text }}
                 mode="contained"
                 icon="heart"
                 onPress={FavouritesPage}
@@ -195,6 +194,7 @@ export const ProfilePage = ({ navigation }) => {
             </Spacer>
             <Spacer size="large">
               <AuthButton
+                labelStyle={{ color: colors.button.text }}
                 mode="contained"
                 icon="account-check"
                 onPress={EditProfilePage}
@@ -203,7 +203,12 @@ export const ProfilePage = ({ navigation }) => {
               </AuthButton>
             </Spacer>
             <Spacer size="large">
-              <AuthButton mode="contained" icon="logout" onPress={Logout}>
+              <AuthButton
+                labelStyle={{ color: colors.button.text }}
+                mode="contained"
+                icon="logout"
+                onPress={Logout}
+              >
                 Log Out
               </AuthButton>
             </Spacer>

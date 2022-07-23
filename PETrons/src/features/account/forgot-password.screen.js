@@ -63,7 +63,7 @@ const FieldInput = styled(TextInput)`
   width: 300px;
 `;
 
-const AuthButton = styled(Button).attrs({ color: colors.button.primary })`
+const AuthButton = styled(Button).attrs({ color: colors.button.main })`
   padding: ${(props) => props.theme.space[2]};
   margin-top: ${(props) => props.theme.space[2]};
   width: 200px;
@@ -108,6 +108,7 @@ export const ForgetPasswordPage = ({ navigation }) => {
           </AccountContainer>
           <View style={{ alignItems: "center" }}>
             <AuthButton
+              labelStyle={{ color: colors.button.text }}
               icon="sticker-check-outline"
               mode="contained"
               onPress={forgetPassword}
@@ -115,6 +116,7 @@ export const ForgetPasswordPage = ({ navigation }) => {
               Submit
             </AuthButton>
             <AuthButton
+              labelStyle={{ color: colors.button.text }}
               icon="account-arrow-left"
               mode="contained"
               onPress={() => navigation.navigate("Login")}

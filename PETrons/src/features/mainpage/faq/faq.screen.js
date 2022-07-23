@@ -9,13 +9,9 @@ import {
 import styled from "styled-components/native";
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
+import { SafeArea } from "../../../components/utility/safe-area.component";
 
 const mainPageHeaderPadding = Dimensions.get("screen").height / 12;
-
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: orange;
-`;
 
 const MainPageHeader = styled(Text)`
   color: black;
@@ -35,7 +31,7 @@ const Container = styled(View).attrs({
 
 const PageButtons = styled(TouchableOpacity)`
   elevation: 5;
-  background-color: rgb(255, 227, 180);
+  background-color: ${(props) => props.theme.colors.button.main};
   margin: ${(props) => props.theme.space[3]} ${(props) => props.theme.space[6]};
   padding: ${(props) => props.theme.space[4]} 20px;
   border-radius: ${(props) => props.theme.space[3]};
@@ -44,6 +40,7 @@ const PageButtons = styled(TouchableOpacity)`
 `;
 
 const PageTitles = styled(Text)`
+  color: ${(props) => props.theme.colors.button.text};
   text-align: center;
   font-size: ${(props) => props.theme.fontSizes.title};
 `;

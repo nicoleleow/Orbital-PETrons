@@ -1,33 +1,29 @@
 import React, { useState, useEffect } from "react";
 import {
-  Text, 
+  Text,
   View,
   Keyboard,
   TouchableWithoutFeedback,
   ScrollView,
   Image,
   Alert,
-  Dimensions
+  Dimensions,
 } from "react-native";
-import {
-  getStorage,
-  ref,
-  getDownloadURL
-} from "firebase/storage";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
-import {
-  collection,
-  getDocs,
-  doc,
-  setDoc,
-} from "firebase/firestore/lite";
+import { collection, getDocs, doc, setDoc } from "firebase/firestore/lite";
 
 import { Spacer } from "../../../components/spacer/spacer.component";
-import { db, authentication, userUsername, getUserName, userImage } from "../../../../firebase/firebase-config";
+import {
+  db,
+  authentication,
+  userUsername,
+  getUserName,
+  userImage,
+} from "../../../../firebase/firebase-config";
 import { Avatar } from "react-native-paper";
 
 import {
-  SafeArea,
   Header,
   HeaderText,
   Body,
@@ -35,8 +31,10 @@ import {
   Uploads,
   PostText,
   TopButtons,
-  ImageButtonText
+  ImageButtonText,
 } from "../../mainpage/share-stories/screens/create-post.styles";
+import { colors } from "../../../infrastructure/theme/colors";
+import { SafeArea } from "../../../components/utility/safe-area.component";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -47,8 +45,19 @@ const DismissKeyboard = ({ children }) => (
 export const EditPostPage = ({ route, navigation }) => {
   getUserName();
   const details = route.params.storyDetails[1];
-  const { date, hour, minutes, postImage, postText, userName, email, edited, likedUsers, comments } = details;
-  
+  const {
+    date,
+    hour,
+    minutes,
+    postImage,
+    postText,
+    userName,
+    email,
+    edited,
+    likedUsers,
+    comments,
+  } = details;
+
   const [newPostText, setNewPostText] = useState(postText);
 
   const [pfp, setPfp] = useState(userImage);
@@ -79,18 +88,17 @@ export const EditPostPage = ({ route, navigation }) => {
     };
 
     if (url == undefined || pfpUrl == undefined) {
-    func();
+      func();
     }
   }, []);
-
 
   const updateData = async () => {
     const querySnapshot = await getDocs(collection(db, "stories"));
     let documentID;
     querySnapshot.forEach((doc) => {
       if (
-        (doc.data().email === email) 
-        & (doc.data().date.seconds === date.seconds)
+        (doc.data().email === email) &
+        (doc.data().date.seconds === date.seconds)
       ) {
         documentID = doc.id;
       }
@@ -104,9 +112,9 @@ export const EditPostPage = ({ route, navigation }) => {
       postText: newPostText,
       email,
       userName,
-      edited: (newPostText !== postText ? true : false),
+      edited: newPostText !== postText ? true : false,
       likedUsers,
-      comments
+      comments,
     });
     navigation.goBack();
   };
@@ -122,47 +130,47 @@ export const EditPostPage = ({ route, navigation }) => {
         { text: "Yes", onPress: updateData },
       ]
     );
-  
+
   const cancelEditAlert = () => {
     Alert.alert(
       "Remove Edits?",
       "Are you sure you want to leave? \nNo edits will be made.",
-        [
-          {
-            text: "Continue Editing"
+      [
+        {
+          text: "Continue Editing",
+        },
+        {
+          text: "Leave",
+          onPress: async () => {
+            navigation.goBack();
+            setNewPostText(postText);
           },
-          {
-            text: "Leave",
-            onPress: async () => {
-              navigation.goBack();
-              setNewPostText(postText);
-            },
-          },
-        ]
-      )
-  }
+        },
+      ]
+    );
+  };
 
   return (
     <DismissKeyboard>
       <SafeArea>
-        <View style={{ backgroundColor: '#f0f0f0' }}>
+        <View style={{ backgroundColor: colors.ui.background }}>
           <Body>
             <UserDetails>
               {pfp === "default" && (
-              <Avatar.Image
-                backgroundColor="white"
-                source={require("../../../../assets/default_profilepic.png")}
-                size={60}
-              />
-            )}
-            {pfp !== "default" && (
-              <Avatar.Image
-                backgroundColor="white"
-                source={{ uri: pfpUrl }}
-                size={60}
-              />
-            )}
-              <Spacer size='medium' position='right' />
+                <Avatar.Image
+                  backgroundColor="white"
+                  source={require("../../../../assets/default_profilepic.png")}
+                  size={60}
+                />
+              )}
+              {pfp !== "default" && (
+                <Avatar.Image
+                  backgroundColor="white"
+                  source={{ uri: pfpUrl }}
+                  size={60}
+                />
+              )}
+              <Spacer size="medium" position="right" />
               <Text>{userUsername}</Text>
             </UserDetails>
             <ScrollView>
@@ -170,10 +178,15 @@ export const EditPostPage = ({ route, navigation }) => {
                 {postImage && (
                   <View>
                     <Image
-                    source={{ uri: url }}
-                    style={{ resizeMode: "contain", width: 360, height: 220, alignSelf: 'center'}}
+                      source={{ uri: url }}
+                      style={{
+                        resizeMode: "contain",
+                        width: 360,
+                        height: 220,
+                        alignSelf: "center",
+                      }}
                     />
-                    <Spacer size='large' />
+                    <Spacer size="large" />
                   </View>
                 )}
                 <PostText
@@ -182,25 +195,28 @@ export const EditPostPage = ({ route, navigation }) => {
                   keyboardType="default"
                   value={newPostText}
                   onChangeText={setNewPostText}
-                  maxLength={300} 
+                  maxLength={300}
                   multiline={true}
-                  style={{backgroundColor: 'white'}}
+                  style={{ backgroundColor: "white" }}
                 />
-                <Spacer size='xLarge' />
+                <Spacer size="xLarge" />
                 <View style={{ height: 200 }}>
-                  <TopButtons onPress={confirmEditAlert}  style={{
-                    width: Dimensions.get("window").width - 60,
-                    backgroundColor: '#2e64e5'
-                  }}>
+                  <TopButtons
+                    onPress={confirmEditAlert}
+                    style={{
+                      width: Dimensions.get("window").width - 60,
+                      backgroundColor: colors.button.main,
+                    }}
+                  >
                     <ImageButtonText>Done</ImageButtonText>
                   </TopButtons>
                 </View>
-                <Spacer size='large' />
+                <Spacer size="large" />
               </Uploads>
             </ScrollView>
           </Body>
         </View>
       </SafeArea>
     </DismissKeyboard>
-  )
-}
+  );
+};

@@ -25,6 +25,7 @@ import {
   PostTime,
   MessageText,
   TextSection,
+  SubTitle,
 } from "./message.styles";
 import { Text } from "../../components/typography/text.component";
 import { authentication, db } from "../../../firebase/firebase-config";
@@ -33,11 +34,8 @@ import {
   chatList,
   userUsername,
 } from "../../../firebase/firebase-config";
-
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: orange;
-`;
+import { colors } from "../../infrastructure/theme/colors";
+import { SafeArea } from "../../components/utility/safe-area.component";
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -148,7 +146,7 @@ export const MessagePage = ({ navigation }) => {
   }, []);
   return (
     <SafeArea>
-      <Text variant="header">Messages</Text>
+      <SubTitle>Messages</SubTitle>
       <FlatList
         data={filteredChat}
         keyExtractor={(item) => item._id}
@@ -158,7 +156,7 @@ export const MessagePage = ({ navigation }) => {
         contentContainerStyle={{
           flex: 1,
           alignItems: "center",
-          paddingTop: 30,
+          paddingTop: 10,
         }}
         renderItem={({ item }) => (
           <Card onPress={() => navigation.navigate("Chat", { item })}>
@@ -170,9 +168,19 @@ export const MessagePage = ({ navigation }) => {
                       ? item.userName
                       : item.username}
                   </UserName>
-                  <PostTime>{item.createdAt}</PostTime>
+                  <PostTime>{new Date(item.createdAt).toDateString()}</PostTime>
                 </UserInfoText>
-                <MessageText>{item.text}</MessageText>
+                {(() => {
+                  if (item.username == userUsername) {
+                    return <MessageText>You: {item.text}</MessageText>;
+                  } else {
+                    return (
+                      <MessageText>
+                        {item.username}: {item.text}
+                      </MessageText>
+                    );
+                  }
+                })()}
               </TextSection>
             </UserInfo>
           </Card>

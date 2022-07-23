@@ -25,6 +25,7 @@ import {
 } from "./account.style";
 import { Spacer } from "../../components/spacer/spacer.component";
 import { authentication, db } from "../../../firebase/firebase-config";
+import { colors } from "../../infrastructure/theme/colors";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -73,7 +74,7 @@ export const RegisterScreen = ({ navigation }) => {
             email: email,
             profilepic: "default",
             favourites: [],
-            likedPosts: []
+            likedPosts: [],
           });
         })
         .catch((re) => {
@@ -131,6 +132,7 @@ export const RegisterScreen = ({ navigation }) => {
             </Spacer>
             <Spacer size="large">
               <ProceedButton
+                labelStyle={{ color: colors.button.text }}
                 icon="email"
                 mode="contained"
                 onPress={registerUser}
@@ -147,6 +149,7 @@ export const RegisterScreen = ({ navigation }) => {
           <View style={{ alignItems: "center" }}>
             <Spacer size="large">
               <SubmitButton
+                labelStyle={{ color: colors.button.text }}
                 mode="contained"
                 onPress={() => navigation.goBack()}
               >

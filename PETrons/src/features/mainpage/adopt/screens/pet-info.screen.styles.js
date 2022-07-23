@@ -1,10 +1,6 @@
 import styled from "styled-components/native";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
-
-export const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: orange;
-`;
+import { colors } from "../../../../infrastructure/theme/colors";
 
 export const Name = styled(Text)`
   text-align: center;

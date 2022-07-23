@@ -9,11 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import styled from "styled-components/native";
-
-export const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: orange;
-`;
+import { colors } from "../../../infrastructure/theme/colors";
 
 export const MainContainer = styled(View)`
   border-radius: 5px;
@@ -26,9 +22,13 @@ export const SearchInputContainer = styled(View)`
   justify-content: space-between;
   height: 50px;
   background-color: white;
+  border-color: grey;
+  border-width: 0.5px;
   border-radius: 7px;
   padding-horizontal: 20px;
   margin-horizontal: ${(props) => props.theme.space[3]};
+  margin-top: ${(props) => props.theme.space[3]};
+  margin-bottom: ${(props) => props.theme.space[2]};
 `;
 
 export const PetCategoriesContainer = styled(ScrollView)`
@@ -42,13 +42,15 @@ export const PetCategoriesButton = styled(TouchableOpacity)`
   width: 40px;
   align-items: center;
   justify-content: center;
+  border-color: grey;
+  border-width: 0.5px;
   border-radius: ${(props) => props.theme.space[3]};
   margin-right: ${(props) => props.theme.space[4]};
   margin-left: ${(props) => props.theme.space[1]};
 `;
 
 export const PetCategoriesNames = styled(Text)`
-  color: white;
+  color: black;
   font-size: 12px;
   font-weight: bold;
   margin-top: 2px;

@@ -17,11 +17,8 @@ import {
   reauthenticateWithCredential,
   updatePassword,
 } from "firebase/auth";
-
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: orange;
-`;
+import { colors } from "../../../../infrastructure/theme/colors";
+import { SafeArea } from "../../../../components/utility/safe-area.component";
 
 const PasswordRequirements = styled(Text)`
   color: black;
@@ -35,13 +32,13 @@ const FieldInput = styled(TextInput)`
   margin-top: ${(props) => props.theme.space[3]};
   margin-bottom: ${(props) => props.theme.space[4]};
   border-bottom-width: 1px;
-  border-bottom-color: whitesmoke;
+  border-bottom-color: black;
   padding-bottom: 5px;
   width: 300px;
 `;
 
 const ConfirmButton = styled(Button).attrs({
-  color: "rgb(255, 227, 180)",
+  color: colors.button.main,
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
@@ -138,11 +135,12 @@ export const ChangePasswordPage = ({ navigation }) => {
               onChangeText={(text) => setNewRepeatedPassword(text)}
             ></FieldInput>
             <ConfirmButton
+              labelStyle={{ color: colors.button.text }}
               icon="sticker-check-outline"
               mode="contained"
               onPress={DoneAlert}
             >
-              save
+              <Text style={{ color: colors.button.text }}>save</Text>
             </ConfirmButton>
           </View>
         </ScrollView>

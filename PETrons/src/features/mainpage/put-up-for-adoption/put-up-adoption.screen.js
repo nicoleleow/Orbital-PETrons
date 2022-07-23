@@ -29,7 +29,6 @@ import {
 } from "./put-up-adoption-categories";
 
 import {
-  SafeArea,
   Container,
   PutUpAdoptionPageHeader,
   FormButton,
@@ -44,7 +43,10 @@ import {
   DropDown,
   AdoptionInfoSubtitle,
   AgeInputs,
+  RenderContentCancelButton,
 } from "./put-up-for-adoption.style";
+import { SafeArea } from "../../../components/utility/safe-area.component";
+import { colors } from "../../../infrastructure/theme/colors";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -91,9 +93,9 @@ export const PutUpAdoptionPage = ({ navigation }) => {
       <RenderContentButton onPress={chooseFromLibrary}>
         <RenderContentButtonTitle>Choose From Library</RenderContentButtonTitle>
       </RenderContentButton>
-      <RenderContentButton onPress={setModalVisible(!modalVisible)}>
+      <RenderContentCancelButton onPress={setModalVisible(!modalVisible)}>
         <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
-      </RenderContentButton>
+      </RenderContentCancelButton>
     </RenderContentContainer>
   );
   const chooseFromLibrary = async () => {
@@ -221,9 +223,11 @@ export const PutUpAdoptionPage = ({ navigation }) => {
                 Choose From Library
               </RenderContentButtonTitle>
             </RenderContentButton>
-            <RenderContentButton onPress={() => setModalVisible(!modalVisible)}>
+            <RenderContentCancelButton
+              onPress={() => setModalVisible(!modalVisible)}
+            >
               <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
-            </RenderContentButton>
+            </RenderContentCancelButton>
           </RenderContentContainer>
         </Modal>
         <ScrollView>
@@ -237,7 +241,12 @@ export const PutUpAdoptionPage = ({ navigation }) => {
               </View>
             )}
             <View style={{ alignItems: "center" }}>
-              <FormButton icon="image" mode="contained" onPress={renderContent}>
+              <FormButton
+                labelStyle={{ color: colors.button.text }}
+                icon="image"
+                mode="contained"
+                onPress={renderContent}
+              >
                 Upload Image
               </FormButton>
               <Spacer size="large">
@@ -368,7 +377,11 @@ export const PutUpAdoptionPage = ({ navigation }) => {
           </Container>
           <Spacer size="large" />
           <View style={{ alignItems: "center" }}>
-            <SubmitFormButton mode="contained" onPress={confirmAlert}>
+            <SubmitFormButton
+              labelStyle={{ color: colors.button.text }}
+              mode="contained"
+              onPress={confirmAlert}
+            >
               Confirm
             </SubmitFormButton>
           </View>

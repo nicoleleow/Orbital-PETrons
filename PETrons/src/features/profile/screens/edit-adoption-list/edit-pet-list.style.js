@@ -1,6 +1,12 @@
 import styled from "styled-components/native";
 import { Button, TextInput, Text } from "react-native-paper";
-import { TouchableOpacity, Image, Dimensions, View } from "react-native";
+import {
+  TouchableOpacity,
+  Image,
+  Dimensions,
+  View,
+  SafeAreaView,
+} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
 import { colors } from "../../../../infrastructure/theme/colors";
@@ -8,23 +14,16 @@ import { colors } from "../../../../infrastructure/theme/colors";
 const InputWidth = Dimensions.get("screen").width - 40;
 const AgeInputWidth = (Dimensions.get("screen").width - 50) / 2;
 
-export const Background = styled.View`
-  background-color: orange;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  padding-top: 30px;
-`;
-
 export const AdoptionInfoPageHeader = styled(Text)`
   color: black;
   font-size: ${(props) => props.theme.fontSizes.h5};
   font-family: ${(props) => props.theme.fonts.monospace};
-  padding-top: 40px;
+  padding-top: ${(props) => props.theme.space[4]};
+  text-align: center;
 `;
 
 export const FormButton = styled(Button).attrs({
-  color: "rgb(255, 227, 180)",
+  color: colors.button.main,
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
@@ -38,8 +37,7 @@ export const Container = styled.View`
 `;
 
 export const ImageContainer = styled.View`
-  width: 380px;
-  margin-top: ${(props) => props.theme.space[1]};
+  margin-top: ${(props) => props.theme.space[3]};
   align-items: center;
   justify-content: center;
 `;
@@ -47,11 +45,15 @@ export const ImageContainer = styled.View`
 export const Inputs = styled(TextInput)`
   width: ${InputWidth}px;
   background-color: whitesmoke;
+  border-width: 0.5px;
+  border-color: black;
 `;
 
 export const DescriptionInput = styled(TextInput)`
   width: ${InputWidth}px;
   height: 90px;
+  border-width: 0.5px;
+  border-color: black;
   textalignvertical: "top";
   background-color: whitesmoke;
   padding-bottom: 200px;
@@ -62,13 +64,14 @@ export const AgeInputs = styled(TextInput)`
   width: ${AgeInputWidth}px;
   background-color: whitesmoke;
   border-radius: 10px;
-  border-width: 1px;
+  border-width: 0.5px;
+  border-color: black;
   font-size: 16px;
   font-family: ${(props) => props.theme.fonts.body};
 `;
 
 export const EditFormButton = styled(Button).attrs({
-  color: "rgb(255, 227, 180)",
+  color: colors.button.main,
 })`
   padding: ${(props) => props.theme.space[2]};
   width: ${InputWidth}px;
@@ -121,7 +124,15 @@ export const RenderContentButtonTitle = styled(Text)`
 export const RenderContentButton = styled(TouchableOpacity)`
   padding: 13px;
   border-radius: 10px;
-  background-color: #2196f3;
+  background-color: ${(props) => props.theme.colors.button.modal};
+  align-items: center;
+  margin-vertical: 7px;
+`;
+
+export const RenderContentCancelButton = styled(TouchableOpacity)`
+  padding: 13px;
+  border-radius: 10px;
+  background-color: ${(props) => props.theme.colors.button.modalCancel};
   align-items: center;
   margin-vertical: 7px;
 `;

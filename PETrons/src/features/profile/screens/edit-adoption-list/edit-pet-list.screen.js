@@ -49,6 +49,7 @@ import {
   RenderContentTitle,
   AgeInputs,
   BackButton,
+  RenderContentCancelButton,
 } from "./edit-pet-list.style";
 import {
   AnimalTypes,
@@ -56,11 +57,8 @@ import {
   Groups,
   HDBApproved,
 } from "../../../mainpage/put-up-for-adoption/put-up-adoption-categories";
-
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: orange;
-`;
+import { colors } from "../../../../infrastructure/theme/colors";
+import { SafeArea } from "../../../../components/utility/safe-area.component";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -143,9 +141,9 @@ export const EditPetList = ({ route, navigation }) => {
       <RenderContentButton onPress={chooseFromLibrary}>
         <RenderContentButtonTitle>Choose From Library</RenderContentButtonTitle>
       </RenderContentButton>
-      <RenderContentButton onPress={setModalVisible(!modalVisible)}>
+      <RenderContentCancelButton onPress={setModalVisible(!modalVisible)}>
         <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
-      </RenderContentButton>
+      </RenderContentCancelButton>
     </RenderContentContainer>
   );
 
@@ -241,7 +239,7 @@ export const EditPetList = ({ route, navigation }) => {
 
   return (
     <DismissKeyboard>
-      <Background>
+      <SafeArea>
         <AdoptionInfoPageHeader>
           Change your pet's details:
         </AdoptionInfoPageHeader>
@@ -269,9 +267,11 @@ export const EditPetList = ({ route, navigation }) => {
                 Choose From Library
               </RenderContentButtonTitle>
             </RenderContentButton>
-            <RenderContentButton onPress={() => setModalVisible(!modalVisible)}>
+            <RenderContentCancelButton
+              onPress={() => setModalVisible(!modalVisible)}
+            >
               <RenderContentButtonTitle>Cancel</RenderContentButtonTitle>
-            </RenderContentButton>
+            </RenderContentCancelButton>
           </RenderContentContainer>
         </Modal>
         <ScrollView>
@@ -280,7 +280,12 @@ export const EditPetList = ({ route, navigation }) => {
               source={{ uri: changeImage === false ? url : petImage }}
               style={{ width: 300, height: 200 }}
             />
-            <FormButton icon="image" mode="contained" onPress={renderContent}>
+            <FormButton
+              labelStyle={{ color: colors.button.text }}
+              icon="image"
+              mode="contained"
+              onPress={renderContent}
+            >
               Upload New Image
             </FormButton>
           </ImageContainer>
@@ -406,13 +411,19 @@ export const EditPetList = ({ route, navigation }) => {
               />
             </Spacer>
           </Container>
+          <Spacer size="large">
+            <View style={{ alignItems: "center" }}>
+              <EditFormButton
+                labelStyle={{ color: colors.button.text }}
+                mode="contained"
+                onPress={confirmEdit}
+              >
+                Confirm Change
+              </EditFormButton>
+            </View>
+          </Spacer>
         </ScrollView>
-        <Spacer size="large">
-          <EditFormButton mode="contained" onPress={confirmEdit}>
-            Confirm Change
-          </EditFormButton>
-        </Spacer>
-      </Background>
+      </SafeArea>
     </DismissKeyboard>
   );
 };

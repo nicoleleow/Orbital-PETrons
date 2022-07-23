@@ -27,6 +27,7 @@ import {
 } from "./account.style";
 import { Spacer } from "../../components/spacer/spacer.component";
 import { authentication, db } from "../../../firebase/firebase-config";
+import { colors } from "../../infrastructure/theme/colors";
 
 export let adoptionList = [];
 
@@ -118,6 +119,7 @@ export const LoginScreen = ({ navigation }) => {
             {isSignedIn === true ? (
               <Spacer size="large">
                 <ProceedButton
+                  labelStyle={{ color: colors.button.text }}
                   icon="lock-open-outline"
                   mode="contained"
                   onPress={SignOutUser}
@@ -128,6 +130,7 @@ export const LoginScreen = ({ navigation }) => {
             ) : (
               <Spacer size="large">
                 <ProceedButton
+                  labelStyle={{ color: colors.button.text }}
                   icon="lock-open-outline"
                   mode="contained"
                   onPress={SignInUser}

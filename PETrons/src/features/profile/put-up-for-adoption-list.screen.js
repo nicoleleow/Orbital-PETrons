@@ -9,7 +9,6 @@ import {
   RefreshControl,
   TextInput,
   Dimensions,
-  Text,
 } from "react-native";
 import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -18,28 +17,15 @@ import { AdoptionInfoCard } from "./adoption-info-card";
 import { petsList, GetPetsData } from "../../../firebase/firebase-config";
 import { authentication } from "../../../firebase/firebase-config";
 import { Spacer } from "../../components/spacer/spacer.component";
+import { Text } from "../../components/typography/text.component";
+import { colors } from "../../infrastructure/theme/colors";
+import { SafeArea } from "../../components/utility/safe-area.component";
 
 const StatusCategories = [
   { name: "ALL", statusType: "all", icon: "gamepad-circle" },
   { name: "AVAILABLE", statusType: "available", icon: "check-circle-outline" },
   { name: "ADOPTED", statusType: "adopted", icon: "close-circle-outline" },
 ];
-
-const PageHeaderPadding = Dimensions.get("screen").height / 20;
-
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: orange;
-`;
-
-const PageHeader = styled(Text)`
-  color: black;
-  font-size: ${(props) => props.theme.fontSizes.h4};
-  font-family: ${(props) => props.theme.fonts.heading};
-  text-align: center;
-  padding-bottom: ${(props) => props.theme.space[3]};
-  padding-top: ${PageHeaderPadding}px;
-`;
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -67,6 +53,8 @@ const SearchInputContainer = styled(View)`
   justify-content: space-between;
   height: 50px;
   background-color: white;
+  border-color: grey;
+  border-width: 0.5px;
   border-radius: 7px;
   padding-horizontal: 20px;
   margin-horizontal: ${(props) => props.theme.space[4]};
@@ -74,7 +62,7 @@ const SearchInputContainer = styled(View)`
 
 const CategoriesContainer = styled(View)`
   flex-direction: row;
-  margin-top: ${(props) => props.theme.space[3]};
+  margin-top: ${(props) => props.theme.space[4]};
   margin-horizontal: ${(props) => props.theme.space[2]};
   align-items: center;
   justify-content: center;
@@ -85,13 +73,15 @@ const CategoriesButton = styled(TouchableOpacity)`
   width: 80px;
   align-items: center;
   justify-content: center;
+  border-color: grey;
+  border-width: 0.5px;
   border-radius: ${(props) => props.theme.space[3]};
   margin-right: ${(props) => props.theme.space[4]};
   margin-left: ${(props) => props.theme.space[4]};
 `;
 
 const CategoriesNames = styled(Text)`
-  color: white;
+  color: black;
   font-size: 12px;
   font-weight: bold;
   margin-top: 2px;
@@ -142,8 +132,7 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
     <DismissKeyboard>
       <SafeArea>
         <View>
-          {/* <Text variant="header">My Listed Adoptions</Text> */}
-          <PageHeader>My Listed Adoptions</PageHeader>
+          <Text variant="header">My Story Posts</Text>
         </View>
         <SearchContainer>
           <SearchInputContainer>
@@ -171,9 +160,7 @@ export const PutUpAdoptionListPage = ({ navigation }) => {
                 }}
                 style={{
                   backgroundColor:
-                    selectedCategoryIndex == index
-                      ? "rgb(255, 227, 180)"
-                      : "white",
+                    selectedCategoryIndex == index ? "#e36414" : "white",
                 }}
               >
                 <Icon

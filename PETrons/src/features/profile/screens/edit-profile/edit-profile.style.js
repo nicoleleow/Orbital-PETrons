@@ -8,6 +8,7 @@ import {
   Dimensions,
 } from "react-native";
 import { Button } from "react-native-paper";
+import { colors } from "../../../../infrastructure/theme/colors";
 
 export const ProfilePicture = styled(View)`
   margin-top: ${(props) => props.theme.space[5]};
@@ -21,7 +22,7 @@ export const ProfilePicture = styled(View)`
 export const FieldInput = styled(TextInput)`
   margin-left: ${(props) => props.theme.space[3]};
   border-bottom-width: 1px;
-  border-bottom-color: whitesmoke;
+  border-bottom-color: black;
   padding-bottom: 5px;
   width: 200px;
 `;
@@ -29,7 +30,7 @@ export const FieldInput = styled(TextInput)`
 export const FieldText = styled(Text)`
   margin-left: ${(props) => props.theme.space[3]};
   margin-bottom: ${(props) => props.theme.space[3]};
-  border-bottom-color: whitesmoke;
+  border-bottom-color: black;
   padding-bottom: 5px;
 `;
 
@@ -72,13 +73,21 @@ export const RenderContentButtonTitle = styled(Text)`
 export const RenderContentButton = styled(TouchableOpacity)`
   padding: 13px;
   border-radius: 10px;
-  background-color: #2196f3;
+  background-color: ${(props) => props.theme.colors.button.modal};
+  align-items: center;
+  margin-vertical: 7px;
+`;
+
+export const RenderContentCancelButton = styled(TouchableOpacity)`
+  padding: 13px;
+  border-radius: 10px;
+  background-color: ${(props) => props.theme.colors.button.modalCancel};
   align-items: center;
   margin-vertical: 7px;
 `;
 
 export const ChangePasswordButton = styled(Button).attrs({
-  color: "rgb(255, 227, 180)",
+  color: colors.button.main,
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;
@@ -86,7 +95,7 @@ export const ChangePasswordButton = styled(Button).attrs({
 `;
 
 export const DoneButton = styled(Button).attrs({
-  color: "rgb(255, 227, 180)",
+  color: colors.button.main,
 })`
   padding: ${(props) => props.theme.space[2]};
   width: 300px;

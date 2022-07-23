@@ -13,15 +13,14 @@ import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { Text } from "../../../components/typography/text.component";
-import { storiesList, GetStoriesData } from "../../../../firebase/firebase-config";
+import {
+  storiesList,
+  GetStoriesData,
+} from "../../../../firebase/firebase-config";
 import { authentication } from "../../../../firebase/firebase-config";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { MyPostsCard } from "../components/my-posts-card.component";
-
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-  background-color: orange;
-`;
+import { SafeArea } from "../../../components/utility/safe-area.component";
 
 const AdoptionList = styled(FlatList).attrs({
   contentContainerStyle: {
@@ -49,17 +48,17 @@ export const MyStoryPostsPage = ({ navigation }) => {
   }, []);
 
   const [filteredStories, setFilteredStories] = useState(filteredList);
-  
+
   useEffect(() => {
     GetStoriesData();
   }, []);
-  
+
   return (
     <SafeArea>
       <View>
         <Text variant="header">My Story Posts</Text>
       </View>
-      
+
       <AdoptionList
         data={filteredStories}
         renderItem={(item) => (

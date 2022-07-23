@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet, SafeAreaView, Text, View } from "react-native";
+import { StyleSheet, SafeAreaView, Text, View, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { SafeArea } from "../../components/utility/safe-area.component";
@@ -10,6 +10,7 @@ import { ProfileNavigator } from "./profile.navigation";
 import { MainPageNavigator } from "./mainpage.navigation";
 import { MessageNavigator } from "./message.navigation";
 import { getUserName } from "../../../firebase/firebase-config";
+import { colors } from "../theme/colors";
 
 const Tab = createBottomTabNavigator();
 
@@ -31,11 +32,12 @@ function MyTabs() {
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarHideOnKeyboard: true,
-        tabBarActiveTintColor: "black",
-        tabBarInactiveTintColor: "gray",
+        tabBarActiveTintColor: "#FFFFF4",
+        tabBarInactiveTintColor: "rgb(255, 227, 180)",
         tabBarStyle: [
           {
             display: "flex",
+            backgroundColor: colors.ui.header,
           },
           null,
         ],
@@ -48,8 +50,8 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Messages"
-        options={{ headerShown: false }}
         component={MessageNavigator}
+        options={{ headerShown: false }}
       />
       <Tab.Screen
         options={{ headerShown: false }}
