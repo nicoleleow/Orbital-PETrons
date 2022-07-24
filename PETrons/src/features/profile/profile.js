@@ -120,8 +120,17 @@ export const ProfilePage = ({ navigation }) => {
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
   };
-  const onRefresh = React.useCallback(() => {
+  const onRefresh = React.useCallback(async () => {
     getUserName();
+    if (userImage !== "default") {
+      const uploadUri = userImage;
+      const filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+      const storage = getStorage();
+      const reference = ref(storage, filename);
+      await getDownloadURL(reference).then((x) => {
+        setUrl(x);
+      });
+    }
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
   }, []);
