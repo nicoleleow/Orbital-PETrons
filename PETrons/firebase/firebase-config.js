@@ -1,18 +1,28 @@
-import { initializeApp } from "firebase/app";
+import react from "react";
+import { initializeApp, getApps, getApp } from "firebase/app";
+
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore/lite";
 import { collection, getDocs } from "firebase/firestore/lite";
+import {
+  REACT_APP_apiKey,
+  REACT_APP_authDomain,
+  REACT_APP_projectId,
+  REACT_APP_storageBucket,
+  REACT_APP_messagingSenderId,
+  REACT_APP_appId,
+} from "@env";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBN-1QrWO7woeGf7irPB_wnHt587R5HBXQ",
-  authDomain: "petrons-39ae6.firebaseapp.com",
-  projectId: "petrons-39ae6",
-  storageBucket: "petrons-39ae6.appspot.com",
-  messagingSenderId: "806740991321",
-  appId: "1:806740991321:web:2e50c56826e07cef8b0048",
+  apiKey: REACT_APP_apiKey,
+  authDomain: REACT_APP_authDomain,
+  projectId: REACT_APP_projectId,
+  storageBucket: REACT_APP_storageBucket,
+  messagingSenderId: REACT_APP_messagingSenderId,
+  appId: REACT_APP_appId,
 };
 
-const app = initializeApp(firebaseConfig);
+const app = getApps().length < 1 ? initializeApp(firebaseConfig) : getApp();
 export const authentication = getAuth(app);
 export const db = getFirestore(app);
 
@@ -46,13 +56,13 @@ export const getUserName = async () => {
 // get any user's username with email
 export let indivUsername;
 export const getIndivUsername = async (inputEmail) => {
-const Snapshot = await getDocs(collection(db, "userinfo"));
+  const Snapshot = await getDocs(collection(db, "userinfo"));
   Snapshot.forEach((doc) => {
     if (doc.data().email === inputEmail) {
       indivUsername = doc.data().username;
     }
   });
-}
+};
 
 export let storiesList = [];
 export const GetStoriesData = async () => {
@@ -64,19 +74,27 @@ export const GetStoriesData = async () => {
 };
 
 export let petID;
-export const GetPetID = async(name, gender, email, short_description, image) => {
+export const GetPetID = async (
+  name,
+  gender,
+  email,
+  short_description,
+  image
+) => {
   const Snapshot = await getDocs(collection(db, "put-up-for-adoption"));
   Snapshot.forEach((doc) => {
-    if (doc.data().email === email
-      && doc.data().gender === gender
-      && doc.data().name === name
-      && doc.data().short_description === short_description
-      && doc.data().image === image) {
-        petID = doc.id;
-      }
-    })
-  }
-  
+    if (
+      doc.data().email === email &&
+      doc.data().gender === gender &&
+      doc.data().name === name &&
+      doc.data().short_description === short_description &&
+      doc.data().image === image
+    ) {
+      petID = doc.id;
+    }
+  });
+};
+
 // list of favourited petIDs (string)
 export let userFavouritesList = [];
 export const GetUserFavourites = async () => {
@@ -86,43 +104,48 @@ export const GetUserFavourites = async () => {
       userFavouritesList = doc.data().favourites;
     }
   });
-}
-  
+};
+
 // get pet details from favourited petIDs
 export let favouritesDetails = [];
 export const GetFavouritesDetails = async (userFavouritesList) => {
   const Snapshot = await getDocs(collection(db, "put-up-for-adoption"));
   Snapshot.forEach((doc) => {
-    if (userFavouritesList.includes(doc.id)
-      && favouritesDetails.length < userFavouritesList.length
-      && !favouritesDetails.map(x => x[0]).includes(doc.id)) {
+    if (
+      userFavouritesList.includes(doc.id) &&
+      favouritesDetails.length < userFavouritesList.length &&
+      !favouritesDetails.map((x) => x[0]).includes(doc.id)
+    ) {
       favouritesDetails.push([doc.id, doc.data()]);
-    } else if (!userFavouritesList.includes(doc.id)
-      && favouritesDetails.map(x => x[0]).includes(doc.id)) {
-      favouritesDetails = favouritesDetails.filter(x => x[0] !== doc.id)
+    } else if (
+      !userFavouritesList.includes(doc.id) &&
+      favouritesDetails.map((x) => x[0]).includes(doc.id)
+    ) {
+      favouritesDetails = favouritesDetails.filter((x) => x[0] !== doc.id);
     }
-  })
-}
+  });
+};
 
 export let postID;
-export const GetPostID = async(email, date, postText, postImage) => {
+export const GetPostID = async (email, date, postText, postImage) => {
   const Snapshot = await getDocs(collection(db, "stories"));
   Snapshot.forEach((doc) => {
-    if (doc.data().email === email
-      && doc.data().date === date
-      && doc.data().postText === postText
-      && doc.data().postImage === postImage
-      ){
-        postID = doc.id;
-      }
-    })
-  }
+    if (
+      doc.data().email === email &&
+      doc.data().date === date &&
+      doc.data().postText === postText &&
+      doc.data().postImage === postImage
+    ) {
+      postID = doc.id;
+    }
+  });
+};
 
 export let postIDList = [];
 export const GetPostIDs = async () => {
   const Snapshot = await getDocs(collection(db, "stories"));
   postIDList = Snapshot.docs.map((doc) => doc.id);
-}
+};
 
 // list of liked postIDs (string)
 export let userLikedPostsList = [];
@@ -133,4 +156,4 @@ export const GetUserLikedPosts = async () => {
       userLikedPostsList = doc.data().likedPosts;
     }
   });
-}
+};
