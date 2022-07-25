@@ -137,8 +137,12 @@ export const ProfilePage = ({ navigation }) => {
 
   return (
     <SafeArea>
-      <ScrollView contentContainerStyle={{ flex: 1 }}>
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      <ScrollView
+        contentContainerStyle={{ flex: 1 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <UserInfoSection>
           {userImage === "default" && (
             <Avatar.Image
