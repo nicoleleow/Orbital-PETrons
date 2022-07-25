@@ -182,15 +182,6 @@ export const ProfilePage = ({ navigation }) => {
                 My Story Posts
               </AuthButton>
             </Spacer>
-            {/* <Spacer size="large">
-              <AuthButton
-                mode="contained"
-                icon="thumb-up"
-                onPress={MyStoryPostsPage}
-              >
-                My Liked Posts
-              </AuthButton>
-            </Spacer> */}
             <Spacer size="large">
               <AuthButton
                 labelStyle={{ color: colors.button.text }}

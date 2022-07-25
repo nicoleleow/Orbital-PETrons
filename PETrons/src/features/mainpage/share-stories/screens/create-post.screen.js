@@ -80,16 +80,14 @@ export const CreatePostScreen = ({ navigation }) => {
       setImageModalVisible(!imageModalVisible);
     }
   };
-  
+
   const removeImage = () => {
     if (postImage === null) {
-      Alert.alert(
-        "No Image Selected Yet."
-      );
+      Alert.alert("No Image Selected Yet.");
     } else {
       setPostImage(null);
     }
-  }
+  };
 
   const cancelPostAlert = () => {
     Alert.alert(
@@ -112,26 +110,19 @@ export const CreatePostScreen = ({ navigation }) => {
 
   const confirmPostAlert = () => {
     if (postImage === null && postText === "") {
-      Alert.alert(
-        "Empty Post",
-        "Please upload an image or input some text."
-      )
+      Alert.alert("Empty Post", "Please upload an image or input some text.");
     } else {
-      Alert.alert(
-        "Upload Post?",
-        "Are you sure you want to upload the post?",
-          [
-            {
-              text: "Continue Writing Post",
-            },
-            {
-              text: "Upload Post",
-              onPress: SetData
-            },
-          ]
-        )
+      Alert.alert("Upload Post?", "Are you sure you want to upload the post?", [
+        {
+          text: "Continue Writing Post",
+        },
+        {
+          text: "Upload Post",
+          onPress: SetData,
+        },
+      ]);
     }
-  }
+  };
 
   const SetData = async () => {
     let userUsername, date, hour, minutes;
@@ -264,7 +255,6 @@ export const CreatePostScreen = ({ navigation }) => {
                 size={30}
                 color={"#777"}
                 onPress={() => setImageModalVisible(!imageModalVisible)}
-                // style={{marginBottom: 350}}
               />
             </View>
             <Spacer size="xLarge" />
