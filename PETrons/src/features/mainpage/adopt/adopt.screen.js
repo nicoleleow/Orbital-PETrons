@@ -87,8 +87,6 @@ export const AdoptPage = ({ navigation }) => {
   const filterPets = (index, text) => {
     setSearch(text);
     setCategoryIndexFiltered(index);
-    // filter by availability
-    // var newList = filterList.filter((item) => item[1].status === "available");
 
     // filter by category
     var newList = filterList.filter((item) =>
