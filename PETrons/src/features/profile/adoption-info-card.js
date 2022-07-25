@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import { Button, Card, Title } from "react-native-paper";
 import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
-import BottomSheet from "reanimated-bottom-sheet";
 import {
   collection,
   getDocs,

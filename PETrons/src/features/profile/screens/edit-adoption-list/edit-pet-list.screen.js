@@ -17,7 +17,6 @@ import {
   deleteObject,
   uploadBytes,
 } from "firebase/storage";
-import Animated from "react-native-reanimated";
 import Render from "react-native-web/dist/cjs/exports/render";
 import * as ImagePicker from "expo-image-picker";
 import {
